@@ -1,2 +1,12 @@
 node_modules
+
 .vscode
+.DS_Store
+bin
+obj
+
+Course Assets
+
+# API keys
+appsettings.json
+*.db
