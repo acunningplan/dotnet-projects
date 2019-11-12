@@ -12524,11 +12524,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj",
+      "projectUniqueName": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj",
+      "projectPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj",
       "packagesPath": "C:\\Users\\jlfly\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\obj\\",
+      "outputPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
