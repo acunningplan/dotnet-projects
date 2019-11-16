@@ -11,57 +11,57 @@ using Persistence;
 
 namespace Application.Activities
 {
-  public class Attend
-  {
-
-    public class Command : IRequest
+    public class Attend
     {
-      public Guid Id { get; set; }
-    }
-
-    public class Handler : IRequestHandler<Command>
-    {
-      private readonly DataContext _context;
-      private readonly IUserAccessor _userAccessor;
-      public Handler(DataContext context, IUserAccessor userAccessor)
-      {
-        _userAccessor = userAccessor;
-        _context = context;
-      }
-
-      public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
-      {
-        var activity = await _context.Activities.FindAsync(request.Id);
-
-        if (activity == null)
-          throw new RestException(HttpStatusCode.NotFound,
-            new { Activity = "Could not find activity" });
-
-        var user = await _context.Users.SingleOrDefaultAsync(x =>
-          x.UserName == _userAccessor.GetCurrentUsername());
-
-        var attendance = await _context.UserActivities.SingleOrDefaultAsync(x =>
-          x.ActivityId == activity.Id && x.AppUserId == user.Id);
-
-        if (attendance != null)
-          throw new RestException(HttpStatusCode.BadRequest, new {Attendance = "Already attending this activity"});
-
-        attendance = new UserActivity
+        public class Command : IRequest
         {
-          Activity = activity,
-          AppUser = user,
-          IsHost = false,
-          DateJoined = DateTime.Now
-        };
+            public Guid Id { get; set; }
+        }
 
-        _context.UserActivities.Add(attendance);
+        public class Handler : IRequestHandler<Command>
+        {
+            private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
+            {
+                _userAccessor = userAccessor;
+                _context = context;
+            }
 
-        var success = await _context.SaveChangesAsync() > 0;
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var activity = await _context.Activities.FindAsync(request.Id);
 
-        if (success) return Unit.Value;
+                if (activity == null)
+                    throw new RestException(HttpStatusCode.NotFound, new {Activity = "Cound not find activity"});
 
-        throw new Exception("Problem saving changes...");
-      }
+                var user = await _context.Users.SingleOrDefaultAsync(x => 
+                    x.UserName == _userAccessor.GetCurrentUsername());
+
+                var attendance = await _context.UserActivities
+                    .SingleOrDefaultAsync(x => x.ActivityId == activity.Id && 
+                        x.AppUserId == user.Id);
+
+                if (attendance != null)
+                    throw new RestException(HttpStatusCode.BadRequest, 
+                        new {Attendance = "Already attending this activity"});
+
+                attendance = new UserActivity
+                {
+                    Activity = activity,
+                    AppUser = user,
+                    IsHost = false,
+                    DateJoined = DateTime.Now
+                };
+
+                _context.UserActivities.Add(attendance);
+
+                var success = await _context.SaveChangesAsync() > 0;
+
+                if (success) return Unit.Value;
+
+                throw new Exception("Problem saving changes");
+            }
+        }
     }
-  }
 }
