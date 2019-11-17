@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj": {}
+    "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj": {
+    "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj",
+        "projectUniqueName": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\API.csproj",
+        "projectPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\API.csproj",
         "packagesPath": "C:\\Users\\jlfly\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\api\\obj\\",
+        "outputPath": "C:\\Users\\jlfly\\Desktop\\repos\\dotnet-projects\\Reactivities\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -234,6 +234,10 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.8.0, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",

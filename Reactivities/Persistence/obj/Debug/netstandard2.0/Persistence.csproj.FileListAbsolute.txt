@@ -4,9 +4,9 @@ C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\bin\Debug\
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\bin\Debug\netstandard2.0\Domain.dll
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\bin\Debug\netstandard2.0\Domain.pdb
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.csprojAssemblyReference.cache
-C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.csproj.CoreCompileInputs.cache
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.AssemblyInfoInputs.cache
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.AssemblyInfo.cs
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.csproj.CopyComplete
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.dll
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.pdb
+C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Persistence\obj\Debug\netstandard2.0\Persistence.csproj.CoreCompileInputs.cache
