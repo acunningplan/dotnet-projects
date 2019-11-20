@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using API.Middleware;
+using API.SignalR;
 using Application.Activities;
 using Application.Interfaces;
 using Domain;
@@ -20,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using AutoMapper;
 using Infrastructure.Photos;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -49,7 +51,8 @@ namespace API
       });
       services.AddMediatR(typeof(List.Handler).Assembly);
       services.AddAutoMapper(typeof(List.Handler));
-      services.AddMvc(opt => 
+      services.AddSignalR();
+      services.AddMvc(opt =>
       {
         var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
         opt.Filters.Add(new AuthorizeFilter(policy));
@@ -62,9 +65,9 @@ namespace API
       identityBuilder.AddEntityFrameworkStores<DataContext>();
       identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
-      services.AddAuthorization(opt => 
+      services.AddAuthorization(opt =>
       {
-        opt.AddPolicy("IsActivityHost", policy => 
+        opt.AddPolicy("IsActivityHost", policy =>
         {
           policy.Requirements.Add(new IsHostRequirement());
         });
@@ -81,6 +84,21 @@ namespace API
           IssuerSigningKey = key,
           ValidateAudience = false,
           ValidateIssuer = false
+        };
+        opt.Events = new JwtBearerEvents
+        {
+          OnMessageReceived = context =>
+          {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken)
+              && (path.StartsWithSegments("/chat")))
+            {
+              context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+          }
         };
       });
 
@@ -105,9 +123,16 @@ namespace API
       }
 
       // app.UseHttpsRedirection();
+
       app.UseAuthentication();
       app.UseCors("CorsPolicy");
       app.UseMvc();
+
+      app.UseEndpoints(endpoint =>
+      {
+        MigrationsEndPointExtensions.MapControllers();
+        endpoint.MapHub<ChatHub>("/chat");
+      });
     }
   }
 }

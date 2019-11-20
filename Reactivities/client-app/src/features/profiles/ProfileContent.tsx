@@ -22,10 +22,10 @@ const panes = [
 const ProfileContent = () => {
   return (
     <Tab
-      menu={{ flud: true, vertical: true }}
+      menu={{ flud: 3, vertical: true }}
       menuPosition="right"
       panes={panes}
-      activeIndex={1}
+      // activeIndex={1}
     />
   );
 };
