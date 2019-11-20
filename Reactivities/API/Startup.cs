@@ -1,10 +1,13 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using API.Middleware;
 using API.SignalR;
 using Application.Activities;
 using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,16 +15,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
-using AutoMapper;
-using Infrastructure.Photos;
-using System.Threading.Tasks;
 
 namespace API
 {
@@ -45,20 +45,19 @@ namespace API
       services.AddCors(opt =>
       {
         opt.AddPolicy("CorsPolicy", policy =>
-        {
-          policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3001");
-        });
+              {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3001").AllowCredentials();
+              });
       });
       services.AddMediatR(typeof(List.Handler).Assembly);
       services.AddAutoMapper(typeof(List.Handler));
       services.AddSignalR();
-      services.AddMvc(opt =>
+      services.AddControllers(opt =>
       {
         var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
         opt.Filters.Add(new AuthorizeFilter(policy));
       })
-        .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>())
-        .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+          .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Create>());
 
       var builder = services.AddIdentityCore<AppUser>();
       var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -68,39 +67,38 @@ namespace API
       services.AddAuthorization(opt =>
       {
         opt.AddPolicy("IsActivityHost", policy =>
-        {
-          policy.Requirements.Add(new IsHostRequirement());
-        });
+              {
+                policy.Requirements.Add(new IsHostRequirement());
+              });
       });
-
       services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
-      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-      {
-        opt.TokenValidationParameters = new TokenValidationParameters
-        {
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = key,
-          ValidateAudience = false,
-          ValidateIssuer = false
-        };
-        opt.Events = new JwtBearerEvents
-        {
-          OnMessageReceived = context =>
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          .AddJwtBearer(opt =>
           {
-            var accessToken = context.Request.Query["access_token"];
-            var path = context.HttpContext.Request.Path;
-
-            if (!string.IsNullOrEmpty(accessToken)
-              && (path.StartsWithSegments("/chat")))
+            opt.TokenValidationParameters = new TokenValidationParameters
             {
-              context.Token = accessToken;
-            }
-            return Task.CompletedTask;
-          }
-        };
-      });
+              ValidateIssuerSigningKey = true,
+              IssuerSigningKey = key,
+              ValidateAudience = false,
+              ValidateIssuer = false
+            };
+            opt.Events = new JwtBearerEvents
+            {
+              OnMessageReceived = context =>
+                    {
+                      var accessToken = context.Request.Query["access_token"];
+                      var path = context.HttpContext.Request.Path;
+                      if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chat")))
+                      {
+                        context.Token = accessToken;
+                      }
+
+                      return Task.CompletedTask;
+                    }
+            };
+          });
 
       services.AddScoped<IJwtGenerator, JwtGenerator>();
       services.AddScoped<IUserAccessor, UserAccessor>();
@@ -109,12 +107,13 @@ namespace API
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       app.UseMiddleware<ErrorHandlingMiddleware>();
+
       if (env.IsDevelopment())
       {
-        app.UseDeveloperExceptionPage();
+        // app.UseDeveloperExceptionPage();
       }
       else
       {
@@ -124,15 +123,21 @@ namespace API
 
       // app.UseHttpsRedirection();
 
-      app.UseAuthentication();
-      app.UseCors("CorsPolicy");
-      app.UseMvc();
+      // app.UseStaticFiles();
 
-      app.UseEndpoints(endpoint =>
+      app.UseRouting();
+      app.UseCors("CorsPolicy");
+
+      app.UseAuthentication();
+      app.UseAuthorization();
+
+      app.UseEndpoints(endpoints =>
       {
-        MigrationsEndPointExtensions.MapControllers();
-        endpoint.MapHub<ChatHub>("/chat");
+        endpoints.MapControllers();
+        endpoints.MapHub<ChatHub>("/chat");
+        // endpoints.MapFallbackToController("Index", "Fallback");
       });
+
     }
   }
 }

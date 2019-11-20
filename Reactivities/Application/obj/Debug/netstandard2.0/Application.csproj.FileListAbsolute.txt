@@ -11,4 +11,3 @@ C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Application\obj\Debug\
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Application\obj\Debug\netstandard2.0\Application.csproj.CopyComplete
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Application\obj\Debug\netstandard2.0\Application.dll
 C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Application\obj\Debug\netstandard2.0\Application.pdb
-C:\Users\jlfly\Desktop\repos\dotnet-projects\Reactivities\Application\obj\Debug\netstandard2.0\Application.csproj.CoreCompileInputs.cache
