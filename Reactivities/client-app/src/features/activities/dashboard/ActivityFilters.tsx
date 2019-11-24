@@ -39,7 +39,10 @@ const ActivityFilters = () => {
         color={"teal"}
         content={"Select Date"}
       />
-      <Calendar onChange={date => setPredicate('startDate', date!)} value={predicate.get('startDate') || new Date()} />
+      <Calendar
+        onChange={date => setPredicate("startDate", date!)}
+        value={predicate.get("startDate") || new Date()}
+      />
     </>
   );
 };

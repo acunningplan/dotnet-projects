@@ -10,3 +10,6 @@ Course Assets
 # API keys
 appsettings.json
 *.db
+
+wwwroot
+Backup
