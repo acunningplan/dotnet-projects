@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Grid, Button, Loader } from "semantic-ui-react";
-import ActivityList from "./ActivityList";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import InfiniteScroll from "react-infinite-scroller";
-import ActivityFilters from "./ActivityFilters";
-import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
+import React, { useContext, useEffect, useState } from 'react';
+import { Grid, Loader } from 'semantic-ui-react';
+import ActivityList from './ActivityList';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import InfiniteScroll from 'react-infinite-scroller';
+import ActivityFilters from './ActivityFilters';
+import ActivityListItemPlaceholder from './ActivityListItemPlaceholder';
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
@@ -43,15 +43,6 @@ const ActivityDashboard: React.FC = () => {
             <ActivityList />
           </InfiniteScroll>
         )}
-
-        {/* {totalPages !== page + 1 && (
-          <Button
-            floated="right"
-            content="More..."
-            onClick={handleGetNext}
-            loading={loadingNext}
-          />
-        )} */}
       </Grid.Column>
       <Grid.Column width={6}>
         <ActivityFilters />

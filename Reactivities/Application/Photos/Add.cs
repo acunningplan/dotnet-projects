@@ -11,64 +11,48 @@ using Persistence;
 
 namespace Application.Photos
 {
-  public class Add
-  {
-
-    public class Command : IRequest<Photo>
+    public class Add
     {
-      public IFormFile File { get; set; }
-    }
-
-    public class Handler : IRequestHandler<Command, Photo>
-    {
-      private readonly DataContext _context;
-      private readonly IUserAccessor _userAccessor;
-      private readonly IPhotoAccessor _photoAccessor;
-      public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
-      {
-        _photoAccessor = photoAccessor;
-        _userAccessor = userAccessor;
-        _context = context;
-      }
-
-      public async Task<Photo> Handle(Command request, CancellationToken cancellationToken)
-      {
-        var photoUploadResult = _photoAccessor.AddPhoto(request.File);
-
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
-
-        var photo = new Photo
+        public class Command : IRequest<Domain.Photo>
         {
-          Url = photoUploadResult.Url,
-          Id = photoUploadResult.PublicId
-        };
+            public IFormFile File { get; set; }
+        }
 
-        if (!user.Photos.Any(x => x.IsMain))
-          photo.IsMain = true;
+        public class Handler : IRequestHandler<Command, Photo>
+        {
+            private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
+            private readonly IPhotoAccessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+            {
+                _photoAccessor = photoAccessor;
+                _userAccessor = userAccessor;
+                _context = context;
+            }
 
-        user.Photos.Add(photo);
+            public async Task<Photo> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var photoUploadResult = _photoAccessor.AddPhoto(request.File);
 
-        var success = await _context.SaveChangesAsync() > 0;
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
 
-        if (success) return photo;
+                var photo = new Photo
+                {
+                    Url = photoUploadResult.Url,
+                    Id = photoUploadResult.PublicId
+                };
 
-        throw new Exception("Problem saving changes...");
-      }
+                if (!user.Photos.Any(x => x.IsMain))
+                    photo.IsMain = true;
 
-      // public void Swap<T>(ref T lhs, ref T rhs)
-      // {
-      //   T temp = lhs;
-      //   lhs = rhs;
-      //   rhs = temp;
-      // }
+                user.Photos.Add(photo);           
 
-      // public void Main()
-      // {
-      //   string a = "1";
-      //   string b = "2";
-      //   Swap(ref a, ref b);
-      //   Console.WriteLine(a.ToString() + b.ToString());
-      // }
+                var success = await _context.SaveChangesAsync() > 0;
+
+                if (success) return photo;
+
+                throw new Exception("Problem saving changes");
+            }
+        }
     }
-  }
 }

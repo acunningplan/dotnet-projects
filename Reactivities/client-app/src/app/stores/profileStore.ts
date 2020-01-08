@@ -1,23 +1,24 @@
-import { RootStore } from "./rootStore";
-import { observable, action, runInAction, computed, reaction } from "mobx";
-import { IProfile, IPhoto, IUserActivity } from "../models/profile";
-import agent from "../api/agent";
-import { toast } from "react-toastify";
+import { RootStore } from './rootStore';
+import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { IProfile, IPhoto, IUserActivity } from '../models/profile';
+import agent from '../api/agent';
+import { toast } from 'react-toastify';
 
 export default class ProfileStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
-    reaction(() => this.activeTab,
-      activeTab => {
-        if (activeTab === 3 || activeTab === 4) {
-          const predicate = activeTab === 3 ? 'followers' : 'following';
-          this.loadFollowings(predicate)
-        } else {
-          this.followings = [];
+    reaction(
+        () => this.activeTab,
+        activeTab => {
+            if (activeTab === 3 || activeTab === 4) {
+                const predicate = activeTab === 3 ? 'followers' : 'following';
+                this.loadFollowings(predicate)
+            } else {
+                this.followings = [];
+            }
         }
-      }
     )
   }
 
@@ -25,7 +26,7 @@ export default class ProfileStore {
   @observable loadingProfile = true;
   @observable uploadingPhoto = false;
   @observable loading = false;
-  @observable followings: IProfile[] =[];
+  @observable followings: IProfile[] = [];
   @observable activeTab: number = 0;
   @observable userActivities: IUserActivity[] = [];
   @observable loadingActivities = false;
@@ -44,31 +45,34 @@ export default class ProfileStore {
       const activities = await agent.Profiles.listActivities(username, predicate!);
       runInAction(() => {
         this.userActivities = activities;
+        this.loadingActivities = false;
       })
     } catch (error) {
-      toast.error('Problem loading activities');
+      toast.error('Problem loading activities')
+      runInAction(() => {
+        this.loadingActivities = false;
+      })
     }
-    runInAction(() => {
-      this.loadingActivities = false
-    })
   }
 
   @action setActiveTab = (activeIndex: number) => {
-    this.activeTab = activeIndex;
-  }
+      this.activeTab = activeIndex;
+  } 
 
   @action loadProfile = async (username: string) => {
+    this.loadingProfile = true;
     try {
       const profile = await agent.Profiles.get(username);
       runInAction(() => {
         this.profile = profile;
+        this.loadingProfile = false;
       });
     } catch (error) {
+      runInAction(() => {
+        this.loadingProfile = false;
+      });
       console.log(error);
     }
-    runInAction(() => {
-      this.loadingProfile = false;
-    });
   };
 
   @action uploadPhoto = async (file: Blob) => {
@@ -87,7 +91,7 @@ export default class ProfileStore {
       });
     } catch (error) {
       console.log(error);
-      toast.error("Problem uploading photo");
+      toast.error('Problem uploading photo');
       runInAction(() => {
         this.uploadingPhoto = false;
       });
@@ -103,13 +107,14 @@ export default class ProfileStore {
         this.profile!.photos.find(a => a.isMain)!.isMain = false;
         this.profile!.photos.find(a => a.id === photo.id)!.isMain = true;
         this.profile!.image = photo.url;
+        this.loading = false;
       });
     } catch (error) {
-      toast.error("Problem setting photo as main");
+      toast.error('Problem setting photo as main');
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    runInAction(() => {
-      this.loading = false;
-    });
   };
 
   @action deletePhoto = async (photo: IPhoto) => {
@@ -120,13 +125,14 @@ export default class ProfileStore {
         this.profile!.photos = this.profile!.photos.filter(
           a => a.id !== photo.id
         );
+        this.loading = false;
       });
     } catch (error) {
-      toast.error("Problem deleting the photo");
+      toast.error('Problem deleting the photo');
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    runInAction(() => {
-      this.loading = false;
-    });
   };
 
   @action updateProfile = async (profile: Partial<IProfile>) => {
@@ -141,7 +147,7 @@ export default class ProfileStore {
         this.profile = { ...this.profile!, ...profile };
       });
     } catch (error) {
-      toast.error("Problem updating profile");
+      toast.error('Problem updating profile');
     }
   };
 
@@ -152,14 +158,15 @@ export default class ProfileStore {
       runInAction(() => {
         this.profile!.following = true;
         this.profile!.followersCount++;
-      })
+        this.loading = false;
+      });
     } catch (error) {
       toast.error('Problem following user');
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    runInAction(() => {
-      this.loading = false
-    });
-  }
+  };
 
   @action unfollow = async (username: string) => {
     this.loading = true;
@@ -168,28 +175,32 @@ export default class ProfileStore {
       runInAction(() => {
         this.profile!.following = false;
         this.profile!.followersCount--;
-      })
+        this.loading = false;
+      });
     } catch (error) {
       toast.error('Problem unfollowing user');
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    runInAction(() => {
-      this.loading = false
-    });
-  }
+  };
 
   @action loadFollowings = async (predicate: string) => {
     this.loading = true;
     try {
-      const profiles = await agent.Profiles.listFollowings(this.profile!.username, predicate);
+      const profiles = await agent.Profiles.listFollowings(
+        this.profile!.username,
+        predicate
+      );
       runInAction(() => {
-        this.followings = profiles;
+          this.followings = profiles;
+          this.loading = false;
       })
     } catch (error) {
       toast.error('Problem loading followings');
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    runInAction(() => {
-      this.loading = false;
-    })
-  }
-
+  };
 }
