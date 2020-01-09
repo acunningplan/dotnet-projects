@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { Tab, Grid, Header, Button } from "semantic-ui-react";
-import ProfileEditForm from "./ProfileEditForm";
+import React, { useContext, useState } from 'react';
+import { Tab, Grid, Header, Button } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import ProfileEditForm from './ProfileEditForm';
+import { observer } from 'mobx-react-lite';
 
 const ProfileDescription = () => {
   const rootStore = useContext(RootStoreContext);
@@ -12,22 +13,22 @@ const ProfileDescription = () => {
       <Grid>
         <Grid.Column width={16}>
           <Header
-            floated="left"
-            icon="user"
-            content={`About ${profile!.username}`}
+            floated='left'
+            icon='user'
+            content={`About ${profile!.displayName}`}
           />
           {isCurrentUser && (
             <Button
-              floated="right"
+              floated='right'
               basic
-              content={editMode ? "Cancel" : "Edit Profile"}
+              content={editMode ? 'Cancel' : 'Edit Profile'}
               onClick={() => setEditMode(!editMode)}
             />
           )}
         </Grid.Column>
         <Grid.Column width={16}>
           {editMode ? (
-            <ProfileEditForm profile={profile!} updateProfile={updateProfile} />
+            <ProfileEditForm updateProfile={updateProfile} profile={profile!} />
           ) : (
             <span>{profile!.bio}</span>
           )}
@@ -37,4 +38,4 @@ const ProfileDescription = () => {
   );
 };
 
-export default ProfileDescription;
+export default observer(ProfileDescription);
