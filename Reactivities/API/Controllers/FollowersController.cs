@@ -4,6 +4,7 @@ using Application.Followers;
 using Application.Profiles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
