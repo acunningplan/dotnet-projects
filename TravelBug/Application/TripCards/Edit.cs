@@ -1,6 +1,9 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -16,6 +19,15 @@ namespace Application.TripCards
       public string Description { get; set; }
     }
 
+    public class CommandValidator : AbstractValidator<Command>
+    {
+      public CommandValidator()
+      {
+        RuleFor(x => x.Date).NotEmpty();
+        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Description).NotEmpty();
+      }
+    }
     public class Handler : IRequestHandler<Command>
     {
       private readonly DataContext _context;
@@ -28,7 +40,10 @@ namespace Application.TripCards
       {
         var tripCard = await _context.TripCards.FindAsync(request.Id);
 
-        if (tripCard == null) throw new Exception("Could not find activity.");
+        if (tripCard == null) throw new RestException(HttpStatusCode.NotFound, new
+        {
+          tripCard = "Could not find activity" 
+        });
 
 
         tripCard.Id = request.Id;

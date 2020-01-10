@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using MediatR;
 using Persistence;
 
@@ -25,10 +27,13 @@ namespace Application.TripCards
       {
         var tripCard = await _context.TripCards.FindAsync(request.Id);
 
-        if (tripCard == null) throw new Exception("Could not find activity");
+        if (tripCard == null) throw new RestException(HttpStatusCode.NotFound, new
+        {
+          tripCard = "Could not find activity" 
+        });
 
         _context.Remove(tripCard);
-        
+
         var success = await _context.SaveChangesAsync() > 0;
 
         if (success) return Unit.Value;

@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using Domain;
 using MediatR;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace Application.TripCards
 {
@@ -17,6 +20,15 @@ namespace Application.TripCards
       public string Description { get; set; }
     }
 
+    public class CommandValidator : AbstractValidator<Command>
+    {
+      public CommandValidator()
+      {
+        RuleFor(x => x.Date).NotEmpty();
+        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Description).NotEmpty();
+      }
+    }
     public class Handler : IRequestHandler<Command>
     {
       private readonly DataContext _context;
