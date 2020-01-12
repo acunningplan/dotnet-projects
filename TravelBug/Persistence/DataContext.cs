@@ -11,19 +11,35 @@ namespace Persistence
     }
 
     public DbSet<TripCard> TripCards { get; set; }
+    public DbSet<UserTripCard> UserTripCards { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
-      
-      // builder.Entity<TripCard>().HasData(
 
+      // Initialize data in data base:
+
+      // builder.Entity<TripCard>().HasData(
       //   new TripCard
       //   {
       //     Name = "Munich",
       //     Description = "Beautiful City!"
       //   }
       // );
+
+      // Give each relationship a primary key
+      builder.Entity<UserTripCard>(x => x.HasKey(ut => new {ut.AppUserId, ut.TripCardId}));
+
+      // Define many to many relationship
+      builder.Entity<UserTripCard>()
+        .HasOne(ut => ut.AppUser)
+        .WithMany(u => u.UserTripCards)
+        .HasForeignKey(ut => ut.AppUserId);
+        
+      builder.Entity<UserTripCard>()
+        .HasOne(ut => ut.TripCard)
+        .WithMany(t => t.UserTripCards)
+        .HasForeignKey(ut => ut.TripCardId);
     }
   }
 }

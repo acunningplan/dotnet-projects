@@ -7,6 +7,7 @@ using Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
+using Application.Interfaces;
 
 namespace Application.TripCards
 {
@@ -32,9 +33,12 @@ namespace Application.TripCards
     public class Handler : IRequestHandler<Command>
     {
       private readonly DataContext _context;
-      public Handler(DataContext context)
+      private readonly IUserAccessor _userAccessor;
+
+      public Handler(DataContext context, IUserAccessor userAccessor)
       {
         _context = context;
+        _userAccessor = userAccessor;
       }
 
       public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -49,6 +53,16 @@ namespace Application.TripCards
         
         
         _context.TripCards.Add(tripCard);
+
+        var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
+        
+        var attendee = new UserTripCard
+        {
+          AppUser = user,
+          TripCard = tripCard,
+
+        };
+
         var success = await _context.SaveChangesAsync() > 0;
 
         if (success) return Unit.Value;
