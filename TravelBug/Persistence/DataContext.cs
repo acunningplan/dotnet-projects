@@ -12,6 +12,8 @@ namespace Persistence
 
     public DbSet<TripCard> TripCards { get; set; }
     public DbSet<UserTripCard> UserTripCards { get; set; }
+    public DbSet<PointOfInterest> PointsOfInterest { get; set; }
+    public DbSet<Photo> Photos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,14 +30,15 @@ namespace Persistence
       // );
 
       // Give each relationship a primary key
-      builder.Entity<UserTripCard>(x => x.HasKey(ut => new {ut.AppUserId, ut.TripCardId}));
+
+      builder.Entity<UserTripCard>(x => x.HasKey(ut => new { ut.AppUserId, ut.TripCardId }));
 
       // Define many to many relationship
       builder.Entity<UserTripCard>()
         .HasOne(ut => ut.AppUser)
         .WithMany(u => u.UserTripCards)
         .HasForeignKey(ut => ut.AppUserId);
-        
+
       builder.Entity<UserTripCard>()
         .HasOne(ut => ut.TripCard)
         .WithMany(t => t.UserTripCards)

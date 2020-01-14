@@ -19,6 +19,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
+using Infrastructure.Photos;
 
 namespace Api
 {
@@ -79,7 +80,9 @@ namespace Api
 
       services.AddScoped<IJwtGenerator, JwtGenerator>();
       services.AddScoped<IUserAccessor, UserAccessor>();
+      services.AddScoped<IPhotoAccessor, PhotoAccessor>();
       services.AddScoped<IFacebookAccessor, FacebookAccessor>();
+      services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
       services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
     }
 

@@ -24,6 +24,9 @@ namespace Persistence.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Bio")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -94,6 +97,12 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("PointOfInterestId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TripCardId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
@@ -101,7 +110,27 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Photo");
+                    b.HasIndex("PointOfInterestId");
+
+                    b.HasIndex("TripCardId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.PointOfInterest", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PointsOfInterest");
                 });
 
             modelBuilder.Entity("Domain.TripCard", b =>
@@ -275,6 +304,14 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", null)
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+
+                    b.HasOne("Domain.PointOfInterest", null)
+                        .WithMany("Photo")
+                        .HasForeignKey("PointOfInterestId");
+
+                    b.HasOne("Domain.TripCard", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("TripCardId");
                 });
 
             modelBuilder.Entity("Domain.UserTripCard", b =>

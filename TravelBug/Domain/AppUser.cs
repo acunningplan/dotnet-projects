@@ -11,7 +11,8 @@ namespace Domain
       Photos = new Collection<Photo>();
     }
     public string DisplayName { get; set; }
-    public ICollection<UserTripCard> UserTripCards { get; set; }
+    public string Bio { get; set; }
+    public virtual ICollection<UserTripCard> UserTripCards { get; set; }
     public virtual ICollection<Photo> Photos { get; set; }
   }
 }

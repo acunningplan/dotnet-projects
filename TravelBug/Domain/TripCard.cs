@@ -9,8 +9,8 @@ namespace Domain
     public DateTime Date { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-
-    public ICollection<UserTripCard> UserTripCards { get; set; }
+    public virtual ICollection<Photo> Photos { get; set; }
+    public virtual ICollection<UserTripCard> UserTripCards { get; set; }
 
   }
 }

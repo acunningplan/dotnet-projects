@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200110131318_Migration with Identity")]
-    partial class MigrationwithIdentity
+    [Migration("20200114135956_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,9 @@ namespace Persistence.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -85,6 +88,53 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.Photo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PointOfInterestId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TripCardId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PointOfInterestId");
+
+                    b.HasIndex("TripCardId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("Domain.PointOfInterest", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PointsOfInterest");
+                });
+
             modelBuilder.Entity("Domain.TripCard", b =>
                 {
                     b.Property<Guid>("Id")
@@ -103,6 +153,24 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TripCards");
+                });
+
+            modelBuilder.Entity("Domain.UserTripCard", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("TripCardId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppUserId", "TripCardId");
+
+                    b.HasIndex("TripCardId");
+
+                    b.ToTable("UserTripCards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -231,6 +299,36 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Domain.Photo", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Domain.PointOfInterest", null)
+                        .WithMany("Photo")
+                        .HasForeignKey("PointOfInterestId");
+
+                    b.HasOne("Domain.TripCard", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("TripCardId");
+                });
+
+            modelBuilder.Entity("Domain.UserTripCard", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("UserTripCards")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.TripCard", "TripCard")
+                        .WithMany("UserTripCards")
+                        .HasForeignKey("TripCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
