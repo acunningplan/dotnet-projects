@@ -43,25 +43,29 @@ namespace Application.TripCards
 
       public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
       {
+
         var tripCard = new TripCard
         {
           Id = request.Id,
           Date = request.Date,
           Name = request.Name,
-          Description = request.Description,
+          Description = request.Description
         };
-        
-        
+
         _context.TripCards.Add(tripCard);
 
         var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
-        
-        var attendee = new UserTripCard
+
+        var author = new UserTripCard
         {
           AppUser = user,
           TripCard = tripCard,
-
+          DateCreated = DateTime.Now
         };
+
+        _context.UserTripCards.Add(author);
+
+
 
         var success = await _context.SaveChangesAsync() > 0;
 

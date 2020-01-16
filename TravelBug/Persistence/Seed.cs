@@ -17,18 +17,21 @@ namespace Persistence
         {
             new AppUser
             {
+              Id = "sam",
               DisplayName = "Sam",
               UserName = "sam",
               Email = "sam@test.com"
             },
             new AppUser
             {
+              Id = "ed",
               DisplayName = "Ed",
               UserName = "ed",
               Email = "ed@test.com"
             },
             new AppUser
             {
+              Id = "chelsea",
               DisplayName = "Chelsea",
               UserName = "chelsea",
               Email = "chelsea@test.com"
@@ -50,12 +53,22 @@ namespace Persistence
             Name = "Bristol",
             Date = DateTime.Now.AddMonths(-3),
             Description = "Beautiful city!",
+            UserTripCard = new UserTripCard
+            {
+              AppUserId = "sam",
+              DateCreated = DateTime.Now.AddDays(-2),
+            }
           },
           new TripCard
           {
             Name = "Vienna",
             Date = DateTime.Now.AddMonths(-2),
             Description = "Imperial city!",
+            UserTripCard = new UserTripCard
+            {
+              AppUserId = "ed",
+              DateCreated = DateTime.Now.AddDays(-3),
+            }
           }
         };
 

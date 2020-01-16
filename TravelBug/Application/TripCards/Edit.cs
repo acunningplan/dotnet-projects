@@ -42,15 +42,13 @@ namespace Application.TripCards
 
         if (tripCard == null) throw new RestException(HttpStatusCode.NotFound, new
         {
-          tripCard = "Could not find activity" 
+          tripCard = "Could not find activity"
         });
 
-
-        tripCard.Id = request.Id;
         tripCard.Date = request.Date;
         tripCard.Name = request.Name;
         tripCard.Description = request.Description;
-        
+
         var success = await _context.SaveChangesAsync() > 0;
 
         if (success) return Unit.Value;

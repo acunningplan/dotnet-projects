@@ -78,6 +78,15 @@ namespace Api
         };
       });
 
+      services.AddAuthorization(opt =>
+      {
+        opt.AddPolicy("IsTripCardAuthor", policy =>
+        {
+          policy.Requirements.Add(new IsAuthorRequirement());
+        });
+      });
+      services.AddTransient<IAuthorizationHandler, IsAuthorRequirementHandler>();
+
       services.AddScoped<IJwtGenerator, JwtGenerator>();
       services.AddScoped<IUserAccessor, UserAccessor>();
       services.AddScoped<IPhotoAccessor, PhotoAccessor>();
@@ -96,7 +105,6 @@ namespace Api
       }
 
       // app.UseHttpsRedirection();
-
 
       app.UseRouting();
       app.UseCors("CorsPolicy");

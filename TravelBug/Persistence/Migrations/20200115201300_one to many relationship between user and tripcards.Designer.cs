@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200114135956_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200115201300_one to many relationship between user and tripcards")]
+    partial class onetomanyrelationshipbetweenuserandtripcards
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,9 +102,6 @@ namespace Persistence.Migrations
                     b.Property<string>("PointOfInterestId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("TripCardId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
@@ -113,8 +110,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("PointOfInterestId");
-
-                    b.HasIndex("TripCardId");
 
                     b.ToTable("Photos");
                 });
@@ -130,7 +125,12 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("TripCardId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TripCardId");
 
                     b.ToTable("PointsOfInterest");
                 });
@@ -168,7 +168,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("AppUserId", "TripCardId");
 
-                    b.HasIndex("TripCardId");
+                    b.HasIndex("TripCardId")
+                        .IsUnique();
 
                     b.ToTable("UserTripCards");
                 });
@@ -310,9 +311,12 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.PointOfInterest", null)
                         .WithMany("Photo")
                         .HasForeignKey("PointOfInterestId");
+                });
 
+            modelBuilder.Entity("Domain.PointOfInterest", b =>
+                {
                     b.HasOne("Domain.TripCard", null)
-                        .WithMany("Photos")
+                        .WithMany("PointsOfInterest")
                         .HasForeignKey("TripCardId");
                 });
 
@@ -325,8 +329,8 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.TripCard", "TripCard")
-                        .WithMany("UserTripCards")
-                        .HasForeignKey("TripCardId")
+                        .WithOne("UserTripCard")
+                        .HasForeignKey("Domain.UserTripCard", "TripCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

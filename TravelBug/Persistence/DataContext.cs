@@ -39,10 +39,10 @@ namespace Persistence
         .WithMany(u => u.UserTripCards)
         .HasForeignKey(ut => ut.AppUserId);
 
-      builder.Entity<UserTripCard>()
-        .HasOne(ut => ut.TripCard)
-        .WithMany(t => t.UserTripCards)
-        .HasForeignKey(ut => ut.TripCardId);
+      // builder.Entity<UserTripCard>()
+      //   .HasOne(ut => ut.TripCard)
+      //   .WithMany(t => t.UserTripCards)
+      //   .HasForeignKey(ut => ut.TripCardId);
     }
   }
 }

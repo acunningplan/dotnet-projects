@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class onetomanyrelationshipbetweenuserandtripcards : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,19 +46,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PointsOfInterest",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PointsOfInterest", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,33 +169,19 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Photos",
+                name: "PointsOfInterest",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    IsMain = table.Column<bool>(nullable: false),
-                    AppUserId = table.Column<string>(nullable: true),
-                    PointOfInterestId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     TripCardId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.PrimaryKey("PK_PointsOfInterest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photos_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Photos_PointsOfInterest_PointOfInterestId",
-                        column: x => x.PointOfInterestId,
-                        principalTable: "PointsOfInterest",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Photos_TripCards_TripCardId",
+                        name: "FK_PointsOfInterest_TripCards_TripCardId",
                         column: x => x.TripCardId,
                         principalTable: "TripCards",
                         principalColumn: "Id",
@@ -238,6 +211,33 @@ namespace Persistence.Migrations
                         principalTable: "TripCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    IsMain = table.Column<bool>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true),
+                    PointOfInterestId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Photos_PointsOfInterest_PointOfInterestId",
+                        column: x => x.PointOfInterestId,
+                        principalTable: "PointsOfInterest",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -288,14 +288,15 @@ namespace Persistence.Migrations
                 column: "PointOfInterestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photos_TripCardId",
-                table: "Photos",
+                name: "IX_PointsOfInterest_TripCardId",
+                table: "PointsOfInterest",
                 column: "TripCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserTripCards_TripCardId",
                 table: "UserTripCards",
-                column: "TripCardId");
+                column: "TripCardId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
