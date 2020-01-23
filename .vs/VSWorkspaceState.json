@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Reactivities",
-    "\\Reactivities\\Domain"
+    "\\ca-sln",
+    "\\ca-sln\\src",
+    "\\ca-sln\\src\\WebUI",
+    "\\Reactivities"
   ],
-  "SelectedNode": "\\Reactivities\\Domain\\Photo.cs",
+  "SelectedNode": "\\ca-sln\\src\\WebUI\\Program.cs",
   "PreviewInSolutionExplorer": false
 }
