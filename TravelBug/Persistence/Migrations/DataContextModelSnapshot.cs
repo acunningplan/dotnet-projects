@@ -88,7 +88,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Photo", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AppUserId")
@@ -100,6 +101,9 @@ namespace Persistence.Migrations
                     b.Property<string>("PointOfInterestId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("TripCardId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
@@ -108,6 +112,8 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("PointOfInterestId");
+
+                    b.HasIndex("TripCardId");
 
                     b.ToTable("Photos");
                 });
@@ -143,6 +149,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -309,6 +318,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.PointOfInterest", null)
                         .WithMany("Photo")
                         .HasForeignKey("PointOfInterestId");
+
+                    b.HasOne("Domain.TripCard", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("TripCardId");
                 });
 
             modelBuilder.Entity("Domain.PointOfInterest", b =>

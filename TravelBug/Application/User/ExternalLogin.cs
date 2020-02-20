@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -11,80 +12,80 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.User
 {
-  public class ExternalLogin
-  {
-    public class Query : IRequest<User>
+    public class ExternalLogin
     {
-      public string AccessToken { get; set; }
-      public string Password { get; set; }
-    }
-
-    public class QueryValidator : AbstractValidator<Query>
-    {
-      public QueryValidator()
-      {
-        RuleFor(x => x.Password).NotEmpty();
-      }
-    }
-
-    public class Handler : IRequestHandler<Query, User>
-    {
-      private readonly UserManager<AppUser> _userManager;
-      private readonly IFacebookAccessor _facebookAccessor;
-      private readonly SignInManager<AppUser> _signInManager;
-      private readonly IJwtGenerator _jwtGenerator;
-
-      public Handler(UserManager<AppUser> userManager, IFacebookAccessor facebookAccessor, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator)
-      {
-        _facebookAccessor = facebookAccessor;
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _jwtGenerator = jwtGenerator;
-      }
-
-      public async Task<User> Handle(Query request, CancellationToken cancellationToken)
-      {
-        var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
-
-        if (userInfo == null)
-          throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
-
-        var user = await _userManager.FindByEmailAsync(userInfo.Email);
-
-        if (user == null)
+        public class Query : IRequest<User>
         {
-          user = new AppUser
-          {
-            DisplayName = userInfo.Name,
-            Id = userInfo.Id,
-            Email = userInfo.Email,
-            UserName = "fb_" + userInfo.Id
-          };
-
-          var photo = new Photo
-          {
-            Id = "fb_" + userInfo.Id,
-            Url = userInfo.Picture.Data.Url,
-            IsMain = true
-          };
-
-          user.Photos.Add(photo);
-
-          var result = await _userManager.CreateAsync(user);
-
-          if (!result.Succeeded)
-            throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user." });
+            public string AccessToken { get; set; }
+            public string Password { get; set; }
         }
 
-        return new User
+        public class QueryValidator : AbstractValidator<Query>
         {
-          DisplayName = user.DisplayName,
-          Token = _jwtGenerator.CreateToken(user),
-          Username = user.UserName,
-          Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-        };
-      }
+            public QueryValidator()
+            {
+                RuleFor(x => x.Password).NotEmpty();
+            }
+        }
+
+        public class Handler : IRequestHandler<Query, User>
+        {
+            private readonly UserManager<AppUser> _userManager;
+            private readonly IFacebookAccessor _facebookAccessor;
+            private readonly SignInManager<AppUser> _signInManager;
+            private readonly IJwtGenerator _jwtGenerator;
+
+            public Handler(UserManager<AppUser> userManager, IFacebookAccessor facebookAccessor, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator)
+            {
+                _facebookAccessor = facebookAccessor;
+                _userManager = userManager;
+                _signInManager = signInManager;
+                _jwtGenerator = jwtGenerator;
+            }
+
+            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+            {
+                var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
+
+                if (userInfo == null)
+                    throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
+
+                var user = await _userManager.FindByEmailAsync(userInfo.Email);
+
+                if (user == null)
+                {
+                    user = new AppUser
+                    {
+                        DisplayName = userInfo.Name,
+                        Id = userInfo.Id,
+                        Email = userInfo.Email,
+                        UserName = "fb_" + userInfo.Id
+                    };
+
+                    var photo = new Photo
+                    {
+                        Id = Guid.Parse("fb_" + userInfo.Id.ToString()),
+                        Url = userInfo.Picture.Data.Url,
+                        IsMain = true
+                    };
+
+                    user.Photos.Add(photo);
+
+                    var result = await _userManager.CreateAsync(user);
+
+                    if (!result.Succeeded)
+                        throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user." });
+                }
+
+                return new User
+                {
+                    DisplayName = user.DisplayName,
+                    Token = _jwtGenerator.CreateToken(user),
+                    Username = user.UserName,
+                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                };
+            }
+        }
     }
-  }
 
 }

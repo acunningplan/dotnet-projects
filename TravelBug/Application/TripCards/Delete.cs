@@ -8,38 +8,38 @@ using Persistence;
 
 namespace Application.TripCards
 {
-  public class Delete
-  {
-    public class Command : IRequest
+    public class Delete
     {
-      public Guid Id { get; set; }
-    }
-
-    public class Handler : IRequestHandler<Command>
-    {
-      private readonly DataContext _context;
-      public Handler(DataContext context)
-      {
-        _context = context;
-      }
-
-      public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
-      {
-        var tripCard = await _context.TripCards.FindAsync(request.Id);
-
-        if (tripCard == null) throw new RestException(HttpStatusCode.NotFound, new
+        public class Command : IRequest
         {
-          tripCard = "Could not find activity" 
-        });
+            public Guid Id { get; set; }
+        }
 
-        _context.Remove(tripCard);
+        public class Handler : IRequestHandler<Command>
+        {
+            private readonly DataContext _context;
+            public Handler(DataContext context)
+            {
+                _context = context;
+            }
 
-        var success = await _context.SaveChangesAsync() > 0;
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var tripCard = await _context.TripCards.FindAsync(request.Id);
 
-        if (success) return Unit.Value;
+                if (tripCard == null) throw new RestException(HttpStatusCode.NotFound, new
+                {
+                    tripCard = "Could not find activity"
+                });
 
-        throw new Exception("Problem saving changes");
-      }
+                _context.Remove(tripCard);
+
+                var success = await _context.SaveChangesAsync() > 0;
+
+                if (success) return Unit.Value;
+
+                throw new Exception("Problem saving changes");
+            }
+        }
     }
-  }
 }

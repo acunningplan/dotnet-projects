@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ca-sln",
-    "\\ca-sln\\src",
-    "\\ca-sln\\src\\WebUI",
-    "\\Reactivities"
+    "\\CleanArchitecture\\src"
   ],
-  "SelectedNode": "\\ca-sln\\src\\WebUI\\Program.cs",
+  "SelectedNode": "\\CleanArchitecture",
   "PreviewInSolutionExplorer": false
 }
