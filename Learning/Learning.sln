@@ -15,21 +15,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Operators", "Operators\Oper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SwitchStatements", "SwitchStatements\SwitchStatements.csproj", "{58C59C41-5E9D-41EB-A13A-80874F7FDE83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IterationStatements", "IterationStatements\IterationStatements.csproj", "{36CE7A7D-C76F-461A-95B8-133D4A2E49DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IterationStatements", "IterationStatements\IterationStatements.csproj", "{36CE7A7D-C76F-461A-95B8-133D4A2E49DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastingConverting", "CastingConverting\CastingConverting.csproj", "{DB884A59-FCC1-46F4-8447-48B5C174C975}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CastingConverting", "CastingConverting\CastingConverting.csproj", "{DB884A59-FCC1-46F4-8447-48B5C174C975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandlingExceptions", "HandlingExceptions\HandlingExceptions.csproj", "{A72542A6-664C-4E68-A374-7B3434BE6EFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandlingExceptions", "HandlingExceptions\HandlingExceptions.csproj", "{A72542A6-664C-4E68-A374-7B3434BE6EFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz", "FizzBuzz\FizzBuzz.csproj", "{1E3ACFB6-8581-4A19-BE4D-2A6E1EDA9C2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FizzBuzz", "FizzBuzz\FizzBuzz.csproj", "{1E3ACFB6-8581-4A19-BE4D-2A6E1EDA9C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivisionQuestion", "DivisionQuestion\DivisionQuestion.csproj", "{508A5B32-CF10-4222-A7D5-761A2A353DF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DivisionQuestion", "DivisionQuestion\DivisionQuestion.csproj", "{508A5B32-CF10-4222-A7D5-761A2A353DF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WritingFunctions", "WritingFunctions\WritingFunctions.csproj", "{F9528646-7A71-4B93-AB26-DFFCDEA4A41D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WritingFunctions", "WritingFunctions\WritingFunctions.csproj", "{F9528646-7A71-4B93-AB26-DFFCDEA4A41D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debugging", "Debugging\Debugging.csproj", "{5BFD1C6B-8460-4E49-9BE9-2437DF29947D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Debugging", "Debugging\Debugging.csproj", "{5BFD1C6B-8460-4E49-9BE9-2437DF29947D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logging\Logging.csproj", "{5FD4611E-12FA-4D89-BFEE-2C7A2237529E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "Logging\Logging.csproj", "{5FD4611E-12FA-4D89-BFEE-2C7A2237529E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorLibUnitTests", "CalculatorLibUnitTests.csproj\CalculatorLibUnitTests.csproj", "{425040B6-EE2D-4399-B80B-F887F420CFB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorLib", "CalculatorLib\CalculatorLib.csproj", "{BE1C60CF-8214-421B-81AC-4A86A1C90C83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeCalculatorLib", "PrimeCalculatorLib\PrimeCalculatorLib.csproj", "{20C4AAA4-2B67-460A-AB42-3C5C567DEA25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeCalculatorLibUnitTests", "PrimeCalculatorLibUnitTests\PrimeCalculatorLibUnitTests.csproj", "{3423393A-6BFF-4F8A-B374-29A034052ED2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +101,22 @@ Global
 		{5FD4611E-12FA-4D89-BFEE-2C7A2237529E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FD4611E-12FA-4D89-BFEE-2C7A2237529E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FD4611E-12FA-4D89-BFEE-2C7A2237529E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{425040B6-EE2D-4399-B80B-F887F420CFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{425040B6-EE2D-4399-B80B-F887F420CFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{425040B6-EE2D-4399-B80B-F887F420CFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{425040B6-EE2D-4399-B80B-F887F420CFB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE1C60CF-8214-421B-81AC-4A86A1C90C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE1C60CF-8214-421B-81AC-4A86A1C90C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE1C60CF-8214-421B-81AC-4A86A1C90C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE1C60CF-8214-421B-81AC-4A86A1C90C83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C4AAA4-2B67-460A-AB42-3C5C567DEA25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C4AAA4-2B67-460A-AB42-3C5C567DEA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C4AAA4-2B67-460A-AB42-3C5C567DEA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C4AAA4-2B67-460A-AB42-3C5C567DEA25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3423393A-6BFF-4F8A-B374-29A034052ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3423393A-6BFF-4F8A-B374-29A034052ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3423393A-6BFF-4F8A-B374-29A034052ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3423393A-6BFF-4F8A-B374-29A034052ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
