@@ -53,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleApp", "PeopleApp\Peop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccountsApp", "BankAccountsApp\BankAccountsApp.csproj", "{053EE083-0CDF-4735-80C5-7A4AE1AB18E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactorialApp", "FactorialApp\FactorialApp.csproj", "{E696066E-B88F-4D5C-A15A-8804F1BEFD13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathsApp", "FactorialApp\MathsApp.csproj", "{E696066E-B88F-4D5C-A15A-8804F1BEFD13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

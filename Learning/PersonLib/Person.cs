@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Console;
 
 namespace Shared
 {
@@ -25,6 +26,12 @@ namespace Shared
             Name = initialName;
             HomePlanet = homePlanet;
             Instantiated = DateTime.Now;
+        }
+
+
+        public void WriteToConsole()
+        {
+            WriteLine($"{this.Name} was born on a {this.DateOfBirth:DDDD}");
         }
 
         public string OptionalParameters(string command = "Run!", double number = 0.0, bool active = true)
@@ -58,6 +65,17 @@ namespace Shared
         public static Person operator *(Person p1, Person p2)
         {
             return Procreate(p1, p2);
+        }
+        public void TimeTravel(DateTime when)
+        {
+            if (when <= DateOfBirth)
+            {
+                throw new PersonException("If you travel back in time to a date earlier than your own birth, then the universe will explode!");
+            }
+            else
+            {
+                WriteLine($"Welcome to {when: yyyy}!");
+            }
         }
     }
 }
