@@ -101,19 +101,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerializeXml", "SerializeXm
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Protection", "Data Protection", "{675BD800-7441-44D5-8393-0CA5C351A978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptographyLib", "CryptographyLib\CryptographyLib.csproj", "{5E43BA48-DAF0-4F3A-BEB9-CA8B425B76D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptographyLib", "CryptographyLib\CryptographyLib.csproj", "{5E43BA48-DAF0-4F3A-BEB9-CA8B425B76D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptionApp", "EncryptionApp\EncryptionApp.csproj", "{211BEF03-176F-41CF-A51C-60E562DAB360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncryptionApp", "EncryptionApp\EncryptionApp.csproj", "{211BEF03-176F-41CF-A51C-60E562DAB360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashingApp", "HashingApp\HashingApp.csproj", "{C2AFE734-FC4E-4F29-A035-683BB63EC220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HashingApp", "HashingApp\HashingApp.csproj", "{C2AFE734-FC4E-4F29-A035-683BB63EC220}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigningApp", "SigningApp\SigningApp.csproj", "{D42BCBAD-2325-4E3C-9E9A-E411A5143670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SigningApp", "SigningApp\SigningApp.csproj", "{D42BCBAD-2325-4E3C-9E9A-E411A5143670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomizingApp", "RandomizingApp\RandomizingApp.csproj", "{BFAA9193-812C-4CB6-81D2-758BAAADD723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RandomizingApp", "RandomizingApp\RandomizingApp.csproj", "{BFAA9193-812C-4CB6-81D2-758BAAADD723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureApp", "SecureApp\SecureApp.csproj", "{43A67E01-83D7-4AFE-ABFF-3BC20C134019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureApp", "SecureApp\SecureApp.csproj", "{43A67E01-83D7-4AFE-ABFF-3BC20C134019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtectingCustomerData", "ProtectingCustomerData\ProtectingCustomerData.csproj", "{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtectingCustomerData", "ProtectingCustomerData\ProtectingCustomerData.csproj", "{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{0D1D44B1-CCF3-46A4-97CC-164BCC07A149}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkingWithEFCore", "WorkingWithEFCore\WorkingWithEFCore.csproj", "{340A38C6-BB80-4480-8F7F-DC7C2A5FE696}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{7AC4958C-E331-46D0-BE49-341226294DAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -317,6 +325,18 @@ Global
 		{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{340A38C6-BB80-4480-8F7F-DC7C2A5FE696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{340A38C6-BB80-4480-8F7F-DC7C2A5FE696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{340A38C6-BB80-4480-8F7F-DC7C2A5FE696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{340A38C6-BB80-4480-8F7F-DC7C2A5FE696}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC4958C-E331-46D0-BE49-341226294DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC4958C-E331-46D0-BE49-341226294DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC4958C-E331-46D0-BE49-341226294DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC4958C-E331-46D0-BE49-341226294DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -371,6 +391,9 @@ Global
 		{BFAA9193-812C-4CB6-81D2-758BAAADD723} = {675BD800-7441-44D5-8393-0CA5C351A978}
 		{43A67E01-83D7-4AFE-ABFF-3BC20C134019} = {675BD800-7441-44D5-8393-0CA5C351A978}
 		{785B0FE6-6C11-4B0A-BE9A-2CBB3110A83A} = {8E1906B3-56FA-45DC-9EEA-C588676A6DBD}
+		{340A38C6-BB80-4480-8F7F-DC7C2A5FE696} = {0D1D44B1-CCF3-46A4-97CC-164BCC07A149}
+		{7AC4958C-E331-46D0-BE49-341226294DAA} = {0D1D44B1-CCF3-46A4-97CC-164BCC07A149}
+		{FC7F63D5-BAD6-47AB-A4F0-281BF28AF22E} = {0D1D44B1-CCF3-46A4-97CC-164BCC07A149}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA01B9B7-CAB8-4CA7-A4E1-0942CDB29676}
