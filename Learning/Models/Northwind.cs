@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using static System.IO.Path;
 using static System.Environment;
-using static System.Console;
 
 namespace Models
 {
@@ -16,8 +15,9 @@ namespace Models
             // set database connection string
             string path = Combine(
                 CurrentDirectory, "Northwind.db");
-            WriteLine(path);
-            optionsBuilder.UseSqlite($"Filename={path}");
+            optionsBuilder
+                //.UseLazyLoadingProxies()
+                .UseSqlite($"Filename={path}");
         }
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)

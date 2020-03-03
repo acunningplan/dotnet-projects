@@ -8,7 +8,7 @@ namespace Models
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         [Column("UnitPrice", TypeName = "money")]
-        public decimal? Cost { get; set; }
+        public double? Cost { get; set; }
         [Column("UnitsInStock")]
         public short? Stock { get; set; }
         public bool Discontinued { get; set; }
