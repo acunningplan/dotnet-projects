@@ -5,7 +5,7 @@ using System.Linq;
 using NorthwindContextLib;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NorthWindWeb.Pages
+namespace NorthwindWeb.Pages
 {
     public class SuppliersModel : PageModel
     {
