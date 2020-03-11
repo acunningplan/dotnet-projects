@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindContextLib", "Nort
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindEntitiesLib", "NorthwindEntitiesLib\NorthwindEntitiesLib.csproj", "{EC1E59CA-24C3-4243-B7D7-94BE5A84212D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindWeb", "WebApplication1\NorthwindWeb.csproj", "{A170CD90-36E7-4CB1-A19F-79EA251DA544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindWeb", "WebApplication1\NorthwindWeb.csproj", "{A170CD90-36E7-4CB1-A19F-79EA251DA544}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEmployees", "NorthwindEmployees\NorthwindEmployees.csproj", "{6A4B63A0-CD97-4F16-9E5D-ADC813D78E12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindEmployees", "NorthwindEmployees\NorthwindEmployees.csproj", "{6A4B63A0-CD97-4F16-9E5D-ADC813D78E12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindMvc", "NorthwindMvc\NorthwindMvc.csproj", "{F500AB1B-8857-4E92-BDE5-0C53C8BE33DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindMvc", "NorthwindMvc\NorthwindMvc.csproj", "{F500AB1B-8857-4E92-BDE5-0C53C8BE33DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
