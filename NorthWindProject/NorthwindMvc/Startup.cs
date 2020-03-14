@@ -38,9 +38,13 @@ namespace NorthwindMvc
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            string databasePath = Path.Combine("..", "Northwind.db");
+            //string databasePath = Path.Combine("..", "Northwind.db");
+            //services.AddDbContext<Northwind>(options =>
+            //    options.UseSqlServer($"Data Source={databasePath}"));
+
             services.AddDbContext<Northwind>(options =>
-                options.UseSqlServer($"Data Source={databasePath}"));
+                options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
