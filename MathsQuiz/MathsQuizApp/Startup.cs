@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MathsQuizContextLib;
 
 namespace MathsQuizApp
 {
@@ -19,7 +20,6 @@ namespace MathsQuizApp
         }
 
         public IConfiguration Configuration { get; }
-
 
         public class ApplicationDbContext : IdentityDbContext
         {
@@ -36,7 +36,7 @@ namespace MathsQuizApp
                 configuration.RootPath = "ClientApp/dist";
             });
 
-
+            // Store identity in database
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -44,16 +44,9 @@ namespace MathsQuizApp
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddControllersWithViews();
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-
-            //services.AddDbContext<Northwind>(options =>
-            //    options.UseSqlServer(
-            //Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MathsQuiz>(options =>
+                options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
