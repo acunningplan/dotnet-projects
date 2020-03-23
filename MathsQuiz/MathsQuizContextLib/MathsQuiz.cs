@@ -11,7 +11,6 @@ namespace MathsQuizContextLib
         public MathsQuiz(DbContextOptions<MathsQuiz> options)
           : base(options) { }
 
-        #region Required
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
         {
@@ -26,8 +25,6 @@ namespace MathsQuizContextLib
               .Property(c => c.QuestionString)
               .IsRequired()
               .HasMaxLength(40);
-
         }
-        #endregion
     }
 }

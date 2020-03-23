@@ -18,3 +18,7 @@ Backup
 
 # sqlite database
 db.lock
+
+# database files
+*.dbmdl
+*.jfm

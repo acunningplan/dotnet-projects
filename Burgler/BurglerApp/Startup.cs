@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
-using MathsQuizContextLib;
 
-namespace MathsQuizApp
+namespace BurglerApp
 {
     public class Startup
     {
@@ -20,11 +18,6 @@ namespace MathsQuizApp
         }
 
         public IConfiguration Configuration { get; }
-
-        public class ApplicationDbContext : IdentityDbContext
-        {
-            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -36,16 +29,7 @@ namespace MathsQuizApp
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            // Store identity in database
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddDbContext<MathsQuiz>(options =>
-                options.UseSqlServer(
+            services.AddDbContext<Burgler>(options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
         }
 
