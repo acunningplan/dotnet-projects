@@ -18,8 +18,8 @@ namespace BurglerContextLib
 
             // Seed data here
             modelBuilder.Entity<Order>().HasData(
-                new Order { OrderID = 1, OrderDescription = "No Tomatoes" },
-                new Order { OrderID = 2, OrderDescription = "Extra mayo" });
+                new Order { OrderDescription = "No Tomatoes" },
+                new Order { OrderDescription = "Extra mayo" });
 
             modelBuilder.Entity<Order>()
               .Property(c => c.OrderDescription)
