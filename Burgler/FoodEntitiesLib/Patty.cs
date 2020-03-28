@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BurglerEntitiesLib
+namespace FoodEntitiesLib
 {
-    public class Topping
+    public class Patty
     {
+        public string Size { get; set; }
         public string Type { get; set; }
-        public double Price { get; set; }
     }
 }

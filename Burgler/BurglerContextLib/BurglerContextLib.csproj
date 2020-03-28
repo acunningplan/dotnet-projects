@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BurglerEntitiesLib\BurglerEntitiesLib.csproj" />
+      <ProjectReference Include="..\BurglerEntitiesLib\OrderEntitiesLib.csproj" />
     </ItemGroup>
 
 </Project>
