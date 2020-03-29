@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BurglerEntitiesLib
+namespace OrderEntitiesLib
 {
     public class DrinkOrder
     {

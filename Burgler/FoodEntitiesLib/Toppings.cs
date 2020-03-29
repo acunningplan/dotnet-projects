@@ -4,21 +4,33 @@ using System.Text;
 
 namespace FoodEntitiesLib
 {
-    public class Topping
+    public class Topping : Food
     {
-        public double Calories;
-        public double Price;
+        public Topping()
+        {
+            FoodType = "Topping";
+        }
     }
 
-    public class Toppings
+    public static class Toppings
     {
-        public Topping Tomato
+        private static List<Topping> toppingsList = new List<Topping>()
         {
-            get { return new Topping { Calories = 30, Price = 1 }; }
+            new Topping { Name = "Tomato", Calories = 50, Price = 1 },
+            new Topping { Name = "Gherkin", Calories = 25, Price = 1 },
+            new Topping { Name = "Lettuce", Calories = 20, Price = 1 },
+            new Topping { Name = "Mayonnaise", Calories = 65, Price = 1 },
+            new Topping { Name = "Bacon", Calories = 80, Price = 2.0 },
+            new Topping { Name = "Egg", Calories = 50, Price = 1.5 },
+        };
+        public static Topping GetTopping(string toppingName)
+        {
+            // should throw error if topping is not in toppingsList
+            return toppingsList.Find(topping => topping.Name == toppingName) ?? toppingsList[0];
         }
-        public Topping Pickle
+        public static Topping GetDefaultTopping()
         {
-            get { return new Topping { Calories = 20, Price = 0.8 }; }
+            return toppingsList[0];
         }
     }
 }

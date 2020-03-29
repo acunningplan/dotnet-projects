@@ -29,7 +29,7 @@ namespace BurglerApp
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDbContext<Burgler>(options => options.UseSqlServer(
+            services.AddDbContext<BurglerContext>(options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
         }
 

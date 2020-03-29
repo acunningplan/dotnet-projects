@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BurglerContextLib\BurglerContextLib.csproj" />
+    <ProjectReference Include="..\BurglerEntitiesLib\OrderEntitiesLib.csproj" />
+  </ItemGroup>
+
+</Project>

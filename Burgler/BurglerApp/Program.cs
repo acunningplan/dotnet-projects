@@ -23,7 +23,7 @@ namespace BurglerApp
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<Burgler>();
+                    var context = services.GetRequiredService<BurglerContext>();
                     context.Database.Migrate();
                 }
                 catch (Exception ex)

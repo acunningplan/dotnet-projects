@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BurglerContextLib.Migrations
 {
-    [DbContext(typeof(Burgler))]
+    [DbContext(typeof(BurglerContext))]
     [Migration("20200322141909_InitialCreate")]
     partial class InitialCreate
     {

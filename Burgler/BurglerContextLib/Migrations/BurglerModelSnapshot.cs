@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BurglerContextLib.Migrations
 {
-    [DbContext(typeof(Burgler))]
+    [DbContext(typeof(BurglerContext))]
     partial class BurglerModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
