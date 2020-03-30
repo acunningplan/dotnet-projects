@@ -49,7 +49,7 @@ namespace Api
         });
       });
 
-      services.AddMediatR(typeof(List.Handler).Assembly);
+      services.AddMediatR(typeof(List.Handler).Assembly); 
       services.AddAutoMapper(typeof(List.Handler));
 
       services.AddControllers(opt =>

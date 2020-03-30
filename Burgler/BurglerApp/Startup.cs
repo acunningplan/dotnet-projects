@@ -7,6 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
+using UserEntitiesLib;
+using Microsoft.AspNetCore.Identity;
+
+using OrderServicesLib;
+using Burgler.BusinessLogic.UserServices;
+using FluentValidation.AspNetCore;
 
 namespace BurglerApp
 {
@@ -22,7 +28,11 @@ namespace BurglerApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddFluentValidation(cfg =>
+                {
+                    cfg.RegisterValidatorsFromAssemblyContaining<CreateCommand>();
+                });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -31,6 +41,18 @@ namespace BurglerApp
 
             services.AddDbContext<BurglerContext>(options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            var builder = services.AddIdentityCore<User>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<BurglerContext>();
+            identityBuilder.AddSignInManager<SignInManager<User>>();
+
+
+            services.AddScoped<IOrderServices, OrderServices>();
+            //services.AddScoped<IUserServices, UserServices>();
+
+
+            services.AddAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +97,7 @@ namespace BurglerApp
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace OrderServicesLib
 {
-    public partial class OrderServices
+    public partial class OrderServices : IOrderServices
     {
         private readonly BurglerContext _dbContext;
 

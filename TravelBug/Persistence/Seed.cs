@@ -14,29 +14,29 @@ namespace Persistence
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
-        {
-            new AppUser
-            {
-              Id = "sam",
-              DisplayName = "Samuel",
-              UserName = "sam",
-              Email = "sam@test.com"
-            },
-            new AppUser
-            {
-              Id = "ed",
-              DisplayName = "Ed",
-              UserName = "ed",
-              Email = "ed@test.com"
-            },
-            new AppUser
-            {
-              Id = "chelsea",
-              DisplayName = "Chelsea",
-              UserName = "chelsea",
-              Email = "chelsea@test.com"
-            },
-        };
+                    {
+                        new AppUser
+                        {
+                        Id = "sam",
+                        DisplayName = "Samuel",
+                        UserName = "sam",
+                        Email = "sam@test.com"
+                        },
+                        new AppUser
+                        {
+                        Id = "ed",
+                        DisplayName = "Ed",
+                        UserName = "ed",
+                        Email = "ed@test.com"
+                        },
+                        new AppUser
+                        {
+                        Id = "chelsea",
+                        DisplayName = "Chelsea",
+                        UserName = "chelsea",
+                        Email = "chelsea@test.com"
+                        },
+                    };
 
                 foreach (var user in users)
                 {
@@ -47,30 +47,30 @@ namespace Persistence
             if (!context.TripCards.Any())
             {
                 var tripCards = new List<TripCard>
-        {
-          new TripCard
-          {
-            Name = "Bristol",
-            Date = DateTime.Now.AddMonths(-3),
-            Description = "Beautiful city!",
-            UserTripCard = new UserTripCard
-            {
-              AppUserId = "sam",
-              DateCreated = DateTime.Now.AddDays(-2),
-            }
-          },
-          new TripCard
-          {
-            Name = "Vienna",
-            Date = DateTime.Now.AddMonths(-2),
-            Description = "Imperial city!",
-            UserTripCard = new UserTripCard
-            {
-              AppUserId = "ed",
-              DateCreated = DateTime.Now.AddDays(-3),
-            }
-          }
-        };
+                    {
+                    new TripCard
+                    {
+                        Name = "Bristol",
+                        Date = DateTime.Now.AddMonths(-3),
+                        Description = "Beautiful city!",
+                        UserTripCard = new UserTripCard
+                        {
+                        AppUserId = "sam",
+                        DateCreated = DateTime.Now.AddDays(-2),
+                        }
+                    },
+                    new TripCard
+                    {
+                        Name = "Vienna",
+                        Date = DateTime.Now.AddMonths(-2),
+                        Description = "Imperial city!",
+                        UserTripCard = new UserTripCard
+                        {
+                        AppUserId = "ed",
+                        DateCreated = DateTime.Now.AddDays(-3),
+                        }
+                    }
+                    };
 
                 context.TripCards.AddRange(tripCards);
                 context.SaveChanges();

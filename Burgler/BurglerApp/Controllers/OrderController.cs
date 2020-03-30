@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BurglerContextLib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrderServicesLib;
@@ -12,15 +13,24 @@ namespace BurglerApp.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly OrderServices _orderServices;
+        private readonly IOrderServices _orderServices;
 
-        public OrderController(OrderServices orderServices)
+        public OrderController(IOrderServices orderServices)
         {
             _orderServices = orderServices;
         }
 
+        //private readonly BurglerContext _dbContext;
+        //private readonly OrderServices _orderServices;
+
+        //public OrderController(BurglerContext dbContext)
+        //{
+        //    _dbContext = dbContext;
+        //    _orderServices = new OrderServices(_dbContext);
+        //}
+
         [HttpPost]
-        public async Task<ActionResult<bool>> CreateOrder(CreateCommand command)
+        public async Task<ActionResult<bool>> Create(CreateCommand command)
         {
             bool success = await _orderServices.CreateOrder(command);
             return success;

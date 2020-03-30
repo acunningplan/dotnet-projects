@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderServicesLib
 {
-    public partial class OrderServices
+    public partial class OrderServices : IOrderServices
     {
         public async Task<bool> DeleteOrder(Guid id)
         {

@@ -18,14 +18,13 @@ namespace OrderServicesLib
             RuleFor(x => x.UserId).NotEmpty();
         }
     }
-    public partial class OrderServices
+    public partial class OrderServices : IOrderServices
     {
         public async Task<bool> CreateOrder(CreateCommand command)
         {
             var order = new Order
             {
-                UserId = command.UserId,
-                FoodOrders = command.FoodOrders
+                UserId = "1"
             };
 
             _dbContext.Orders.Add(order);

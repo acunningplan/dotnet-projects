@@ -6,6 +6,7 @@ namespace OrderEntitiesLib
 {
     public class FoodOrder
     {
+        public Guid FoodOrderId { get; set; }
         public int Quantity { get; set; }
     }
 }

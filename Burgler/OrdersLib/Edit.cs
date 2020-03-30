@@ -18,7 +18,7 @@ namespace OrderServicesLib
             RuleFor(x => x.FoodOrders).NotEmpty();
         }
     }
-    public partial class OrderServices
+    public partial class OrderServices : IOrderServices
     {
         public async Task<bool> EditOrder(EditCommand command)
         {
