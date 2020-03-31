@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Burgler.BusinessLogic.OrderServices;
 using BurglerContextLib;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OrderServicesLib;
 
 namespace BurglerApp.Controllers
 {
@@ -30,6 +31,7 @@ namespace BurglerApp.Controllers
         //}
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<bool>> Create(CreateCommand command)
         {
             bool success = await _orderServices.CreateOrder(command);

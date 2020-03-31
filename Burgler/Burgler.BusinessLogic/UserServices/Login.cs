@@ -8,32 +8,40 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Burgler.BusinessLogic.UserServices
 {
-    public class SignInQuery
+    public class LoginQuery
     {
         public string Email { get; set; }
         public string Password { get; set; }
     }
     public partial class UserServices : IUserServices
     {
-        public class SignInQueryValidator : AbstractValidator<SignInQuery>
+        public class LoginQueryValidator : AbstractValidator<LoginQuery>
         {
-            public SignInQueryValidator()
+            public LoginQueryValidator()
             {
                 RuleFor(x => x.Email).NotEmpty();
                 RuleFor(x => x.Password).NotEmpty();
             }
         }
 
-        public async Task<User> SignIn(SignInQuery query)
+        public async Task<UserData> Login(LoginQuery query)
         {
             var user = await _userManager.FindByEmailAsync(query.Email);
+            // null check needed
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, query.Password, false);
             if (result.Succeeded)
             {
                 // generate token
-                return user;
+                return new UserData
+                {
+                    DisplayName = user.DisplayName,
+                    Token = _jwtServices.CreateToken(user),
+                    Username = user.UserName,
+                    Image = null
+                };
             }
-            return new User();
+            return new UserData();
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿
 using FluentValidation;
-using OrderEntitiesLib;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OrderServicesLib
+namespace Burgler.BusinessLogic.OrderServices
 {
     public partial class OrderServices : IOrderServices
     {

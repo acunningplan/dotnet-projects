@@ -7,12 +7,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
-using UserEntitiesLib;
 using Microsoft.AspNetCore.Identity;
 
-using OrderServicesLib;
 using Burgler.BusinessLogic.UserServices;
+using Burgler.BusinessLogic.JwtServices;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Burgler.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Burgler.BusinessLogic.OrderServices;
+using Burgler.Entities.User;
 
 namespace BurglerApp
 {
@@ -28,7 +36,13 @@ namespace BurglerApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(
+            //    opt =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //    opt.Filters.Add(new AuthorizeFilter(policy));
+            //}
+            )
                 .AddFluentValidation(cfg =>
                 {
                     cfg.RegisterValidatorsFromAssemblyContaining<CreateCommand>();
@@ -42,17 +56,31 @@ namespace BurglerApp
             services.AddDbContext<BurglerContext>(options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            var builder = services.AddIdentityCore<User>();
-            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
-            identityBuilder.AddEntityFrameworkStores<BurglerContext>();
-            identityBuilder.AddSignInManager<SignInManager<User>>();
-
+            services.AddIdentityCore<AppUser>()
+                .AddEntityFrameworkStores<BurglerContext>()
+                .AddUserManager<UserManager<AppUser>>()
+                .AddSignInManager<SignInManager<AppUser>>();
 
             services.AddScoped<IOrderServices, OrderServices>();
-            //services.AddScoped<IUserServices, UserServices>();
+
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IJwtServices, JwtServices>();
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
 
 
-            services.AddAuthentication();
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +105,10 @@ namespace BurglerApp
             }
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

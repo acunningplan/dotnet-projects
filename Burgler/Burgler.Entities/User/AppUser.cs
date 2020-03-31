@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace Burgler.Entities
+namespace Burgler.Entities.User
 {
-    public class User : IdentityUser
+    public class AppUser : IdentityUser
     {
         //public User()
         //{

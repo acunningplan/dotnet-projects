@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FoodDisplayEntitiesLib
+namespace Burgler.Entities.FoodDisplay
 {
     public class FoodItem
     {

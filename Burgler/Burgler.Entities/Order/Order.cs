@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OrderEntitiesLib
+namespace Burgler.Entities.Order
 {
     public class Order
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FoodEntitiesLib
+namespace Burgler.Entities.Food
 {
     public class Topping : Food
     {

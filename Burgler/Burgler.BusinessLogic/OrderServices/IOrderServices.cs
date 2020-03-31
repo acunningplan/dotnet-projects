@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using OrderServicesLib;
 
-namespace OrderServicesLib
+namespace Burgler.BusinessLogic.OrderServices
 {
     public interface IOrderServices
     {

@@ -1,10 +1,10 @@
 ﻿
+using Burgler.Entities.Order;
 using FluentValidation;
-using OrderEntitiesLib;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OrderServicesLib
+namespace Burgler.BusinessLogic.OrderServices
 {
     public class CreateCommand
     {

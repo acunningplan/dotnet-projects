@@ -10,7 +10,8 @@ using BurglerContextLib;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using UserEntitiesLib;
+using Burgler.Entities;
+using Burgler.Entities.User;
 
 namespace BurglerApp
 {
@@ -26,7 +27,7 @@ namespace BurglerApp
                 try
                 {
                     var context = services.GetRequiredService<BurglerContext>();
-                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     context.Database.Migrate();
                     Seed.SeedData(context, userManager).Wait();
                 }

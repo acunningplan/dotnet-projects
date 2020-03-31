@@ -1,6 +1,6 @@
 ﻿using BurglerContextLib;
 
-namespace OrderServicesLib
+namespace Burgler.BusinessLogic.OrderServices
 {
     public partial class OrderServices : IOrderServices
     {

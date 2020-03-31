@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Burgler.Entities.Food;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using FoodEntitiesLib;
 
-namespace OrderEntitiesLib
+namespace Burgler.Entities.Order
 {
     public class BurgerOrder : FoodOrder
     {

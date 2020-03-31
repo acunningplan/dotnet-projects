@@ -1,6 +1,8 @@
 ﻿using Burgler.BusinessLogic.UserServices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Burgler.Entities;
 
 namespace BurglerApp.Controllers
 {
@@ -15,11 +17,24 @@ namespace BurglerApp.Controllers
             _userServices = userServices;
         }
 
-        [HttpPost("signin")]
-        public async Task<ActionResult<bool>> SignIn(SignInQuery query)
+        [HttpPost("login")]
+        public async Task<ActionResult<UserData>> Login(LoginQuery query)
         {
-            var user = await _userServices.SignIn(query);
-            return true;
+            var userData = await _userServices.Login(query);
+            return userData;
+        }
+
+        [HttpPost("register")]
+        public async Task Register(RegisterCommand command)
+        {
+            await _userServices.Register(command);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<UserData>> CurrentUser()
+        {
+            var userData = await _userServices.GetCurrentUser();
+            return userData;
         }
     }
 }

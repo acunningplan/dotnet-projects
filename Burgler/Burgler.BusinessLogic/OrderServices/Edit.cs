@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using OrderEntitiesLib;
+﻿using Burgler.Entities.Order;
+using FluentValidation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OrderServicesLib
+namespace Burgler.BusinessLogic.OrderServices
 {
     public class EditCommand
     {

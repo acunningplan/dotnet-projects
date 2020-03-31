@@ -9,6 +9,8 @@ namespace Burgler.BusinessLogic.UserServices
 {
     public interface IUserServices
     {
-        Task<User> SignIn(SignInQuery query);
+        Task<UserData> Login(LoginQuery query);
+        Task<UserData> Register(RegisterCommand query);
+        Task<UserData> GetCurrentUser();
     }
 }

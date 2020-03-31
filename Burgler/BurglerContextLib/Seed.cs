@@ -1,34 +1,35 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Burgler.Entities;
+using Burgler.Entities.User;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserEntitiesLib;
 
 namespace BurglerContextLib
 {
     public class Seed
     {
-        public static async Task SeedData(BurglerContext context, UserManager<User> userManager)
+        public static async Task SeedData(BurglerContext context, UserManager<AppUser> userManager)
         {
             if (!userManager.Users.Any())
             {
-                var users = new List<User>
+                var users = new List<AppUser>
                     {
-                        new User
+                        new AppUser
                         {
                         DisplayName = "Sam",
                         UserName = "sam",
                         Email = "sam@test.com"
                         },
-                        new User
+                        new AppUser
                         {
                         DisplayName = "Ed",
                         UserName = "ed",
                         Email = "ed@test.com"
                         },
-                        new User
+                        new AppUser
                         {
                         DisplayName = "Chelsea",
                         UserName = "chelsea",

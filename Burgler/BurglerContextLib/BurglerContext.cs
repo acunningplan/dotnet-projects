@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Burgler.Entities.Order;
+using Burgler.Entities.User;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OrderEntitiesLib;
-using UserEntitiesLib;
 
 namespace BurglerContextLib
 {
-    public class BurglerContext : IdentityDbContext<User>
+    public class BurglerContext : IdentityDbContext<AppUser>
     {
         public DbSet<Order> Orders { get; set; }
         //public DbSet<Food> Foods { get; set; }
