@@ -9,8 +9,8 @@ using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-using Burgler.BusinessLogic.UserServices;
-using Burgler.BusinessLogic.JwtServices;
+using Burgler.BusinessLogic.UserLogic;
+using Burgler.BusinessLogic.JwtLogic;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Burgler.Entities;
@@ -19,7 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Burgler.BusinessLogic.OrderServices;
+using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 
 namespace BurglerApp
@@ -53,8 +53,12 @@ namespace BurglerApp
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDbContext<BurglerContext>(options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BurglerContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(
+                     Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<BurglerContext>()

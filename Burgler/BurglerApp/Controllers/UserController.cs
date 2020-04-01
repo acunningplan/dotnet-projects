@@ -1,4 +1,4 @@
-﻿using Burgler.BusinessLogic.UserServices;
+﻿using Burgler.BusinessLogic.UserLogic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,14 +20,14 @@ namespace BurglerApp.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserData>> Login(LoginQuery query)
         {
-            var userData = await _userServices.Login(query);
+            var userData = await _userServices.LoginUser(query);
             return userData;
         }
 
         [HttpPost("register")]
         public async Task Register(RegisterCommand command)
         {
-            await _userServices.Register(command);
+            await _userServices.RegisterUser(command);
         }
 
         [HttpGet]

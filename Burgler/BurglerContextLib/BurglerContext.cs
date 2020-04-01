@@ -8,6 +8,7 @@ namespace BurglerContextLib
     public class BurglerContext : IdentityDbContext<AppUser>
     {
         public DbSet<Order> Orders { get; set; }
+        public DbSet<UserOrder> UserOrders { get; set; }
         //public DbSet<Food> Foods { get; set; }
 
         public BurglerContext(DbContextOptions<BurglerContext> options)
@@ -17,6 +18,15 @@ namespace BurglerContextLib
             ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserOrder>(
+                x => x.HasKey(
+                    uo => new { uo.AppUserId, uo.OrderId }));
+
+            modelBuilder.Entity<UserOrder>()
+                .HasOne(u => u.AppUser)
+                .WithMany(o => o.UserOrders)
+                .HasForeignKey(u => u.AppUserId);
 
             // Seed data here
             //modelBuilder.Entity<Order>().HasData(

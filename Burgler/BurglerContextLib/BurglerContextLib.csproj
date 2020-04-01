@@ -8,13 +8,13 @@
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Burgler.Entities\Burgler.Entities.csproj" />
-        <ProjectReference Include="..\BurglerEntitiesLib\OrderEntitiesLib.csproj" />
     </ItemGroup>
 
 </Project>
