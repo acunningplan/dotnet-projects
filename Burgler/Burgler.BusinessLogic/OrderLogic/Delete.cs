@@ -1,4 +1,5 @@
 ﻿
+using BurglerContextLib;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -6,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
-    public partial class Delete : OrderMethod
+    public static class Delete
     {
-        public async Task<bool> DeleteOrder(Guid id)
+        public static async Task<bool> DeleteMethod(Guid id, BurglerContext dbContext)
         {
-            var order = await DbContext.Orders.FindAsync(id);
+            var order = await dbContext.Orders.FindAsync(id);
 
             if (order == null) return false;
 
-            DbContext.Remove(order);
+            dbContext.Remove(order);
 
-            bool success = await DbContext.SaveChangesAsync() > 0;
+            bool success = await dbContext.SaveChangesAsync() > 0;
 
             return success;
         }

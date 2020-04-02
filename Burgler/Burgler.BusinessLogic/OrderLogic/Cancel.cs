@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
-    public class Cancel : OrderMethod
+    public static class Cancel
     {
-        public async Task<bool> CancelOrder(Guid id)
+        public static async Task<bool> CancelMethod(Guid id, BurglerContext dbContext)
         {
-            var order = await DbContext.Orders.FindAsync(id);
+            var order = await dbContext.Orders.FindAsync(id);
 
             if (order == null) return false;
 
             order.Cancelled = true;
 
-            bool success = await DbContext.SaveChangesAsync() > 0;
+            bool success = await dbContext.SaveChangesAsync() > 0;
 
             return success;
         }

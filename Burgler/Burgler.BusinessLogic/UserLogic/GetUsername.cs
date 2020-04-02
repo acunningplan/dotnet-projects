@@ -1,29 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Burgler.BusinessLogic.JwtLogic;
+using Burgler.Entities.User;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
 {
-    public class GetUsername : UserMethod
+    public static class GetUsername
     {
-        public string GetCurrentUsername()
+        public static string GetUsernameMethod(IHttpContextAccessor httpContextAccessor)
         {
-            return HttpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            return httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         }
-        public async Task<UserData> GetCurrentUser()
+        public static async Task<UserData> GetUserMethod(IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager, IJwtServices jwtServices)
         {
-            var username = GetCurrentUsername();
+            var username = GetUsernameMethod(httpContextAccessor);
 
-            var user = await UserManager.FindByNameAsync(username);
+            var user = await userManager.FindByNameAsync(username);
 
             var userData = new UserData
             {
                 DisplayName = user.DisplayName,
                 Username = user.UserName,
-                Token = JwtServices.CreateToken(user),
+                Token = jwtServices.CreateToken(user),
                 Image = null
             };
 

@@ -1,4 +1,4 @@
-﻿using Burgler.Entities.Order;
+﻿using Burgler.Entities.OrderNS;
 using Burgler.Entities.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

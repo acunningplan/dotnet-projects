@@ -1,13 +1,10 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Burgler.Entities;
+﻿using Burgler.Entities.User;
+using BurglerContextLib;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Burgler.Entities.User;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
 {
@@ -18,26 +15,25 @@ namespace Burgler.BusinessLogic.UserLogic
         public string Email { get; set; }
         public string Password { get; set; }
     }
-    public class Register : UserMethod
+    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     {
-        public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+        public RegisterCommandValidator()
         {
-            public RegisterCommandValidator()
-            {
-                RuleFor(x => x.DisplayName).NotEmpty();
-                RuleFor(x => x.UserName).NotEmpty();
-                RuleFor(x => x.Email).NotEmpty().EmailAddress();
-                RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
-            }
+            RuleFor(x => x.DisplayName).NotEmpty();
+            RuleFor(x => x.UserName).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty().EmailAddress();
+            RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
         }
-
-        public async Task<UserData> RegisterUser(RegisterCommand command)
+    }
+    public static class Register
+    {
+        public static async Task<UserData> RegisterMethod(RegisterCommand command, BurglerContext dbContext, UserManager<AppUser> userManager)
         {
-            if (await DbContext.Users.Where(x => x.Email == command.Email).AnyAsync())
+            if (await dbContext.Users.Where(x => x.Email == command.Email).AnyAsync())
             {
                 return null;
             }
-            if (await DbContext.Users.Where(x => x.UserName == command.UserName).AnyAsync())
+            if (await dbContext.Users.Where(x => x.UserName == command.UserName).AnyAsync())
             {
                 return null;
             }
@@ -48,7 +44,7 @@ namespace Burgler.BusinessLogic.UserLogic
                 Email = command.Email,
             };
 
-            var result = await UserManager.CreateAsync(user, command.Password);
+            var result = await userManager.CreateAsync(user, command.Password);
 
             return null;
         }

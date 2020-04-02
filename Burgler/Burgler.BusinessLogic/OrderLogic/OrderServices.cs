@@ -7,23 +7,18 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public class OrderServices : IOrderServices
     {
-        private readonly Cancel cancel = new Cancel();
-        private readonly Create create = new Create();
-        private readonly Edit edit = new Edit();
-        private readonly Delete delete = new Delete();
-
+        private readonly BurglerContext _dbContext;
+        private readonly IUserServices _userServices;
 
         public OrderServices(BurglerContext dbContext, IUserServices userServices)
         {
-            cancel.Inject(dbContext, userServices);
-            create.Inject(dbContext, userServices);
-            edit.Inject(dbContext, userServices);
-            delete.Inject(dbContext, userServices);
+            _dbContext = dbContext;
+            _userServices = userServices;
         }
 
-        public async Task<bool> CancelOrder(Guid id) => await cancel.CancelOrder(id);
-        public async Task<bool> CreateOrder(CreateCommand cmd) => await create.CreateOrder(cmd);
-        public async Task<bool> EditOrder(EditCommand cmd) => await edit.EditOrder(cmd);
-        public async Task<bool> DeleteOrder(Guid id) => await delete.DeleteOrder(id);
+        public async Task<bool> CancelOrder(Guid id) => await Cancel.CancelMethod(id, _dbContext);
+        public async Task<bool> CreateOrder(CreateCommand cmd) => await Create.CreateMethod(cmd, _dbContext, _userServices);
+        public async Task<bool> EditOrder(EditCommand cmd) => await Edit.EditMethod(cmd, _dbContext);
+        public async Task<bool> DeleteOrder(Guid id) => await Delete.DeleteMethod(id, _dbContext);
     }
 }

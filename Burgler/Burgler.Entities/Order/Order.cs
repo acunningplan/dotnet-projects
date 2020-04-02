@@ -3,7 +3,7 @@ using Burgler.Entities.User;
 using System;
 using System.Collections.Generic;
 
-namespace Burgler.Entities.Order
+namespace Burgler.Entities.OrderNS
 {
     public class Order
     {

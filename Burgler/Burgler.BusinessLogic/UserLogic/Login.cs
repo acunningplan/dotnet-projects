@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Burgler.Entities;
+﻿using Burgler.BusinessLogic.JwtLogic;
+using Burgler.Entities.User;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
 {
@@ -13,7 +11,7 @@ namespace Burgler.BusinessLogic.UserLogic
         public string Email { get; set; }
         public string Password { get; set; }
     }
-    public class Login : UserMethod
+    public static class Login
     {
         public class LoginQueryValidator : AbstractValidator<LoginQuery>
         {
@@ -24,19 +22,19 @@ namespace Burgler.BusinessLogic.UserLogic
             }
         }
 
-        public async Task<UserData> LoginUser(LoginQuery query)
+        public static async Task<UserData> LoginMethod(LoginQuery query, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtServices jwtServices)
         {
-            var user = await UserManager.FindByEmailAsync(query.Email);
+            var user = await userManager.FindByEmailAsync(query.Email);
             // null check needed
 
-            var result = await SignInManager.CheckPasswordSignInAsync(user, query.Password, false);
+            var result = await signInManager.CheckPasswordSignInAsync(user, query.Password, false);
             if (result.Succeeded)
             {
                 // generate token
                 return new UserData
                 {
                     DisplayName = user.DisplayName,
-                    Token = JwtServices.CreateToken(user),
+                    Token = jwtServices.CreateToken(user),
                     Username = user.UserName,
                     Image = null
                 };

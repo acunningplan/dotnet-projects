@@ -1,4 +1,5 @@
 ﻿using Burgler.Entities.FoodItem;
+using BurglerContextLib;
 using FluentValidation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,18 +19,18 @@ namespace Burgler.BusinessLogic.OrderLogic
             RuleFor(x => x.FoodItems).NotEmpty();
         }
     }
-    public partial class Edit : OrderMethod
+    public static class Edit
     {
-        public async Task<bool> EditOrder(EditCommand command)
+        public static async Task<bool> EditMethod(EditCommand command, BurglerContext dbContext)
         {
 
-            var order = await DbContext.Orders.FindAsync(command.Id);
+            var order = await dbContext.Orders.FindAsync(command.Id);
 
             if (order == null) return false;
 
             order.FoodItems = command.FoodItems;
 
-            bool success = await DbContext.SaveChangesAsync() > 0;
+            bool success = await dbContext.SaveChangesAsync() > 0;
 
             return success;
         }

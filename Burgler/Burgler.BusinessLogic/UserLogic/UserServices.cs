@@ -1,31 +1,32 @@
 ﻿using Burgler.BusinessLogic.JwtLogic;
-using Burgler.Entities;
 using Burgler.Entities.User;
 using BurglerContextLib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
 {
     public class UserServices : IUserServices
     {
-        private readonly Login _login = new Login();
-        private readonly Register _register = new Register();
-        private readonly GetUsername _getUsername = new GetUsername();
+        private readonly BurglerContext _dbContext;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IJwtServices _jwtServices;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public UserServices(BurglerContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtServices jwtServices, IHttpContextAccessor httpContextAccessor)
         {
-            _login.Inject(context, userManager, signInManager, jwtServices, httpContextAccessor);
-            _register.Inject(context, userManager, signInManager, jwtServices, httpContextAccessor);
-            _getUsername.Inject(context, userManager, signInManager, jwtServices, httpContextAccessor);
+            _dbContext = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _jwtServices = jwtServices;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<UserData> LoginUser(LoginQuery query) => _login.LoginUser(query);
-        public Task<UserData> RegisterUser(RegisterCommand query) => _register.RegisterUser(query);
-        public string GetCurrentUsername() => _getUsername.GetCurrentUsername();
-        public Task<UserData> GetCurrentUser() => _getUsername.GetCurrentUser();
+        public async Task<UserData> LoginUser(LoginQuery query) => await Login.LoginMethod(query, _userManager, _signInManager, _jwtServices);
+        public async Task<UserData> RegisterUser(RegisterCommand command) => await Register.RegisterMethod(command, _dbContext, _userManager);
+        public string GetCurrentUsername() => GetUsername.GetUsernameMethod(_httpContextAccessor);
+        public async Task<UserData> GetCurrentUser() => await GetUsername.GetUserMethod(_httpContextAccessor, _userManager, _jwtServices);
     }
 }

@@ -1,7 +1,9 @@
 ﻿
+using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.FoodItem;
-using Burgler.Entities.Order;
+using Burgler.Entities.OrderNS;
 using Burgler.Entities.User;
+using BurglerContextLib;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,20 +24,20 @@ namespace Burgler.BusinessLogic.OrderLogic
             RuleFor(x => x.UserId).NotEmpty();
         }
     }
-    public class Create : OrderMethod
+    public static class Create
     {
-        public async Task<bool> CreateOrder(CreateCommand command)
+        public static async Task<bool> CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices)
         {
             var order = new Order
             {
                 UserId = "1"
             };
 
-            DbContext.Orders.Add(order);
+            dbContext.Orders.Add(order);
 
-            string username = UserServices.GetCurrentUsername();
+            string username = userServices.GetCurrentUsername();
 
-            var user = await DbContext.Users.SingleOrDefaultAsync(x => x.UserName == username);
+            var user = await dbContext.Users.SingleOrDefaultAsync(x => x.UserName == username);
 
             var userOrder = new UserOrder
             {
@@ -43,9 +45,9 @@ namespace Burgler.BusinessLogic.OrderLogic
                 DateOrdered = DateTime.Now
             };
 
-            DbContext.UserOrders.Add(userOrder);
+            dbContext.UserOrders.Add(userOrder);
 
-            bool success = await DbContext.SaveChangesAsync() > 0;
+            bool success = await dbContext.SaveChangesAsync() > 0;
 
             return success;
         }
