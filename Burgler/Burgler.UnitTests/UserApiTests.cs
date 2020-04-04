@@ -1,15 +1,10 @@
-using Microsoft.Extensions.Configuration;
-//using Newtonsoft.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using Xunit;
-using Xunit.Sdk;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Burgler.UnitTests
 {
@@ -52,11 +47,9 @@ namespace Burgler.UnitTests
 
         public async Task<HttpResponseMessage> Login()
         {
-            var loginDict = new Dictionary<string, string>();
-            loginDict.Add("email", "sam@test.com");
-            loginDict.Add("password", "Pa$$w0rd");
-            var loginContent = new StringContent(JsonSerializer.Serialize(loginDict), Encoding.UTF8, "application/json");
-            return await client.PostAsync("http://localhost:5000/api/user/login", loginContent);
+            var loginObject = new { email = "sam@test.com", password = "Pa$$w0rd" };
+            var loginContent = new StringContent(JsonSerializer.Serialize(loginObject), Encoding.UTF8, "application/json");
+            return await client.PostAsync($"{_apiUrl}/user/login", loginContent);
         }
 
         [Fact]
@@ -70,12 +63,7 @@ namespace Burgler.UnitTests
         //{
         //    try
         //    {
-        //        var loginDict = new Dictionary<string, string>();
-        //        loginDict.Add("email", "sam@test.com");
-        //        loginDict.Add("password", "Pa$$w0rd");
-        //        var loginContent = new FormUrlEncodedContent(loginDict);
-        //        HttpResponseMessage loginResponse = await client.PostAsync("http://localhost:5000/api/user/login", loginContent);
-        //        Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
+        //        HttpResponseMessage loginResponse = await Login();
 
         //        //loginResponse.Content;
 
