@@ -15,7 +15,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     public class CreateCommand
     {
         public string UserId { get; set; }
-        public IEnumerable<IFoodItem> FoodItems { get; set; }
+        public IEnumerable<BurgerItem> Burgeritems { get; set; }
     }
     public class CreateCommandValidator : AbstractValidator<CreateCommand>
     {
@@ -28,6 +28,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     {
         public static async Task<bool> CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices)
         {
+            // Create order (will be changed soon)
             var order = new Order
             {
                 UserId = "1"
@@ -39,13 +40,7 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             var user = await dbContext.Users.SingleOrDefaultAsync(x => x.UserName == username);
 
-            var userOrder = new UserOrder
-            {
-                AppUser = user,
-                DateOrdered = DateTime.Now
-            };
 
-            dbContext.UserOrders.Add(userOrder);
 
             bool success = await dbContext.SaveChangesAsync() > 0;
 

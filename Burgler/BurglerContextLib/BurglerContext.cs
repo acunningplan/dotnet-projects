@@ -1,4 +1,5 @@
-﻿using Burgler.Entities.OrderNS;
+﻿using Burgler.Entities.FoodItem;
+using Burgler.Entities.OrderNS;
 using Burgler.Entities.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,10 @@ namespace BurglerContextLib
     public class BurglerContext : IdentityDbContext<AppUser>
     {
         public DbSet<Order> Orders { get; set; }
-        public DbSet<UserOrder> UserOrders { get; set; }
-        //public DbSet<Food> Foods { get; set; }
+        public DbSet<BurgerItem> BurgerItems { get; set; }
+        public DbSet<BurgerTopping> BurgerToppings { get; set; }
+        public DbSet<SideItem> SideItems { get; set; }
+        public DbSet<DrinkItem> DrinkItems { get; set; }
 
         public BurglerContext(DbContextOptions<BurglerContext> options)
           : base(options) { }
@@ -19,14 +22,25 @@ namespace BurglerContextLib
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserOrder>(
-                x => x.HasKey(
-                    uo => new { uo.AppUserId, uo.OrderId }));
+            modelBuilder.Entity<AppUser>()
+                .HasMany(u => u.Orders)
+                .WithOne(o => o.User);
 
-            modelBuilder.Entity<UserOrder>()
-                .HasOne(u => u.AppUser)
-                .WithMany(o => o.UserOrders)
-                .HasForeignKey(u => u.AppUserId);
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.BurgerItems)
+                .WithOne(bi => bi.Order);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.SideItems)
+                .WithOne(si => si.Order);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.DrinkItems)
+                .WithOne(di => di.Order);
+
+            modelBuilder.Entity<BurgerItem>()
+                .HasMany(o => o.BurgerToppings)
+                .WithOne(bt => bt.BurgerItem);
 
             // Seed data here
             //modelBuilder.Entity<Order>().HasData(

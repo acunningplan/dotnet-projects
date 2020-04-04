@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurglerApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -30,8 +31,15 @@ namespace BurglerApp.Controllers
         //    _orderServices = new OrderServices(_dbContext);
         //}
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> ListOrders()
+        {
+            //bool success = await _orderServices.CreateOrder();
+            return true;
+        }
+
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<bool>> Create(CreateCommand command)
         {
             bool success = await _orderServices.CreateOrder(command);

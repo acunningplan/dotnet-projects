@@ -7,16 +7,24 @@ namespace Burgler.Entities.FoodItem
 {
     public class BurgerItem : InitializeFoodItem, IFoodItem
     {
+        public Guid BurgerItemId { get; set; }
         public string BurgerBun { get; set; }
         public string BurgerPatty { get; set; }
         public PattyDoneness BurgerPattyCooked { get; set; }
-        public IEnumerable<string> BurgerToppings { get; set; }
+        public virtual IEnumerable<BurgerTopping> BurgerToppings { get; set; }
+        public virtual OrderNS.Order Order { get; set; }
         public BurgerItem()
         {
             BurgerBun = Ingredients.Buns.SelectDefault().Name;
             BurgerPatty = Ingredients.Patties.SelectDefault().Name;
             BurgerPattyCooked = PattyCooked.SelectDefault();
-            BurgerToppings = new string[] { Ingredients.Toppings.SelectDefault().Name };
+
+            string defaultTopping = Ingredients.Toppings.SelectDefault().Name;
+
+            BurgerToppings = new List<BurgerTopping>
+            {
+                new BurgerTopping { Name = defaultTopping }
+            };
         }
 
         public double CalculatePrice()
@@ -29,9 +37,9 @@ namespace Burgler.Entities.FoodItem
             double burgerPattyPrice = Ingredients.Patties.SelectByName(BurgerPatty).Price;
             burgerPrice += burgerBunPrice + burgerPattyPrice;
 
-            foreach (string toppingName in BurgerToppings)
+            foreach (BurgerTopping topping in BurgerToppings)
             {
-                double toppingPrice = Ingredients.Toppings.SelectByName(toppingName).Price;
+                double toppingPrice = Ingredients.Toppings.SelectByName(topping.Name).Price;
                 burgerPrice += toppingPrice;
             }
             burgerPrice *= Quantity;
@@ -48,9 +56,9 @@ namespace Burgler.Entities.FoodItem
             double burgerPattyCalories = Ingredients.Patties.SelectByName(BurgerPatty).Calories;
             burgerCalories += burgerBunCalories + burgerPattyCalories;
 
-            foreach (string toppingName in BurgerToppings)
+            foreach (BurgerTopping topping in BurgerToppings)
             {
-                double toppingCalories = Ingredients.Toppings.SelectByName(toppingName).Calories;
+                double toppingCalories = Ingredients.Toppings.SelectByName(topping.Name).Calories;
                 burgerCalories += toppingCalories;
             }
             burgerCalories *= Quantity;

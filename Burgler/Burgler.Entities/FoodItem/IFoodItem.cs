@@ -7,7 +7,7 @@ namespace Burgler.Entities.FoodItem
     public interface IFoodItem
     {
         public double Quantity { get; set; }
-        public double Name { get; set; }
+        public string Name { get; set; }
         public double CalculatePrice();
         public double CalculateCalories();
     }

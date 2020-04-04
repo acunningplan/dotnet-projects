@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Burgler.Entities.FoodItem
 {
-    public class InitializeFoodItem
+    public class BurgerTopping
     {
-        public double Quantity { get; set; } = 1;
+        public Guid BurgerToppingId { get; set; }
         public string Name { get; set; }
+        public virtual BurgerItem BurgerItem { get; set; }
     }
 }

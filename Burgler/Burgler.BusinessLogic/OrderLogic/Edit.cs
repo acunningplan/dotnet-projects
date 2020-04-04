@@ -9,14 +9,14 @@ namespace Burgler.BusinessLogic.OrderLogic
     public class EditCommand
     {
         public string Id { get; set; }
-        public IEnumerable<IFoodItem> FoodItems { get; set; }
+        public IEnumerable<BurgerItem> BurgerItems { get; set; }
     }
     public class EditCommandValidator : AbstractValidator<EditCommand>
     {
         public EditCommandValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.FoodItems).NotEmpty();
+            RuleFor(x => x.BurgerItems).NotEmpty();
         }
     }
     public static class Edit
@@ -28,7 +28,7 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             if (order == null) return false;
 
-            order.FoodItems = command.FoodItems;
+            order.BurgerItems = command.BurgerItems;
 
             bool success = await dbContext.SaveChangesAsync() > 0;
 
