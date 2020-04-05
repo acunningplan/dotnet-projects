@@ -1,4 +1,5 @@
 ﻿
+using Burgler.BusinessLogic.ErrorHandlingLogic;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.FoodItem;
 using Burgler.Entities.OrderNS;
@@ -8,6 +9,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.OrderLogic
@@ -26,7 +28,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     }
     public static class Create
     {
-        public static async Task<bool> CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices)
+        public static async Task CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices)
         {
             // Create order (will be changed soon)
             var order = new Order
@@ -40,11 +42,8 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             var user = await dbContext.Users.SingleOrDefaultAsync(x => x.UserName == username);
 
-
-
-            bool success = await dbContext.SaveChangesAsync() > 0;
-
-            return success;
+            _ = await dbContext.SaveChangesAsync() > 0 ? true :
+                throw new RestException(HttpStatusCode.InternalServerError, "Problem cancelling order");
         }
     }
 }

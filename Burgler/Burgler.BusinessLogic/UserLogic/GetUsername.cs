@@ -1,8 +1,10 @@
-﻿using Burgler.BusinessLogic.JwtLogic;
+﻿using Burgler.BusinessLogic.ErrorHandlingLogic;
+using Burgler.BusinessLogic.JwtLogic;
 using Burgler.Entities.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -12,13 +14,17 @@ namespace Burgler.BusinessLogic.UserLogic
     {
         public static string GetUsernameMethod(IHttpContextAccessor httpContextAccessor)
         {
-            return httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            string username = httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ??
+                throw new RestException(HttpStatusCode.Unauthorized, "Cannot find username. Please register or login.");
+
+            return username;
         }
         public static async Task<UserData> GetUserMethod(IHttpContextAccessor httpContextAccessor, UserManager<AppUser> userManager, IJwtServices jwtServices)
         {
             var username = GetUsernameMethod(httpContextAccessor);
 
-            var user = await userManager.FindByNameAsync(username);
+            var user = await userManager.FindByNameAsync(username) ??
+                throw new RestException(HttpStatusCode.Unauthorized, "No user found with given username.");
 
             var userData = new UserData
             {
@@ -27,7 +33,6 @@ namespace Burgler.BusinessLogic.UserLogic
                 Token = jwtServices.CreateToken(user),
                 Image = null
             };
-
             return userData;
         }
     }

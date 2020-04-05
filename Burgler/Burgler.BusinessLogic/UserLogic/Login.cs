@@ -1,7 +1,10 @@
-﻿using Burgler.BusinessLogic.JwtLogic;
+﻿using Burgler.BusinessLogic.ErrorHandlingLogic;
+using Burgler.BusinessLogic.JwtLogic;
 using Burgler.Entities.User;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
@@ -24,10 +27,10 @@ namespace Burgler.BusinessLogic.UserLogic
 
         public static async Task<UserData> LoginMethod(LoginQuery query, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtServices jwtServices)
         {
-            var user = await userManager.FindByEmailAsync(query.Email);
-            // null check needed
+            var re = new RestException(HttpStatusCode.Unauthorized, new { login = "Incorrect email or password." });
+            AppUser user = await userManager.FindByEmailAsync(query.Email) ?? throw re;
 
-            var result = await signInManager.CheckPasswordSignInAsync(user, query.Password, false);
+            SignInResult result = await signInManager.CheckPasswordSignInAsync(user, query.Password, false);
             if (result.Succeeded)
             {
                 // generate token
@@ -39,7 +42,10 @@ namespace Burgler.BusinessLogic.UserLogic
                     Image = null
                 };
             }
-            return new UserData();
+            else
+            {
+                throw re;
+            }
         }
     }
 }

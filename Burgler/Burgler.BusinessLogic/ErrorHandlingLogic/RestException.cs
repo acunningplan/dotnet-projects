@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text;
 
-namespace BurglerApp.Middleware
+namespace Burgler.BusinessLogic.ErrorHandlingLogic
 {
     public class RestException : Exception
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Burgler.BusinessLogic.ErrorHandlingLogic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
@@ -41,15 +42,7 @@ namespace BurglerApp.Middleware
                         break;
                 }
 
-                context.Response.ContentType = "application/json";
-                if (errors != null)
-                {
-                    var result = JsonSerializer.Serialize(new
-                    {
-                        errors
-                    });
-                    await context.Response.WriteAsync(result);
-                }
+                await ErrorHandling.HandleError(context, errors);
             }
         }
     }

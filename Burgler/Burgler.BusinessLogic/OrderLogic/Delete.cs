@@ -1,25 +1,25 @@
 ﻿
+using Burgler.BusinessLogic.ErrorHandlingLogic;
 using BurglerContextLib;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class Delete
     {
-        public static async Task<bool> DeleteMethod(Guid id, BurglerContext dbContext)
+        public static async Task DeleteMethod(Guid id, BurglerContext dbContext)
         {
-            var order = await dbContext.Orders.FindAsync(id);
-
-            if (order == null) return false;
+            var order = await dbContext.Orders.FindAsync(id) ??
+                throw new RestException(HttpStatusCode.NotFound, "Order not found");
 
             dbContext.Remove(order);
 
-            bool success = await dbContext.SaveChangesAsync() > 0;
-
-            return success;
+            _ = await dbContext.SaveChangesAsync() > 0 ? true :
+                throw new RestException(HttpStatusCode.InternalServerError, "Problem deleting order");
         }
     }
 }

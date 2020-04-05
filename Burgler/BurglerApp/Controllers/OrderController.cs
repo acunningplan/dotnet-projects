@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Burgler.BusinessLogic.OrderLogic;
+using Burgler.Entities.OrderNS;
 using BurglerContextLib;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BurglerApp.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -31,40 +31,41 @@ namespace BurglerApp.Controllers
         //    _orderServices = new OrderServices(_dbContext);
         //}
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<bool>> ListOrders()
+        [HttpGet("user/{username}")]
+        public async Task<List<Order>> ListOrders(string username)
         {
-            //bool success = await _orderServices.CreateOrder();
-            return true;
+            return await _orderServices.GetOrders(username);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Order> GetOrder(Guid id)
+        {
+            return await _orderServices.GetOrder(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> Create(CreateCommand command)
+        [Authorize]
+        public async Task CreateOrder(CreateCommand command)
         {
-            bool success = await _orderServices.CreateOrder(command);
-            return success;
+            await _orderServices.CreateOrder(command);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<bool>> EditOrder(EditCommand command)
+        public async Task EditOrder(EditCommand command)
         {
-            bool success = await _orderServices.EditOrder(command);
-            return success;
+            await _orderServices.EditOrder(command);
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<bool>> CancelOrder(Guid id)
+        public async Task CancelOrder(Guid id)
         {
-            bool success = await _orderServices.CancelOrder(id);
-            return success;
+            await _orderServices.CancelOrder(id);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> DeleteOrder(Guid id)
+        public async Task DeleteOrder(Guid id)
         {
-            bool success = await _orderServices.DeleteOrder(id);
-            return success;
+            await _orderServices.DeleteOrder(id);
         }
     }
 }
