@@ -37,7 +37,7 @@ namespace BurglerContextLib.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OrderID")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Quantity")
@@ -45,7 +45,7 @@ namespace BurglerContextLib.Migrations
 
                     b.HasKey("BurgerItemId");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("BurgerItems");
                 });
@@ -56,7 +56,7 @@ namespace BurglerContextLib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BurgerItemId")
+                    b.Property<Guid>("BurgerItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -78,7 +78,7 @@ namespace BurglerContextLib.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OrderID")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Quantity")
@@ -89,7 +89,7 @@ namespace BurglerContextLib.Migrations
 
                     b.HasKey("DrinkItemId");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("DrinkItems");
                 });
@@ -103,7 +103,7 @@ namespace BurglerContextLib.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OrderID")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Quantity")
@@ -114,14 +114,14 @@ namespace BurglerContextLib.Migrations
 
                     b.HasKey("SideItemId");
 
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("SideItems");
                 });
 
             modelBuilder.Entity("Burgler.Entities.OrderNS.Order", b =>
                 {
-                    b.Property<Guid>("OrderID")
+                    b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -140,12 +140,15 @@ namespace BurglerContextLib.Migrations
                     b.Property<DateTime>("ReadyAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("OrderID");
+                    b.HasKey("OrderId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Orders");
                 });
@@ -356,8 +359,9 @@ namespace BurglerContextLib.Migrations
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("BurgerItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.BurgerTopping", b =>
@@ -365,30 +369,33 @@ namespace BurglerContextLib.Migrations
                     b.HasOne("Burgler.Entities.FoodItem.BurgerItem", "BurgerItem")
                         .WithMany("BurgerToppings")
                         .HasForeignKey("BurgerItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.DrinkItem", b =>
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("DrinkItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.SideItem", b =>
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("SideItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Burgler.Entities.OrderNS.Order", b =>
                 {
                     b.HasOne("Burgler.Entities.User.AppUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

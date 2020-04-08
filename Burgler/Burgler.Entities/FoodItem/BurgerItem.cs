@@ -7,18 +7,8 @@ namespace Burgler.Entities.FoodItem
 {
     public class BurgerItem : InitializeFoodItem, IFoodItem
     {
-        public Guid BurgerItemId { get; set; }
-        public string BurgerBun { get; set; }
-        public string BurgerPatty { get; set; }
-        public PattyDoneness BurgerPattyCooked { get; set; }
-        public virtual IEnumerable<BurgerTopping> BurgerToppings { get; set; }
-        public virtual OrderNS.Order Order { get; set; }
         public BurgerItem()
         {
-            BurgerBun = Ingredients.Buns.SelectDefault().Name;
-            BurgerPatty = Ingredients.Patties.SelectDefault().Name;
-            BurgerPattyCooked = PattyCooked.SelectDefault();
-
             string defaultTopping = Ingredients.Toppings.SelectDefault().Name;
 
             BurgerToppings = new List<BurgerTopping>
@@ -26,6 +16,13 @@ namespace Burgler.Entities.FoodItem
                 new BurgerTopping { Name = defaultTopping }
             };
         }
+        public Guid BurgerItemId { get; set; }
+        public string BurgerBun { get; set; } = Ingredients.Buns.SelectDefault().Name;
+        public string BurgerPatty { get; set; } = Ingredients.Patties.SelectDefault().Name;
+        public PattyDoneness BurgerPattyCooked { get; set; } = PattyCooked.SelectDefault();
+        public virtual ICollection<BurgerTopping> BurgerToppings { get; set; }
+        public Guid OrderId { get; set; }
+        public virtual OrderNS.Order Order { get; set; }
 
         public double CalculatePrice()
         {

@@ -24,7 +24,7 @@ namespace Burgler.UnitTests
         [Fact]
         public async void ShouldLoginSuccessfully()
         {
-            await Login("sarah");
+            await Login("ed");
             Assert.True(LoginResponse.IsSuccessStatusCode);
             Assert.NotNull(LoginResponse.Content);
         }

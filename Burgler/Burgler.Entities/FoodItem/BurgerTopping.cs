@@ -8,6 +8,7 @@ namespace Burgler.Entities.FoodItem
     {
         public Guid BurgerToppingId { get; set; }
         public string Name { get; set; }
+        public Guid BurgerItemId { get; set; }
         public virtual BurgerItem BurgerItem { get; set; }
     }
 }

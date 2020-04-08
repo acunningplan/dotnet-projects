@@ -8,6 +8,7 @@ namespace Burgler.Entities.FoodItem
     {
         public Guid SideItemId { get; set; }
         public string Size { get; set; }
+        public Guid OrderId { get; set; }
         public virtual OrderNS.Order Order { get; set; }
 
         public double CalculateCalories()

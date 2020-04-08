@@ -10,7 +10,7 @@ namespace Burgler.Entities.User
     {
         public AppUser()
         {
-            Orders = new Collection<Order>();
+            Orders = new List<Order>();
         }
         //public virtual ICollection<UserTripCard> UserTripCards { get; set; }
         //public virtual ICollection<Photo> Photos { get; set; }

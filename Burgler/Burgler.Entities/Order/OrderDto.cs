@@ -6,7 +6,7 @@ namespace Burgler.Entities.OrderNS
 {
     public class OrderDto
     {
-        public Guid OrderID { get; set; }
+        public Guid OrderId { get; set; }
         public DateTime OrderedAt { get; set; }
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }

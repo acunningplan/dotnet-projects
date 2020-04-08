@@ -11,7 +11,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     public class EditCommand
     {
         public string Id { get; set; }
-        public IEnumerable<BurgerItem> BurgerItems { get; set; }
+        public ICollection<BurgerItem> BurgerItems { get; set; }
     }
     public class EditCommandValidator : AbstractValidator<EditCommand>
     {

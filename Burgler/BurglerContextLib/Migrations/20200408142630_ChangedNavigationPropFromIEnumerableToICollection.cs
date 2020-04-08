@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BurglerContextLib.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class ChangedNavigationPropFromIEnumerableToICollection : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,23 +46,6 @@ namespace BurglerContextLib.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderID = table.Column<Guid>(nullable: false),
-                    OrderedAt = table.Column<DateTime>(nullable: false),
-                    ReadyAt = table.Column<DateTime>(nullable: false),
-                    FoodTakenAt = table.Column<DateTime>(nullable: false),
-                    Cancelled = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    FurtherDescription = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderID);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,22 +155,111 @@ namespace BurglerContextLib.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodOrder",
+                name: "Orders",
                 columns: table => new
                 {
-                    FoodOrderId = table.Column<Guid>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    OrderID = table.Column<Guid>(nullable: true)
+                    OrderId = table.Column<Guid>(nullable: false),
+                    OrderedAt = table.Column<DateTime>(nullable: false),
+                    ReadyAt = table.Column<DateTime>(nullable: false),
+                    FoodTakenAt = table.Column<DateTime>(nullable: false),
+                    Cancelled = table.Column<bool>(nullable: false),
+                    FurtherDescription = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodOrder", x => x.FoodOrderId);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_FoodOrder_Orders_OrderID",
-                        column: x => x.OrderID,
+                        name: "FK_Orders_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BurgerItems",
+                columns: table => new
+                {
+                    BurgerItemId = table.Column<Guid>(nullable: false),
+                    Quantity = table.Column<double>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    BurgerBun = table.Column<string>(nullable: true),
+                    BurgerPatty = table.Column<string>(nullable: true),
+                    BurgerPattyCooked = table.Column<int>(nullable: false),
+                    OrderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BurgerItems", x => x.BurgerItemId);
+                    table.ForeignKey(
+                        name: "FK_BurgerItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DrinkItems",
+                columns: table => new
+                {
+                    DrinkItemId = table.Column<Guid>(nullable: false),
+                    Quantity = table.Column<double>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Volume = table.Column<double>(nullable: false),
+                    OrderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DrinkItems", x => x.DrinkItemId);
+                    table.ForeignKey(
+                        name: "FK_DrinkItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SideItems",
+                columns: table => new
+                {
+                    SideItemId = table.Column<Guid>(nullable: false),
+                    Quantity = table.Column<double>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Size = table.Column<string>(nullable: true),
+                    OrderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SideItems", x => x.SideItemId);
+                    table.ForeignKey(
+                        name: "FK_SideItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BurgerToppings",
+                columns: table => new
+                {
+                    BurgerToppingId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    BurgerItemId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BurgerToppings", x => x.BurgerToppingId);
+                    table.ForeignKey(
+                        name: "FK_BurgerToppings_BurgerItems_BurgerItemId",
+                        column: x => x.BurgerItemId,
+                        principalTable: "BurgerItems",
+                        principalColumn: "BurgerItemId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -230,9 +302,29 @@ namespace BurglerContextLib.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FoodOrder_OrderID",
-                table: "FoodOrder",
-                column: "OrderID");
+                name: "IX_BurgerItems_OrderId",
+                table: "BurgerItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BurgerToppings_BurgerItemId",
+                table: "BurgerToppings",
+                column: "BurgerItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DrinkItems_OrderId",
+                table: "DrinkItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId1",
+                table: "Orders",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SideItems_OrderId",
+                table: "SideItems",
+                column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -253,16 +345,25 @@ namespace BurglerContextLib.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FoodOrder");
+                name: "BurgerToppings");
+
+            migrationBuilder.DropTable(
+                name: "DrinkItems");
+
+            migrationBuilder.DropTable(
+                name: "SideItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "BurgerItems");
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

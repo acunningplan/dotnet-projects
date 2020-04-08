@@ -14,7 +14,7 @@ namespace Burgler.Entities.IngredientsNS
 
         public Ingredient SelectByName(string ingName)
         {
-            return IngredientList.Find(patty => patty.Name == ingName) ?? IngredientList[0];
+            return IngredientList.Find(ing => ing.Name == ingName) ?? IngredientList[0];
         }
     }
 }
