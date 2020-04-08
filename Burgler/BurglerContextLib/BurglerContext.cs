@@ -24,23 +24,28 @@ namespace BurglerContextLib
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(u => u.Orders)
-                .WithOne(o => o.User);
+                .WithOne(o => o.User)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.BurgerItems)
-                .WithOne(bi => bi.Order);
+                .WithOne(bi => bi.Order)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.SideItems)
-                .WithOne(si => si.Order);
+                .WithOne(si => si.Order)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.DrinkItems)
-                .WithOne(di => di.Order);
+                .WithOne(di => di.Order)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BurgerItem>()
                 .HasMany(o => o.BurgerToppings)
-                .WithOne(bt => bt.BurgerItem);
+                .WithOne(bt => bt.BurgerItem)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Seed data here
             //modelBuilder.Entity<Order>().HasData(

@@ -11,7 +11,7 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class Cancel
     {
-        public static async Task CancelMethod(Guid id, BurglerContext dbContext)
+        public static async Task CancelMethod(string id, BurglerContext dbContext)
         {
             var order = await dbContext.Orders.FindAsync(id) ??
                 throw new RestException(HttpStatusCode.NotFound, "Order not found");

@@ -4,14 +4,16 @@ using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BurglerContextLib.Migrations
 {
     [DbContext(typeof(BurglerContext))]
-    partial class BurglerContextModelSnapshot : ModelSnapshot
+    [Migration("20200408001745_AttemptToFixDatabase")]
+    partial class AttemptToFixDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,40 +358,35 @@ namespace BurglerContextLib.Migrations
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("BurgerItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.BurgerTopping", b =>
                 {
                     b.HasOne("Burgler.Entities.FoodItem.BurgerItem", "BurgerItem")
                         .WithMany("BurgerToppings")
-                        .HasForeignKey("BurgerItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BurgerItemId");
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.DrinkItem", b =>
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("DrinkItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.SideItem", b =>
                 {
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("SideItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("Burgler.Entities.OrderNS.Order", b =>
                 {
                     b.HasOne("Burgler.Entities.User.AppUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

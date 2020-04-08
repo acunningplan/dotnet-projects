@@ -1,7 +1,9 @@
-﻿using Burgler.Entities.FoodItem;
+﻿using Burgler.BusinessLogic.ErrorHandlingLogic;
+using Burgler.Entities.FoodItem;
 using BurglerContextLib;
 using FluentValidation;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.OrderLogic
@@ -21,18 +23,16 @@ namespace Burgler.BusinessLogic.OrderLogic
     }
     public static class Edit
     {
-        public static async Task<bool> EditMethod(EditCommand command, BurglerContext dbContext)
+        public static async Task EditMethod(EditCommand command, BurglerContext dbContext)
         {
 
-            var order = await dbContext.Orders.FindAsync(command.Id);
-
-            if (order == null) return false;
+            var order = await dbContext.Orders.FindAsync(command.Id) ??
+                throw new RestException(HttpStatusCode.NotFound, "No order with given id.");
 
             order.BurgerItems = command.BurgerItems;
 
-            bool success = await dbContext.SaveChangesAsync() > 0;
-
-            return success;
+            _ = await dbContext.SaveChangesAsync() > 0 ? true :
+                throw new RestException(HttpStatusCode.InternalServerError, "Problem cancelling order");
         }
     }
 }

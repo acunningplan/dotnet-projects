@@ -16,34 +16,36 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public class CreateCommand
     {
-        public string UserId { get; set; }
-        public IEnumerable<BurgerItem> Burgeritems { get; set; }
+        public IEnumerable<BurgerItem> BurgerItems { get; set; }
     }
     public class CreateCommandValidator : AbstractValidator<CreateCommand>
     {
         public CreateCommandValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty();
+            RuleFor(x => x.BurgerItems).NotEmpty();
         }
     }
     public static class Create
     {
         public static async Task CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices)
         {
+            string username = userServices.GetCurrentUsername();
+
+            var user = await dbContext.Users.SingleOrDefaultAsync(x => x.UserName == username) ??
+                throw new RestException(HttpStatusCode.Unauthorized, "No user with given username.");
+
             // Create order (will be changed soon)
             var order = new Order
             {
-                UserId = "1"
+                OrderedAt = DateTime.Now,
+                BurgerItems = command.BurgerItems,
+                User = user
             };
 
             dbContext.Orders.Add(order);
 
-            string username = userServices.GetCurrentUsername();
-
-            var user = await dbContext.Users.SingleOrDefaultAsync(x => x.UserName == username);
-
             _ = await dbContext.SaveChangesAsync() > 0 ? true :
-                throw new RestException(HttpStatusCode.InternalServerError, "Problem cancelling order");
+                throw new RestException(HttpStatusCode.InternalServerError, "Problem creating order.");
         }
     }
 }

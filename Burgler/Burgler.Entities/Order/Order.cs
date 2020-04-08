@@ -18,7 +18,6 @@ namespace Burgler.Entities.OrderNS
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }
         public bool Cancelled { get; set; }
-        public string UserId { get; set; }
         public virtual IEnumerable<BurgerItem> BurgerItems { get; set; }
         public virtual IEnumerable<SideItem> SideItems { get; set; }
         public virtual IEnumerable<DrinkItem> DrinkItems { get; set; }

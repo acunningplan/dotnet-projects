@@ -31,14 +31,15 @@ namespace BurglerApp.Controllers
         //    _orderServices = new OrderServices(_dbContext);
         //}
 
-        [HttpGet("user/{username}")]
-        public async Task<List<Order>> ListOrders(string username)
+        [HttpGet]
+        [Authorize]
+        public async Task<List<Order>> GetListOfOrders()
         {
-            return await _orderServices.GetOrders(username);
+            return await _orderServices.GetListOfOrders();
         }
 
         [HttpGet("{id}")]
-        public async Task<Order> GetOrder(Guid id)
+        public async Task<Order> GetOrder(string id)
         {
             return await _orderServices.GetOrder(id);
         }
@@ -57,7 +58,7 @@ namespace BurglerApp.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task CancelOrder(Guid id)
+        public async Task CancelOrder(string id)
         {
             await _orderServices.CancelOrder(id);
         }

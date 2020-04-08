@@ -2,7 +2,6 @@
 using Burgler.BusinessLogic.JwtLogic;
 using Burgler.Entities.User;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace Burgler.BusinessLogic.UserLogic
             var re = new RestException(HttpStatusCode.Unauthorized, new { login = "Incorrect email or password." });
             AppUser user = await userManager.FindByEmailAsync(query.Email) ?? throw re;
 
-            SignInResult result = await signInManager.CheckPasswordSignInAsync(user, query.Password, false);
+            SignInResult result = await signInManager.CheckPasswordSignInAsync(user, query.Password, false) ?? throw re;
             if (result.Succeeded)
             {
                 // generate token

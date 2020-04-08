@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Newtonsoft.Json;
 using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 using BurglerApp.Middleware;
@@ -47,6 +48,10 @@ namespace BurglerApp
                 .AddFluentValidation(cfg =>
                 {
                     cfg.RegisterValidatorsFromAssemblyContaining<CreateCommand>();
+                })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

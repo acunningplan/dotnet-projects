@@ -31,7 +31,7 @@ namespace BurglerApp.Middleware
                 switch (ex)
                 {
                     case RestException re:
-                        _logger.LogError(ex, "REST ERROR");
+                        //_logger.LogError(ex, "REST ERROR");
                         errors = re.Errors;
                         context.Response.StatusCode = (int)re.Code;
                         break;
