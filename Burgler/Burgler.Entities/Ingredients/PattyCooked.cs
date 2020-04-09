@@ -13,14 +13,14 @@ namespace Burgler.Entities.IngredientsNS
     }
     public static class PattyCooked
     {
-        public static PattyDoneness SelectByName(string doneness)
+        public static PattyDoneness Select(int doneness)
         {
             return doneness switch
             {
-                "WellDone" => PattyDoneness.WellDone,
-                "MediumWell" => PattyDoneness.MediumWell,
-                "Medium" => PattyDoneness.Medium,
-                "MediumRare" => PattyDoneness.MediumRare,
+                0 => PattyDoneness.WellDone,
+                1 => PattyDoneness.MediumWell,
+                2 => PattyDoneness.Medium,
+                3 => PattyDoneness.MediumRare,
                 _ => PattyDoneness.Medium,  // should throw exception
             };
 

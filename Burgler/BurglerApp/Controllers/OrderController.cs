@@ -33,7 +33,7 @@ namespace BurglerApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<Order>> GetListOfOrders()
+        public async Task<List<OrderDto>> GetListOfOrders()
         {
             return await _orderServices.GetListOfOrders();
         }

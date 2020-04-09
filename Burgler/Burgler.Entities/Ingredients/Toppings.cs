@@ -12,11 +12,9 @@ namespace Burgler.Entities.IngredientsNS
         }
     }
 
-    public class Toppings : SelectableIngredientList
+    public static class Toppings
     {
-        public Toppings()
-        {
-            IngredientList = new List<Ingredient>
+        public static List<Ingredient> ToppingList = new List<Ingredient>
                 {
                     new Topping { Name = "Tomato", Calories = 50, Price = 1 },
                     new Topping { Name = "Gherkin", Calories = 25, Price = 1 },
@@ -25,6 +23,5 @@ namespace Burgler.Entities.IngredientsNS
                     new Topping { Name = "Bacon", Calories = 80, Price = 2.0 },
                     new Topping { Name = "Egg", Calories = 50, Price = 1.5 },
                 };
-        }
     }
 }

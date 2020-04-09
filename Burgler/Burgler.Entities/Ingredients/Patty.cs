@@ -12,11 +12,9 @@ namespace Burgler.Entities.IngredientsNS
         }
     }
 
-    public class Patties : SelectableIngredientList
+    public static class Patties
     {
-        public Patties()
-        {
-            IngredientList = new List<Ingredient>
+        public static List<Ingredient> PattyList = new List<Ingredient>
             {
                 new Patty { Name = "BeefSingle", Calories = 250, Price = 2 },
                 new Patty { Name = "BeefDouble", Calories = 500, Price = 3.5 } ,
@@ -27,6 +25,5 @@ namespace Burgler.Entities.IngredientsNS
                 new Patty { Name = "VeggieSingle", Calories = 100, Price = 1.0 } ,
                 new Patty { Name = "VeggieDouble", Calories = 200, Price = 2.0 } ,
             };
-        }
     }
 }

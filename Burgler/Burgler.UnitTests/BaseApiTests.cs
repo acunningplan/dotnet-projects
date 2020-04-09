@@ -5,7 +5,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-
+using Xunit.Abstractions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Burgler.UnitTests
 {
@@ -26,6 +28,7 @@ namespace Burgler.UnitTests
         protected HttpClient ClientWithToken { get; set; }
         protected HttpResponseMessage LoginResponse { get; set; }
         protected string LoginContent { get; set; }
+        protected ITestOutputHelper OutputHelper { get; }
 
         // Helper functions
         public T DeserializeString<T>(string givenObject)

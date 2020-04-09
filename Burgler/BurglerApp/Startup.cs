@@ -24,6 +24,8 @@ using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 using BurglerApp.Middleware;
 
+using AutoMapper;
+
 namespace BurglerApp
 {
     public class Startup
@@ -71,10 +73,14 @@ namespace BurglerApp
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 
+
+
             services.AddScoped<IOrderServices, OrderServices>();
 
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IJwtServices, JwtServices>();
+
+            services.AddAutoMapper(typeof(CreateCommand));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -98,6 +104,7 @@ namespace BurglerApp
         {
             // Add middleware here
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ApiResponseLoggingMiddleware>();
 
             //if (env.IsDevelopment())
             //{

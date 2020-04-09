@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Burgler.Entities.Ingredients;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Burgler.Entities.IngredientsNS
 {
@@ -11,16 +10,12 @@ namespace Burgler.Entities.IngredientsNS
             Type = "Bun";
         }
     }
-
-    public class Buns : SelectableIngredientList
+    public static class Buns
     {
-        public Buns()
-        {
-            IngredientList = new List<Ingredient>
+        public static List<Ingredient> BunList = new List<Ingredient>
             {
                 new Bun { Name = "White", Calories = 50, Price = 1 },
                 new Bun { Name = "Wheat", Calories = 45, Price = 1 }
             };
-        }
     }
 }

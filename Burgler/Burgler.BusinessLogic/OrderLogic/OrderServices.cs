@@ -1,4 +1,5 @@
-﻿using Burgler.BusinessLogic.UserLogic;
+﻿using AutoMapper;
+using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.OrderNS;
 using BurglerContextLib;
 using System;
@@ -11,16 +12,18 @@ namespace Burgler.BusinessLogic.OrderLogic
     {
         private readonly BurglerContext _dbContext;
         private readonly IUserServices _userServices;
+        private readonly IMapper _mapper;
 
-        public OrderServices(BurglerContext dbContext, IUserServices userServices)
+        public OrderServices(BurglerContext dbContext, IUserServices userServices, IMapper mapper)
         {
             _dbContext = dbContext;
             _userServices = userServices;
+            _mapper = mapper;
         }
 
         // Queries
         public async Task<Order> GetOrder(string id) => await Get.GetMethod(id, _dbContext);
-        public async Task<List<Order>> GetListOfOrders() => await Get.GetManyMethod(_dbContext, _userServices);
+        public async Task<List<OrderDto>> GetListOfOrders() => await Get.GetManyMethod(_dbContext, _userServices, _mapper);
 
         // Commands
         public async Task CreateOrder(CreateCommand cmd) => await Create.CreateMethod(cmd, _dbContext, _userServices);

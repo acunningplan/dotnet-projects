@@ -3,6 +3,7 @@ using Burgler.BusinessLogic.ErrorHandlingLogic;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.FoodItem;
 using Burgler.Entities.IngredientsNS;
+using static Burgler.Entities.Ingredients.IngredientListExtensionMethods;
 using Burgler.Entities.OrderNS;
 using Burgler.Entities.User;
 using BurglerContextLib;
@@ -17,9 +18,9 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public class BurgerItemJson
     {
-        public string BurgerBun { get; set; } = Ingredients.Buns.SelectDefault().Name;
-        public string BurgerPatty { get; set; } = Ingredients.Patties.SelectDefault().Name;
-        public int BurgerPattyCooked { get; set; } = (int)PattyCooked.SelectDefault();
+        public string BurgerBun { get; set; }
+        public string BurgerPatty { get; set; }
+        public int BurgerPattyCooked { get; set; }
         public List<string> BurgerToppings { get; set; } = new List<string>();
     }
     public class CreateCommand
@@ -32,7 +33,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     {
         public CreateCommandValidator()
         {
-            //RuleFor(x => x.BurgerItems).NotEmpty();
+            RuleFor(x => x.BurgerItems).NotEmpty();
         }
     }
     public static class Create
@@ -59,12 +60,12 @@ namespace Burgler.BusinessLogic.OrderLogic
             foreach (var bi in command.BurgerItems)
             {
                 var burgerItem = new BurgerItem();
-                burgerItem.BurgerBun = Ingredients.Buns.SelectByName(bi.BurgerBun).Name;
-                burgerItem.BurgerPatty = Ingredients.Patties.SelectByName(bi.BurgerPatty).Name;
-                burgerItem.BurgerPattyCooked = (PattyDoneness)bi.BurgerPattyCooked;
+                burgerItem.BurgerBun = Buns.BunList.SelectByName(bi.BurgerBun).Name;
+                burgerItem.BurgerPatty = Patties.PattyList.SelectByName(bi.BurgerPatty).Name;
+                burgerItem.BurgerPattyCooked = PattyCooked.Select(bi.BurgerPattyCooked);
                 foreach (string bt in bi.BurgerToppings)
                 {
-                    string toppingName = Ingredients.Toppings.SelectByName(bt).Name;
+                    string toppingName = Toppings.ToppingList.SelectByName(bt).Name;
                     burgerItem.BurgerToppings.Add(new BurgerTopping { Name = toppingName });
                 }
                 order.BurgerItems.Add(burgerItem);

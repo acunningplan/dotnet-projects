@@ -6,6 +6,9 @@ using Xunit;
 using System.Collections.Generic;
 using System;
 using Burgler.BusinessLogic.OrderLogic;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Xunit.Abstractions;
 
 namespace Burgler.UnitTests
 {
@@ -41,27 +44,26 @@ namespace Burgler.UnitTests
         [Fact]
         public async void ShouldGetListOfOrdersByUser()
         {
+            //var services = new ServiceCollection()
+            //    .AddLogging((builder) => builder.AddXUnit(OutputHelper))
+            //    .AddSingleton<BaseApiTests>();
+
             HttpResponseMessage response = await ClientWithToken.GetAsync($"{ApiUrl}/order");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var responseString = await response.Content.ReadAsStringAsync();
-            try
-            {
-                var orders = DeserializeString<List<Order>>(responseString);
-                Assert.NotNull(orders);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false, e.ToString());
-            }
+            var orders = DeserializeString<List<Order>>(responseString);
+
+            Assert.NotNull(orders);
         }
 
         [Fact]
         public async void ShouldCreateAndGetAndDelete()
         {
-            //var orderObject = new Order { BurgerItems = new List<BurgerItem> { new BurgerItem() } };
             var orderCommand = new CreateCommand();
-            //orderCommand.BurgerItems.Add(new BurgerItem());
+            var orderJson = new BurgerItemJson();
+            orderJson.BurgerToppings.Add("Bacon");
+            orderCommand.BurgerItems.Add(orderJson);
             await ClientWithToken.PostAsync($"{ApiUrl}/order", SerializeToJson(orderCommand));
 
             HttpResponseMessage response = await ClientWithToken.GetAsync($"{ApiUrl}/order");

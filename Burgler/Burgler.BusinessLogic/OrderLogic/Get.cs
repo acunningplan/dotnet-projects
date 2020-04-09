@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
@@ -21,13 +22,15 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             return order;
         }
-        public static async Task<List<Order>> GetManyMethod(BurglerContext dbContext, IUserServices userServices)
+        public static async Task<List<OrderDto>> GetManyMethod(BurglerContext dbContext, IUserServices userServices, IMapper _mapper)
         {
             string username = userServices.GetCurrentUsername();
 
             var orders = await dbContext.Orders.Where(order => order.User.UserName == username).ToListAsync();
 
-            return orders;
+            var ordersToReturn = _mapper.Map<List<Order>, List<OrderDto>>(orders);
+
+            return ordersToReturn;
         }
     }
 }
