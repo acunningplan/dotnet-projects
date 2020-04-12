@@ -1,7 +1,9 @@
 ﻿using Burgler.Entities.FoodItem;
+using Burgler.Entities.Ingredients;
 using Burgler.Entities.User;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Burgler.Entities.OrderNS
 {
@@ -11,7 +13,7 @@ namespace Burgler.Entities.OrderNS
         public DateTime OrderedAt { get; set; }
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }
-        public bool Cancelled { get; set; }
+        public DateTime CancelledAt { get; set; }
         public virtual ICollection<BurgerItem> BurgerItems { get; set; } = new List<BurgerItem>();
         public virtual ICollection<SideItem> SideItems { get; set; } = new List<SideItem>();
         public virtual ICollection<DrinkItem> DrinkItems { get; set; } = new List<DrinkItem>();

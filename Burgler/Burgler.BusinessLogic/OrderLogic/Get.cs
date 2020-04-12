@@ -15,7 +15,7 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class Get
     {
-        public static async Task<Order> GetMethod(string id, BurglerContext dbContext)
+        public static async Task<Order> GetMethod(Guid id, BurglerContext dbContext)
         {
             var order = await dbContext.Orders.FindAsync(id) ??
                 throw new RestException(HttpStatusCode.NotFound, "Order not found");

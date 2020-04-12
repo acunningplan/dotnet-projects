@@ -95,16 +95,16 @@ namespace BurglerApp
                     };
                 });
 
-
             services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Add middleware here
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            // Order of middleware is important:
+            // Logging goes first, Error handling second
             app.UseMiddleware<ApiResponseLoggingMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             //if (env.IsDevelopment())
             //{

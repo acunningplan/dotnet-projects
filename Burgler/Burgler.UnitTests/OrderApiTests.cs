@@ -24,7 +24,7 @@ namespace Burgler.UnitTests
         [Fact]
         public async void ShouldReturnBadRequest()
         {
-            var orderObject = new { bad_Content = "asdf" };
+            var orderObject = new { SideItems = new SideItem { Name = "asdf" } };
             HttpResponseMessage response = await ClientWithToken.PostAsync($"{ApiUrl}/order", SerializeToJson(orderObject));
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -33,9 +33,8 @@ namespace Burgler.UnitTests
         public async void ShouldCreateOrderWithBurgerItem()
         {
             var orderCommand = new CreateCommand();
-            var orderJson = new BurgerItemJson();
-            orderJson.BurgerToppings.Add("Bacon");
-            orderJson.BurgerToppings.Add("Egg");
+            var orderJson = new BurgerItemDto();
+            orderJson.BurgerToppings.Add(new BurgerToppingDto { Name = "Egg" });
             orderCommand.BurgerItems.Add(orderJson);
             HttpResponseMessage response = await ClientWithToken.PostAsync($"{ApiUrl}/order", SerializeToJson(orderCommand));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -44,10 +43,6 @@ namespace Burgler.UnitTests
         [Fact]
         public async void ShouldGetListOfOrdersByUser()
         {
-            //var services = new ServiceCollection()
-            //    .AddLogging((builder) => builder.AddXUnit(OutputHelper))
-            //    .AddSingleton<BaseApiTests>();
-
             HttpResponseMessage response = await ClientWithToken.GetAsync($"{ApiUrl}/order");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -58,16 +53,15 @@ namespace Burgler.UnitTests
         }
 
         [Fact]
-        public async void ShouldCreateAndGetAndDelete()
+        public async void ShouldDeleteAnOrderAfterCreatingOne()
         {
             var orderCommand = new CreateCommand();
-            var orderJson = new BurgerItemJson();
-            orderJson.BurgerToppings.Add("Bacon");
+            var orderJson = new BurgerItemDto();
+            orderJson.BurgerToppings.Add(new BurgerToppingDto { Name = "Bacon" });
             orderCommand.BurgerItems.Add(orderJson);
             await ClientWithToken.PostAsync($"{ApiUrl}/order", SerializeToJson(orderCommand));
 
             HttpResponseMessage response = await ClientWithToken.GetAsync($"{ApiUrl}/order");
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var responseString = await response.Content.ReadAsStringAsync();
             var orders = DeserializeString<List<Order>>(responseString);
 

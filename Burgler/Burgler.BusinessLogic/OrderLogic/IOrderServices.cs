@@ -8,11 +8,11 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public interface IOrderServices
     {
-        Task<Order> GetOrder(string Id);
+        Task<Order> GetOrder(Guid Id);
         Task<List<OrderDto>> GetListOfOrders();
         Task CreateOrder(CreateCommand command);
         Task EditOrder(EditCommand command);
-        Task CancelOrder(string Id);
+        Task ChangeOrderStatus(ChangeStatusCommand command);
         Task DeleteOrder(Guid Id);
     }
 }

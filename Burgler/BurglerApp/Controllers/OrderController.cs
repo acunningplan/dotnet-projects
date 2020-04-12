@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Burgler.BusinessLogic.OrderLogic;
+﻿using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.OrderNS;
-using BurglerContextLib;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BurglerApp.Controllers
 {
@@ -22,15 +19,6 @@ namespace BurglerApp.Controllers
             _orderServices = orderServices;
         }
 
-        //private readonly BurglerContext _dbContext;
-        //private readonly OrderServices _orderServices;
-
-        //public OrderController(BurglerContext dbContext)
-        //{
-        //    _dbContext = dbContext;
-        //    _orderServices = new OrderServices(_dbContext);
-        //}
-
         [HttpGet]
         [Authorize]
         public async Task<List<OrderDto>> GetListOfOrders()
@@ -39,7 +27,7 @@ namespace BurglerApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Order> GetOrder(string id)
+        public async Task<Order> GetOrder(Guid id)
         {
             return await _orderServices.GetOrder(id);
         }
@@ -51,16 +39,16 @@ namespace BurglerApp.Controllers
             await _orderServices.CreateOrder(command);
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("edit")]
         public async Task EditOrder(EditCommand command)
         {
             await _orderServices.EditOrder(command);
         }
 
-        [HttpPatch("{id}")]
-        public async Task CancelOrder(string id)
+        [HttpPatch("cancel/{id}")]
+        public async Task ChangeOrderStatus(ChangeStatusCommand command)
         {
-            await _orderServices.CancelOrder(id);
+            await _orderServices.ChangeOrderStatus(command);
         }
 
         [HttpDelete("{id}")]
