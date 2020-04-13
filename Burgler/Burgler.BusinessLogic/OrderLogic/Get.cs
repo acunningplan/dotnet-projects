@@ -15,10 +15,15 @@ namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class Get
     {
-        public static async Task<Order> GetMethod(Guid id, BurglerContext dbContext)
+        public static async Task<Order> GetMethod(Guid id, BurglerContext dbContext, IMapper _mapper)
         {
             var order = await dbContext.Orders.FindAsync(id) ??
                 throw new RestException(HttpStatusCode.NotFound, "Order not found");
+
+            var orderToReturn = _mapper.Map<Order, OrderDto>(order);
+
+            orderToReturn.Price = order.CalculateCalories();
+            orderToReturn.Calories = order.CalculatePrice();
 
             return order;
         }

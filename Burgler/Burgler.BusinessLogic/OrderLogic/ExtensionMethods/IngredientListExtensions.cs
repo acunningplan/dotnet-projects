@@ -10,13 +10,13 @@ namespace Burgler.BusinessLogic.OrderLogic
     {
         public static Ingredient SelectByName(this List<Ingredient> ingList, string ingName)
         {
-            return ingList.Find(ing => ing.Name == ingName.ConvertToTitleCase()) ??
-                throw new RestException(HttpStatusCode.BadRequest, "Food item not found");
+            if (string.IsNullOrEmpty(ingName)) return null;
+            return ingList.Find(ing => ing.Name == ingName.ConvertToTitleCase());
         }
         public static Ingredient SelectByNameAndSize(this List<Ingredient> ingList, string name, string size)
         {
-            return ingList.Find(ing => ing.Name == name.ConvertToTitleCase() & ing.Size == size.ConvertToTitleCase()) ??
-                throw new RestException(HttpStatusCode.BadRequest, "Food item not found");
+            if (string.IsNullOrEmpty(name) | string.IsNullOrEmpty(size)) return null;
+            return ingList.Find(ing => ing.Name == name.ConvertToTitleCase() & ing.Size == size.ConvertToTitleCase());
         }
         public static Ingredient SelectDefault(this List<Ingredient> ingList)
         {

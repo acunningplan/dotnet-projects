@@ -45,10 +45,10 @@ namespace BurglerApp.Controllers
             await _orderServices.EditOrder(command);
         }
 
-        [HttpPatch("cancel/{id}")]
-        public async Task ChangeOrderStatus(ChangeStatusCommand command)
+        [HttpPatch("change/{id}")]
+        public async Task ChangeOrderStatus(ChangeStatusCommand command, Guid id)
         {
-            await _orderServices.ChangeOrderStatus(command);
+            await _orderServices.ChangeOrderStatus(command, id);
         }
 
         [HttpDelete("{id}")]

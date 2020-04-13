@@ -14,7 +14,6 @@ namespace Burgler.BusinessLogic.OrderLogic
     }
     public class ChangeStatusCommand
     {
-        public Guid Id { get; set; }
         public int StatusChange { get; set; }
     }
     public class ChangeStatusCommandValidator : AbstractValidator<ChangeStatusCommand>
@@ -26,9 +25,9 @@ namespace Burgler.BusinessLogic.OrderLogic
     }
     public static class ChangeStatus
     {
-        public static async Task ChangeStatusMethod(ChangeStatusCommand command, BurglerContext dbContext)
+        public static async Task ChangeStatusMethod(ChangeStatusCommand command, Guid id, BurglerContext dbContext)
         {
-            var order = await dbContext.Orders.FindAsync(command.Id) ??
+            var order = await dbContext.Orders.FindAsync(id) ??
                 throw new RestException(HttpStatusCode.NotFound, "Order not found");
 
             switch ((ChangeStatusType)command.StatusChange)

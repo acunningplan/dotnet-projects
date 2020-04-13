@@ -12,7 +12,7 @@ namespace Burgler.BusinessLogic.OrderLogic
         Task<List<OrderDto>> GetListOfOrders();
         Task CreateOrder(CreateCommand command);
         Task EditOrder(EditCommand command);
-        Task ChangeOrderStatus(ChangeStatusCommand command);
+        Task ChangeOrderStatus(ChangeStatusCommand command, Guid id);
         Task DeleteOrder(Guid Id);
     }
 }

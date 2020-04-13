@@ -33,7 +33,6 @@ namespace Burgler.BusinessLogic.OrderLogic
                 throw new RestException(HttpStatusCode.Unauthorized, "No user with given username.");
 
             order.User = user;
-            order.OrderedAt = DateTime.Now;
             dbContext.Orders.Add(order);
 
             _ = await dbContext.SaveChangesAsync() > 0 ? true :

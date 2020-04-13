@@ -17,7 +17,7 @@ namespace Burgler.Entities.OrderNS
         public virtual ICollection<BurgerItem> BurgerItems { get; set; } = new List<BurgerItem>();
         public virtual ICollection<SideItem> SideItems { get; set; } = new List<SideItem>();
         public virtual ICollection<DrinkItem> DrinkItems { get; set; } = new List<DrinkItem>();
-        public string FurtherDescription { get; set; }
+        public string FurtherDescription { get; set; } = "None";
         public Guid UserId { get; set; }
         public virtual AppUser User { get; set; }
     }
