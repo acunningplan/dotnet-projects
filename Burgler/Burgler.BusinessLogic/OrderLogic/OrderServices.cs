@@ -22,13 +22,14 @@ namespace Burgler.BusinessLogic.OrderLogic
         }
 
         // Queries
-        public async Task<Order> GetOrder(Guid id) => await Get.GetMethod(id, _dbContext);
+        public async Task<OrderDto> GetOrder(Guid id) => await Get.GetMethod(id, _dbContext, _mapper);
         public async Task<List<OrderDto>> GetListOfOrders() => await Get.GetManyMethod(_dbContext, _userServices, _mapper);
 
         // Commands
         public async Task CreateOrder(CreateCommand cmd) => await Create.CreateMethod(cmd, _dbContext, _userServices, _mapper);
         public async Task EditOrder(EditCommand cmd) => await Edit.EditMethod(cmd, _dbContext, _mapper);
         public async Task ChangeOrderStatus(ChangeStatusCommand cmd, Guid id) => await ChangeStatus.ChangeStatusMethod(cmd, id, _dbContext);
+        public async Task StaffUpdateOrder(StaffUpdateCommand cmd, Guid id) => await StaffUpdate.StaffUpdateOrder(cmd, id, _dbContext);
         public async Task DeleteOrder(Guid id) => await Delete.DeleteMethod(id, _dbContext);
     }
 }

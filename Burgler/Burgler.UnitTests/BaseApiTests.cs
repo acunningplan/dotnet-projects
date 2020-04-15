@@ -16,12 +16,6 @@ namespace Burgler.UnitTests
         public BaseApiTests()
         {
             Login().Wait();
-
-            var userData = DeserializeString<UserData>(LoginContent);
-
-            ClientWithToken = new HttpClient();
-            ClientWithToken.BaseAddress = new Uri(ApiUrl);
-            ClientWithToken.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userData.Token);
         }
         protected string ApiUrl { get; set; } = "http://localhost:5000/api";
         protected HttpClient Client { get; set; } = new HttpClient();
@@ -46,7 +40,12 @@ namespace Burgler.UnitTests
             var loginContent = SerializeToJson(loginObject);
             LoginResponse = await Client.PostAsync($"{ApiUrl}/user/login", loginContent);
             LoginContent = await LoginResponse.Content.ReadAsStringAsync();
-        }
 
+            var userData = DeserializeString<UserData>(LoginContent);
+
+            ClientWithToken = new HttpClient();
+            ClientWithToken.BaseAddress = new Uri(ApiUrl);
+            ClientWithToken.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userData.Token);
+        }
     }
 }

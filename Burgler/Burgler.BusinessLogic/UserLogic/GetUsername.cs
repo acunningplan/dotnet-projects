@@ -30,6 +30,7 @@ namespace Burgler.BusinessLogic.UserLogic
             {
                 DisplayName = user.DisplayName,
                 Username = user.UserName,
+                Staff = user.Staff,
                 Token = jwtServices.CreateToken(user),
                 Image = null
             };

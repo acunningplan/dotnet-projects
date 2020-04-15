@@ -13,5 +13,6 @@ namespace Burgler.BusinessLogic.UserLogic
         Task<UserData> RegisterUser(RegisterCommand query);
         string GetCurrentUsername();
         Task<UserData> GetCurrentUser();
+        Task<FBUserInfo> LoginUserByFB(string accessToken);
     }
 }

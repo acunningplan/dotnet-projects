@@ -20,20 +20,18 @@ namespace BurglerApp.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<List<OrderDto>> GetListOfOrders()
         {
             return await _orderServices.GetListOfOrders();
         }
 
         [HttpGet("{id}")]
-        public async Task<Order> GetOrder(Guid id)
+        public async Task<OrderDto> GetOrder(Guid id)
         {
             return await _orderServices.GetOrder(id);
         }
 
         [HttpPost]
-        [Authorize]
         public async Task CreateOrder(CreateCommand command)
         {
             await _orderServices.CreateOrder(command);
@@ -51,7 +49,15 @@ namespace BurglerApp.Controllers
             await _orderServices.ChangeOrderStatus(command, id);
         }
 
+        [HttpPatch("staff/{id}")]
+        [Authorize(Policy = "IsStaff")]
+        public async Task StaffUpdateOrder(StaffUpdateCommand command, Guid id)
+        {
+            await _orderServices.StaffUpdateOrder(command, id);
+        }
+
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsStaff")]
         public async Task DeleteOrder(Guid id)
         {
             await _orderServices.DeleteOrder(id);

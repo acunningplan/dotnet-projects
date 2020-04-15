@@ -19,6 +19,7 @@ namespace Burgler.UnitTests
         {
             HttpResponseMessage response = await ClientWithToken.GetAsync($"{ApiUrl}/order");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Burgler.UnitTests
             orderJson.BurgerToppings.Add(new BurgerToppingDto { Name = "Egg" });
             orderCommand.BurgerItems.Add(orderJson);
             HttpResponseMessage response = await ClientWithToken.PostAsync($"{ApiUrl}/order", SerializeToJson(orderCommand));
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
@@ -55,6 +56,9 @@ namespace Burgler.UnitTests
         [Fact]
         public async void ShouldDeleteAnOrderAfterCreatingOne()
         {
+            // Chelsea is a staff member and is allowed to delete an order
+            await Login("chelsea");
+
             var orderCommand = new CreateCommand();
             var orderJson = new BurgerItemDto();
             orderJson.BurgerToppings.Add(new BurgerToppingDto { Name = "Bacon" });
@@ -67,7 +71,7 @@ namespace Burgler.UnitTests
 
             Guid id = orders[0].OrderId;
             HttpResponseMessage deleteResponse = await ClientWithToken.DeleteAsync($"{ApiUrl}/order/{id}");
-            Assert.Equal(HttpStatusCode.OK, deleteResponse.StatusCode);
+            Assert.True(deleteResponse.IsSuccessStatusCode);
         }
     }
 }

@@ -3,6 +3,7 @@ using Burgler.Entities.User;
 using BurglerContextLib;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
@@ -28,5 +29,6 @@ namespace Burgler.BusinessLogic.UserLogic
         public async Task<UserData> RegisterUser(RegisterCommand command) => await Register.RegisterMethod(command, _dbContext, _userManager);
         public string GetCurrentUsername() => GetUsername.GetUsernameMethod(_httpContextAccessor);
         public async Task<UserData> GetCurrentUser() => await GetUsername.GetUserMethod(_httpContextAccessor, _userManager, _jwtServices);
+        public async Task<FBUserInfo> LoginUserByFB(string accessToken) => await LoginByFB.LoginByFBMethod(accessToken);
     }
 }

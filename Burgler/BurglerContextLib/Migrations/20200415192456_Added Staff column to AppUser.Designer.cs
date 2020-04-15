@@ -4,14 +4,16 @@ using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BurglerContextLib.Migrations
 {
     [DbContext(typeof(BurglerContext))]
-    partial class BurglerContextModelSnapshot : ModelSnapshot
+    [Migration("20200415192456_Added Staff column to AppUser")]
+    partial class AddedStaffcolumntoAppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

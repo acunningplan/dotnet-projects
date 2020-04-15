@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.BusinessLogic.JwtLogic;
 using FluentValidation.AspNetCore;
@@ -23,8 +22,9 @@ using Newtonsoft.Json;
 using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 using BurglerApp.Middleware;
-
 using AutoMapper;
+using System;
+using BurglerApp.Authorisation;
 
 namespace BurglerApp
 {
@@ -41,12 +41,11 @@ namespace BurglerApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews(
-            //    opt =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            //    opt.Filters.Add(new AuthorizeFilter(policy));
-            //}
-            )
+                opt =>
+                {
+                    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    //opt.Filters.Add(new AuthorizeFilter(policy));
+                })
                 .AddFluentValidation(cfg =>
                 {
                     cfg.RegisterValidatorsFromAssemblyContaining<CreateCommand>();
@@ -68,12 +67,28 @@ namespace BurglerApp
                      Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddIdentityCore<AppUser>()
+            services
+                //.AddIdentity<AppUser>()
+                .AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<BurglerContext>()
+                //.AddRoles<IdentityRole>()
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 
+            //var builder = services.AddIdentityCore<AppUser>();
+            //var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            //identityBuilder.AddEntityFrameworkStores<BurglerContext>();
+            //identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsStaff", policy =>
+                {
+                    //policy.RequireRole();
+                    policy.Requirements.Add(new IsStaffRequirement());
+                });
+            });
+            services.AddTransient<IAuthorizationHandler, IsStaffRequirementHandler>();
 
             services.AddScoped<IOrderServices, OrderServices>();
 
@@ -94,8 +109,6 @@ namespace BurglerApp
                         ValidateIssuer = false
                     };
                 });
-
-            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

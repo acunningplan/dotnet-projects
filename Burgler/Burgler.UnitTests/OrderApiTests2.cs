@@ -54,8 +54,8 @@ namespace Burgler.UnitTests
             HttpResponseMessage response = await ClientWithToken.PatchAsync($"{ApiUrl}/order/change/{orderId}", SerializeToJson(command));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            //var editedOrder = await GetOrder(orderId);
-            //Assert.Equal(typeof(editedOrder.OrderedAt));
+            var placedOrder = await GetOrder(orderId);
+            Assert.NotEqual(DateTime.MinValue, placedOrder.OrderedAt);
         }
         [Fact]
         public async void ShouldCancelOrder()
@@ -66,8 +66,9 @@ namespace Burgler.UnitTests
             var command = new ChangeStatusCommand { StatusChange = (int)ChangeStatusType.Cancel };
             HttpResponseMessage response = await ClientWithToken.PatchAsync($"{ApiUrl}/order/change/{orderId}", SerializeToJson(command));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var cancelledOrder = await GetOrder(orderId);
+            Assert.NotEqual(DateTime.MinValue, cancelledOrder.CancelledAt);
         }
-
-
     }
 }

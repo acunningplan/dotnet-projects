@@ -13,7 +13,7 @@ namespace Burgler.UnitTests
             try
             {
                 HttpResponseMessage response = await Client.PostAsync($"{ApiUrl}/order", new StringContent("No token attached"));
-                Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+                Assert.NotEqual(HttpStatusCode.OK, response.StatusCode);
             }
             catch (HttpRequestException e)
             {

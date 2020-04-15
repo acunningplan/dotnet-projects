@@ -33,7 +33,8 @@ namespace BurglerContextLib
                         {
                         DisplayName = "Chelsea",
                         UserName = "chelsea",
-                        Email = "chelsea@test.com"
+                        Email = "chelsea@test.com",
+                        Staff = "Server"
                         },
                     };
 

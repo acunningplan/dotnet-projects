@@ -17,5 +17,6 @@ namespace Burgler.Entities.User
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public string Staff { get; set; }
     }
 }

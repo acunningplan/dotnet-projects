@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Burgler.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BurglerApp.Controllers
 {
@@ -17,13 +18,14 @@ namespace BurglerApp.Controllers
             _userServices = userServices;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserData>> Login(LoginQuery query)
         {
-            var userData = await _userServices.LoginUser(query);
-            return userData;
+            return await _userServices.LoginUser(query);
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task Register(RegisterCommand command)
         {
