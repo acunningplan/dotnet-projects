@@ -29,6 +29,7 @@ namespace Burgler.BusinessLogic.UserLogic
         public async Task<UserData> RegisterUser(RegisterCommand command) => await Register.RegisterMethod(command, _dbContext, _userManager);
         public string GetCurrentUsername() => GetUsername.GetUsernameMethod(_httpContextAccessor);
         public async Task<UserData> GetCurrentUser() => await GetUsername.GetUserMethod(_httpContextAccessor, _userManager, _jwtServices);
-        public async Task<FBUserInfo> LoginUserByFB(string accessToken) => await LoginByFB.LoginByFBMethod(accessToken);
+        public async Task<UserData> LoginUserByFB(ExternalFBLogin.Query query) => await ExternalFBLogin.ExternalFBLoginMethod(query, _userManager, _jwtServices);
+        public async Task<UserData> LoginUserByGoogle(ExternalGoogleLogin.Query query) => await ExternalGoogleLogin.ExternalGoogleLoginMethod(query, _userManager, _jwtServices);
     }
 }

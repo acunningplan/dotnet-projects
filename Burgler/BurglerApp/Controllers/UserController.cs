@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Burgler.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace BurglerApp.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowedOrigins")]
     [ApiController]
     public class UserController
     {
@@ -37,6 +39,22 @@ namespace BurglerApp.Controllers
         {
             var userData = await _userServices.GetCurrentUser();
             return userData;
+        }
+
+        [AllowAnonymous]
+        //[EnableCors("AllowedOrigins")]
+        [HttpPost("facebook")]
+        public async Task<UserData> FacebookLogin(ExternalFBLogin.Query query)
+        {
+            return await _userServices.LoginUserByFB(query);
+        }
+
+        [AllowAnonymous]
+        //[EnableCors("AllowedOrigins")]
+        [HttpPost("google")]
+        public async Task<UserData> GoogleLogin(ExternalGoogleLogin.Query query)
+        {
+            return await _userServices.LoginUserByGoogle(query);
         }
     }
 }

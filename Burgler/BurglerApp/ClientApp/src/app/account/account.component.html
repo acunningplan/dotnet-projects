@@ -1,1 +1,32 @@
-<p>account works!</p>
+<div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signInWithFB()"
+    *ngIf="loggedIn === false"
+    mat-flat-button
+    color="primary"
+  >
+    Sign In With Facebook
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signInWithGoogle()"
+    *ngIf="loggedIn === false"
+    mat-flat-button
+    color="primary"
+  >
+    Sign In With Google
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signOut()"
+    *ngIf="loggedIn === true"
+    mat-flat-button
+    color="primary"
+  >
+    Sign Out
+  </button>
+</div>

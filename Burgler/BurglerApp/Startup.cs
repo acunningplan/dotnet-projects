@@ -14,6 +14,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Burgler.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -25,11 +27,14 @@ using BurglerApp.Middleware;
 using AutoMapper;
 using System;
 using BurglerApp.Authorisation;
+using System.IO;
+using BurglerApp.Authentication;
 
 namespace BurglerApp
 {
     public class Startup
     {
+        private readonly string AllowedOrigins = "AllowedOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -40,6 +45,15 @@ namespace BurglerApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+                options.AddPolicy(name: AllowedOrigins,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                    })
+            );
             services.AddControllersWithViews(
                 opt =>
                 {
@@ -97,10 +111,10 @@ namespace BurglerApp
 
             services.AddAutoMapper(typeof(CreateCommand));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -109,6 +123,22 @@ namespace BurglerApp
                         ValidateIssuer = false
                     };
                 });
+
+            //services.AddAuthentication()
+            //        .AddGoogle(options =>
+            //        {
+            //            // Read Google auth info from json file
+            //            GoogleAuthInfo authInfo;
+
+            //            using (StreamReader r = new StreamReader("google-auth.json"))
+            //            {
+            //                string json = r.ReadToEnd();
+            //                authInfo = System.Text.Json.JsonSerializer.Deserialize<GoogleAuthInfo>(json);
+            //            }
+
+            //            options.ClientId = authInfo.web.client_id;
+            //            options.ClientSecret = authInfo.web.client_secret;
+            //        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,7 +168,8 @@ namespace BurglerApp
             }
 
             app.UseRouting();
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
+            app.UseCors(AllowedOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
