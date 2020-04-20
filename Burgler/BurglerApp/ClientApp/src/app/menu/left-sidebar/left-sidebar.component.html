@@ -1,0 +1,82 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>Make it a meal:</h3>
+  </div>
+
+  <ul class="list-unstyled components">
+    <li *ngFor="let category of menu | keyvalue: sortJson">
+      <a
+        [href]="'#' + category.key"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >{{ category.key }}</a
+      >
+      <ul class="collapse list-unstyled" [id]="category.key">
+        <li *ngFor="let subcategory of category.value | keyvalue: sortJson">
+          <a [routerLink]="" (click)="onClickSubcategory(subcategory.value)">
+            {{ subcategory.key }}
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    <!-- <li>
+      <a
+        href="#homeSubmenu"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >Beefy Burgers</a
+      >
+      <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li *ngFor="let burger of burgers">
+          <a [routerLink]="" (click)="onClick()">
+            {{ burger }}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        href="#pageSubmenu"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >Sides</a
+      >
+      <ul class="collapse list-unstyled" id="pageSubmenu">
+        <li *ngFor="let side of sides">
+          <a [routerLink]="" (click)="onClick()">
+            {{ side }}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        href="#pageSubmenu2"
+        data-toggle="collapse"
+        aria-expanded="false"
+        (click)="onClick()"
+        >Chicken</a
+      >
+    </li>
+    <li>
+      <a
+        href="#drinkSubmenu"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >Drinks</a
+      >
+      <ul class="collapse list-unstyled" id="drinkSubmenu">
+        <li>
+          <a [routerLink]="" (click)="onClick()">Hot</a>
+        </li>
+        <li>
+          <a [routerLink]="" (click)="onClick()">Cold</a>
+        </li>
+      </ul>
+    </li> -->

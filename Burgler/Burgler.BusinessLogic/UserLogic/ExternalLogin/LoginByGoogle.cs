@@ -21,8 +21,8 @@ namespace Burgler.BusinessLogic.UserLogic
         {
             var httpClient = new HttpClient() { BaseAddress = new Uri("https://www.googleapis.com/oauth2/v2/") };
             var response = await httpClient.GetAsync($"userinfo?access_token={accessToken}");
-            //if (response.IsSuccessStatusCode)
-            //    throw new RestException(response.StatusCode, "Problem getting Google user info");
+            if (!response.IsSuccessStatusCode)
+                throw new RestException(response.StatusCode, "Problem getting Google user info");
 
             var result = JsonSerializer.Deserialize<GoogleResponse>(await response.Content.ReadAsStringAsync());
 

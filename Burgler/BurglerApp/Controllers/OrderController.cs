@@ -10,6 +10,7 @@ namespace BurglerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderServices _orderServices;
@@ -20,9 +21,15 @@ namespace BurglerApp.Controllers
         }
 
         [HttpGet]
-        public async Task<List<OrderDto>> GetListOfOrders()
+        public async Task<List<OrderDto>> GetPendingOrders()
         {
-            return await _orderServices.GetListOfOrders();
+            return await _orderServices.GetPendingOrders();
+        }
+
+        [HttpGet("placed")]
+        public async Task<List<OrderDto>> GetPlacedOrders()
+        {
+            return await _orderServices.GetPlacedOrders();
         }
 
         [HttpGet("{id}")]

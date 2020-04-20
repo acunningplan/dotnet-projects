@@ -14,29 +14,12 @@ import { AboutComponent } from "./about/about.component";
 import { MenuComponent } from "./menu/menu.component";
 import { Oauth2RedirectComponent } from "./oauth2-redirect/oauth2-redirect.component";
 
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-} from "angularx-social-login";
-
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(
-      "350645675339-c8pshk7k3ih1qtvjn4vhtat5d4h63nha.apps.googleusercontent.com"
-    ),
-  },
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider("233736334505512"),
-  },
-]);
-
-export function provideConfig() {
-  return config;
-}
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { AuthInterceptorService } from "./interceptors/auth-interceptor.service";
+import { provideConfig } from "./auth-service/auth-service-config";
+import { LoggingInterceptorService } from "./interceptors/logging-interceptor.service";
+import { LeftSidebarComponent } from './menu/left-sidebar/left-sidebar.component';
+import { RightSidebarComponent } from './menu/right-sidebar/right-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +32,8 @@ export function provideConfig() {
     AboutComponent,
     MenuComponent,
     Oauth2RedirectComponent,
+    LeftSidebarComponent,
+    RightSidebarComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -64,7 +49,19 @@ export function provideConfig() {
       { path: "oauth2callback", component: Oauth2RedirectComponent },
     ]),
   ],
-  providers: [{ provide: AuthServiceConfig, useFactory: provideConfig }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+    { provide: AuthServiceConfig, useFactory: provideConfig },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -14,6 +14,7 @@ namespace Burgler.Entities.OrderNS
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }
         public DateTime CancelledAt { get; set; }
+        public DateTime PickupTime { get; set; }
         public virtual ICollection<BurgerItem> BurgerItems { get; set; } = new List<BurgerItem>();
         public virtual ICollection<SideItem> SideItems { get; set; } = new List<SideItem>();
         public virtual ICollection<DrinkItem> DrinkItems { get; set; } = new List<DrinkItem>();

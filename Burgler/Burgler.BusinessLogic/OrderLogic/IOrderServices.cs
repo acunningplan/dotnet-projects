@@ -9,7 +9,8 @@ namespace Burgler.BusinessLogic.OrderLogic
     public interface IOrderServices
     {
         Task<OrderDto> GetOrder(Guid Id);
-        Task<List<OrderDto>> GetListOfOrders();
+        Task<List<OrderDto>> GetPendingOrders();
+        Task<List<OrderDto>> GetPlacedOrders();
         Task CreateOrder(CreateCommand command);
         Task EditOrder(EditCommand command);
         Task ChangeOrderStatus(ChangeStatusCommand command, Guid id);

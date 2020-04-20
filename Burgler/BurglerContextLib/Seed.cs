@@ -46,32 +46,7 @@ namespace BurglerContextLib
 
             if (!context.Orders.Any())
             {
-                //var tripCards = new List<TripCard>
-                //    {
-                //    new TripCard
-                //    {
-                //        Name = "Bristol",
-                //        Date = DateTime.Now.AddMonths(-3),
-                //        Description = "Beautiful city!",
-                //        UserTripCard = new UserTripCard
-                //        {
-                //        AppUserId = "sam",
-                //        DateCreated = DateTime.Now.AddDays(-2),
-                //        }
-                //    },
-                //    new TripCard
-                //    {
-                //        Name = "Vienna",
-                //        Date = DateTime.Now.AddMonths(-2),
-                //        Description = "Imperial city!",
-                //        UserTripCard = new UserTripCard
-                //        {
-                //        AppUserId = "ed",
-                //        DateCreated = DateTime.Now.AddDays(-3),
-                //        }
-                //    }
-
-                //context.Orders.AddRange(tripCards);
+                // Seed orders if you want
                 context.SaveChanges();
             }
 

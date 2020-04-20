@@ -1,57 +1,16 @@
 <div class="wrapper">
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <h3>Make it a meal:</h3>
-    </div>
+  <app-left-sidebar></app-left-sidebar>
 
-    <ul class="list-unstyled components">
-      <li>
-        <a
-          href="#homeSubmenu"
-          data-toggle="collapse"
-          aria-expanded="false"
-          class="dropdown-toggle"
-          >Beefy Burgers</a
-        >
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li *ngFor="let burger of burgers">
-            <a [routerLink]="" (click)="onClick()">
-              {{ burger }}
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a
-          href="#pageSubmenu"
-          data-toggle="collapse"
-          aria-expanded="false"
-          class="dropdown-toggle"
-          >Chips and Sides</a
-        >
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li>
-            <a href="#">Regular chips</a>
-          </li>
-        </ul>
-      </li>
-      <li *ngFor="let item of menu">
-        <a
-          href="#pageSubmenu"
-          data-toggle="collapse"
-          aria-expanded="false"
-          class="dropdown-toggle"
-          >{{ item }}</a
-        >
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li>
-            <a href="#">aadsf</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Drinks</a>
-      </li>
-    </ul>
-  </nav>
+  <div class="card">
+    <h5 class="card-header">Featured</h5>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">
+        With supporting text below as a natural lead-in to additional content.
+      </p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+  
+  <app-right-sidebar></app-right-sidebar>
 </div>

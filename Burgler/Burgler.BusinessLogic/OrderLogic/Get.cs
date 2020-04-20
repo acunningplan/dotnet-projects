@@ -27,20 +27,5 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             return orderToReturn;
         }
-        public static async Task<List<OrderDto>> GetManyMethod(BurglerContext dbContext, IUserServices userServices, IMapper _mapper)
-        {
-            string username = userServices.GetCurrentUsername();
-
-            var orders = await dbContext.Orders.Where(
-                order =>
-                    order.User.UserName == username
-                    & DateTime.MinValue == order.CancelledAt
-                    & DateTime.MinValue == order.FoodTakenAt
-            ).ToListAsync();
-
-            var ordersToReturn = _mapper.Map<List<Order>, List<OrderDto>>(orders);
-
-            return ordersToReturn;
-        }
     }
 }

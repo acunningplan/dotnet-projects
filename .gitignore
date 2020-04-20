@@ -1,4 +1,8 @@
-node_modules
+JupyterLab/
+Learning/
+CleanArchitecture/
+
+node_modules/
 
 app-settings.txt
 

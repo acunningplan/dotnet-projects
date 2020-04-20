@@ -3,11 +3,11 @@ import {
   AuthService,
   FacebookLoginProvider,
   GoogleLoginProvider,
-  SocialUser,
 } from "angularx-social-login";
 import { HttpClient } from "@angular/common/http";
 import { signInResponse } from "../interfaces/interfaces";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-account",
@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./account.component.css"],
 })
 export class AccountComponent implements OnInit {
-  user: SocialUser;
+  userName: string;
   loggedIn: boolean;
 
   constructor(
@@ -25,17 +25,19 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loggedIn = window.localStorage.getItem("token") != null;
+    this.loggedIn = window.localStorage.getItem("burglerToken") != null;
+    this.userName = window.localStorage.getItem("burglerUsername");
   }
 
   sendToken(authToken, path) {
     this.http
-      .post<signInResponse>(`http://localhost:5000/api/user/${path}`, {
+      .post<signInResponse>(`${environment.serverUrl}/user/${path}`, {
         AccessToken: authToken,
       })
       .subscribe((res) => {
         this.router.navigate(["/"]);
-        window.localStorage.setItem("token", res.token);
+        window.localStorage.setItem("burglerToken", res.token);
+        window.localStorage.setItem("burglerUsername", res.displayName);
       });
   }
 
@@ -54,6 +56,7 @@ export class AccountComponent implements OnInit {
   signOut() {
     this.authService.signOut();
     this.router.navigate(["/"]);
-    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("burglerToken");
+    window.localStorage.removeItem("burglerUsername");
   }
 }
