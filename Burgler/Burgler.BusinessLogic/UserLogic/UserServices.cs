@@ -25,11 +25,17 @@ namespace Burgler.BusinessLogic.UserLogic
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<UserData> LoginUser(LoginQuery query) => await Login.LoginMethod(query, _userManager, _signInManager, _jwtServices);
-        public async Task<UserData> RegisterUser(RegisterCommand command) => await Register.RegisterMethod(command, _dbContext, _userManager);
-        public string GetCurrentUsername() => GetUsername.GetUsernameMethod(_httpContextAccessor);
-        public async Task<UserData> GetCurrentUser() => await GetUsername.GetUserMethod(_httpContextAccessor, _userManager, _jwtServices);
-        public async Task<UserData> LoginUserByFB(ExternalFBLogin.Query query) => await ExternalFBLogin.ExternalFBLoginMethod(query, _userManager, _jwtServices);
-        public async Task<UserData> LoginUserByGoogle(ExternalGoogleLogin.Query query) => await ExternalGoogleLogin.ExternalGoogleLoginMethod(query, _userManager, _jwtServices);
+        public async Task<UserData> LoginUser(LoginQuery query) =>
+            await Login.LoginMethod(query, _userManager, _signInManager, _jwtServices);
+        public async Task<UserData> RegisterUser(RegisterCommand command) =>
+            await Register.RegisterMethod(command, _dbContext, _userManager);
+        public string GetCurrentUsername() =>
+            GetUsername.GetUsernameMethod(_httpContextAccessor);
+        public async Task<UserData> GetCurrentUser() =>
+            await GetUsername.GetUserMethod(_httpContextAccessor, _userManager, _jwtServices);
+        public async Task<UserData> LoginUserByFB(ExternalLogin.Query query) =>
+            await ExternalLogin.ExternalLoginMethod(query, LoginMethod.Facebook, _userManager, _jwtServices);
+        public async Task<UserData> LoginUserByGoogle(ExternalLogin.Query query) =>
+            await ExternalLogin.ExternalLoginMethod(query, LoginMethod.Google, _userManager, _jwtServices);
     }
 }

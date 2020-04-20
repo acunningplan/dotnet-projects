@@ -44,7 +44,7 @@ namespace BurglerApp.Controllers
         [AllowAnonymous]
         //[EnableCors("AllowedOrigins")]
         [HttpPost("facebook")]
-        public async Task<UserData> FacebookLogin(ExternalFBLogin.Query query)
+        public async Task<UserData> FacebookLogin(ExternalLogin.Query query)
         {
             return await _userServices.LoginUserByFB(query);
         }
@@ -52,7 +52,7 @@ namespace BurglerApp.Controllers
         [AllowAnonymous]
         //[EnableCors("AllowedOrigins")]
         [HttpPost("google")]
-        public async Task<UserData> GoogleLogin(ExternalGoogleLogin.Query query)
+        public async Task<UserData> GoogleLogin(ExternalLogin.Query query)
         {
             return await _userServices.LoginUserByGoogle(query);
         }

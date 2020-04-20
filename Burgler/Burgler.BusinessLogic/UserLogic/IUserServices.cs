@@ -13,7 +13,7 @@ namespace Burgler.BusinessLogic.UserLogic
         Task<UserData> RegisterUser(RegisterCommand query);
         string GetCurrentUsername();
         Task<UserData> GetCurrentUser();
-        Task<UserData> LoginUserByFB(ExternalFBLogin.Query query);
-        Task<UserData> LoginUserByGoogle(ExternalGoogleLogin.Query query);
+        Task<UserData> LoginUserByFB(ExternalLogin.Query query);
+        Task<UserData> LoginUserByGoogle(ExternalLogin.Query query);
     }
 }

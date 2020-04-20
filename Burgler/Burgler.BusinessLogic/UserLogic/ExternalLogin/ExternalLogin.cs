@@ -7,26 +7,37 @@ using System.Threading.Tasks;
 
 namespace Burgler.BusinessLogic.UserLogic
 {
-    public class ExternalGoogleLogin
+    public enum LoginMethod
+    {
+        Facebook,
+        Google
+    }
+    public class UserInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+    public static class ExternalLogin
     {
         public class Query
         {
             public string AccessToken { get; set; }
         }
-        public static async Task<UserData> ExternalGoogleLoginMethod(Query query, UserManager<AppUser> userManager, IJwtServices jwtServices)
+        public static async Task<UserData> ExternalLoginMethod(Query query, LoginMethod loginMethod, UserManager<AppUser> userManager, IJwtServices jwtServices)
         {
-            var userInfo = await LoginByGoogle.LoginByGoogleMethod(query.AccessToken);
-            if (userInfo.id == null) throw new RestException(HttpStatusCode.NotFound, "User info has no id");
+            var userInfo = loginMethod == LoginMethod.Facebook ?
+                await LoginByFB.LoginByFBMethod(query.AccessToken) :
+                 await LoginByGoogle.LoginByGoogleMethod(query.AccessToken);
 
-            var user = await userManager.FindByNameAsync($"google_{userInfo.id}");
+            string username = loginMethod == LoginMethod.Facebook ? $"fb_{userInfo.Id}" : $"google_{userInfo.Id}";
 
+            var user = await userManager.FindByNameAsync(username);
             if (user == null)
             {
                 user = new AppUser
                 {
-                    DisplayName = userInfo.name,
-                    Id = userInfo.id,
-                    UserName = $"google_{userInfo.id}"
+                    DisplayName = userInfo.Name,
+                    UserName = username
                 };
                 var result = await userManager.CreateAsync(user);
                 if (!result.Succeeded)

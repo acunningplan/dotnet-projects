@@ -13,9 +13,9 @@ namespace Burgler.BusinessLogic.UserLogic
 {
     public class FBUserInfo
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
     }
 
     internal class AuthInfo
@@ -25,7 +25,7 @@ namespace Burgler.BusinessLogic.UserLogic
     }
     public static class LoginByFB
     {
-        public static async Task<FBUserInfo> LoginByFBMethod(string accessToken)
+        public static async Task<UserInfo> LoginByFBMethod(string accessToken)
         {
             if (string.IsNullOrEmpty(accessToken))
                 throw new RestException(HttpStatusCode.BadRequest, "accessToken is null");
@@ -44,12 +44,9 @@ namespace Burgler.BusinessLogic.UserLogic
                 authInfo = JsonSerializer.Deserialize<AuthInfo>(json);
             }
 
-
-
             // Verify token with FB
             var verifyUrl = $"debug_token?input_token={accessToken}&access_token={authInfo.AppId}|{authInfo.AppSecret}";
             var verifyToken = await _httpClient.GetAsync(verifyUrl);
-
 
             if (!verifyToken.IsSuccessStatusCode)
                 throw new RestException(HttpStatusCode.Unauthorized, "FB token invalid.");
@@ -61,8 +58,8 @@ namespace Burgler.BusinessLogic.UserLogic
                 throw new RestException(HttpStatusCode.NotFound, "Cannot get FB user data.");
 
             var result = await response.Content.ReadAsStringAsync();
-            var userInfo = JsonSerializer.Deserialize<FBUserInfo>(result, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            return userInfo;
+            var fbUserInfo = JsonSerializer.Deserialize<FBUserInfo>(result, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return new UserInfo() { Id = fbUserInfo.id, Name = fbUserInfo.name };
         }
     }
 
