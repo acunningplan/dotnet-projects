@@ -24,21 +24,21 @@ namespace Burgler.BusinessLogic.OrderLogic
         public UserDto User { get; set; } = new UserDto();
     }
 
-    public class BurgerItemDto : InitializeFoodItem
+    public class BurgerItemDto : FoodItem
     {
         public BurgerItemDto()
         {
-            Size = Patties.PattyList[0].Size;
+            Size = "Small";
         }
-        public string BurgerBun { get; set; } = Buns.BunList[0].Name;
-        public string BurgerPatty { get; set; } = Patties.PattyList[0].Name;
-        public int BurgerPattyCooked { get; set; } = (int)PattyDoneness.Medium;
+        public string BurgerBun { get; set; } = "White";
+        public string BurgerPatty { get; set; } = "Beef";
+        public string BurgerPattyCooked { get; set; } = "Medium";
         public virtual ICollection<BurgerToppingDto> BurgerToppings { get; set; } = new List<BurgerToppingDto>();
     }
     public class BurgerToppingDto
     {
         public string Name { get; set; } = "Tomato";
     }
-    public class DrinkItemDto : InitializeFoodItem { }
-    public class SideItemDto : InitializeFoodItem { }
+    public class DrinkItemDto : FoodItem { }
+    public class SideItemDto : FoodItem { }
 }

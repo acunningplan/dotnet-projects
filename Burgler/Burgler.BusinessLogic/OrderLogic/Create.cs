@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Burgler.BusinessLogic.ErrorHandlingLogic;
+using Burgler.BusinessLogic.MenuLogic;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.OrderNS;
 using BurglerContextLib;
@@ -14,11 +15,14 @@ namespace Burgler.BusinessLogic.OrderLogic
     public class CreateCommand : OrderDto { }
     public class CreateCommandValidator : AbstractValidator<CreateCommand>
     {
-        public CreateCommandValidator()
+        public CreateCommandValidator(IMenuServices menuServices)
         {
-            RuleForEach(o => o.BurgerItems).Must(bi => bi.Validate());
-            RuleForEach(o => o.SideItems).Must(si => si.Validate());
-            RuleForEach(o => o.DrinkItems).Must(di => di.Validate());
+            RuleForEach(o => o.BurgerItems).MustAsync(async (bi, cancellation) =>
+                (await menuServices.GetMenu()).Validate(bi));
+            RuleForEach(o => o.SideItems).MustAsync(async (si, cancellation) =>
+                (await menuServices.GetMenu()).Validate(si));
+            RuleForEach(o => o.DrinkItems).MustAsync(async (di, cancellation) =>
+                (await menuServices.GetMenu()).Validate(di));
         }
     }
     public static class Create

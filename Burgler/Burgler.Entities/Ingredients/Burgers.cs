@@ -8,20 +8,16 @@ using System.Linq;
 namespace Burgler.Entities.Ingredients
 {
 
-    public class Burger : BurgerItem
+    public class Burger
     {
-        public new string[] BurgerToppings { get; set; } = { "Tomato", "Lettuce" };
-    }
-
-    public class Burgers
-    {
-        public static List<Burger> BurgerList => new List<Burger>
-        {
-            new Burger { Name = "Classic Burgler" },
-            new Burger { Name = "Bacon Burgler", BurgerToppings = new string[] { "Tomato", "Lettuce", "Bacon" } },
-            new Burger { Name = "Mushroom Swiss", BurgerToppings = new string[] { "Swiss Cheese", "Mushrooms" } },
-            new Burger { Name = "Grilled Chicken", BurgerPatty = "Chicken" },
-            new Burger { Name = "Tofu Burgler", BurgerPatty = "Veggie" },
-        };
+        // Override burger topping items
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Size { get; set; }
+        public string Type { get; set; }
+        public string BurgerBun { get; set; } = "White";
+        public string BurgerPatty { get; set; } = "Beef";
+        public string BurgerPattyCooked { get; set; } = "Medium";
+        public string BurgerToppings { get; set; } = "Tomato+Lettuce";
     }
 }

@@ -29,6 +29,7 @@ using System;
 using BurglerApp.Authorisation;
 using System.IO;
 using BurglerApp.Authentication;
+using Burgler.BusinessLogic.MenuLogic;
 
 namespace BurglerApp
 {
@@ -105,6 +106,7 @@ namespace BurglerApp
             services.AddTransient<IAuthorizationHandler, IsStaffRequirementHandler>();
 
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IMenuServices, MenuServices>();
 
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IJwtServices, JwtServices>();

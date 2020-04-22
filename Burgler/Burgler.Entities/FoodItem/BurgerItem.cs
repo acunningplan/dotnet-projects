@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace Burgler.Entities.FoodItem
 {
-    public class BurgerItem : InitializeFoodItem
+    public class BurgerItem : FoodItem
     {
         public BurgerItem()
         {
-            Size = Patties.PattyList[0].Size;
+            Size = "Small";
         }
         public Guid BurgerItemId { get; set; }
-        public string BurgerBun { get; set; } = Buns.BunList[0].Name;
-        public string BurgerPatty { get; set; } = Patties.PattyList[0].Name;
-        public PattyDoneness BurgerPattyCooked { get; set; } = PattyDoneness.Medium;
-        public virtual ICollection<BurgerTopping> BurgerToppings { get; set; } = new List<BurgerTopping>();
+        public string BurgerBun { get; set; } = "White";
+        public string BurgerPatty { get; set; } = "Beef";
+        public string BurgerPattyCooked { get; set; } = "Medium";
+        public string BurgerToppings { get; set; } = "Tomato+Lettuce";
         public Guid OrderId { get; set; }
         public virtual OrderNS.Order Order { get; set; }
     }

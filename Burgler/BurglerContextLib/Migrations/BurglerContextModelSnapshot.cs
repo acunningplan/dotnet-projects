@@ -31,8 +31,11 @@ namespace BurglerContextLib.Migrations
                     b.Property<string>("BurgerPatty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BurgerPattyCooked")
-                        .HasColumnType("int");
+                    b.Property<string>("BurgerPattyCooked")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BurgerToppings")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -51,25 +54,6 @@ namespace BurglerContextLib.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("BurgerItems");
-                });
-
-            modelBuilder.Entity("Burgler.Entities.FoodItem.BurgerTopping", b =>
-                {
-                    b.Property<Guid>("BurgerToppingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BurgerItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BurgerToppingId");
-
-                    b.HasIndex("BurgerItemId");
-
-                    b.ToTable("BurgerToppings");
                 });
 
             modelBuilder.Entity("Burgler.Entities.FoodItem.DrinkItem", b =>
@@ -122,6 +106,188 @@ namespace BurglerContextLib.Migrations
                     b.ToTable("SideItems");
                 });
 
+            modelBuilder.Entity("Burgler.Entities.Ingredients.Burger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BurgerBun")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BurgerPatty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BurgerPattyCooked")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BurgerToppings")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Burgers");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.Ingredients.Drink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Volume")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Drinks");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.Ingredients.Side", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sides");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.IngredientsNS.Bun", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Buns");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.IngredientsNS.DonenessLevel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Doneness")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DonenessLevels");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.IngredientsNS.Patty", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patties");
+                });
+
+            modelBuilder.Entity("Burgler.Entities.IngredientsNS.Topping", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Toppings");
+                });
+
             modelBuilder.Entity("Burgler.Entities.OrderNS.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
@@ -138,6 +304,9 @@ namespace BurglerContextLib.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PickupTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ReadyAt")
@@ -366,15 +535,6 @@ namespace BurglerContextLib.Migrations
                     b.HasOne("Burgler.Entities.OrderNS.Order", "Order")
                         .WithMany("BurgerItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Burgler.Entities.FoodItem.BurgerTopping", b =>
-                {
-                    b.HasOne("Burgler.Entities.FoodItem.BurgerItem", "BurgerItem")
-                        .WithMany("BurgerToppings")
-                        .HasForeignKey("BurgerItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

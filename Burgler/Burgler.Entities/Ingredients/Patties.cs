@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Burgler.Entities.IngredientsNS
 {
-
-    public class DonenessLevel
+    public class Patty : Ingredient
     {
-        public Guid Id { get; set; }
-        public string Doneness { get; set; }
+        public string Size { get; set; }
+        public string Type { get; set; }
     }
 }

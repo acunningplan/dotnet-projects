@@ -1,26 +1,27 @@
-﻿using Burgler.Entities.Ingredients;
-using Burgler.Entities.IngredientsNS;
-using System;
+﻿using Burgler.BusinessLogic.MenuLogic;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class CommandValidation
     {
-        public static bool Validate(this BurgerItemDto bi)
+        public static bool Validate(this Menu menu, BurgerItemDto bi)
         {
-            if (Buns.BunList.SelectByName(bi.BurgerBun) == null) return false;
-            if (Patties.PattyList.SelectByNameAndSize(bi.BurgerPatty, bi.Size) == null) return false;
-            foreach (BurgerToppingDto topping in bi.BurgerToppings)
-                if (Toppings.ToppingList.SelectByName(topping.Name) == null) return false;
+            if (menu.BunsList.Find(bun => bun.Name == bi.BurgerBun) == null)
+                return false;
+            if (menu.PattiesList.Find(patty => patty.Name == bi.BurgerPatty & patty.Size == bi.Size) == null)
+                return false;
+            foreach (BurgerToppingDto bt in bi.BurgerToppings)
+                if (menu.ToppingsList.Find(topping => topping.Name == bt.Name) == null)
+                    return false;
             return true;
         }
-        public static bool Validate(this DrinkItemDto di)
+        public static bool Validate(this Menu menu, DrinkItemDto di)
         {
-            return (Drinks.DrinksList.SelectByName(di.Name) == null) ? false : true;
+            return (menu.DrinksList.Find(d => d.Name == di.Name) == null) ? false : true;
         }
-        public static bool Validate(this SideItemDto si)
+        public static bool Validate(this Menu menu, SideItemDto si)
         {
-            return (Sides.SidesList.SelectByName(si.Name) == null) ? false : true;
+            return (menu.SidesList.Find(s => s.Name == si.Name) == null) ? false : true;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Burgler.Entities.FoodItem
 {
-    public class SideItem : InitializeFoodItem
+    public class SideItem : FoodItem
     {
         public Guid SideItemId { get; set; }
         public Guid OrderId { get; set; }

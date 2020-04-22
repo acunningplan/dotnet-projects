@@ -1,20 +1,13 @@
-﻿using System;
+﻿using Burgler.Entities.IngredientsNS;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Burgler.Entities.IngredientsNS
+namespace BurglerContextLib.SeedData
 {
-    public class Patty : Ingredient
+    public class Patties
     {
-        public Patty()
-        {
-            Type = "Patty";
-        }
-    }
-
-    public static class Patties
-    {
-        public static List<Ingredient> PattyList = new List<Ingredient>
+        public static List<Patty> PattyList = new List<Patty>
             {
                 new Patty { Name = "Beef", Size="Single", Calories = 250, Price = 2 },
                 new Patty { Name = "Beef", Size="Double",  Calories = 500, Price = 3.5 } ,

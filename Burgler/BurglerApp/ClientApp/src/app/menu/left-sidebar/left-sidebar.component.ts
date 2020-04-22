@@ -1,4 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+
+class Menu {}
 
 @Component({
   selector: "app-left-sidebar",
@@ -6,31 +10,43 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./left-sidebar.component.css"],
 })
 export class LeftSidebarComponent implements OnInit {
-  sortJson = (a: object, b: object): object => a;
+  menu: object;
 
-  menu = {
-    Burgers: {
-      Beef: {
-        "Classic Burgler": { description: "", calories: 0, price: 1 },
-      },
-    },
-    Sides: {
-      Chips: {
-        "Hot chips": { description: "", calories: 0, price: 1 },
-      },
-    },
-    Drinks: {
-      "Fizzy drinks": {
-        Coke: { description: "", calories: 0, price: 1 },
-      },
-      "Tea and Coffee": {
-        "Lemon tea": { description: "", calories: 0, price: 1 },
-      },
-      Others: {
-        Chocolate: { description: "", calories: 0, price: 1 },
-      },
-    },
-  };
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.menu = this.http
+      .get(`${environment.serverUrl}/menu`)
+      .subscribe((res) => {
+        this.menu = res;
+        console.log(res);
+      });
+  }
+  preserveOrder = (a: object, b: object): object => a;
+
+  // menu = {
+  //   Burgers: {
+  //     Beef: {
+  //       "Classic Burgler": { description: "", calories: 0, price: 1 },
+  //     },
+  //   },
+  //   Sides: {
+  //     Chips: {
+  //       "Hot chips": { description: "", calories: 0, price: 1 },
+  //     },
+  //   },
+  //   Drinks: {
+  //     "Fizzy drinks": {
+  //       Coke: { description: "", calories: 0, price: 1 },
+  //     },
+  //     "Tea and Coffee": {
+  //       "Lemon tea": { description: "", calories: 0, price: 1 },
+  //     },
+  //     Others: {
+  //       Chocolate: { description: "", calories: 0, price: 1 },
+  //     },
+  //   },
+  // };
 
   burgers = [
     "Classic Burgler",
@@ -38,9 +54,6 @@ export class LeftSidebarComponent implements OnInit {
     "Mushroom Swiss",
     "Veggie Burgler",
   ];
-  constructor() {}
-
-  ngOnInit() {}
 
   onClickSubcategory(subcategory: MenuItem[]) {}
 }

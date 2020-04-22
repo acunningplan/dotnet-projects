@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Burgler.Entities.FoodItem
 {
-    public class InitializeFoodItem
+    public class FoodItem
     {
         public double Quantity { get; set; } = 1;
         public string Name { get; set; }

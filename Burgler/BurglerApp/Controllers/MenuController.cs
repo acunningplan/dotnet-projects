@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Burgler.BusinessLogic.MenuLogic;
-using Burgler.BusinessLogic.UserLogic;
-using BurglerContextLib;
-using Microsoft.AspNetCore.Http;
+﻿using Burgler.BusinessLogic.MenuLogic;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BurglerApp.Controllers
 {
@@ -15,21 +8,16 @@ namespace BurglerApp.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private readonly BurglerContext _dbContext;
-        private readonly IUserServices _userServices;
-        private readonly IMapper _mapper;
+        private readonly IMenuServices _menuServices;
 
-        public MenuController(BurglerContext dbContext, IUserServices userServices, IMapper mapper)
+        public MenuController(IMenuServices menuServices)
         {
-            _dbContext = dbContext;
-            _userServices = userServices;
-            _mapper = mapper;
+            _menuServices = menuServices;
         }
-
         [HttpGet]
-        public async Task<Menu> GetPendingOrders()
+        public async Task<Menu> Get()
         {
-            return GetMenu.GetMenuMethod(_dbContext);
+            return await _menuServices.GetMenu();
         }
     }
 }

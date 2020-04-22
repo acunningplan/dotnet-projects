@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BurglerContextLib.SeedData;
 
 namespace BurglerContextLib
 {
@@ -15,41 +16,29 @@ namespace BurglerContextLib
         {
             if (!userManager.Users.Any())
             {
-                var users = new List<AppUser>
-                    {
-                        new AppUser
-                        {
-                        DisplayName = "Sam",
-                        UserName = "sam",
-                        Email = "sam@test.com"
-                        },
-                        new AppUser
-                        {
-                        DisplayName = "Ed",
-                        UserName = "ed",
-                        Email = "ed@test.com"
-                        },
-                        new AppUser
-                        {
-                        DisplayName = "Chelsea",
-                        UserName = "chelsea",
-                        Email = "chelsea@test.com",
-                        Staff = "Server"
-                        },
-                    };
-
+                var users = Users.SampleUsers;
                 foreach (var user in users)
-                {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
-                }
             }
 
-            if (!context.Orders.Any())
-            {
-                // Seed orders if you want
-                context.SaveChanges();
-            }
+            if (!context.Burgers.Any())
+                await context.Burgers.AddRangeAsync(Burgers.BurgersList);
+            if (!context.Toppings.Any())
+                await context.Toppings.AddRangeAsync(Toppings.ToppingList);
+            if (!context.Patties.Any())
+                await context.Patties.AddRangeAsync(Patties.PattyList);
+            if (!context.DonenessLevels.Any())
+                await context.DonenessLevels.AddRangeAsync(PattyCooked.DonenessLevels);
+            if (!context.Buns.Any())
+                await context.Buns.AddRangeAsync(Buns.BunsList);
+            if (!context.Sides.Any())
+                await context.Sides.AddRangeAsync(Sides.SidesList);
+            if (!context.Drinks.Any())
+                await context.Drinks.AddRangeAsync(Drinks.DrinksList);
 
+            // Optional: seed orders here
+            await context.SaveChangesAsync();
         }
+
     }
 }

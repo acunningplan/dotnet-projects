@@ -2,7 +2,7 @@
 
 namespace Burgler.Entities.FoodItem
 {
-    public class DrinkItem : InitializeFoodItem
+    public class DrinkItem : FoodItem
     {
         public Guid DrinkItemId { get; set; }
         public Guid OrderId { get; set; }

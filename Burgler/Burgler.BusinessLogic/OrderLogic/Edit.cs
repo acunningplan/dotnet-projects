@@ -9,17 +9,21 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Burgler.BusinessLogic.MenuLogic;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
     public class EditCommand : OrderDto { }
     public class EditCommandValidator : AbstractValidator<EditCommand>
     {
-        public EditCommandValidator()
+        public EditCommandValidator(IMenuServices menuServices)
         {
-            RuleForEach(o => o.BurgerItems).Must(bi => bi.Validate());
-            RuleForEach(o => o.SideItems).Must(si => si.Validate());
-            RuleForEach(o => o.DrinkItems).Must(bi => bi.Validate());
+            RuleForEach(o => o.BurgerItems).MustAsync(async (bi, cancellation) =>
+                (await menuServices.GetMenu()).Validate(bi));
+            RuleForEach(o => o.SideItems).MustAsync(async (si, cancellation) =>
+                (await menuServices.GetMenu()).Validate(si));
+            RuleForEach(o => o.DrinkItems).MustAsync(async (di, cancellation) =>
+                (await menuServices.GetMenu()).Validate(di));
         }
     }
     public static class Edit
@@ -28,16 +32,14 @@ namespace Burgler.BusinessLogic.OrderLogic
         {
             var newOrder = mapper.Map<OrderDto, Order>(command);
 
+            // Even with lazy loading, we need to include all relevant tables to keep track of changes
             var order = await dbContext.Orders
                 .Include(o => o.BurgerItems)
                 .ThenInclude(bi => bi.BurgerToppings)
                 .Include(o => o.SideItems)
                 .Include(o => o.DrinkItems)
                 .SingleOrDefaultAsync(o => o.OrderId == command.OrderId) ??
-                throw new RestException(HttpStatusCode.NotFound, "No order with given id.");
-
-            //var order = await dbContext.Orders.FindAsync(command.OrderId) ??
-            //    throw new RestException(HttpStatusCode.NotFound, "No order with given id.");
+                    throw new RestException(HttpStatusCode.NotFound, "No order with given id.");
 
             order.BurgerItems = newOrder.BurgerItems;
             order.SideItems = newOrder.SideItems;

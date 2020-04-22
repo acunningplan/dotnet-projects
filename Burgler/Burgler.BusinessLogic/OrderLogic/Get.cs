@@ -10,20 +10,22 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Burgler.BusinessLogic.MenuLogic;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
     public static class Get
     {
-        public static async Task<OrderDto> GetMethod(Guid id, BurglerContext dbContext, IMapper _mapper)
+        public static async Task<OrderDto> GetMethod(Guid id, IMenuServices menuServices, BurglerContext dbContext, IMapper _mapper)
         {
             var order = await dbContext.Orders.FindAsync(id) ??
                 throw new RestException(HttpStatusCode.NotFound, "Order not found");
 
             var orderToReturn = _mapper.Map<Order, OrderDto>(order);
 
-            orderToReturn.Price = order.CalculateCalories();
-            orderToReturn.Calories = order.CalculatePrice();
+            var menu = await menuServices.GetMenu();
+            orderToReturn.Calories = menu.CalculateTotalCalories(order);
+            orderToReturn.Price = menu.CalculateTotalPrice(order);
 
             return orderToReturn;
         }

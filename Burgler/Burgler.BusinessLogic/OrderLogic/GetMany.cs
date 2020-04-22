@@ -25,7 +25,7 @@ namespace Burgler.BusinessLogic.OrderLogic
             string username = userServices.GetCurrentUsername();
 
             var orders = await dbContext.Orders.Where(
-                order => order.User.UserName == username & OrderCondition(order, orderType)
+                order => order.User.UserName == username & MatchingOrderType(order, orderType)
             ).ToListAsync();
 
             var ordersToReturn = _mapper.Map<List<Order>, List<OrderDto>>(orders);
@@ -33,7 +33,7 @@ namespace Burgler.BusinessLogic.OrderLogic
             return ordersToReturn;
         }
 
-        public static bool OrderCondition(Order order, OrderType orderType)
+        public static bool MatchingOrderType(Order order, OrderType orderType)
         {
             return orderType switch
             {

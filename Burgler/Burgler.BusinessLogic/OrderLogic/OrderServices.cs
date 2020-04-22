@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Burgler.BusinessLogic.MenuLogic;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.Entities.OrderNS;
 using BurglerContextLib;
@@ -13,16 +14,18 @@ namespace Burgler.BusinessLogic.OrderLogic
         private readonly BurglerContext _dbContext;
         private readonly IUserServices _userServices;
         private readonly IMapper _mapper;
+        private readonly IMenuServices _menuServices;
 
-        public OrderServices(BurglerContext dbContext, IUserServices userServices, IMapper mapper)
+        public OrderServices(BurglerContext dbContext, IUserServices userServices, IMapper mapper, IMenuServices menuServices)
         {
             _dbContext = dbContext;
             _userServices = userServices;
             _mapper = mapper;
+            _menuServices = menuServices;
         }
 
         // Queries
-        public async Task<OrderDto> GetOrder(Guid id) => await Get.GetMethod(id, _dbContext, _mapper);
+        public async Task<OrderDto> GetOrder(Guid id) => await Get.GetMethod(id, _menuServices, _dbContext, _mapper);
         public async Task<List<OrderDto>> GetPendingOrders() => await GetMany.GetManyMethod(OrderType.PendingOrders, _dbContext, _userServices, _mapper);
         public async Task<List<OrderDto>> GetPlacedOrders() => await GetMany.GetManyMethod(OrderType.PlacedOrders, _dbContext, _userServices, _mapper);
 

@@ -4,7 +4,7 @@
   </div>
 
   <ul class="list-unstyled components">
-    <li *ngFor="let category of menu | keyvalue: sortJson">
+    <li *ngFor="let category of menu | keyvalue: preserveOrder">
       <a
         [href]="'#' + category.key"
         data-toggle="collapse"
@@ -13,7 +13,7 @@
         >{{ category.key }}</a
       >
       <ul class="collapse list-unstyled" [id]="category.key">
-        <li *ngFor="let subcategory of category.value | keyvalue: sortJson">
+        <li *ngFor="let subcategory of category.value | keyvalue: preserveOrder">
           <a [routerLink]="" (click)="onClickSubcategory(subcategory.value)">
             {{ subcategory.key }}
           </a>
