@@ -11,6 +11,7 @@ namespace Burgler.Entities.OrderNS
     {
         public Guid OrderId { get; set; }
         public DateTime OrderedAt { get; set; }
+        public DateTime LastEditedAt { get; set; }
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }
         public DateTime CancelledAt { get; set; }
@@ -18,7 +19,9 @@ namespace Burgler.Entities.OrderNS
         public virtual ICollection<BurgerItem> BurgerItems { get; set; } = new List<BurgerItem>();
         public virtual ICollection<SideItem> SideItems { get; set; } = new List<SideItem>();
         public virtual ICollection<DrinkItem> DrinkItems { get; set; } = new List<DrinkItem>();
-        public string FurtherDescription { get; set; } = "None";
+        public string OrderDescription { get; set; } = "None";
+        public double Calories { get; set; }
+        public double Price { get; set; }
         public Guid UserId { get; set; }
         public virtual AppUser User { get; set; }
     }

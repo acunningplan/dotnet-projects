@@ -20,6 +20,7 @@ import { provideConfig } from "./auth-service/auth-service-config";
 import { LoggingInterceptorService } from "./interceptors/logging-interceptor.service";
 import { LeftSidebarComponent } from './menu/left-sidebar/left-sidebar.component';
 import { RightSidebarComponent } from './menu/right-sidebar/right-sidebar.component';
+import { MenuResolverService } from "./menu/menu-resolver.service";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { RightSidebarComponent } from './menu/right-sidebar/right-sidebar.compon
     SocialLoginModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "menu", component: MenuComponent },
+      { path: "menu", component: MenuComponent, resolve: [MenuResolverService] },
       { path: "about", component: AboutComponent },
       { path: "account", component: AccountComponent },
       { path: "orders", component: OrdersComponent },

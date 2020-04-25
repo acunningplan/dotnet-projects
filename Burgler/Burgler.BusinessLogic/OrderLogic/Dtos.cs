@@ -11,6 +11,7 @@ namespace Burgler.BusinessLogic.OrderLogic
     {
         public Guid OrderId { get; set; }
         public DateTime OrderedAt { get; set; }
+        public DateTime EditedAt { get; set; }
         public DateTime ReadyAt { get; set; }
         public DateTime FoodTakenAt { get; set; }
         public DateTime PickupTime { get; set; }
@@ -18,7 +19,7 @@ namespace Burgler.BusinessLogic.OrderLogic
         public virtual ICollection<BurgerItemDto> BurgerItems { get; set; } = new List<BurgerItemDto>();
         public virtual ICollection<SideItemDto> SideItems { get; set; } = new List<SideItemDto>();
         public virtual ICollection<DrinkItemDto> DrinkItems { get; set; } = new List<DrinkItemDto>();
-        public string FurtherDescription { get; set; } = "None";
+        public string OrderDescription { get; set; } = "None";
         public double Calories { get; set; }
         public double Price { get; set; }
         public UserDto User { get; set; } = new UserDto();

@@ -25,13 +25,13 @@ namespace Burgler.BusinessLogic.OrderLogic
         }
 
         // Queries
-        public async Task<OrderDto> GetOrder(Guid id) => await Get.GetMethod(id, _menuServices, _dbContext, _mapper);
+        public async Task<OrderDto> GetOrder(Guid id) => await Get.GetMethod(id, _dbContext, _mapper);
         public async Task<List<OrderDto>> GetPendingOrders() => await GetMany.GetManyMethod(OrderType.PendingOrders, _dbContext, _userServices, _mapper);
         public async Task<List<OrderDto>> GetPlacedOrders() => await GetMany.GetManyMethod(OrderType.PlacedOrders, _dbContext, _userServices, _mapper);
 
         // Commands
-        public async Task CreateOrder(CreateCommand cmd) => await Create.CreateMethod(cmd, _dbContext, _userServices, _mapper);
-        public async Task EditOrder(EditCommand cmd) => await Edit.EditMethod(cmd, _dbContext, _mapper);
+        public async Task CreateOrder(CreateCommand cmd) => await Create.CreateMethod(cmd, _dbContext, _userServices, _mapper, _menuServices);
+        public async Task EditOrder(EditCommand cmd) => await Edit.EditMethod(cmd, _dbContext, _mapper, _menuServices);
         public async Task ChangeOrderStatus(ChangeStatusCommand cmd, Guid id) => await ChangeStatus.ChangeStatusMethod(cmd, id, _dbContext);
         public async Task StaffUpdateOrder(StaffUpdateCommand cmd, Guid id) => await StaffUpdate.StaffUpdateOrder(cmd, id, _dbContext);
         public async Task DeleteOrder(Guid id) => await Delete.DeleteMethod(id, _dbContext);

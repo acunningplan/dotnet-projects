@@ -4,25 +4,75 @@
   </div>
 
   <ul class="list-unstyled components">
-    <li *ngFor="let category of menu | keyvalue: preserveOrder">
+    <li>
       <a
-        [href]="'#' + category.key"
+        href="#burgers"
         data-toggle="collapse"
         aria-expanded="false"
         class="dropdown-toggle"
-        >{{ category.key }}</a
+        >Burgers</a
       >
-      <ul class="collapse list-unstyled" [id]="category.key">
-        <li *ngFor="let subcategory of category.value | keyvalue: preserveOrder">
-          <a [routerLink]="" (click)="onClickSubcategory(subcategory.value)">
-            {{ subcategory.key }}
+      <ul class="collapse list-unstyled" id="burgers">
+        <li *ngFor="let type of menu.burgers | keyvalue: preserveOrder">
+          <a [routerLink]="" (click)="onClickSubcategory(type)">
+            {{ type.key }}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        href="#sides"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >Sides</a
+      >
+      <ul class="collapse list-unstyled" id="sides">
+        <li *ngFor="let type of menu.sides | keyvalue: preserveOrder">
+          <a [routerLink]="" (click)="onClickSubcategory(type)">
+            {{ type.key }}
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        href="#drinks"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >Drinks</a
+      >
+      <ul class="collapse list-unstyled" id="drinks">
+        <li *ngFor="let type of menu.drinks | keyvalue: preserveOrder">
+          <a [routerLink]="" (click)="onClickSubcategory(type)">
+            {{ type.key }}
           </a>
         </li>
       </ul>
     </li>
   </ul>
 </nav>
-    <!-- <li>
+
+<!-- <li *ngFor="let category of menu | keyvalue: preserveOrder">
+  <a
+    [href]="'#' + category.key"
+    data-toggle="collapse"
+    aria-expanded="false"
+    class="dropdown-toggle"
+    >{{ category.key }}</a
+  >
+  <ul class="collapse list-unstyled" [id]="category.key">
+    <li *ngFor="let subcategory of category.value | keyvalue: preserveOrder">
+      <a [routerLink]="" (click)="onClickSubcategory(subcategory.value)">
+        {{ subcategory.key }}
+      </a>
+    </li>
+  </ul>
+</li> -->
+
+<!-- <li>
       <a
         href="#homeSubmenu"
         data-toggle="collapse"

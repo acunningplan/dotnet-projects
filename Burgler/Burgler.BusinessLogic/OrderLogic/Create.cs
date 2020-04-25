@@ -27,9 +27,14 @@ namespace Burgler.BusinessLogic.OrderLogic
     }
     public static class Create
     {
-        public static async Task CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices, IMapper mapper)
+        public static async Task CreateMethod(CreateCommand command, BurglerContext dbContext, IUserServices userServices, IMapper mapper, IMenuServices menuServices)
         {
             var order = mapper.Map<OrderDto, Order>(command);
+            var menu = await menuServices.GetMenu();
+
+            // Make sure client isn't lying about the price
+            order.Price = menu.CalculateTotalPrice(order);
+            order.Calories = menu.CalculateTotalCalories(order);
 
             string username = userServices.GetCurrentUsername();
 
