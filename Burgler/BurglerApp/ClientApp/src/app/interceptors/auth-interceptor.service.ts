@@ -10,8 +10,8 @@ export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const modifiedReq = req.clone({
       headers: req.headers.append(
-        "Authentication",
-        `Bearer ${window.localStorage.getItem("token")}`
+        "Authorization",
+        `Bearer ${window.localStorage.getItem("burglerToken")}`
       ),
     });
     return next.handle(modifiedReq);

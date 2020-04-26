@@ -8,19 +8,18 @@ import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
 import { OrdersComponent } from "./orders/orders.component";
-import { FoodMenuComponent } from "./food-menu/food-menu.component";
 import { AccountComponent } from "./account/account.component";
 import { AboutComponent } from "./about/about.component";
 import { MenuComponent } from "./menu/menu.component";
-import { Oauth2RedirectComponent } from "./oauth2-redirect/oauth2-redirect.component";
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { AuthInterceptorService } from "./interceptors/auth-interceptor.service";
 import { provideConfig } from "./auth-service/auth-service-config";
 import { LoggingInterceptorService } from "./interceptors/logging-interceptor.service";
-import { LeftSidebarComponent } from './menu/left-sidebar/left-sidebar.component';
-import { RightSidebarComponent } from './menu/right-sidebar/right-sidebar.component';
+import { LeftSidebarComponent } from "./menu/left-sidebar/left-sidebar.component";
+import { RightSidebarComponent } from "./menu/right-sidebar/right-sidebar.component";
 import { MenuResolverService } from "./menu/menu-resolver.service";
+import { OrderResolverService } from "./orders/order-resolver.service";
 
 @NgModule({
   declarations: [
@@ -28,11 +27,9 @@ import { MenuResolverService } from "./menu/menu-resolver.service";
     NavMenuComponent,
     HomeComponent,
     OrdersComponent,
-    FoodMenuComponent,
     AccountComponent,
     AboutComponent,
     MenuComponent,
-    Oauth2RedirectComponent,
     LeftSidebarComponent,
     RightSidebarComponent,
   ],
@@ -43,11 +40,18 @@ import { MenuResolverService } from "./menu/menu-resolver.service";
     SocialLoginModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "menu", component: MenuComponent, resolve: [MenuResolverService] },
+      {
+        path: "menu",
+        component: MenuComponent,
+        resolve: [MenuResolverService],
+      },
       { path: "about", component: AboutComponent },
       { path: "account", component: AccountComponent },
-      { path: "orders", component: OrdersComponent },
-      { path: "oauth2callback", component: Oauth2RedirectComponent },
+      {
+        path: "orders",
+        component: OrdersComponent,
+        resolve: [OrderResolverService],
+      },
     ]),
   ],
   providers: [

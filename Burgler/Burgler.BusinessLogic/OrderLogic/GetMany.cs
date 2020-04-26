@@ -24,27 +24,26 @@ namespace Burgler.BusinessLogic.OrderLogic
         {
             string username = userServices.GetCurrentUsername();
 
-            var orders = await dbContext.Orders.Where(
-                order => order.User.UserName == username & MatchingOrderType(order, orderType)
-            ).ToListAsync();
+            var orders = new List<Order>();
 
-            var ordersToReturn = _mapper.Map<List<Order>, List<OrderDto>>(orders);
-
-            return ordersToReturn;
-        }
-
-        public static bool MatchingOrderType(Order order, OrderType orderType)
-        {
-            return orderType switch
+            if (orderType == OrderType.PendingOrders)
             {
-                OrderType.PendingOrders =>
-                    DateTime.MinValue == order.CancelledAt
-                        & DateTime.MinValue == order.OrderedAt,
-                OrderType.PlacedOrders =>
-                    DateTime.MinValue != order.OrderedAt
-                        & DateTime.MinValue == order.FoodTakenAt,
-                _ => false
-            };
+                orders = await dbContext.Orders.Where(
+                   order => order.User.UserName == username
+                   & DateTime.MinValue == order.CancelledAt
+                       & DateTime.MinValue == order.OrderedAt
+               ).ToListAsync();
+            }
+            else if (orderType == OrderType.PlacedOrders)
+            {
+                orders = await dbContext.Orders.Where(
+                      order => order.User.UserName == username
+                & DateTime.MinValue != order.OrderedAt
+                & DateTime.MinValue == order.FoodTakenAt
+                  ).ToListAsync();
+            }
+            var ordersToReturn = _mapper.Map<List<Order>, List<OrderDto>>(orders);
+            return ordersToReturn;
         }
     }
 }

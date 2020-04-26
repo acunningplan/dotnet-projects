@@ -10,7 +10,7 @@ import { Menu } from "../menu";
   styleUrls: ["./left-sidebar.component.css"],
 })
 export class LeftSidebarComponent implements OnInit {
-  menu: Menu;
+  menu = new Menu();
 
   constructor(private http: HttpClient, private menuService: MenuService) {}
 
