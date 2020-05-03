@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
+import { OrderService } from "../orders/order.service";
+import { Order, SideItem } from "../orders/order";
+import { MenuService } from "./menu.service";
+import { Menu } from "./menu";
 
 @Component({
   selector: "app-menu",
@@ -8,11 +10,19 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./menu.component.css"],
 })
 export class MenuComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  menu: Menu;
+  constructor(menuService: MenuService, private orderService: OrderService) {
+    this.menu = menuService.getMenu()
+  }
 
   ngOnInit() {}
   onClick() {}
   addToOrder() {
-    this.http.post(`${environment.serverUrl}/order`, {});
+    const order = this.orderService.getPendingOrder()
+    const sideItem = new SideItem();
+    sideItem.name = "Hot Chips"
+    sideItem.size = "Large"
+    order.sideItems.push(sideItem)
+    this.orderService.updatePendingOrder(order)
   }
 }

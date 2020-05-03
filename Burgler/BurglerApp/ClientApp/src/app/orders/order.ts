@@ -1,17 +1,18 @@
 export class Order {
-  burgerItems: BurgerItem[];
-  sideItems: SideItem[];
-  drinkItems: DrinkItem[];
+  orderId: string;
+  burgerItems: BurgerItem[] = [];
+  sideItems: SideItem[] = [];
+  drinkItems: DrinkItem[] = [];
 }
 
-class BurgerItem {
-
+class FoodItem {
+  name: string;
+  quantity = 1;
+  size: "small";
 }
 
-class SideItem {
+export class BurgerItem extends FoodItem {}
 
-}
+export class SideItem extends FoodItem {}
 
-class DrinkItem {
-
-}
+export class DrinkItem extends FoodItem {}

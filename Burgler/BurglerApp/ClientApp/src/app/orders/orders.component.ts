@@ -14,7 +14,11 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {}
 
-  createOrder() {
-    this.orderService.updatePendingOrder(new Order());
-  }
+  getOrders() {}
+
+  // createOrder() {
+  //   this.orderService.updatePendingOrder(new Order());
+  // }
+
+  cancelOrder() {}
 }

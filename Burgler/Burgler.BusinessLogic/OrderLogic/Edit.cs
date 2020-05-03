@@ -48,6 +48,7 @@ namespace Burgler.BusinessLogic.OrderLogic
 
             // Make sure the price is correct
             var menu = await menuServices.GetMenu();
+
             order.Price = menu.CalculateTotalPrice(order);
             order.Calories = menu.CalculateTotalCalories(order);
 

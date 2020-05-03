@@ -20,6 +20,7 @@ import { LeftSidebarComponent } from "./menu/left-sidebar/left-sidebar.component
 import { RightSidebarComponent } from "./menu/right-sidebar/right-sidebar.component";
 import { MenuResolverService } from "./menu/menu-resolver.service";
 import { OrderResolverService } from "./orders/order-resolver.service";
+import { MenuOrderResolverService } from "./menu/menu-order-resolver.service";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { OrderResolverService } from "./orders/order-resolver.service";
       {
         path: "menu",
         component: MenuComponent,
-        resolve: [MenuResolverService],
+        resolve: [MenuResolverService, MenuOrderResolverService],
       },
       { path: "about", component: AboutComponent },
       { path: "account", component: AccountComponent },

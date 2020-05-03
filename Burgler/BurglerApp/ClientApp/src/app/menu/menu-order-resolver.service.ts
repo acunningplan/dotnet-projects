@@ -10,15 +10,14 @@ import { OrderService } from "../orders/order.service";
 @Injectable({
   providedIn: "root",
 })
-export class MenuResolverService implements Resolve<void> {
+export class MenuOrderResolverService implements Resolve<void> {
   constructor(
-    private menuService: MenuService,
     private orderService: OrderService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!this.menuService.getMenu()) {
-      return this.menuService.fetchMenu();
+    if (!this.orderService.getPendingOrder()) {
+      return this.orderService.fetchPendingOrder();
     }
     return;
   }
