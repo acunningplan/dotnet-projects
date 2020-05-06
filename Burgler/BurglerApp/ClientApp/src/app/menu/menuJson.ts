@@ -15,6 +15,7 @@ class Ingredient {
 }
 
 export class Burger extends Ingredient {
+  size: string;
   type: string;
   burgerBun: string;
   burgerPatty: string;
@@ -27,12 +28,12 @@ class Patty extends Ingredient {
   size: string;
 }
 
-class Side extends Ingredient {
+export class Side extends Ingredient {
   size: string;
   type: string;
 }
 
-class Drink extends Ingredient {
+export class Drink extends Ingredient {
   size: string;
   type: string;
   volume: string;

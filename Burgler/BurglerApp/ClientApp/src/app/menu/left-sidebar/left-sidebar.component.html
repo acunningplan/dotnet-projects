@@ -14,7 +14,7 @@
       >
       <ul class="collapse list-unstyled" id="burgers">
         <li *ngFor="let type of menu.burgers | keyvalue: preserveOrder">
-          <a [routerLink]="" (click)="onClickSubcategory(type)">
+          <a [routerLink]="" (click)="onClickSubcategory('burgers', type.key)">
             {{ type.key }}
           </a>
         </li>
@@ -30,7 +30,7 @@
       >
       <ul class="collapse list-unstyled" id="sides">
         <li *ngFor="let type of menu.sides | keyvalue: preserveOrder">
-          <a [routerLink]="" (click)="onClickSubcategory(type)">
+          <a [routerLink]="" (click)="onClickSubcategory('sides', type.key)">
             {{ type.key }}
           </a>
         </li>
@@ -46,7 +46,7 @@
       >
       <ul class="collapse list-unstyled" id="drinks">
         <li *ngFor="let type of menu.drinks | keyvalue: preserveOrder">
-          <a [routerLink]="" (click)="onClickSubcategory(type)">
+          <a [routerLink]="" (click)="onClickSubcategory('drinks', type.key)">
             {{ type.key }}
           </a>
         </li>

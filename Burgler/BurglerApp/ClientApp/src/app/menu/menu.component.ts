@@ -1,8 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../orders/order.service";
-import { Order, SideItem } from "../orders/order";
+import {
+  Order,
+  BurgerItem,
+  SideItem,
+  DrinkItem,
+  FoodItem,
+} from "../orders/order";
 import { MenuService } from "./menu.service";
 import { Menu } from "./menu";
+import { Food } from "./ingredients";
 
 @Component({
   selector: "app-menu",
@@ -11,18 +18,55 @@ import { Menu } from "./menu";
 })
 export class MenuComponent implements OnInit {
   menu: Menu;
+  order: Order;
+  foodsToDisplay: Food[];
+  foodType: string;
   constructor(menuService: MenuService, private orderService: OrderService) {
-    this.menu = menuService.getMenu()
+    this.menu = menuService.getMenu();
+    this.order = orderService.getPendingOrder();
   }
 
   ngOnInit() {}
+
+  preserveOrder = (a, b) => a;
+
   onClick() {}
-  addToOrder() {
-    const order = this.orderService.getPendingOrder()
-    const sideItem = new SideItem();
-    sideItem.name = "Hot Chips"
-    sideItem.size = "Large"
-    order.sideItems.push(sideItem)
-    this.orderService.updatePendingOrder(order)
+
+  clickSubcategory({ foods, category }) {
+    this.foodsToDisplay = foods;
+    this.foodType = category;
+  }
+
+  addFoodToOrder(name: string, size: string) {
+    const food = this.foodsToDisplay.find((bi) => bi.name === name);
+    const option = food.options.find((option) => option.size === size);
+    let foodItemList: FoodItem[];
+    let newFoodItem: FoodItem;
+    if (this.foodType === "burgers") {
+      foodItemList = this.order.burgerItems;
+      newFoodItem = new BurgerItem(food, option);
+    } else if (this.foodType === "sides") {
+      foodItemList = this.order.sideItems;
+      newFoodItem = new SideItem(food, option);
+    } else if (this.foodType === "drinks") {
+      foodItemList = this.order.drinkItems;
+      newFoodItem = new DrinkItem(food, option);
+    }
+    const foodItem = foodItemList.find(
+      (fi) => fi.name === food.name && fi.size === option.size
+    );
+    if (!foodItem) {
+      foodItemList.push(newFoodItem);
+    } else {
+      foodItem.quantity += 1;
+    }
+    this.orderService.updatePendingOrder(this.order);
+  }
+
+  deleteItem() {
+    this.order.sideItems = this.order.sideItems.filter(
+      (si) => si.name !== "Hot Chips"
+    );
+    this.orderService.updatePendingOrder(this.order);
   }
 }

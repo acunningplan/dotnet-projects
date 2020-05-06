@@ -1,13 +1,17 @@
-import { Burger } from "./menuJson";
-import { Ingredient, Ingredients } from "./ingredients";
+import { Burger, Drink, Side } from "./menuJson";
+import { Ingredient, Ingredients, Food } from "./ingredients";
 
 export class Menu {
   burgers: { [key: string]: BurgerItem[] } = {};
   sides: { [key: string]: SideItem[] } = {};
   drinks: { [key: string]: DrinkItem[] } = {};
+
+  burgerItems: BurgerItem[];
+  sideItems: SideItem[];
+  drinkItems: DrinkItem[];
 }
 
-export class BurgerItem extends Ingredient {
+export class BurgerItem extends Food {
   constructor(burger: Burger, ingredients: Ingredients) {
     super();
     this.ingredients = ingredients;
@@ -48,13 +52,24 @@ export class BurgerItem extends Ingredient {
   }
 }
 
-class SideItem extends Ingredient {
-  size: string;
+export class SideItem extends Food {
+  constructor(side: Side) {
+    super();
+    this.name = side.name;
+    this.type = side.type;
+    this.description = side.description;
+  }
   type: string;
 }
 
-class DrinkItem extends Ingredient {
-  size: string;
+export class DrinkItem extends Food {
+  constructor(drink: Drink) {
+    super();
+    this.name = drink.name;
+    this.type = drink.type;
+    this.volume = drink.volume;
+    this.description = drink.description;
+  }
   type: string;
   volume: string;
 }

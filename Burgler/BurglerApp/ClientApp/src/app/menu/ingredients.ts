@@ -11,6 +11,12 @@ export class Ingredient {
   description: string;
 }
 
+export class Food {
+  name: string;
+  description: string;
+  options: { size: string; calories: number; price: number }[];
+}
+
 class Bun extends Ingredient {}
 class Topping extends Ingredient {}
 class Patty extends Ingredient {

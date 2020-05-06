@@ -1,5 +1,7 @@
 <div class="wrapper">
-  <app-left-sidebar></app-left-sidebar>
+  <app-left-sidebar
+    (clickSubcategory)="clickSubcategory($event)"
+  ></app-left-sidebar>
 
   <div class="card">
     <h5 class="card-header">Featured</h5>
@@ -9,13 +11,21 @@
         With supporting text below as a natural lead-in to additional content.
       </p>
       <a routerLink="/menu" class="btn btn-primary">Go somewhere</a>
-      <button
-        class="btn btn-default btn-primary"
-        style="margin: 10px;"
-        (click)="addToOrder()"
-      >
-        Add to order
-      </button>
+
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let food of foodsToDisplay">
+          <h4>{{ food.name }}</h4>
+          <p *ngFor="let option of food.options">
+            {{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal
+            <button
+              class="btn btn-default btn-primary float-right"
+              (click)="addFoodToOrder(food.name, option.size)"
+            >
+              Add
+            </button>
+          </p>
+        </li>
+      </ul>
     </div>
   </div>
 

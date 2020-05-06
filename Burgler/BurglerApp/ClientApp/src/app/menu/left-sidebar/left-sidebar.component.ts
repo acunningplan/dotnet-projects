@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { MenuService } from "../menu.service";
-import { Menu } from "../menu";
+import { Menu, BurgerItem } from "../menu";
+import { Food } from "../ingredients";
 
 @Component({
   selector: "app-left-sidebar",
@@ -11,8 +12,14 @@ import { Menu } from "../menu";
 })
 export class LeftSidebarComponent implements OnInit {
   menu = new Menu();
+  @Output() clickSubcategory = new EventEmitter<{
+    category: string;
+    foods: Food[];
+  }>();
 
-  constructor(private http: HttpClient, private menuService: MenuService) {}
+  constructor(private http: HttpClient, private menuService: MenuService) {
+    this.menu = menuService.getMenu();
+  }
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
@@ -20,7 +27,10 @@ export class LeftSidebarComponent implements OnInit {
 
   preserveOrder = (a: object, b: object): object => a;
 
-  onClickSubcategory(subcategory: MenuItem[]) {}
+  onClickSubcategory(category: string, subCateogory: string) {
+    const foods: Food[] = this.menu[category][subCateogory];
+    this.clickSubcategory.emit({ category, foods });
+  }
 }
 
 interface MenuItem {

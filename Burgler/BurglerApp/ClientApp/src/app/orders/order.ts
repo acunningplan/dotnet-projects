@@ -1,3 +1,5 @@
+import { Food } from "../menu/ingredients";
+
 export class Order {
   orderId: string;
   burgerItems: BurgerItem[] = [];
@@ -5,10 +7,18 @@ export class Order {
   drinkItems: DrinkItem[] = [];
 }
 
-class FoodItem {
+export class FoodItem {
   name: string;
   quantity = 1;
-  size: "small";
+  size = "Small";
+
+  constructor(
+    food: Food,
+    option: { size: string; price: number; calories: number }
+  ) {
+    this.name = food.name;
+    this.size = option.size;
+  }
 }
 
 export class BurgerItem extends FoodItem {}
