@@ -4,13 +4,12 @@
   ></app-left-sidebar>
 
   <div class="card">
-    <h5 class="card-header">Featured</h5>
+    <h5 class="card-header">Burgler menu</h5>
     <div class="card-body">
-      <h5 class="card-title">Special title treatment</h5>
+      <h5 class="card-title">Tasty food served hot and fresh!</h5>
       <p class="card-text">
-        With supporting text below as a natural lead-in to additional content.
+        Choose and customise your burgers, sides, and drinks!
       </p>
-      <a routerLink="/menu" class="btn btn-primary">Go somewhere</a>
 
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
@@ -29,5 +28,5 @@
     </div>
   </div>
 
-  <app-right-sidebar></app-right-sidebar>
+  <app-right-sidebar [order]="order"></app-right-sidebar>
 </div>

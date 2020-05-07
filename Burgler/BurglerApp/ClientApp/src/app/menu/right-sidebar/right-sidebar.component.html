@@ -5,18 +5,44 @@
 
   <ul class="list-unstyled components">
     <li>
-      <a
-        href="#homeSubmenu2"
-        data-toggle="collapse"
-        aria-expanded="false"
-        class="dropdown-toggle"
-        >Beefy Burgers</a
-      >
-      <ul class="collapse list-unstyled" id="homeSubmenu2">
-        <li *ngFor="let burger of []">
-          <a [routerLink]="" (click)="onClick()">
-            {{ burger }}
-          </a>
+      <h5>Edit items in basket:</h5>
+      <ul class="list-unstyled" id="order-list">
+        <li *ngFor="let burgerItem of order.burgerItems">
+          <p>
+            {{ burgerItem.name }} ({{ burgerItem.size }}) x{{
+              burgerItem.quantity
+            }}
+            <button
+              class="btn btn-default btn-danger float-right"
+              (click)="onDeleteItem('burger', burgerItem.name, burgerItem.size)"
+            >
+              Remove
+            </button>
+          </p>
+        </li>
+        <li *ngFor="let sideItem of order.sideItems">
+          <p>
+            {{ sideItem.name }} ({{ sideItem.size }}) x{{ sideItem.quantity }}
+            <button
+              class="btn btn-default btn-danger float-right"
+              (click)="onDeleteItem('side', sideItem.name, sideItem.size)"
+            >
+              Remove
+            </button>
+          </p>
+        </li>
+        <li *ngFor="let drinkItem of order.drinkItems">
+          <p>
+            {{ drinkItem.name }} ({{ drinkItem.size }}) x{{
+              drinkItem.quantity
+            }}
+            <button
+              class="btn btn-default btn-danger float-right"
+              (click)="onDeleteItem('drink', drinkItem.name, drinkItem.size)"
+            >
+              Remove
+            </button>
+          </p>
         </li>
       </ul>
     </li>
