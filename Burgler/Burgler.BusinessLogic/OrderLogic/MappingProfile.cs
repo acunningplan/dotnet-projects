@@ -2,14 +2,29 @@
 using Burgler.Entities.FoodItem;
 using Burgler.Entities.OrderNS;
 using Burgler.Entities.User;
+using System;
 
 namespace Burgler.BusinessLogic.OrderLogic
 {
     public class MappingProfile : Profile
     {
+        private string returnOrderStatus(Order order)
+        {
+            if (order.CancelledAt != DateTime.MinValue)
+                return "cancelled";
+            else if (order.FoodTakenAt != DateTime.MinValue)
+                return "picked-up";
+            else if (order.ReadyAt != DateTime.MinValue)
+                return "ready";
+            else if (order.OrderedAt != DateTime.MinValue)
+                return "placed";
+            else if (order.OrderedAt == DateTime.MinValue)
+                return "pending";
+            return "cancelled";
+        }
         public MappingProfile()
         {
-            CreateMap<Order, OrderDto>();
+            CreateMap<Order, OrderDto>().ForMember(dest => dest.Status, opt => opt.MapFrom(src => returnOrderStatus(src)));
             CreateMap<AppUser, UserDto>();
             CreateMap<BurgerItem, BurgerItemDto>();
             CreateMap<BurgerTopping, BurgerToppingDto>();

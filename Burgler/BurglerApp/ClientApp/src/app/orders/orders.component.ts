@@ -10,7 +10,12 @@ import { Order } from "./order";
   styleUrls: ["./orders.component.css"],
 })
 export class OrdersComponent implements OnInit {
-  constructor(private http: HttpClient, private orderService: OrderService) {}
+  pendingOrder: Order;
+  orders: Order[];
+  constructor(private http: HttpClient, private orderService: OrderService) {
+    this.pendingOrder = orderService.getPendingOrder();
+    this.orders = orderService.getPastOrders();
+  }
 
   ngOnInit() {}
 
@@ -20,5 +25,14 @@ export class OrdersComponent implements OnInit {
   //   this.orderService.updatePendingOrder(new Order());
   // }
 
-  cancelOrder() {}
+  cancelOrder(orderId: string) {
+    this.orderService.changeOrderStatus(orderId, "cancel");
+  }
+
+  placeOrder() {
+    this.orderService.changeOrderStatus(
+      this.pendingOrder.orderId,
+      "placeOrder"
+    );
+  }
 }

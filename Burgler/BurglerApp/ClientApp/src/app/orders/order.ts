@@ -1,7 +1,18 @@
 import { Food } from "../menu/ingredients";
+import { OrderJson } from "./orderJson";
 
 export class Order {
+  constructor(orderJson?: OrderJson) {
+    if (!!orderJson) {
+      this.orderId = orderJson.orderId;
+      this.status = orderJson.status;
+      this.burgerItems = orderJson.burgerItems;
+      this.sideItems = orderJson.sideItems;
+      this.drinkItems = orderJson.drinkItems;
+    }
+  }
   orderId: string;
+  status: string;
   burgerItems: BurgerItem[] = [];
   sideItems: SideItem[] = [];
   drinkItems: DrinkItem[] = [];

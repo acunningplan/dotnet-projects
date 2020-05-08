@@ -10,12 +10,13 @@ namespace Burgler.BusinessLogic.OrderLogic
     public class OrderDto
     {
         public Guid OrderId { get; set; }
+        public string Status { get; set; }
         public DateTime OrderedAt { get; set; }
-        public DateTime EditedAt { get; set; }
-        public DateTime ReadyAt { get; set; }
-        public DateTime FoodTakenAt { get; set; }
+        //public DateTime EditedAt { get; set; }
+        //public DateTime ReadyAt { get; set; }
+        //public DateTime FoodTakenAt { get; set; }
         public DateTime PickupTime { get; set; }
-        public DateTime CancelledAt { get; set; }
+        //public DateTime CancelledAt { get; set; }
         public virtual ICollection<BurgerItemDto> BurgerItems { get; set; } = new List<BurgerItemDto>();
         public virtual ICollection<SideItemDto> SideItems { get; set; } = new List<SideItemDto>();
         public virtual ICollection<DrinkItemDto> DrinkItems { get; set; } = new List<DrinkItemDto>();
