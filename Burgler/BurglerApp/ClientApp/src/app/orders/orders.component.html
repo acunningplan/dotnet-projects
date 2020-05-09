@@ -7,10 +7,15 @@
     </button>
   </li>
   <li *ngFor="let order of orders" class="list-group-item">
-    {{ order.status }}
+    {{ order.status }}, order placed at {{ reformatDateTime(order.orderedAt) }}
 
-    <button class="btn btn-danger btn-default" (click)="cancelOrder(order.orderId)">
+    <a
+      *ngIf="order.status != 'cancelled'"
+      href="orders"
+      class="btn btn-danger btn-default"
+      (click)="cancelOrder(order.orderId)"
+    >
       Cancel
-    </button>
+    </a>
   </li>
 </ul>

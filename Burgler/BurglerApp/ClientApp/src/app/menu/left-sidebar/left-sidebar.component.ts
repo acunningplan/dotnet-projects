@@ -12,14 +12,13 @@ import { Food } from "../ingredients";
 })
 export class LeftSidebarComponent implements OnInit {
   menu = new Menu();
+  foodTypes = ["burgers", "sides", "drinks"];
   @Output() clickSubcategory = new EventEmitter<{
     category: string;
     foods: Food[];
   }>();
 
-  constructor(private http: HttpClient, private menuService: MenuService) {
-    this.menu = menuService.getMenu();
-  }
+  constructor(private http: HttpClient, private menuService: MenuService) {}
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();

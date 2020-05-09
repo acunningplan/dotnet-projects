@@ -45,8 +45,8 @@ namespace Burgler.BusinessLogic.OrderLogic
             // Check if there's already a pending order. If yes, do not create empty order
             var orders = await dbContext.Orders.Where(
                    order => order.User.UserName == username
-                   & DateTime.MinValue == order.CancelledAt
-                       & DateTime.MinValue == order.OrderedAt
+                        & DateTime.MinValue == order.CancelledAt
+                        & DateTime.MinValue == order.OrderedAt
                ).ToListAsync();
 
             if (orders.Count > 0) return;

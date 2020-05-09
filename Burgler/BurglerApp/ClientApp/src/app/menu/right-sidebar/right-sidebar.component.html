@@ -7,42 +7,16 @@
     <li>
       <h5>Edit items in basket:</h5>
       <ul class="list-unstyled" id="order-list">
-        <li *ngFor="let burgerItem of order.burgerItems">
+        <li *ngFor="let foodItem of getFoodItems()">
           <p>
-            {{ burgerItem.name }} ({{ burgerItem.size }}) x{{
-              burgerItem.quantity
-            }}
-            <button
-              class="btn btn-default btn-danger float-right"
-              (click)="onDeleteItem('burger', burgerItem.name, burgerItem.size)"
-            >
-              Remove
-            </button>
+            {{ foodItem.name }} ({{ foodItem.size }}) x{{ foodItem.quantity }}
           </p>
-        </li>
-        <li *ngFor="let sideItem of order.sideItems">
-          <p>
-            {{ sideItem.name }} ({{ sideItem.size }}) x{{ sideItem.quantity }}
-            <button
-              class="btn btn-default btn-danger float-right"
-              (click)="onDeleteItem('side', sideItem.name, sideItem.size)"
-            >
-              Remove
-            </button>
-          </p>
-        </li>
-        <li *ngFor="let drinkItem of order.drinkItems">
-          <p>
-            {{ drinkItem.name }} ({{ drinkItem.size }}) x{{
-              drinkItem.quantity
-            }}
-            <button
-              class="btn btn-default btn-danger float-right"
-              (click)="onDeleteItem('drink', drinkItem.name, drinkItem.size)"
-            >
-              Remove
-            </button>
-          </p>
+          <button
+            class="btn btn-default btn-danger float-right"
+            (click)="onDeleteItem(foodItem.name, foodItem.size)"
+          >
+            Remove
+          </button>
         </li>
       </ul>
     </li>

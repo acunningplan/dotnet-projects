@@ -2,7 +2,7 @@ import { DrinkItem, SideItem, BurgerItem } from "./order";
 
 export class OrderJson {
   orderId: string;
-  orderedAt: string;
+  orderedAt: Date;
   status: string;
   // readyAt: string;
   // foodTakenAt: string;

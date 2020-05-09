@@ -21,12 +21,16 @@ export class MenuComponent implements OnInit {
   order: Order;
   foodsToDisplay: Food[];
   foodType: string;
-  constructor(menuService: MenuService, private orderService: OrderService) {
-    this.menu = menuService.getMenu();
-    this.order = orderService.getPendingOrder();
-  }
 
-  ngOnInit() {}
+  constructor(
+    private menuService: MenuService,
+    private orderService: OrderService
+  ) {}
+
+  ngOnInit() {
+    this.menu = this.menuService.getMenu();
+    this.order = this.orderService.getPendingOrder();
+  }
 
   preserveOrder = (a, b) => a;
 
@@ -39,34 +43,13 @@ export class MenuComponent implements OnInit {
 
   addFoodToOrder(name: string, size: string) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
-    const option = food.options.find((option) => option.size === size);
-    let foodItemList: FoodItem[];
-    let newFoodItem: FoodItem;
-    if (this.foodType === "burgers") {
-      foodItemList = this.order.burgerItems;
-      newFoodItem = new BurgerItem(food, option);
-    } else if (this.foodType === "sides") {
-      foodItemList = this.order.sideItems;
-      newFoodItem = new SideItem(food, option);
-    } else if (this.foodType === "drinks") {
-      foodItemList = this.order.drinkItems;
-      newFoodItem = new DrinkItem(food, option);
-    }
-    const foodItem = foodItemList.find(
-      (fi) => fi.name === food.name && fi.size === option.size
-    );
-    if (!foodItem) {
-      foodItemList.push(newFoodItem);
-    } else {
-      foodItem.quantity += 1;
-    }
-    this.orderService.updatePendingOrder(this.order);
+    this.orderService.addToOrder(food, this.foodType, size).subscribe();
   }
 
   deleteItem() {
     this.order.sideItems = this.order.sideItems.filter(
       (si) => si.name !== "Hot Chips"
     );
-    this.orderService.updatePendingOrder(this.order);
+    this.orderService.updatePendingOrder(this.order).subscribe();
   }
 }

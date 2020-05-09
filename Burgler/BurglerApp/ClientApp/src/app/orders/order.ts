@@ -5,6 +5,8 @@ export class Order {
   constructor(orderJson?: OrderJson) {
     if (!!orderJson) {
       this.orderId = orderJson.orderId;
+      this.orderedAt = orderJson.orderedAt;
+
       this.status = orderJson.status;
       this.burgerItems = orderJson.burgerItems;
       this.sideItems = orderJson.sideItems;
@@ -12,6 +14,7 @@ export class Order {
     }
   }
   orderId: string;
+  orderedAt: Date;
   status: string;
   burgerItems: BurgerItem[] = [];
   sideItems: SideItem[] = [];

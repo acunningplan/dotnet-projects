@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { HttpClientModule } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { map, tap } from "rxjs/operators";
-import { Order } from "./order";
+import { Order, FoodItem, BurgerItem, SideItem, DrinkItem } from "./order";
 import { OrderJson } from "./orderJson";
+import { Food } from "../menu/ingredients";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
@@ -16,14 +16,7 @@ export class OrderService {
   fetchPendingOrder() {
     return this.http.get<OrderJson[]>(`${environment.serverUrl}/order`).pipe(
       map((orderJson) => {
-        if (orderJson.length === 0) {
-          // Create new order if there's no pending order
-          this.pendingOrder = new Order();
-          this.http.post(`${environment.serverUrl}/order`, {});
-        } else {
-          // If pending order is found, load it to service
-          this.pendingOrder = new Order(orderJson[0]);
-        }
+        this.pendingOrder = new Order(orderJson[0]);
         console.log(orderJson);
       })
     );
@@ -51,9 +44,42 @@ export class OrderService {
 
   updatePendingOrder(pendingOrder: Order) {
     this.pendingOrder = pendingOrder;
-    this.http
-      .patch(`${environment.serverUrl}/order/edit`, pendingOrder)
-      .subscribe((res) => console.log(res));
+    return this.http.patch(`${environment.serverUrl}/order/edit`, pendingOrder);
+  }
+
+  addToOrder(food: Food, foodType: string, size: string) {
+    const option = food.options.find((option) => option.size === size);
+    let foodItemList: FoodItem[];
+    let newFoodItem: FoodItem;
+    if (foodType === "burgers") {
+      foodItemList = this.pendingOrder.burgerItems;
+      newFoodItem = new BurgerItem(food, option);
+    } else if (foodType === "sides") {
+      foodItemList = this.pendingOrder.sideItems;
+      newFoodItem = new SideItem(food, option);
+    } else if (foodType === "drinks") {
+      foodItemList = this.pendingOrder.drinkItems;
+      newFoodItem = new DrinkItem(food, option);
+    }
+    const foodItem = foodItemList.find(
+      (fi) => fi.name === food.name && fi.size === size
+    );
+    if (!foodItem) {
+      foodItemList.push(newFoodItem);
+    } else {
+      foodItem.quantity += 1;
+    }
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
+  deleteFromOrder(name: string, size: string) {
+    const foodItemTypes = ["burgerItems", "sideItems", "drinkItems"];
+    for (const foodItemType of foodItemTypes) {
+      this.pendingOrder[foodItemType] = this.pendingOrder[foodItemType].filter(
+        (f) => f.name !== name || f.size !== size
+      );
+    }
+    return this.updatePendingOrder(this.pendingOrder);
   }
 
   changeOrderStatus(orderId: string, action: string) {
@@ -63,16 +89,12 @@ export class OrderService {
     } else if (action === "cancel") {
       statusChange = 1;
     }
-    this.http
-      .patch(
-        `${environment.serverUrl}/order/change/${orderId}`,
-        {
-          statusChange,
-        },
-        { observe: "response" }
-      )
-      .subscribe((res) => {
-        console.log(res.status);
-      });
+    return this.http.patch(
+      `${environment.serverUrl}/order/change/${orderId}`,
+      {
+        statusChange,
+      },
+      { observe: "response" }
+    );
   }
 }

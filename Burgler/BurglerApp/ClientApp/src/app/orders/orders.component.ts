@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
 import { OrderService } from "./order.service";
 import { Order } from "./order";
+import * as moment from "moment";
 
 @Component({
   selector: "app-orders",
@@ -26,13 +26,18 @@ export class OrdersComponent implements OnInit {
   // }
 
   cancelOrder(orderId: string) {
-    this.orderService.changeOrderStatus(orderId, "cancel");
+    this.orderService
+      .changeOrderStatus(orderId, "cancel")
+      .subscribe(() => location.reload());
   }
 
   placeOrder() {
-    this.orderService.changeOrderStatus(
-      this.pendingOrder.orderId,
-      "placeOrder"
-    );
+    this.orderService
+      .changeOrderStatus(this.pendingOrder.orderId, "placeOrder")
+      .subscribe(() => location.reload());
+  }
+
+  reformatDateTime(dateTime: Date) {
+    return moment(dateTime).format("MMMM Do YYYY, h:mm");
   }
 }
