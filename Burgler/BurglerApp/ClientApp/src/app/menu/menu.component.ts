@@ -1,12 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../orders/order.service";
-import {
-  Order,
-  BurgerItem,
-  SideItem,
-  DrinkItem,
-  FoodItem,
-} from "../orders/order";
+import { Order } from "../orders/order";
 import { MenuService } from "./menu.service";
 import { Menu } from "./menu";
 import { Food } from "./ingredients";
@@ -44,12 +38,5 @@ export class MenuComponent implements OnInit {
   addFoodToOrder(name: string, size: string) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
     this.orderService.addToOrder(food, this.foodType, size).subscribe();
-  }
-
-  deleteItem() {
-    this.order.sideItems = this.order.sideItems.filter(
-      (si) => si.name !== "Hot Chips"
-    );
-    this.orderService.updatePendingOrder(this.order).subscribe();
   }
 }

@@ -27,14 +27,12 @@ namespace Burgler.BusinessLogic.OrderLogic
             CreateMap<Order, OrderDto>().ForMember(dest => dest.Status, opt => opt.MapFrom(src => returnOrderStatus(src)));
             CreateMap<AppUser, UserDto>();
             CreateMap<BurgerItem, BurgerItemDto>();
-            CreateMap<BurgerTopping, BurgerToppingDto>();
             CreateMap<SideItem, SideItemDto>();
             CreateMap<DrinkItem, DrinkItemDto>();
 
             CreateMap<OrderDto, Order>();
             CreateMap<UserDto, AppUser>();
             CreateMap<BurgerItemDto, BurgerItem>();
-            CreateMap<BurgerToppingDto, BurgerTopping>();
             CreateMap<SideItemDto, SideItem>();
             CreateMap<DrinkItemDto, DrinkItem>();
         }

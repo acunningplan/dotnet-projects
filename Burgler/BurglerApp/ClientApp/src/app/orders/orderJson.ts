@@ -1,4 +1,4 @@
-import { DrinkItem, SideItem, BurgerItem } from "./order";
+import { DrinkItemJson, SideItemJson, BurgerItemJson } from "./order";
 
 export class OrderJson {
   orderId: string;
@@ -7,7 +7,7 @@ export class OrderJson {
   // readyAt: string;
   // foodTakenAt: string;
   // cancelledAt: string;
-  burgerItems: BurgerItem[];
-  sideItems: SideItem[];
-  drinkItems: DrinkItem[];
+  burgerItems: BurgerItemJson[];
+  sideItems: SideItemJson[];
+  drinkItems: DrinkItemJson[];
 }

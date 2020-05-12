@@ -4,14 +4,16 @@ using BurglerContextLib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BurglerContextLib.Migrations
 {
     [DbContext(typeof(BurglerContext))]
-    partial class BurglerContextModelSnapshot : ModelSnapshot
+    [Migration("20200512022025_Default Calories and Price in Burger")]
+    partial class DefaultCaloriesandPriceinBurger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

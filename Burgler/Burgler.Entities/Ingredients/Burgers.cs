@@ -19,5 +19,7 @@ namespace Burgler.Entities.Ingredients
         public string BurgerPatty { get; set; } = "Beef";
         public string BurgerPattyCooked { get; set; } = "Medium";
         public string BurgerToppings { get; set; } = "Tomato+Lettuce";
+        public double Calories { get; set; } = 0;
+        public double Price { get; set; } = 0;
     }
 }

@@ -14,42 +14,43 @@ export class Menu {
 export class BurgerItem extends Food {
   constructor(burger: Burger, ingredients: Ingredients) {
     super();
+    this.name = burger.name;
+    this.type = burger.type;
+    this.description = burger.description;
     this.ingredients = ingredients;
     this.bun = burger.burgerBun;
     this.toppings = burger.burgerToppings.split("+");
     this.patty = burger.burgerPatty;
-    this.calculateCalories();
-    this.calculatePrice();
+    // this.calculateCalories();
+    // this.calculatePrice();
   }
-
-  private ingredients: Ingredients;
+  type: string;
+  ingredients: Ingredients;
   bun: string;
   patty: string;
   toppings: string[];
-  calories = 0;
-  price = 1;
 
-  private calculateCalories() {
-    this.calories += this.ingredients.buns.find(
-      (b) => b.name === this.bun
-    ).calories;
-    this.ingredients.toppings
-      .filter((t) => this.toppings.includes(t.name))
-      .forEach((t) => (this.calories += t.calories));
-    this.calories += this.ingredients.patties.find(
-      (p) => p.name === this.patty
-    ).calories;
-  }
+  // private calculateCalories() {
+  //   this.calories += this.ingredients.buns.find(
+  //     (b) => b.name === this.bun
+  //   ).calories;
+  //   this.ingredients.toppings
+  //     .filter((t) => this.toppings.includes(t.name))
+  //     .forEach((t) => (this.calories += t.calories));
+  //   this.calories += this.ingredients.patties.find(
+  //     (p) => p.name === this.patty
+  //   ).calories;
+  // }
 
-  private calculatePrice() {
-    this.price += this.ingredients.buns.find((b) => b.name === this.bun).price;
-    this.ingredients.toppings
-      .filter((t) => this.toppings.includes(t.name))
-      .forEach((t) => (this.price += t.price));
-    this.price += this.ingredients.patties.find(
-      (p) => p.name === this.patty
-    ).price;
-  }
+  // private calculatePrice() {
+  //   this.price += this.ingredients.buns.find((b) => b.name === this.bun).price;
+  //   this.ingredients.toppings
+  //     .filter((t) => this.toppings.includes(t.name))
+  //     .forEach((t) => (this.price += t.price));
+  //   this.price += this.ingredients.patties.find(
+  //     (p) => p.name === this.patty
+  //   ).price;
+  // }
 }
 
 export class SideItem extends Food {

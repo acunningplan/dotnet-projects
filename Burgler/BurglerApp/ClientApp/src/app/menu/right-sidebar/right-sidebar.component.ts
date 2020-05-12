@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { OrderService } from "src/app/orders/order.service";
-import { Order } from "src/app/orders/order";
+import { Order, FoodItem } from "src/app/orders/order";
 
 @Component({
   selector: "app-right-sidebar",
@@ -14,8 +14,13 @@ export class RightSidebarComponent implements OnInit {
   ngOnInit() {}
 
   getFoodItems() {
+    let foodItems: FoodItem[] = [];
     const { burgerItems, sideItems, drinkItems } = this.order;
-    return burgerItems.concat(sideItems).concat(drinkItems);
+    foodItems = foodItems
+      .concat(burgerItems)
+      .concat(sideItems)
+      .concat(drinkItems);
+    return foodItems;
   }
 
   onDeleteItem(name: string, size: string) {

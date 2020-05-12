@@ -35,12 +35,12 @@ namespace Burgler.BusinessLogic.OrderLogic
         public string BurgerBun { get; set; } = "White";
         public string BurgerPatty { get; set; } = "Beef";
         public string BurgerPattyCooked { get; set; } = "Medium";
-        public virtual ICollection<BurgerToppingDto> BurgerToppings { get; set; } = new List<BurgerToppingDto>();
+        public virtual string BurgerToppings { get; set; } = "Tomato+Lettuce";
     }
-    public class BurgerToppingDto
-    {
-        public string Name { get; set; } = "Tomato";
-    }
+    //public class BurgerToppingDto
+    //{
+    //    public string Name { get; set; } = "Tomato";
+    //}
     public class DrinkItemDto : FoodItem { }
     public class SideItemDto : FoodItem { }
 }

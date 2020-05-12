@@ -44,18 +44,18 @@ export class MenuService {
 
     console.log(menuJson);
 
-    let burgers = menuJson.burgersList;
-    // .filter(
-    //   (burger, i) =>
-    //     menuJson.burgersList.findIndex((b) => b.name === burger.name) === i
-    // )
-    // .map((b) => {
-    //   const bi = new BurgerItem(b, ingredients);
-    //   bi.options = menuJson.burgersList
-    //     .filter((burger) => burger.name === b.name)
-    //     .map((b) => ({ size: b.size, calories: b.calories, price: b.price }));
-    //   return bi;
-    // });
+    let burgers = menuJson.burgersList
+      .filter(
+        (burger, i) =>
+          menuJson.burgersList.findIndex((b) => b.name === burger.name) === i
+      )
+      .map((b) => {
+        const bi = new BurgerItem(b, ingredients);
+        bi.options = menuJson.burgersList
+          .filter((burger) => burger.name === b.name)
+          .map((b) => ({ size: b.size, calories: b.calories, price: b.price }));
+        return bi;
+      });
 
     menu.burgers = this.groupBy(burgers, "type");
 
@@ -88,35 +88,6 @@ export class MenuService {
       });
 
     menu.drinks = this.groupBy(drinks, "type");
-
-    // for (const burger of menuJson.burgersList) {
-    //   if (!burgerTypes.find((bt) => bt == burger.type))
-    //     burgerTypes.push(burger.type);
-    // }
-    // for (const burgerType of burgerTypes) {
-    //   menu.burgers[burgerType] = menuJson.burgersList
-    //     .filter((b) => b.type == burgerType)
-    //     .map((b) => new BurgerItem(b, ingredients));
-    // }
-    // for (const side of menuJson.sidesList) {
-    //   if (!sideTypes.find((st) => st == side.type)) sideTypes.push(side.type);
-    // }
-    // for (const sideType of sideTypes) {
-    //   menu.sides[sideType] = menuJson.sidesList.filter(
-    //     (b) => b.type == sideType
-    //   );
-    // }
-
-    // for (const drink of drinks) {
-    //   if (!drinkTypes.find((dt) => dt == drink.type))
-    //     drinkTypes.push(drink.type);
-    // }
-    // for (const drinkType of drinkTypes) {
-    //   menu.drinks[drinkType] = menuJson.drinksList.filter(
-    //     (b) => b.type == drinkType
-    //   );
-    // }
-
     this.menu = menu;
   }
 

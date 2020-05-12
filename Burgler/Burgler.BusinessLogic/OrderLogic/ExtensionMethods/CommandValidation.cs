@@ -10,8 +10,8 @@ namespace Burgler.BusinessLogic.OrderLogic
                 return false;
             if (menu.PattiesList.Find(patty => patty.Name == bi.BurgerPatty & patty.Size == bi.Size) == null)
                 return false;
-            foreach (BurgerToppingDto bt in bi.BurgerToppings)
-                if (menu.ToppingsList.Find(topping => topping.Name == bt.Name) == null)
+            foreach (string bt in bi.BurgerToppings.Split("+"))
+                if (menu.ToppingsList.Find(topping => topping.Name == bt) == null)
                     return false;
             return true;
         }

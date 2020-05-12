@@ -2,9 +2,16 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { map, tap } from "rxjs/operators";
-import { Order, FoodItem, BurgerItem, SideItem, DrinkItem } from "./order";
+import {
+  Order,
+  FoodItem,
+  BurgerItemJson,
+  SideItemJson,
+  DrinkItemJson,
+} from "./order";
 import { OrderJson } from "./orderJson";
 import { Food } from "../menu/ingredients";
+import { BurgerItem } from "../menu/menu";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
@@ -17,6 +24,7 @@ export class OrderService {
     return this.http.get<OrderJson[]>(`${environment.serverUrl}/order`).pipe(
       map((orderJson) => {
         this.pendingOrder = new Order(orderJson[0]);
+        console.log(`Pending order:`);
         console.log(orderJson);
       })
     );
@@ -29,7 +37,7 @@ export class OrderService {
         map((orderJson) => {
           this.pastOrders = orderJson.map((o) => new Order(o));
           console.log("Logging past orders:");
-          console.log(this.pastOrders);
+          console.log(`Past order: ${this.pastOrders}`);
         })
       );
   }
@@ -53,13 +61,13 @@ export class OrderService {
     let newFoodItem: FoodItem;
     if (foodType === "burgers") {
       foodItemList = this.pendingOrder.burgerItems;
-      newFoodItem = new BurgerItem(food, option);
+      newFoodItem = new BurgerItemJson(food as BurgerItem, option);
     } else if (foodType === "sides") {
       foodItemList = this.pendingOrder.sideItems;
-      newFoodItem = new SideItem(food, option);
+      newFoodItem = new SideItemJson(food, option);
     } else if (foodType === "drinks") {
       foodItemList = this.pendingOrder.drinkItems;
-      newFoodItem = new DrinkItem(food, option);
+      newFoodItem = new DrinkItemJson(food, option);
     }
     const foodItem = foodItemList.find(
       (fi) => fi.name === food.name && fi.size === size

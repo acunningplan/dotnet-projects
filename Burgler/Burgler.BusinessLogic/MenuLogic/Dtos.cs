@@ -1,5 +1,4 @@
-﻿using Burgler.Entities.Ingredients;
-using Burgler.Entities.IngredientsNS;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +14,8 @@ namespace Burgler.BusinessLogic.MenuLogic
         public string BurgerPatty { get; set; }
         public string BurgerToppings { get; set; }
         public string Description { get; set; }
+        public double Calories { get; set; }
+        public double Price { get; set; }
     }
     public class BunDto : IngredientDto { }
     public class ToppingDto : IngredientDto { }
