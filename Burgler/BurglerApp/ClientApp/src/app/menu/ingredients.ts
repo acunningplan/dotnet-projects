@@ -1,6 +1,7 @@
 export class Ingredients {
   buns: Bun[] = [];
   patties: Patty[] = [];
+  pattySizes: string[];
   toppings: Topping[] = [];
 }
 

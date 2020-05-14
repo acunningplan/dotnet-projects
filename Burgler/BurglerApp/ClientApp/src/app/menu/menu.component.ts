@@ -15,6 +15,7 @@ export class MenuComponent implements OnInit {
   order: Order;
   foodsToDisplay: Food[];
   foodType: string;
+  showBurgerModal = false;
 
   constructor(
     private menuService: MenuService,
@@ -38,5 +39,9 @@ export class MenuComponent implements OnInit {
   addFoodToOrder(name: string, size: string) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
     this.orderService.addToOrder(food, this.foodType, size).subscribe();
+  }
+
+  burgerModal() {
+    this.showBurgerModal = !this.showBurgerModal;
   }
 }

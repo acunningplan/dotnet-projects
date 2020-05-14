@@ -8,8 +8,8 @@ import { Ingredients } from "./ingredients";
 
 @Injectable({ providedIn: "root" })
 export class MenuService {
-  menu: Menu;
-  ingredients: Ingredients;
+  private menu: Menu;
+  private ingredients: Ingredients;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,10 @@ export class MenuService {
   private loadIngredients(menuJson: MenuJson) {
     const ingredients = new Ingredients();
     ingredients.buns = menuJson.bunsList;
-    ingredients.patties = menuJson.pattiesList;
+    ingredients.patties = menuJson.pattiesList.filter(
+      (patty, i) =>
+        menuJson.pattiesList.findIndex((p) => p.name === patty.name) === i
+    );
     ingredients.toppings = menuJson.toppingsList;
     this.ingredients = ingredients;
   }
@@ -95,7 +98,31 @@ export class MenuService {
     return this.menu;
   }
 
-  setMenu(menu: Menu) {
-    this.menu = menu;
+  getIngredients(): Ingredients {
+    return this.ingredients;
   }
+
+  // calories: number;
+  // price: number;
+  // private calculateCalories() {
+  //   this.calories += this.ingredients.buns.find(
+  //     (b) => b.name === this.bun
+  //   ).calories;
+  //   this.ingredients.toppings
+  //     .filter((t) => this.toppings.includes(t.name))
+  //     .forEach((t) => (this.calories += t.calories));
+  //   this.calories += this.ingredients.patties.find(
+  //     (p) => p.name === this.patty
+  //   ).calories;
+  // }
+
+  // private calculatePrice() {
+  //   this.price += this.ingredients.buns.find((b) => b.name === this.bun).price;
+  //   this.ingredients.toppings
+  //     .filter((t) => this.toppings.includes(t.name))
+  //     .forEach((t) => (this.price += t.price));
+  //   this.price += this.ingredients.patties.find(
+  //     (p) => p.name === this.patty
+  //   ).price;
+  // }
 }

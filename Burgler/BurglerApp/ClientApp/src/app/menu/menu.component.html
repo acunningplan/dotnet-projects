@@ -10,23 +10,22 @@
       <p class="card-text">
         Choose and customise your burgers, sides, and drinks!
       </p>
-
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
           <h4>{{ food.name }}</h4>
           <p *ngFor="let option of food.options">
             {{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal
             <button
-              class="btn btn-default btn-primary float-right"
+              class="btn btn-primary float-right"
               (click)="addFoodToOrder(food.name, option.size)"
             >
               Add
             </button>
+            <app-burger-modal *ngIf="foodType == 'burgers'" [food]="food" [option]="option"></app-burger-modal>
           </p>
         </li>
       </ul>
     </div>
   </div>
-
   <app-right-sidebar [order]="order"></app-right-sidebar>
 </div>
