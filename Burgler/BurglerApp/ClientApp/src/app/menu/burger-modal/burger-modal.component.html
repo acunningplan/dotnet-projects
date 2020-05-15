@@ -42,6 +42,7 @@
                 [id]="bun.name"
                 [value]="bun.name"
                 [checked]="burger.bun === bun.name"
+                (click)="chooseIng(bun.name, 'burgerBun')"
               />
               <label class="form-check-label" [for]="bun.name">{{
                 bun.name
@@ -62,6 +63,7 @@
                 [checked]="
                   checkIfIngredientIsIncluded(burger.toppings, topping.name)
                 "
+                (click)="chooseIng(topping.name, 'burgerToppings')"
               />
               <label class="form-check-label" [for]="topping.name">{{
                 topping.name
@@ -72,7 +74,7 @@
             <div
               style="margin-right: 10pt;"
               class="form-check"
-              *ngFor="let patty of ingredients.patties; let index = index"
+              *ngFor="let patty of ingredients.patties"
             >
               <input
                 type="radio"
@@ -81,6 +83,7 @@
                 [id]="patty.name"
                 [value]="patty.name"
                 [checked]="burger.patty === patty.name"
+                (click)="chooseIng(patty.name, 'burgerPatty')"
               />
               <label class="form-check-label" [for]="patty.name">{{
                 patty.name
@@ -91,18 +94,19 @@
             <div
               style="margin-right: 10pt;"
               class="form-check"
-              *ngFor="let patty of ingredients.patties; let index = index"
+              *ngFor="let pattyCooked of ['Well done', 'Medium well', 'Medium', 'Medium rare']; let index = index"
             >
               <input
                 type="radio"
                 class="form-check-input"
-                name="patty-size"
-                [id]="patty.name"
-                [value]="patty.name"
-                [checked]="burger.patty === patty.name"
+                name="patty-cooked"
+                [id]="pattyCooked"
+                [value]="pattyCooked"
+                [checked]="index === 0"
+                (click)="chooseIng(index.toString(), 'burgerPattyCooked')"
               />
-              <label class="form-check-label" [for]="patty.name">{{
-                patty.name
+              <label class="form-check-label" [for]="pattyCooked">{{
+                pattyCooked
               }}</label>
             </div>
           </div>

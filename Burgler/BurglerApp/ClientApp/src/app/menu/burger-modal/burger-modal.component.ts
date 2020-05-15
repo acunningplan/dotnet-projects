@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Food, Ingredients } from "../ingredients";
 import { BurgerItem, Menu } from "../menu";
 import { OrderService } from "src/app/orders/order.service";
-import { Order } from "src/app/orders/order";
+import { Order, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
 
 @Component({
@@ -12,8 +12,9 @@ import { MenuService } from "../menu.service";
 })
 export class BurgerModalComponent implements OnInit {
   @Input() food: Food;
-  @Input() option: { size: string; calories: string; price: string };
+  @Input() option: { size: string; calories: number; price: number };
   burger: BurgerItem;
+  burgerOrder: BurgerItemJson;
   order: Order;
   menu: Menu;
   ingredients: Ingredients;
@@ -26,6 +27,7 @@ export class BurgerModalComponent implements OnInit {
 
   ngOnInit() {
     this.burger = this.food as BurgerItem;
+    this.burgerOrder = new BurgerItemJson(this.burger, this.option);
     this.order = this.orderService.getPendingOrder();
     this.menu = this.menuService.getMenu();
     this.ingredients = this.menuService.getIngredients();
@@ -34,6 +36,24 @@ export class BurgerModalComponent implements OnInit {
   addBurgerToOrder() {}
 
   checkIfIngredientIsIncluded(listOfIngredients: string[], ing: string) {
-    return !!listOfIngredients.find(i => i === ing)
+    return !!listOfIngredients.find((i) => i === ing);
+  }
+
+  chooseIng(ing: string, type: string) {
+    if (type === "burgerBun") {
+      this.burgerOrder.burgerBun = ing;
+    } else if (type === "burgerToppings") {
+      this.burgerOrder.addOrRemoveTopping(ing);
+    } else if (type === "burgerPatty") {
+      this.burgerOrder.burgerPatty = ing;
+    } else if (type === "burgerPattyCooked") {
+      this.burgerOrder.burgerPattyCooked = +ing;
+    }
+    console.log(this.burgerOrder);
+  }
+
+  addToOrder() {
+    this.orderService.addCustomBurgerToPendingOrder(this.burgerOrder);
+    console.log(this.orderService.getPendingOrder());
   }
 }

@@ -55,7 +55,13 @@ export class OrderService {
     return this.http.patch(`${environment.serverUrl}/order/edit`, pendingOrder);
   }
 
-  addToOrder(food: Food, foodType: string, size: string) {
+  addCustomBurgerToPendingOrder(b: BurgerItemJson) {
+    b.name += " (Custom)";
+    this.pendingOrder.burgerItems.push(b);
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
+  addToPendingOrder(food: Food, foodType: string, size: string) {
     const option = food.options.find((option) => option.size === size);
     let foodItemList: FoodItem[];
     let newFoodItem: FoodItem;
