@@ -56,7 +56,10 @@ export class OrderService {
   }
 
   addCustomBurgerToPendingOrder(b: BurgerItemJson) {
+    console.log(b);
     b.name += " (Custom)";
+    b.customId = this.pendingOrder.customItemCount;
+    this.pendingOrder.customItemCount += 1;
     this.pendingOrder.burgerItems.push(b);
     return this.updatePendingOrder(this.pendingOrder);
   }
@@ -93,6 +96,13 @@ export class OrderService {
         (f) => f.name !== name || f.size !== size
       );
     }
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
+  deleteCustomBurgerFromOrder(customId: number) {
+    this.pendingOrder.burgerItems = this.pendingOrder.burgerItems.filter(
+      (bi) => !bi.customId || (!!bi.customId && bi.customId !== customId)
+    );
     return this.updatePendingOrder(this.pendingOrder);
   }
 

@@ -14,6 +14,7 @@ export class Order {
       this.drinkItems = orderJson.drinkItems;
     }
   }
+  customItemCount = 1;
   orderId: string;
   orderedAt: Date;
   status: string;
@@ -26,6 +27,7 @@ export class FoodItem {
   name: string;
   quantity = 1;
   size = "Small";
+  customId?: number;
 
   constructor(
     food: Food,

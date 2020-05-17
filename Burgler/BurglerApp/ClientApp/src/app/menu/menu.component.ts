@@ -4,6 +4,7 @@ import { Order } from "../orders/order";
 import { MenuService } from "./menu.service";
 import { Menu } from "./menu";
 import { Food } from "./ingredients";
+import { Burger } from "./menuJson";
 
 @Component({
   selector: "app-menu",

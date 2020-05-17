@@ -23,7 +23,12 @@ export class RightSidebarComponent implements OnInit {
     return foodItems;
   }
 
-  onDeleteItem(name: string, size: string) {
-    this.orderService.deleteFromOrder(name, size).subscribe();
+  onDeleteItem(name: string, size: string, customId: number = null) {
+    console.log(`Deleting item with id ${customId}`);
+    if (!!customId) {
+      this.orderService.deleteCustomBurgerFromOrder(customId).subscribe();
+    } else {
+      this.orderService.deleteFromOrder(name, size).subscribe();
+    }
   }
 }

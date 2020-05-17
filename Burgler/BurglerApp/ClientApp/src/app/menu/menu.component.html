@@ -10,7 +10,15 @@
       <p class="card-text">
         Choose and customise your burgers, sides, and drinks!
       </p>
-      <ul class="list-group">
+
+      <ul class="list-group" *ngIf="foodType === 'burgers'">
+        <app-burger-modal
+          *ngFor="let burger of foodsToDisplay"
+          [burger]="burger"
+        ></app-burger-modal>
+      </ul>
+
+      <ul class="list-group" *ngIf="foodType !== 'burgers'">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
           <h4>{{ food.name }}</h4>
           <p *ngFor="let option of food.options">
@@ -21,7 +29,6 @@
             >
               Add
             </button>
-            <app-burger-modal *ngIf="foodType == 'burgers'" [food]="food" [option]="option"></app-burger-modal>
           </p>
         </li>
       </ul>
