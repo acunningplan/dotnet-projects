@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { MenuJson } from "./menuJson";
-import { map, tap } from "rxjs/operators";
+import { MenuJson, Burger, Side, Drink } from "./menuJson";
+import { map } from "rxjs/operators";
 import { Menu, BurgerItem, SideItem, DrinkItem } from "./menu";
-import { Ingredients } from "./ingredients";
+import { Ingredients, Food } from "./ingredients";
 
 @Injectable({ providedIn: "root" })
 export class MenuService {
@@ -12,6 +12,14 @@ export class MenuService {
   private ingredients: Ingredients;
 
   constructor(private http: HttpClient) {}
+
+  getMenu(): Menu {
+    return this.menu;
+  }
+
+  getIngredients(): Ingredients {
+    return this.ingredients;
+  }
 
   fetchMenu() {
     return this.http.get<MenuJson>(`${environment.serverUrl}/menu`).pipe(
@@ -42,10 +50,24 @@ export class MenuService {
     }, {});
   };
 
-  private loadMenu(menuJson: MenuJson, ingredients: Ingredients) {
-    const menu = new Menu();
+  private findOptions = (
+    name: string,
+    food: Food,
+    foodList: Burger[] | Side[] | Drink[]
+  ) => {
+    const foodsWithName = foodList.filter((f) => f.name === name);
+    if (foodsWithName.length > -1) {
+      food.options = foodsWithName.map((f) => ({
+        size: f.size,
+        calories: f.calories,
+        price: f.price,
+      }));
+    }
+  };
 
+  private loadMenu(menuJson: MenuJson, ingredients: Ingredients) {
     console.log(menuJson);
+    const menu = new Menu();
 
     let burgers = menuJson.burgersList
       .filter(
@@ -54,9 +76,11 @@ export class MenuService {
       )
       .map((b) => {
         const bi = new BurgerItem(b, ingredients);
-        bi.options = menuJson.burgersList
-          .filter((burger) => burger.name === b.name)
-          .map((b) => ({ size: b.size, calories: b.calories, price: b.price }));
+        // bi.options = menuJson.burgersList
+        //   .filter((burger) => burger.name === b.name)
+        //   .map((b) => ({ size: b.size, calories: b.calories, price: b.price }));
+
+        this.findOptions(b.name, bi, menuJson.burgersList);
         return bi;
       });
 
@@ -69,9 +93,10 @@ export class MenuService {
       )
       .map((s) => {
         const si = new SideItem(s);
-        si.options = menuJson.sidesList
-          .filter((side) => side.name === s.name)
-          .map((s) => ({ size: s.size, calories: s.calories, price: s.price }));
+        // si.options = menuJson.sidesList
+        //   .filter((side) => side.name === s.name)
+        //   .map((s) => ({ size: s.size, calories: s.calories, price: s.price }));
+        this.findOptions(s.name, si, menuJson.sidesList);
         return si;
       });
 
@@ -87,19 +112,12 @@ export class MenuService {
         di.options = menuJson.drinksList
           .filter((drink) => drink.name === d.name)
           .map((d) => ({ size: d.size, calories: d.calories, price: d.price }));
+        // this.findOptions(di.name, di, menuJson.drinksList);
         return di;
       });
 
     menu.drinks = this.groupBy(drinks, "type");
     this.menu = menu;
-  }
-
-  getMenu(): Menu {
-    return this.menu;
-  }
-
-  getIngredients(): Ingredients {
-    return this.ingredients;
   }
 
   // calories: number;

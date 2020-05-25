@@ -15,7 +15,7 @@ export class Ingredient {
 export class Food {
   name: string;
   description: string;
-  options: { size: string; calories: number; price: number }[];
+  options: { size: string; calories: number; price: number }[] = [];
 }
 
 class Bun extends Ingredient {}

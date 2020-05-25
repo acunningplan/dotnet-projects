@@ -2,7 +2,6 @@
   <app-left-sidebar
     (clickSubcategory)="clickSubcategory($event)"
   ></app-left-sidebar>
-
   <div class="card">
     <h5 class="card-header">Burgler menu</h5>
     <div class="card-body">
@@ -21,15 +20,27 @@
       <ul class="list-group" *ngIf="foodType !== 'burgers'">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
           <h4>{{ food.name }}</h4>
-          <p *ngFor="let option of food.options">
-            {{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal
+          <div *ngFor="let option of food.options" style="margin-bottom: 10pt;">
+            <p *ngIf="food.options.length === 1">
+              £{{ food.options[0].price }} / {{ food.options[0].calories }} kcal
+            </p>
+            <p *ngIf="food.options.length > 1">
+              {{ option.size }}: £{{ option.price }} /
+              {{ option.calories }} kcal
+            </p>
             <button
-              class="btn btn-primary float-right"
-              (click)="addFoodToOrder(food.name, option.size)"
+              class="btn btn-primary"
+              (click)="
+                addFoodToOrder(
+                  food.name,
+                  option.size,
+                  !(food.options.length > 1)
+                )
+              "
             >
               Add
             </button>
-          </p>
+          </div>
         </li>
       </ul>
     </div>

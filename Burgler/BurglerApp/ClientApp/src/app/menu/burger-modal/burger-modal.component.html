@@ -1,16 +1,17 @@
 <li class="list-group-item">
   <h4>{{ burger.name }}</h4>
-  <p *ngFor="let option of burger.options">
-    {{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal
+  <p>{{ burger.description }}</p>
+  <div *ngFor="let option of burger.options" style="margin-bottom: 10px;">
+    <p>{{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal</p>
     <button
-      class="btn btn-primary float-right"
-      (click)="addBurgerToOrder(burger.name, option.size)"
+      class="btn btn-primary"
+      style="margin-right: 10px;"
+      (click)="addBurgerToOrder(burger.name, option.size, false)"
     >
       Add
     </button>
-
     <button
-      class="btn btn-warning float-right"
+      class="btn btn-warning"
       style="margin-right: 10px;"
       data-toggle="modal"
       [attr.data-target]="'#' + burger.name.split(' ').join('')"
@@ -18,7 +19,7 @@
     >
       Customise
     </button>
-  </p>
+  </div>
 </li>
 
 <div

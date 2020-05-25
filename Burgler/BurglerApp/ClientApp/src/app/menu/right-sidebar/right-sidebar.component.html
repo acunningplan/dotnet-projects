@@ -8,15 +8,29 @@
       <h5>Edit items in basket:</h5>
       <ul class="list-unstyled" id="order-list">
         <li *ngFor="let foodItem of getFoodItems()">
-          <p>
+          <div *ngIf="foodItem.oneSize">
+            {{ foodItem.name }} x{{ foodItem.quantity }}
+            <button
+              class="btn btn-default btn-danger float-right"
+              (click)="
+                onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)
+              "
+            >
+              X
+            </button>
+          </div>
+
+          <div *ngIf="!foodItem.oneSize">
             {{ foodItem.name }} ({{ foodItem.size }}) x{{ foodItem.quantity }}
-          </p>
-          <button
-            class="btn btn-default btn-danger float-right"
-            (click)="onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)"
-          >
-            Remove
-          </button>
+            <button
+              class="btn btn-default btn-danger float-right"
+              (click)="
+                onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)
+              "
+            >
+              X
+            </button>
+          </div>
         </li>
       </ul>
     </li>

@@ -64,7 +64,12 @@ export class OrderService {
     return this.updatePendingOrder(this.pendingOrder);
   }
 
-  addToPendingOrder(food: Food, foodType: string, size: string) {
+  addToPendingOrder(
+    food: Food,
+    foodType: string,
+    size: string,
+    oneSize = true
+  ) {
     const option = food.options.find((option) => option.size === size);
     let foodItemList: FoodItem[];
     let newFoodItem: FoodItem;
@@ -78,6 +83,7 @@ export class OrderService {
       foodItemList = this.pendingOrder.drinkItems;
       newFoodItem = new DrinkItemJson(food, option);
     }
+    newFoodItem.oneSize = oneSize;
     const foodItem = foodItemList.find(
       (fi) => fi.name === food.name && fi.size === size
     );

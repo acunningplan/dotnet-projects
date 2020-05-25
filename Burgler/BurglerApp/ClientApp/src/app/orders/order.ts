@@ -27,6 +27,7 @@ export class FoodItem {
   name: string;
   quantity = 1;
   size = "Small";
+  oneSize = true;
   customId?: number;
 
   constructor(

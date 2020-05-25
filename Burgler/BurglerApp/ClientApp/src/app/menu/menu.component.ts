@@ -37,9 +37,9 @@ export class MenuComponent implements OnInit {
     this.foodType = category;
   }
 
-  addFoodToOrder(name: string, size: string) {
+  addFoodToOrder(name: string, size: string, oneSize: boolean) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
-    this.orderService.addToPendingOrder(food, this.foodType, size).subscribe();
+    this.orderService.addToPendingOrder(food, this.foodType, size, oneSize).subscribe();
   }
 
   burgerModal() {
