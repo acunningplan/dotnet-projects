@@ -76,10 +76,6 @@ export class MenuService {
       )
       .map((b) => {
         const bi = new BurgerItem(b, ingredients);
-        // bi.options = menuJson.burgersList
-        //   .filter((burger) => burger.name === b.name)
-        //   .map((b) => ({ size: b.size, calories: b.calories, price: b.price }));
-
         this.findOptions(b.name, bi, menuJson.burgersList);
         return bi;
       });
@@ -93,9 +89,6 @@ export class MenuService {
       )
       .map((s) => {
         const si = new SideItem(s);
-        // si.options = menuJson.sidesList
-        //   .filter((side) => side.name === s.name)
-        //   .map((s) => ({ size: s.size, calories: s.calories, price: s.price }));
         this.findOptions(s.name, si, menuJson.sidesList);
         return si;
       });
@@ -109,10 +102,7 @@ export class MenuService {
       )
       .map((d) => {
         const di = new DrinkItem(d);
-        di.options = menuJson.drinksList
-          .filter((drink) => drink.name === d.name)
-          .map((d) => ({ size: d.size, calories: d.calories, price: d.price }));
-        // this.findOptions(di.name, di, menuJson.drinksList);
+        this.findOptions(di.name, di, menuJson.drinksList);
         return di;
       });
 

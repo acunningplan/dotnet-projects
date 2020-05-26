@@ -45,8 +45,6 @@ export class BurgerModalComponent implements OnInit {
   }
 
   chooseIng(ing: string, type: string) {
-    console.log(this.burger);
-    console.log(this.customBurgerOrder);
     if (type === "burgerBun") {
       this.customBurgerOrder.burgerBun = ing;
     } else if (type === "burgerToppings") {
@@ -56,7 +54,6 @@ export class BurgerModalComponent implements OnInit {
     } else if (type === "burgerPattyCooked") {
       this.customBurgerOrder.burgerPattyCooked = +ing;
     }
-    console.log(this.customBurgerOrder);
   }
 
   addToOrder() {
@@ -65,5 +62,41 @@ export class BurgerModalComponent implements OnInit {
       .subscribe((res) => {
         console.log(this.orderService.getPendingOrder());
       });
+  }
+
+  getIngredientPrice() {
+    
+  }
+
+  calculateBurgerPrice() {
+    if (!this.customBurgerOrder) return null;
+    const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
+
+    let totalPrice = 1;
+    totalPrice += this.ingredients.buns.find((b) => b.name === burgerBun).price;
+    totalPrice += this.ingredients.patties.find((p) => p.name === burgerPatty)
+      .price;
+    for (const topping of burgerToppings.split("+")) {
+      totalPrice += this.ingredients.toppings.find((t) => t.name === topping)
+        .price;
+    }
+    return totalPrice;
+  }
+
+  calculateBurgerCalories() {
+    if (!this.customBurgerOrder) return null;
+    const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
+
+    let totalCalories = 0;
+    totalCalories += this.ingredients.buns.find((b) => b.name === burgerBun)
+      .calories;
+    totalCalories += this.ingredients.patties.find(
+      (p) => p.name === burgerPatty
+    ).calories;
+    for (const topping of burgerToppings.split("+")) {
+      totalCalories += this.ingredients.toppings.find((t) => t.name === topping)
+        .calories;
+    }
+    return totalCalories;
   }
 }

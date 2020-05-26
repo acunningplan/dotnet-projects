@@ -45,7 +45,8 @@
       </div>
       <div class="modal-body">
         <form>
-          <div style="display: flex;">
+          <div style="margin-bottom: 15px;">
+            <h5>Bun:</h5>
             <div
               style="margin-right: 10pt;"
               class="form-check"
@@ -60,12 +61,13 @@
                 [checked]="burger.bun === bun.name"
                 (click)="chooseIng(bun.name, 'burgerBun')"
               />
-              <label class="form-check-label" [for]="bun.name">{{
-                bun.name
-              }}</label>
+              <label class="form-check-label" [for]="bun.name"
+                >{{ bun.name }} £{{ bun.price }}, {{ bun.calories }} kcal</label
+              >
             </div>
           </div>
-          <div style="display: flex;">
+          <div style="margin-bottom: 15px;">
+            <h5>Toppings:</h5>
             <div
               style="margin-right: 10pt;"
               class="form-check"
@@ -81,12 +83,14 @@
                 "
                 (click)="chooseIng(topping.name, 'burgerToppings')"
               />
-              <label class="form-check-label" [for]="topping.name">{{
-                topping.name
-              }}</label>
+              <label class="form-check-label" [for]="topping.name"
+                >{{ topping.name }} £{{ topping.price }},
+                {{ topping.calories }} kcal</label
+              >
             </div>
           </div>
-          <div style="display: flex; margin-right: 10pt;">
+          <div style="margin-bottom: 15px;">
+            <h5>Patty:</h5>
             <div
               style="margin-right: 10pt;"
               class="form-check"
@@ -101,12 +105,13 @@
                 [checked]="burger.patty === patty.name"
                 (click)="chooseIng(patty.name, 'burgerPatty')"
               />
-              <label class="form-check-label" [for]="patty.name">{{
-                patty.name
-              }}</label>
+              <label class="form-check-label" [for]="patty.name"
+                >{{ patty.name }} £{{ patty.price }}, {{ patty.calories }} kcal
+              </label>
             </div>
           </div>
-          <div style="display: flex; margin-right: 10pt;">
+          <div style="margin-bottom: 15px;">
+            <h5>Doneness:</h5>
             <div
               style="margin-right: 10pt;"
               class="form-check"
@@ -135,6 +140,10 @@
             </div>
           </div>
         </form>
+        <div style="display: flex; float: right;">
+          <p>Calories = {{ calculateBurgerCalories() }};</p>
+          <p style="margin-left: 15px;">Price = {{ calculateBurgerPrice() }}</p>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
