@@ -11,10 +11,41 @@
       </p>
 
       <ul class="list-group" *ngIf="foodType === 'burgers'">
-        <app-burger-modal
-          *ngFor="let burger of foodsToDisplay"
-          [burger]="burger"
-        ></app-burger-modal>
+        <li *ngFor="let burger of foodsToDisplay" class="list-group-item">
+          <h4>{{ burger.name }}</h4>
+          <p>{{ burger.description }}</p>
+          <div
+            *ngFor="let option of burger.options"
+            style="margin-bottom: 10px;"
+          >
+            <p>
+              {{ option.size }}: £{{ option.price }} /
+              {{ option.calories }} kcal
+            </p>
+            <button
+              class="btn btn-primary"
+              style="margin-right: 10px;"
+              (click)="
+                addBurgerToOrder(burger, option, false)
+              "
+            >
+              Add
+            </button>
+            <button
+              class="btn btn-warning"
+              style="margin-right: 10px;"
+              data-toggle="modal"
+              [attr.data-target]="'#' + burger.name.split(' ').join('')"
+            >
+              Customise
+            </button>
+            <app-burger-modal
+              [burger]="burger"
+              [option]="option"
+              [editMode]="false"
+            ></app-burger-modal>
+          </div>
+        </li>
       </ul>
 
       <ul class="list-group" *ngIf="foodType !== 'burgers'">
@@ -33,7 +64,7 @@
               (click)="
                 addFoodToOrder(
                   food.name,
-                  option.size,
+                  option,
                   !(food.options.length > 1)
                 )
               "

@@ -25,6 +25,8 @@ export class Order {
 
 export class FoodItem {
   name: string;
+  price: number;
+  calories: number;
   quantity = 1;
   size = "Small";
   oneSize = true;
@@ -36,6 +38,7 @@ export class FoodItem {
   ) {
     this.name = food.name;
     this.size = option.size;
+    this.price = option.price;
   }
 }
 
@@ -49,6 +52,7 @@ export class BurgerItemJson extends FoodItem {
     this.burgerToppings = burger.toppings.join("+");
     this.burgerToppingsArray = burger.toppings;
     this.burgerPatty = burger.patty;
+    this.burgerPattyCooked = burger.pattyCooked;
   }
   burgerBun: string;
   burgerToppings: string;
@@ -67,13 +71,6 @@ export class BurgerItemJson extends FoodItem {
       this.burgerToppings = this.burgerToppingsArray.join("+");
     }
   }
-
-  // setDoneness(doneness: string) {
-  //   if (doneness === "well-done") this.burgerPattyCooked = 0;
-  //   if (doneness === "medium-well") this.burgerPattyCooked = 1;
-  //   if (doneness === "medium") this.burgerPattyCooked = 2;
-  //   if (doneness === "medium-rare") this.burgerPattyCooked = 3;
-  // }
 }
 
 export class SideItemJson extends FoodItem {}

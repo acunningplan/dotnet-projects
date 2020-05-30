@@ -56,7 +56,6 @@ export class OrderService {
   }
 
   addCustomBurgerToPendingOrder(b: BurgerItemJson) {
-    console.log(b);
     b.name += " (Custom)";
     b.customId = this.pendingOrder.customItemCount;
     this.pendingOrder.customItemCount += 1;
@@ -64,13 +63,20 @@ export class OrderService {
     return this.updatePendingOrder(this.pendingOrder);
   }
 
+  editCustomBurger(b: BurgerItemJson) {
+    const index: number = this.pendingOrder.burgerItems.findIndex(
+      (burger) => burger.customId === b.customId
+    );
+    this.pendingOrder.burgerItems[index] = b;
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
   addToPendingOrder(
     food: Food,
     foodType: string,
-    size: string,
+    option: { size: string; calories: number; price: number },
     oneSize = true
   ) {
-    const option = food.options.find((option) => option.size === size);
     let foodItemList: FoodItem[];
     let newFoodItem: FoodItem;
     if (foodType === "burgers") {
@@ -85,7 +91,7 @@ export class OrderService {
     }
     newFoodItem.oneSize = oneSize;
     const foodItem = foodItemList.find(
-      (fi) => fi.name === food.name && fi.size === size
+      (fi) => fi.name === food.name && fi.size === option.size
     );
     if (!foodItem) {
       foodItemList.push(newFoodItem);

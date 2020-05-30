@@ -31,10 +31,3 @@ export class LeftSidebarComponent implements OnInit {
     this.clickSubcategory.emit({ category, foods });
   }
 }
-
-interface MenuItem {
-  description: string;
-  calories: number;
-  price: number;
-  image: string;
-}

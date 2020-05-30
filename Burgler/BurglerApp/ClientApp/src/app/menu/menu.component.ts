@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../orders/order.service";
-import { Order } from "../orders/order";
+import { Order, BurgerItemJson } from "../orders/order";
 import { MenuService } from "./menu.service";
-import { Menu } from "./menu";
+import { Menu, BurgerItem } from "./menu";
 import { Food } from "./ingredients";
 import { Burger } from "./menuJson";
 
@@ -30,16 +30,27 @@ export class MenuComponent implements OnInit {
 
   preserveOrder = (a, b) => a;
 
-  onClick() {}
+  addBurgerToOrder(
+    burger: BurgerItem,
+    option: { size: string; calories: number; price: number }
+  ) {
+    this.orderService.addToPendingOrder(burger, "burgers", option).subscribe();
+  }
 
   clickSubcategory({ foods, category }) {
     this.foodsToDisplay = foods;
     this.foodType = category;
   }
 
-  addFoodToOrder(name: string, size: string, oneSize: boolean) {
+  addFoodToOrder(
+    name: string,
+    option: { size: string; calories: number; price: number },
+    oneSize: boolean
+  ) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
-    this.orderService.addToPendingOrder(food, this.foodType, size, oneSize).subscribe();
+    this.orderService
+      .addToPendingOrder(food, this.foodType, option, oneSize)
+      .subscribe();
   }
 
   burgerModal() {

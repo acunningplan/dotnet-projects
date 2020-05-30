@@ -58,8 +58,20 @@ a:focus {
 #sidebar {
   /* don't forget to add all the previously mentioned styles here too */
   background: #7386d5;
-  color: #fff;
+  /* color: #fff; */
   /* transition: all 0.3s; */
+}
+
+#sidebar ul li h5 {
+  color: #fff;
+}
+
+#sidebar .sidebar-header {
+  color: #fff;
+}
+
+#sidebar .food-display {
+  color: #fff;
 }
 
 #sidebar .sidebar-header {

@@ -2,14 +2,19 @@
   <div class="sidebar-header">
     <h3>Your order</h3>
   </div>
-
   <ul class="list-unstyled components">
     <li>
       <h5>Edit items in basket:</h5>
       <ul class="list-unstyled" id="order-list">
         <li *ngFor="let foodItem of getFoodItems()">
-          <div *ngIf="foodItem.oneSize">
-            {{ foodItem.name }} x{{ foodItem.quantity }}
+          <div
+            class="food-display"
+            data-toggle="modal"
+            [attr.data-target]="getModalId(foodItem)"
+          >
+            {{ foodItem.name }}
+            <span *ngIf="!foodItem.oneSize">({{ foodItem.size }})</span>
+            x{{ foodItem.quantity }}
             <button
               class="btn btn-default btn-danger float-right"
               (click)="
@@ -19,18 +24,12 @@
               X
             </button>
           </div>
-
-          <div *ngIf="!foodItem.oneSize">
-            {{ foodItem.name }} ({{ foodItem.size }}) x{{ foodItem.quantity }}
-            <button
-              class="btn btn-default btn-danger float-right"
-              (click)="
-                onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)
-              "
-            >
-              X
-            </button>
-          </div>
+          <app-burger-modal
+            *ngIf="checkBurgerItem(foodItem)"
+            [burger]="getBurgerItem(foodItem)"
+            [option]="getBurgerItemOption(foodItem)"
+            [editMode]="true"
+          ></app-burger-modal>
         </li>
       </ul>
     </li>

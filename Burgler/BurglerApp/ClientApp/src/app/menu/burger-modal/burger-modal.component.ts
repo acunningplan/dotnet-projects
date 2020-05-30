@@ -12,8 +12,9 @@ import { MenuService } from "../menu.service";
 })
 export class BurgerModalComponent implements OnInit {
   @Input() burger: BurgerItem;
+  @Input() option: { size: string; calories: number; price: number };
+  @Input() editMode: boolean;
   customBurgerOrder: BurgerItemJson;
-  option: { size: string; calories: number; price: number };
   order: Order;
   menu: Menu;
   ingredients: Ingredients;
@@ -27,21 +28,19 @@ export class BurgerModalComponent implements OnInit {
     this.order = this.orderService.getPendingOrder();
     this.menu = this.menuService.getMenu();
     this.ingredients = this.menuService.getIngredients();
+    this.customBurgerOrder = new BurgerItemJson(this.burger, this.option);
   }
 
-  addBurgerToOrder(name: string, size: string) {
-    this.orderService
-      .addToPendingOrder(this.burger, "burgers", size)
-      .subscribe();
+  getModalId() {
+    if (!this.editMode) {
+      return this.burger.name.split(" ").join("");
+    } else {
+      return this.burger.name.split(" ").join("") + "-edit";
+    }
   }
 
-  customiseBurger(option: { size: string; calories: number; price: number }) {
-    this.customBurgerOrder = new BurgerItemJson(this.burger, option);
-    this.option = option;
-  }
-
-  checkIfIngredientIsIncluded(listOfIngredients: string[], ing: string) {
-    return !!listOfIngredients.find((i) => i === ing);
+  checkIfIngredientIsIncluded(ing: string) {
+    return !!this.burger.toppings.find((i) => i === ing);
   }
 
   chooseIng(ing: string, type: string) {
@@ -56,20 +55,26 @@ export class BurgerModalComponent implements OnInit {
     }
   }
 
-  addToOrder() {
-    this.orderService
-      .addCustomBurgerToPendingOrder(this.customBurgerOrder)
-      .subscribe((res) => {
-        console.log(this.orderService.getPendingOrder());
-      });
+  addCustomBurgerToOrder(editMode: boolean) {
+    this.customBurgerOrder.price = this.calculateBurgerPrice();
+
+    if (!editMode) {
+      this.orderService
+        .addCustomBurgerToPendingOrder(this.customBurgerOrder)
+        .subscribe((res) => {
+          console.log(this.orderService.getPendingOrder());
+        });
+    } else {
+      this.orderService
+        .editCustomBurger(this.customBurgerOrder)
+        .subscribe((res) => {
+          console.log(this.orderService.getPendingOrder());
+        });
+    }
   }
 
-  getIngredientPrice() {
-    
-  }
-
-  calculateBurgerPrice() {
-    if (!this.customBurgerOrder) return null;
+  calculateBurgerPrice(): number {
+    if (!this.customBurgerOrder) return 0;
     const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
 
     let totalPrice = 1;
@@ -83,8 +88,8 @@ export class BurgerModalComponent implements OnInit {
     return totalPrice;
   }
 
-  calculateBurgerCalories() {
-    if (!this.customBurgerOrder) return null;
+  calculateBurgerCalories(): number {
+    if (!this.customBurgerOrder) return 0;
     const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
 
     let totalCalories = 0;
@@ -93,6 +98,8 @@ export class BurgerModalComponent implements OnInit {
     totalCalories += this.ingredients.patties.find(
       (p) => p.name === burgerPatty
     ).calories;
+
+    console.log(burgerToppings.split("+"));
     for (const topping of burgerToppings.split("+")) {
       totalCalories += this.ingredients.toppings.find((t) => t.name === topping)
         .calories;

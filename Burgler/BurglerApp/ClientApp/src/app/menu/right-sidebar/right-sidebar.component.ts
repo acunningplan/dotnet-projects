@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { OrderService } from "src/app/orders/order.service";
-import { Order, FoodItem } from "src/app/orders/order";
+import { Order, FoodItem, BurgerItemJson } from "src/app/orders/order";
+import { MenuService } from "../menu.service";
+import { Menu, BurgerItem } from "../menu";
+import { Burger } from "../menuJson";
 
 @Component({
   selector: "app-right-sidebar",
@@ -9,9 +12,19 @@ import { Order, FoodItem } from "src/app/orders/order";
 })
 export class RightSidebarComponent implements OnInit {
   @Input() order: Order;
-  constructor(private orderService: OrderService) {}
+  menu: Menu;
+  constructor(
+    private orderService: OrderService,
+    private menuService: MenuService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.menu = this.menuService.getMenu();
+  }
+
+  getModalId(foodItem: FoodItem) {
+    return "#" + foodItem.name.split(" ").join("") + "-edit";
+  }
 
   getFoodItems() {
     let foodItems: FoodItem[] = [];
@@ -23,6 +36,26 @@ export class RightSidebarComponent implements OnInit {
     return foodItems;
   }
 
+  getBurgerItem(fi: FoodItem) {
+    const bi = fi as BurgerItemJson;
+
+    const burger = new Burger();
+    burger.name = bi.name;
+    burger.burgerBun = bi.burgerBun;
+    burger.burgerPatty = bi.burgerPatty;
+    burger.burgerToppings = bi.burgerToppings;
+
+    const burgerItem = new BurgerItem(burger);
+    burgerItem.pattyCooked = bi.burgerPattyCooked;
+
+    return burgerItem;
+  }
+
+  getBurgerItemOption(burgerItemOrder: FoodItem) {
+    const { size, price, calories } = burgerItemOrder;
+    return { size, price, calories };
+  }
+
   onDeleteItem(name: string, size: string, customId: number = null) {
     console.log(`Deleting item with id ${customId}`);
     if (!!customId) {
@@ -30,5 +63,9 @@ export class RightSidebarComponent implements OnInit {
     } else {
       this.orderService.deleteFromOrder(name, size).subscribe();
     }
+  }
+
+  checkBurgerItem(foodItem: FoodItem): boolean {
+    return foodItem.hasOwnProperty("burgerBun");
   }
 }

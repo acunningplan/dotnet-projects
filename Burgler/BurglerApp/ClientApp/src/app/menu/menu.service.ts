@@ -75,7 +75,7 @@ export class MenuService {
           menuJson.burgersList.findIndex((b) => b.name === burger.name) === i
       )
       .map((b) => {
-        const bi = new BurgerItem(b, ingredients);
+        const bi = new BurgerItem(b);
         this.findOptions(b.name, bi, menuJson.burgersList);
         return bi;
       });
