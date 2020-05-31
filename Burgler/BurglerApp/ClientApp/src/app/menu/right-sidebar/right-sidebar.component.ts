@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { OrderService } from "src/app/orders/order.service";
 import { Order, FoodItem, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
 import { Menu, BurgerItem } from "../menu";
 import { Burger } from "../menuJson";
+import { BurgerModalService } from "../burger-modal/burger-modal.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-right-sidebar",
@@ -15,15 +17,43 @@ export class RightSidebarComponent implements OnInit {
   menu: Menu;
   constructor(
     private orderService: OrderService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private burgerModalService: BurgerModalService
   ) {}
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
   }
 
-  getModalId(foodItem: FoodItem) {
-    return "#" + foodItem.name.split(" ").join("") + "-edit";
+  useModalForBurger(foodItem: FoodItem) {
+    if (foodItem.hasOwnProperty("burgerBun")) {
+      return "modal";
+    }
+    return "";
+  }
+
+  updateBurgerModal(fi: FoodItem) {
+    if (!fi.hasOwnProperty("burgerBun")) return;
+
+    const bi = fi as BurgerItemJson;
+
+    const burger = new Burger();
+    burger.name = bi.name;
+    burger.burgerBun = bi.burgerBun;
+    burger.burgerPatty = bi.burgerPatty;
+    burger.burgerToppings = bi.burgerToppings;
+
+    const burgerItem = new BurgerItem(burger);
+    burgerItem.pattyCooked = bi.burgerPattyCooked;
+
+    const { size, calories, price } = bi;
+
+    this.burgerModalService.burgerModalSubject.next({
+      burger: burgerItem,
+      option: { size, calories, price },
+      editMode: true,
+      customId: bi.customId
+    });
   }
 
   getFoodItems() {
@@ -36,24 +66,16 @@ export class RightSidebarComponent implements OnInit {
     return foodItems;
   }
 
-  getBurgerItem(fi: FoodItem) {
-    const bi = fi as BurgerItemJson;
-
-    const burger = new Burger();
-    burger.name = bi.name;
-    burger.burgerBun = bi.burgerBun;
-    burger.burgerPatty = bi.burgerPatty;
-    burger.burgerToppings = bi.burgerToppings;
-
-    const burgerItem = new BurgerItem(burger);
-    burgerItem.pattyCooked = bi.burgerPattyCooked;
-
-    return burgerItem;
-  }
-
-  getBurgerItemOption(burgerItemOrder: FoodItem) {
-    const { size, price, calories } = burgerItemOrder;
-    return { size, price, calories };
+  checkOneSize(foodItem: FoodItem) {
+    if (
+      this.menu.burgerItems.filter((b) => b.name === foodItem.name).length >
+        1 ||
+      this.menu.sideItems.filter((s) => s.name === foodItem.name).length > 1 ||
+      this.menu.drinkItems.filter((d) => d.name === foodItem.name).length > 1
+    ) {
+      return false;
+    }
+    return true;
   }
 
   onDeleteItem(name: string, size: string, customId: number = null) {
@@ -63,9 +85,5 @@ export class RightSidebarComponent implements OnInit {
     } else {
       this.orderService.deleteFromOrder(name, size).subscribe();
     }
-  }
-
-  checkBurgerItem(foodItem: FoodItem): boolean {
-    return foodItem.hasOwnProperty("burgerBun");
   }
 }

@@ -5,22 +5,28 @@ export class Menu {
   burgers: { [key: string]: BurgerItem[] } = {};
   sides: { [key: string]: SideItem[] } = {};
   drinks: { [key: string]: DrinkItem[] } = {};
+
+  burgerItems: Burger[];
+  sideItems: Side[];
+  drinkItems: Drink[];
 }
 
 export class BurgerItem extends Food {
-  constructor(burger: Burger) {
+  constructor(burger?: Burger) {
     super();
-    this.name = burger.name;
-    this.type = burger.type;
-    this.description = burger.description;
-    this.bun = burger.burgerBun;
-    this.toppings = burger.burgerToppings.split("+");
-    this.patty = burger.burgerPatty;
+    if (!!burger) {
+      this.name = burger.name;
+      this.type = burger.type;
+      this.description = burger.description;
+      this.bun = burger.burgerBun;
+      this.toppings = burger.burgerToppings.split("+");
+      this.patty = burger.burgerPatty;
+    }
   }
   type: string;
   bun: string;
   patty: string;
-  pattyCooked = 0;
+  pattyCooked = "Well done";
   toppings: string[];
 }
 

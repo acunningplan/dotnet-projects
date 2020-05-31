@@ -1,42 +1,53 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { Ingredients } from "../ingredients";
 import { BurgerItem, Menu } from "../menu";
 import { OrderService } from "src/app/orders/order.service";
 import { Order, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
+import { BurgerModalService } from "./burger-modal.service";
+import { Subject, Subscription } from "rxjs";
 
 @Component({
   selector: "app-burger-modal",
   templateUrl: "./burger-modal.component.html",
   styleUrls: ["./burger-modal.component.css"],
 })
-export class BurgerModalComponent implements OnInit {
-  @Input() burger: BurgerItem;
-  @Input() option: { size: string; calories: number; price: number };
-  @Input() editMode: boolean;
+export class BurgerModalComponent implements OnInit, OnDestroy {
+  burger: BurgerItem;
+  option: { size: string; calories: number; price: number };
+  editMode: boolean;
+  customId: number;
+
   customBurgerOrder: BurgerItemJson;
   order: Order;
   menu: Menu;
   ingredients: Ingredients;
 
+  burgerModalSubscription: Subscription;
+
   constructor(
     private menuService: MenuService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private burgerModalService: BurgerModalService
   ) {}
 
   ngOnInit() {
     this.order = this.orderService.getPendingOrder();
     this.menu = this.menuService.getMenu();
     this.ingredients = this.menuService.getIngredients();
-    this.customBurgerOrder = new BurgerItemJson(this.burger, this.option);
+
+    this.burgerModalSubscription = this.burgerModalService.burgerModalSubject.subscribe(
+      ({ burger, option, editMode, customId }) => {
+        this.burger = burger;
+        this.customBurgerOrder = new BurgerItemJson(burger, option);
+        this.customBurgerOrder.customId = customId;
+        this.editMode = editMode;
+      }
+    );
   }
 
-  getModalId() {
-    if (!this.editMode) {
-      return this.burger.name.split(" ").join("");
-    } else {
-      return this.burger.name.split(" ").join("") + "-edit";
-    }
+  ngOnDestroy() {
+    this.burgerModalSubscription.unsubscribe();
   }
 
   checkIfIngredientIsIncluded(ing: string) {
@@ -51,24 +62,24 @@ export class BurgerModalComponent implements OnInit {
     } else if (type === "burgerPatty") {
       this.customBurgerOrder.burgerPatty = ing;
     } else if (type === "burgerPattyCooked") {
-      this.customBurgerOrder.burgerPattyCooked = +ing;
+      this.customBurgerOrder.burgerPattyCooked = ing;
     }
   }
 
-  addCustomBurgerToOrder(editMode: boolean) {
+  addOrEditCustomBurgerToOrder() {
     this.customBurgerOrder.price = this.calculateBurgerPrice();
 
-    if (!editMode) {
+    if (!this.editMode) {
       this.orderService
         .addCustomBurgerToPendingOrder(this.customBurgerOrder)
         .subscribe((res) => {
-          console.log(this.orderService.getPendingOrder());
+          // console.log(this.orderService.getPendingOrder());
         });
     } else {
       this.orderService
         .editCustomBurger(this.customBurgerOrder)
         .subscribe((res) => {
-          console.log(this.orderService.getPendingOrder());
+          // console.log(this.orderService.getPendingOrder());
         });
     }
   }
@@ -99,7 +110,6 @@ export class BurgerModalComponent implements OnInit {
       (p) => p.name === burgerPatty
     ).calories;
 
-    console.log(burgerToppings.split("+"));
     for (const topping of burgerToppings.split("+")) {
       totalCalories += this.ingredients.toppings.find((t) => t.name === topping)
         .calories;

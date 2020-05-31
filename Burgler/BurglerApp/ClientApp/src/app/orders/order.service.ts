@@ -56,9 +56,9 @@ export class OrderService {
   }
 
   addCustomBurgerToPendingOrder(b: BurgerItemJson) {
-    b.name += " (Custom)";
-    b.customId = this.pendingOrder.customItemCount;
     this.pendingOrder.customItemCount += 1;
+    b.customId = this.pendingOrder.customItemCount;
+
     this.pendingOrder.burgerItems.push(b);
     return this.updatePendingOrder(this.pendingOrder);
   }
@@ -67,6 +67,12 @@ export class OrderService {
     const index: number = this.pendingOrder.burgerItems.findIndex(
       (burger) => burger.customId === b.customId
     );
+
+    if (!b.customId) {
+      this.pendingOrder.customItemCount += 1;
+      b.customId = this.pendingOrder.customItemCount;
+    }
+
     this.pendingOrder.burgerItems[index] = b;
     return this.updatePendingOrder(this.pendingOrder);
   }
@@ -74,8 +80,7 @@ export class OrderService {
   addToPendingOrder(
     food: Food,
     foodType: string,
-    option: { size: string; calories: number; price: number },
-    oneSize = true
+    option: { size: string; calories: number; price: number }
   ) {
     let foodItemList: FoodItem[];
     let newFoodItem: FoodItem;
@@ -89,7 +94,6 @@ export class OrderService {
       foodItemList = this.pendingOrder.drinkItems;
       newFoodItem = new DrinkItemJson(food, option);
     }
-    newFoodItem.oneSize = oneSize;
     const foodItem = foodItemList.find(
       (fi) => fi.name === food.name && fi.size === option.size
     );

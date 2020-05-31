@@ -69,6 +69,10 @@ export class MenuService {
     console.log(menuJson);
     const menu = new Menu();
 
+    menu.burgerItems = menuJson.burgersList;
+    menu.sideItems = menuJson.sidesList;
+    menu.drinkItems = menuJson.drinksList;
+
     let burgers = menuJson.burgersList
       .filter(
         (burger, i) =>
@@ -109,28 +113,4 @@ export class MenuService {
     menu.drinks = this.groupBy(drinks, "type");
     this.menu = menu;
   }
-
-  // calories: number;
-  // price: number;
-  // private calculateCalories() {
-  //   this.calories += this.ingredients.buns.find(
-  //     (b) => b.name === this.bun
-  //   ).calories;
-  //   this.ingredients.toppings
-  //     .filter((t) => this.toppings.includes(t.name))
-  //     .forEach((t) => (this.calories += t.calories));
-  //   this.calories += this.ingredients.patties.find(
-  //     (p) => p.name === this.patty
-  //   ).calories;
-  // }
-
-  // private calculatePrice() {
-  //   this.price += this.ingredients.buns.find((b) => b.name === this.bun).price;
-  //   this.ingredients.toppings
-  //     .filter((t) => this.toppings.includes(t.name))
-  //     .forEach((t) => (this.price += t.price));
-  //   this.price += this.ingredients.patties.find(
-  //     (p) => p.name === this.patty
-  //   ).price;
-  // }
 }

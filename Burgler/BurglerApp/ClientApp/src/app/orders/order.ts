@@ -12,6 +12,8 @@ export class Order {
       this.burgerItems = orderJson.burgerItems;
       this.sideItems = orderJson.sideItems;
       this.drinkItems = orderJson.drinkItems;
+
+      this.customItemCount = orderJson.customItemCount;
     }
   }
   customItemCount = 1;
@@ -29,7 +31,6 @@ export class FoodItem {
   calories: number;
   quantity = 1;
   size = "Small";
-  oneSize = true;
   customId?: number;
 
   constructor(
@@ -58,7 +59,7 @@ export class BurgerItemJson extends FoodItem {
   burgerToppings: string;
   burgerToppingsArray: string[];
   burgerPatty: string;
-  burgerPattyCooked: number;
+  burgerPattyCooked: string;
 
   addOrRemoveTopping(topping: string) {
     if (!this.burgerToppingsArray.find((bt) => bt === topping)) {

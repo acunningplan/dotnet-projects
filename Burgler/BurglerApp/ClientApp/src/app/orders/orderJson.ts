@@ -10,4 +10,6 @@ export class OrderJson {
   burgerItems: BurgerItemJson[];
   sideItems: SideItemJson[];
   drinkItems: DrinkItemJson[];
+
+  customItemCount: number;
 }

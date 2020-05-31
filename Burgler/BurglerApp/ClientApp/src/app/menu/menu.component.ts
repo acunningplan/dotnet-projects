@@ -5,6 +5,7 @@ import { MenuService } from "./menu.service";
 import { Menu, BurgerItem } from "./menu";
 import { Food } from "./ingredients";
 import { Burger } from "./menuJson";
+import { BurgerModalService } from "./burger-modal/burger-modal.service";
 
 @Component({
   selector: "app-menu",
@@ -18,9 +19,12 @@ export class MenuComponent implements OnInit {
   foodType: string;
   showBurgerModal = false;
 
+  customisedBurger: BurgerItem;
+
   constructor(
     private menuService: MenuService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private burgerModalService: BurgerModalService
   ) {}
 
   ngOnInit() {
@@ -44,13 +48,26 @@ export class MenuComponent implements OnInit {
 
   addFoodToOrder(
     name: string,
-    option: { size: string; calories: number; price: number },
-    oneSize: boolean
+    option: { size: string; calories: number; price: number }
   ) {
     const food = this.foodsToDisplay.find((bi) => bi.name === name);
     this.orderService
-      .addToPendingOrder(food, this.foodType, option, oneSize)
+      .addToPendingOrder(food, this.foodType, option)
       .subscribe();
+  }
+
+  updateBurgerModal(
+    burger: BurgerItem,
+    option: { size: string; calories: number; price: number }
+  ) {
+    const newBurger = new BurgerItem(
+      this.menu.burgerItems.find((b) => b.name === burger.name)
+    );
+    this.burgerModalService.burgerModalSubject.next({
+      burger: newBurger,
+      option,
+      editMode: false,
+    });
   }
 
   burgerModal() {

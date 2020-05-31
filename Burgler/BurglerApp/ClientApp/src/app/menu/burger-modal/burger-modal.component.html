@@ -1,40 +1,17 @@
-<!-- <li class="list-group-item">
-  <h4>{{ burger.name }}</h4>
-  <p>{{ burger.description }}</p>
-  <div *ngFor="let option of burger.options" style="margin-bottom: 10px;">
-    <p>{{ option.size }}: £{{ option.price }} / {{ option.calories }} kcal</p>
-    <button
-      class="btn btn-primary"
-      style="margin-right: 10px;"
-      (click)="addBurgerToOrder(burger.name, option.size, false)"
-    >
-      Add
-    </button> -->
-<!-- <button
-  class="btn btn-warning"
-  style="margin-right: 10px;"
-  data-toggle="modal"
-  [attr.data-target]="'#' + burger.name.split(' ').join('')"
-  (click)="customiseBurger()"
->
-  Customise
-</button> -->
-<!-- </div>
-</li> -->
-
 <div
   class="modal fade"
-  [id]="getModalId()"
+  id="burgerModal"
   tabindex="-1"
   role="dialog"
-  [attr.aria-labelledby]="getModalId() + 'Label'"
+  aria-labelledby="burgerModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" *ngIf="!!burger">
       <div class="modal-header">
-        <h5 class="modal-title" [id]="getModalId() + 'Label'">
-          Customise Burger
+        <h5 class="modal-title" id="burgerModalLabel">
+          <span *ngIf="!editMode">Customise Burger</span>
+          <span *ngIf="editMode">Edit Burger</span>
         </h5>
         <button
           type="button"
@@ -121,8 +98,7 @@
                   'Medium well',
                   'Medium',
                   'Medium rare'
-                ];
-                let index = index
+                ]
               "
             >
               <input
@@ -131,8 +107,8 @@
                 name="patty-cooked"
                 [id]="pattyCooked"
                 [value]="pattyCooked"
-                [checked]="burger.pattyCooked === index"
-                (click)="chooseIng(index.toString(), 'burgerPattyCooked')"
+                [checked]="burger.pattyCooked === pattyCooked"
+                (click)="chooseIng(pattyCooked, 'burgerPattyCooked')"
               />
               <label class="form-check-label" [for]="pattyCooked">{{
                 pattyCooked
@@ -153,10 +129,10 @@
           type="button"
           class="btn btn-primary"
           data-dismiss="modal"
-          (click)="addCustomBurgerToOrder(editMode)"
+          (click)="addOrEditCustomBurgerToOrder()"
         >
-          <span *ngIf="!editMode">Add To Order</span>
-          <span *ngIf="editMode">Edit Item</span>
+          <span *ngIf="!editMode">Add to order</span>
+          <span *ngIf="editMode">Edit order</span>
         </button>
       </div>
     </div>

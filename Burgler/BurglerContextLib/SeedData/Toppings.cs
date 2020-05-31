@@ -15,6 +15,8 @@ namespace BurglerContextLib.SeedData
                 new Topping { Name = "Mayonnaise", Calories = 65, Price = 1 },
                 new Topping { Name = "Bacon", Calories = 80, Price = 2.0 },
                 new Topping { Name = "Egg", Calories = 50, Price = 1.5 },
+                new Topping { Name = "Swiss Cheese", Calories = 50, Price = 1.5 },
+                new Topping { Name = "Mushrooms", Calories = 50, Price = 1.5 },
             };
     }
 }

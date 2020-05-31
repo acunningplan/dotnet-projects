@@ -25,9 +25,7 @@
             <button
               class="btn btn-primary"
               style="margin-right: 10px;"
-              (click)="
-                addBurgerToOrder(burger, option, false)
-              "
+              (click)="addBurgerToOrder(burger, option, false)"
             >
               Add
             </button>
@@ -35,18 +33,16 @@
               class="btn btn-warning"
               style="margin-right: 10px;"
               data-toggle="modal"
-              [attr.data-target]="'#' + burger.name.split(' ').join('')"
+              data-target="#burgerModal"
+              (click)="updateBurgerModal(burger, option)"
             >
               Customise
             </button>
-            <app-burger-modal
-              [burger]="burger"
-              [option]="option"
-              [editMode]="false"
-            ></app-burger-modal>
           </div>
         </li>
       </ul>
+
+      <app-burger-modal></app-burger-modal>
 
       <ul class="list-group" *ngIf="foodType !== 'burgers'">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
@@ -62,11 +58,7 @@
             <button
               class="btn btn-primary"
               (click)="
-                addFoodToOrder(
-                  food.name,
-                  option,
-                  !(food.options.length > 1)
-                )
+                addFoodToOrder(food.name, option, !(food.options.length > 1))
               "
             >
               Add

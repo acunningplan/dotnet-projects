@@ -9,11 +9,13 @@
         <li *ngFor="let foodItem of getFoodItems()">
           <div
             class="food-display"
-            data-toggle="modal"
-            [attr.data-target]="getModalId(foodItem)"
+            [attr.data-toggle]="useModalForBurger(foodItem)"
+            data-target="#burgerModal"
+            (click)="updateBurgerModal(foodItem)"
           >
             {{ foodItem.name }}
-            <span *ngIf="!foodItem.oneSize">({{ foodItem.size }})</span>
+            <span *ngIf="!!foodItem.customId">(custom) </span>
+            <span *ngIf="!checkOneSize(foodItem)">({{ foodItem.size }}) </span>
             x{{ foodItem.quantity }}
             <button
               class="btn btn-default btn-danger float-right"
@@ -24,12 +26,6 @@
               X
             </button>
           </div>
-          <app-burger-modal
-            *ngIf="checkBurgerItem(foodItem)"
-            [burger]="getBurgerItem(foodItem)"
-            [option]="getBurgerItemOption(foodItem)"
-            [editMode]="true"
-          ></app-burger-modal>
         </li>
       </ul>
     </li>
