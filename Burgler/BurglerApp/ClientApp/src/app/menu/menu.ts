@@ -21,6 +21,7 @@ export class BurgerItem extends Food {
       this.bun = burger.burgerBun;
       this.toppings = burger.burgerToppings.split("+");
       this.patty = burger.burgerPatty;
+      this.pattyCooked = "Well done";
     }
   }
   type: string;

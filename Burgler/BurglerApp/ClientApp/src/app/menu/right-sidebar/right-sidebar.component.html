@@ -7,16 +7,19 @@
       <h5>Edit items in basket:</h5>
       <ul class="list-unstyled" id="order-list">
         <li *ngFor="let foodItem of getFoodItems()">
-          <div
-            class="food-display"
-            [attr.data-toggle]="useModalForBurger(foodItem)"
-            data-target="#burgerModal"
-            (click)="updateBurgerModal(foodItem)"
-          >
-            {{ foodItem.name }}
-            <span *ngIf="!!foodItem.customId">(custom) </span>
-            <span *ngIf="!checkOneSize(foodItem)">({{ foodItem.size }}) </span>
-            x{{ foodItem.quantity }}
+          <div class="food-display">
+            <div
+              [attr.data-toggle]="useModalForBurger(foodItem)"
+              data-target="#burgerModal"
+              (click)="updateBurgerModal(foodItem)"
+            >
+              {{ foodItem.name }}
+              <span *ngIf="!!foodItem.customId">(custom) </span>
+              <span *ngIf="!checkOneSize(foodItem)"
+                >({{ foodItem.size }})
+              </span>
+              x{{ foodItem.quantity }}
+            </div>
             <button
               class="btn btn-default btn-danger float-right"
               (click)="

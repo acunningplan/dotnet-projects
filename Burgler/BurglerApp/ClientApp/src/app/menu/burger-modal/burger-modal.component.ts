@@ -6,6 +6,7 @@ import { Order, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
 import { BurgerModalService } from "./burger-modal.service";
 import { Subject, Subscription } from "rxjs";
+import { FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
   selector: "app-burger-modal",
@@ -17,6 +18,8 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   option: { size: string; calories: number; price: number };
   editMode: boolean;
   customId: number;
+
+  formGroup: FormGroup;
 
   customBurgerOrder: BurgerItemJson;
   order: Order;
@@ -38,7 +41,21 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
 
     this.burgerModalSubscription = this.burgerModalService.burgerModalSubject.subscribe(
       ({ burger, option, editMode, customId }) => {
+        console.log("Creating form group");
+        this.formGroup = new FormGroup({
+          burgerBun: new FormControl(burger.bun),
+          burgerToppings: new FormArray(
+            this.ingredients.toppings.map(
+              (t) =>
+                new FormControl(!!burger.toppings.find((bt) => bt === t.name))
+            )
+          ),
+          burgerPatty: new FormControl(burger.patty),
+          burgerPattyCooked: new FormControl(burger.pattyCooked),
+        });
+
         this.burger = burger;
+        console.log(`Patty cooked = ${burger.pattyCooked}`);
         this.customBurgerOrder = new BurgerItemJson(burger, option);
         this.customBurgerOrder.customId = customId;
         this.editMode = editMode;
@@ -50,8 +67,22 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
     this.burgerModalSubscription.unsubscribe();
   }
 
-  checkIfIngredientIsIncluded(ing: string) {
-    return !!this.burger.toppings.find((i) => i === ing);
+  onSubmit() {
+    console.log(this.formGroup);
+  }
+
+  checkIfIngredientIsIncluded(ing: string, type: string): boolean {
+    if (type === "burgerBun") {
+      console.log(this.burger.bun);
+      return ing === this.burger.bun;
+    } else if (type === "burgerToppings") {
+      return !!this.burger.toppings.find((i) => i === ing);
+    } else if (type === "burgerPatty") {
+      return ing === this.burger.patty;
+    } else if (type === "burgerPattyCooked") {
+      return ing === this.burger.pattyCooked;
+    }
+    return false;
   }
 
   chooseIng(ing: string, type: string) {

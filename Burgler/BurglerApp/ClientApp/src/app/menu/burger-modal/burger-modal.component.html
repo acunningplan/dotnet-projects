@@ -23,7 +23,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
           <div style="margin-bottom: 15px;">
             <h5>Bun:</h5>
             <div
@@ -32,12 +32,12 @@
               *ngFor="let bun of ingredients.buns; let index = index"
             >
               <input
+                formControlName="burgerBun"
                 type="radio"
                 class="form-check-input"
-                name="buns"
+                name="burgerBun"
                 [id]="bun.name"
                 [value]="bun.name"
-                [checked]="burger.bun === bun.name"
                 (click)="chooseIng(bun.name, 'burgerBun')"
               />
               <label class="form-check-label" [for]="bun.name"
@@ -45,19 +45,20 @@
               >
             </div>
           </div>
-          <div style="margin-bottom: 15px;">
+          <div style="margin-bottom: 15px;" formArrayName="burgerToppings">
             <h5>Toppings:</h5>
             <div
               style="margin-right: 10pt;"
               class="form-check"
-              *ngFor="let topping of ingredients.toppings"
+              *ngFor="let topping of ingredients.toppings; let i = index"
             >
               <input
+                [formControlName]="i"
                 type="checkbox"
                 class="form-check-input"
-                name="topping"
+                [name]="i"
                 [id]="topping.name"
-                [checked]="checkIfIngredientIsIncluded(topping.name)"
+                [value]="topping.name"
                 (click)="chooseIng(topping.name, 'burgerToppings')"
               />
               <label class="form-check-label" [for]="topping.name"
@@ -74,12 +75,15 @@
               *ngFor="let patty of ingredients.patties"
             >
               <input
+                formControlName="burgerPatty"
                 type="radio"
                 class="form-check-input"
-                name="patty"
+                name="burgerPatty"
                 [id]="patty.name"
                 [value]="patty.name"
-                [checked]="burger.patty === patty.name"
+                [checked]="
+                  checkIfIngredientIsIncluded(patty.name, 'burgerPatty')
+                "
                 (click)="chooseIng(patty.name, 'burgerPatty')"
               />
               <label class="form-check-label" [for]="patty.name"
@@ -102,12 +106,15 @@
               "
             >
               <input
+                formControlName="burgerPattyCooked"
                 type="radio"
                 class="form-check-input"
-                name="patty-cooked"
+                name="burgerPattyCooked"
                 [id]="pattyCooked"
                 [value]="pattyCooked"
-                [checked]="burger.pattyCooked === pattyCooked"
+                [checked]="
+                  checkIfIngredientIsIncluded(pattyCooked, 'burgerPattyCooked')
+                "
                 (click)="chooseIng(pattyCooked, 'burgerPattyCooked')"
               />
               <label class="form-check-label" [for]="pattyCooked">{{

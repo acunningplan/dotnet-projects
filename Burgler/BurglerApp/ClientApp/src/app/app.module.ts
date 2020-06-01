@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 
@@ -41,6 +41,7 @@ import { BurgerModalComponent } from './menu/burger-modal/burger-modal.component
     HttpClientModule,
     FormsModule,
     SocialLoginModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
       {
