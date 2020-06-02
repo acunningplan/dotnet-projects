@@ -22,6 +22,9 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
 
   customBurgerOrder: BurgerItemJson;
+  // calories: number;
+  // price: number;
+
   order: Order;
   menu: Menu;
   ingredients: Ingredients;
@@ -41,7 +44,6 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
 
     this.burgerModalSubscription = this.burgerModalService.burgerModalSubject.subscribe(
       ({ burger, option, editMode, customId }) => {
-        console.log("Creating form group");
         this.formGroup = new FormGroup({
           burgerBun: new FormControl(burger.bun),
           burgerToppings: new FormArray(
@@ -55,7 +57,6 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
         });
 
         this.burger = burger;
-        console.log(`Patty cooked = ${burger.pattyCooked}`);
         this.customBurgerOrder = new BurgerItemJson(burger, option);
         this.customBurgerOrder.customId = customId;
         this.editMode = editMode;
@@ -68,71 +69,63 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log("Submitting");
     console.log(this.formGroup);
   }
+  // checkIfIngredientIsIncluded(ing: string, type: string): boolean {
+  //   if (type === "burgerBun") {
+  //     console.log(this.burger.bun);
+  //     return ing === this.burger.bun;
+  //   } else if (type === "burgerToppings") {
+  //     return !!this.burger.toppings.find((i) => i === ing);
+  //   } else if (type === "burgerPatty") {
+  //     return ing === this.burger.patty;
+  //   } else if (type === "burgerPattyCooked") {
+  //     return ing === this.burger.pattyCooked;
+  //   }
+  //   return false;
+  // }
 
-  checkIfIngredientIsIncluded(ing: string, type: string): boolean {
-    if (type === "burgerBun") {
-      console.log(this.burger.bun);
-      return ing === this.burger.bun;
-    } else if (type === "burgerToppings") {
-      return !!this.burger.toppings.find((i) => i === ing);
-    } else if (type === "burgerPatty") {
-      return ing === this.burger.patty;
-    } else if (type === "burgerPattyCooked") {
-      return ing === this.burger.pattyCooked;
-    }
-    return false;
-  }
+  // chooseIng(ing: string, type: string) {
+  //   if (type === "burgerBun") {
+  //     this.customBurgerOrder.burgerBun = ing;
+  //   } else if (type === "burgerToppings") {
+  //     this.customBurgerOrder.addOrRemoveTopping(ing);
+  //   } else if (type === "burgerPatty") {
+  //     this.customBurgerOrder.burgerPatty = ing;
+  //   } else if (type === "burgerPattyCooked") {
+  //     this.customBurgerOrder.burgerPattyCooked = ing;
+  //   }
+  // }
 
-  chooseIng(ing: string, type: string) {
-    if (type === "burgerBun") {
-      this.customBurgerOrder.burgerBun = ing;
-    } else if (type === "burgerToppings") {
-      this.customBurgerOrder.addOrRemoveTopping(ing);
-    } else if (type === "burgerPatty") {
-      this.customBurgerOrder.burgerPatty = ing;
-    } else if (type === "burgerPattyCooked") {
-      this.customBurgerOrder.burgerPattyCooked = ing;
-    }
-  }
+  getBurgerProps() {
+    const burgerProps = {
+      burgerBun: "",
+      burgerPatty: "",
+      burgerToppings: "",
+      burgerPattyCooked: "",
+    };
 
-  addOrEditCustomBurgerToOrder() {
-    this.customBurgerOrder.price = this.calculateBurgerPrice();
+    burgerProps.burgerBun = this.formGroup.get("burgerBun").value;
+    burgerProps.burgerPatty = this.formGroup.get("burgerPatty").value;
+    burgerProps.burgerPattyCooked = this.formGroup.get(
+      "burgerPattyCooked"
+    ).value;
 
-    if (!this.editMode) {
-      this.orderService
-        .addCustomBurgerToPendingOrder(this.customBurgerOrder)
-        .subscribe((res) => {
-          // console.log(this.orderService.getPendingOrder());
-        });
-    } else {
-      this.orderService
-        .editCustomBurger(this.customBurgerOrder)
-        .subscribe((res) => {
-          // console.log(this.orderService.getPendingOrder());
-        });
-    }
-  }
+    const pickedToppings: boolean[] = this.formGroup.get("burgerToppings")
+      .value;
 
-  calculateBurgerPrice(): number {
-    if (!this.customBurgerOrder) return 0;
-    const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
+    burgerProps.burgerToppings = this.ingredients.toppings
+      .filter((ing, index) => pickedToppings[index])
+      .map((ing) => ing.name)
+      .join("+");
 
-    let totalPrice = 1;
-    totalPrice += this.ingredients.buns.find((b) => b.name === burgerBun).price;
-    totalPrice += this.ingredients.patties.find((p) => p.name === burgerPatty)
-      .price;
-    for (const topping of burgerToppings.split("+")) {
-      totalPrice += this.ingredients.toppings.find((t) => t.name === topping)
-        .price;
-    }
-    return totalPrice;
+    return burgerProps;
   }
 
   calculateBurgerCalories(): number {
-    if (!this.customBurgerOrder) return 0;
-    const { burgerBun, burgerPatty, burgerToppings } = this.customBurgerOrder;
+    if (!this.customBurgerOrder || !this.getBurgerProps().burgerBun) return 0;
+    const { burgerBun, burgerPatty, burgerToppings } = this.getBurgerProps();
 
     let totalCalories = 0;
     totalCalories += this.ingredients.buns.find((b) => b.name === burgerBun)
@@ -146,5 +139,37 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
         .calories;
     }
     return totalCalories;
+  }
+
+  calculateBurgerPrice(): number {
+    if (!this.customBurgerOrder || !this.getBurgerProps().burgerBun) return 0;
+    const { burgerBun, burgerPatty, burgerToppings } = this.getBurgerProps();
+
+    let totalPrice = 1;
+    totalPrice += this.ingredients.buns.find((b) => b.name === burgerBun).price;
+    totalPrice += this.ingredients.patties.find((p) => p.name === burgerPatty)
+      .price;
+    for (const topping of burgerToppings.split("+")) {
+      totalPrice += this.ingredients.toppings.find((t) => t.name === topping)
+        .price;
+    }
+    return totalPrice;
+  }
+
+  addOrEditCustomBurgerToOrder() {
+    const burgerProps = this.getBurgerProps();
+    for (const prop in burgerProps) {
+      this.customBurgerOrder[prop] = burgerProps[prop];
+    }
+
+    this.customBurgerOrder.price = this.calculateBurgerPrice();
+
+    if (!this.editMode) {
+      this.orderService
+        .addCustomBurgerToPendingOrder(this.customBurgerOrder)
+        .subscribe();
+    } else {
+      this.orderService.editCustomBurger(this.customBurgerOrder).subscribe();
+    }
   }
 }
