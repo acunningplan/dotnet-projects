@@ -15,6 +15,7 @@ export class BurgerItem extends Food {
   constructor(burger?: Burger) {
     super();
     if (!!burger) {
+      
       this.name = burger.name;
       this.type = burger.type;
       this.description = burger.description;

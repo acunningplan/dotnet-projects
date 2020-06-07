@@ -33,10 +33,7 @@ export class MenuService {
   private loadIngredients(menuJson: MenuJson) {
     const ingredients = new Ingredients();
     ingredients.buns = menuJson.bunsList;
-    ingredients.patties = menuJson.pattiesList.filter(
-      (patty, i) =>
-        menuJson.pattiesList.findIndex((p) => p.name === patty.name) === i
-    );
+    ingredients.patties = menuJson.pattiesList;
     ingredients.toppings = menuJson.toppingsList;
     this.ingredients = ingredients;
   }
@@ -62,6 +59,15 @@ export class MenuService {
         calories: f.calories,
         price: f.price,
       }));
+      if ("burgerBun" in foodList[0]) {
+        const b = food as BurgerItem;
+
+        food.options = food.options.map((o) => {
+          o.calories = this.calculateBurgerCalories(b, o.size);
+          o.price = this.calculateBurgerPrice(b, o.size);
+          return o;
+        });
+      }
     }
   };
 
@@ -112,5 +118,44 @@ export class MenuService {
 
     menu.drinks = this.groupBy(drinks, "type");
     this.menu = menu;
+  }
+
+  calculateBurgerCalories(
+    b: BurgerItem | { bun: string; patty: string; toppings: string[] },
+    size: string
+  ): number {
+    const { bun, patty, toppings } = b;
+    console.log(size);
+
+    let totalCalories = 0;
+    totalCalories += this.ingredients.buns.find((b) => b.name === bun).calories;
+    totalCalories += this.ingredients.patties.find(
+      (p) => p.name === patty && p.size === size
+    ).calories;
+
+    for (const topping of toppings) {
+      totalCalories += this.ingredients.toppings.find((t) => t.name === topping)
+        .calories;
+    }
+    return totalCalories;
+  }
+
+  calculateBurgerPrice(
+    b: BurgerItem | { bun: string; patty: string; toppings: string[] },
+    size: string
+  ): number {
+    const { bun, patty, toppings } = b;
+
+    let totalPrice = 1;
+    totalPrice += this.ingredients.buns.find((b) => b.name === bun).price;
+    totalPrice += this.ingredients.patties.find(
+      (p) => p.name === patty && p.size === size
+    ).price;
+
+    for (const topping of toppings) {
+      totalPrice += this.ingredients.toppings.find((t) => t.name === topping)
+        .price;
+    }
+    return totalPrice;
   }
 }

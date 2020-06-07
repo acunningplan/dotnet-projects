@@ -45,6 +45,7 @@ namespace Burgler.BusinessLogic.OrderLogic
             order.BurgerItems = newOrder.BurgerItems;
             order.SideItems = newOrder.SideItems;
             order.DrinkItems = newOrder.DrinkItems;
+            order.CustomItemCount = newOrder.CustomItemCount;
 
             // Make sure the price is correct
             var menu = await menuServices.GetMenu();

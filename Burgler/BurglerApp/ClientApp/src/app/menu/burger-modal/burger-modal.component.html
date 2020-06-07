@@ -8,7 +8,7 @@
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="!!burger">
-      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <form [formGroup]="formGroup">
         <div class="modal-header">
           <h5 class="modal-title" id="burgerModalLabel">
             <span *ngIf="!editMode">Customise Burger</span>
@@ -113,10 +113,8 @@
             </div>
           </div>
           <div style="display: flex; float: right;">
-            <p>Calories = {{ calculateBurgerCalories() }};</p>
-            <p style="margin-left: 15px;">
-              Price = {{ calculateBurgerPrice() }}
-            </p>
+            <p>Calories = {{ calories }};</p>
+            <p style="margin-left: 15px;">Price = {{ price }}</p>
           </div>
         </div>
         <div class="modal-footer">

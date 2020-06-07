@@ -41,9 +41,9 @@ export class MenuComponent implements OnInit {
     this.orderService.addToPendingOrder(burger, "burgers", option).subscribe();
   }
 
-  clickSubcategory({ foods, category }) {
-    this.foodsToDisplay = foods;
-    this.foodType = category;
+  clickSubcategory(e: { foods: Food[]; category: string }) {
+    this.foodsToDisplay = e.foods;
+    this.foodType = e.category;
   }
 
   addFoodToOrder(
