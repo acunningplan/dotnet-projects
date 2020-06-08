@@ -1,6 +1,11 @@
-.landing-page-content {
-  width: 1000px;
-  height: 1000px;
-  text-align: center;
-  margin: auto;
+.box {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  margin: 10px 0;
 }

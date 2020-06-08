@@ -5,7 +5,7 @@ import { OrderService } from "src/app/orders/order.service";
 import { Order, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
 import { BurgerModalService } from "./burger-modal.service";
-import { Subject, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
@@ -59,13 +59,19 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
         this.burger = burger;
         this.customBurgerOrder = new BurgerItemJson(burger, option);
         this.customBurgerOrder.customId = customId;
-        this.calories = this.menuService.calculateBurgerCalories(burger, option.size);
+        this.calories = this.menuService.calculateBurgerCalories(
+          burger,
+          option.size
+        );
         this.price = this.menuService.calculateBurgerPrice(burger, option.size);
         this.editMode = editMode;
 
         this.formGroup.valueChanges.subscribe(() => {
           const bp = this.getBurgerProps();
-          this.calories = this.menuService.calculateBurgerCalories(bp, option.size);
+          this.calories = this.menuService.calculateBurgerCalories(
+            bp,
+            option.size
+          );
           this.price = this.menuService.calculateBurgerPrice(bp, option.size);
         });
       }
@@ -129,10 +135,11 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   }
 
   addOrEditCustomBurgerToOrder() {
-    const burgerProps = this.getBurgerProps();
-    for (const prop in burgerProps) {
-      this.customBurgerOrder[prop] = burgerProps[prop];
-    }
+    const { bun, patty, toppings, pattyCooked } = this.getBurgerProps();
+    this.customBurgerOrder.burgerBun = bun;
+    this.customBurgerOrder.burgerPatty = patty;
+    this.customBurgerOrder.burgerToppings = toppings.join("+");
+    this.customBurgerOrder.burgerPattyCooked = pattyCooked;
 
     this.customBurgerOrder.price = this.calculateBurgerPrice();
 

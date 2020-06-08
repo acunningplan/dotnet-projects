@@ -125,7 +125,6 @@ export class MenuService {
     size: string
   ): number {
     const { bun, patty, toppings } = b;
-    console.log(size);
 
     let totalCalories = 0;
     totalCalories += this.ingredients.buns.find((b) => b.name === bun).calories;

@@ -52,7 +52,7 @@ export class RightSidebarComponent implements OnInit {
       burger: burgerItem,
       option: { size, calories, price },
       editMode: true,
-      customId: bi.customId
+      customId: bi.customId,
     });
   }
 
@@ -78,8 +78,16 @@ export class RightSidebarComponent implements OnInit {
     return true;
   }
 
+  onChangeQuantity(
+    name: string,
+    size: string,
+    customId: number = null,
+    qty: number
+  ) {
+    this.orderService.changeQuantity(name, size, customId, qty).subscribe();
+  }
+
   onDeleteItem(name: string, size: string, customId: number = null) {
-    console.log(`Deleting item with id ${customId}`);
     if (!!customId) {
       this.orderService.deleteCustomBurgerFromOrder(customId).subscribe();
     } else {

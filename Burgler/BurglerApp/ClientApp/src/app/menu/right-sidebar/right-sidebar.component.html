@@ -12,21 +12,50 @@
               [attr.data-toggle]="useModalForBurger(foodItem)"
               data-target="#burgerModal"
               (click)="updateBurgerModal(foodItem)"
+              style="padding: 0 0 12px 0;"
             >
               {{ foodItem.name }}
               <span *ngIf="!!foodItem.customId">(custom) </span>
-              <span *ngIf="!checkOneSize(foodItem)"
+              <span *ngIf="!checkOneSize(foodItem) && !foodItem.customId"
                 >({{ foodItem.size }})
               </span>
               x{{ foodItem.quantity }}
             </div>
             <button
-              class="btn btn-default btn-danger float-right"
+              class="btn btn-sm btn-default btn-danger float-right"
               (click)="
                 onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)
               "
             >
               X
+            </button>
+            <button
+              class="btn btn-sm btn-default btn-warning float-right"
+              (click)="
+                onChangeQuantity(
+                  foodItem.name,
+                  foodItem.size,
+                  foodItem.customId,
+                  -1
+                )
+              "
+              [disabled]="foodItem.quantity < 2"
+            >
+              -
+            </button>
+            <button
+              class="btn btn-sm btn-default btn-primary float-right"
+              (click)="
+                onChangeQuantity(
+                  foodItem.name,
+                  foodItem.size,
+                  foodItem.customId,
+                  +1
+                )
+              "
+              [disabled]="foodItem.quantity > 9"
+            >
+              +
             </button>
           </div>
         </li>

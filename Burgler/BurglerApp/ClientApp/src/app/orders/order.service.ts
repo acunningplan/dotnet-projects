@@ -105,6 +105,30 @@ export class OrderService {
     return this.updatePendingOrder(this.pendingOrder);
   }
 
+  changeQuantity(
+    name: string,
+    size: string,
+    customId: number = null,
+    qty: number
+  ) {
+    const foodItemTypes = ["burgerItems", "sideItems", "drinkItems"];
+
+    if (!!customId) {
+      const bi = this.pendingOrder.burgerItems.find(
+        (bi) => bi.customId === customId
+      );
+      bi.quantity += qty;
+    } else {
+      for (const foodItemType of foodItemTypes) {
+        const food = this.pendingOrder[foodItemType].find(
+          (f) => f.name == name && f.size == size
+        );
+        if (!!food) food.quantity += qty;
+      }
+    }
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
   deleteFromOrder(name: string, size: string) {
     const foodItemTypes = ["burgerItems", "sideItems", "drinkItems"];
     for (const foodItemType of foodItemTypes) {
