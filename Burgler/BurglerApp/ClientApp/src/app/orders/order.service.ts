@@ -95,7 +95,7 @@ export class OrderService {
       newFoodItem = new DrinkItemJson(food, option);
     }
     const foodItem = foodItemList.find(
-      (fi) => fi.name === food.name && fi.size === option.size
+      (fi) => fi.name === food.name && fi.size === option.size && !fi.customId
     );
     if (!foodItem) {
       foodItemList.push(newFoodItem);

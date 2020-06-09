@@ -53,6 +53,7 @@ export class RightSidebarComponent implements OnInit {
       option: { size, calories, price },
       editMode: true,
       customId: bi.customId,
+      quantity: bi.quantity
     });
   }
 

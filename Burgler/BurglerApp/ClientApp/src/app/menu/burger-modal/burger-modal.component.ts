@@ -43,7 +43,7 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
     this.ingredients = this.menuService.getIngredients();
 
     this.burgerModalSubscription = this.burgerModalService.burgerModalSubject.subscribe(
-      ({ burger, option, editMode, customId }) => {
+      ({ burger, option, editMode, customId, quantity }) => {
         this.formGroup = new FormGroup({
           burgerBun: new FormControl(burger.bun),
           burgerToppings: new FormArray(
@@ -52,12 +52,12 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
                 new FormControl(!!burger.toppings.find((bt) => bt === t.name))
             )
           ),
-          burgerPatty: new FormControl(burger.patty),
+          burgerPattySize: new FormControl(option.size),
           burgerPattyCooked: new FormControl(burger.pattyCooked),
         });
 
         this.burger = burger;
-        this.customBurgerOrder = new BurgerItemJson(burger, option);
+        this.customBurgerOrder = new BurgerItemJson(burger, option, quantity);
         this.customBurgerOrder.customId = customId;
         this.calories = this.menuService.calculateBurgerCalories(
           burger,
@@ -70,9 +70,9 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
           const bp = this.getBurgerProps();
           this.calories = this.menuService.calculateBurgerCalories(
             bp,
-            option.size
+            bp.pattySize
           );
-          this.price = this.menuService.calculateBurgerPrice(bp, option.size);
+          this.price = this.menuService.calculateBurgerPrice(bp, bp.pattySize);
         });
       }
     );
@@ -85,13 +85,14 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   getBurgerProps() {
     const burgerProps = {
       bun: "",
-      patty: "",
+      patty: this.burger.patty,
+      pattySize: "",
       toppings: [""],
       pattyCooked: "",
     };
 
     burgerProps.bun = this.formGroup.get("burgerBun").value;
-    burgerProps.patty = this.formGroup.get("burgerPatty").value;
+    burgerProps.pattySize = this.formGroup.get("burgerPattySize").value;
     burgerProps.pattyCooked = this.formGroup.get("burgerPattyCooked").value;
 
     const pickedToppings: boolean[] = this.formGroup.get("burgerToppings")

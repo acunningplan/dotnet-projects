@@ -9,5 +9,6 @@ export class BurgerModalService {
     option: { size: string; calories: number; price: number };
     editMode: boolean;
     customId?: number;
+    quantity?: number;
   }>();
 }

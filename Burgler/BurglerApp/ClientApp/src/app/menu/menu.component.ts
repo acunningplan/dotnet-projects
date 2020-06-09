@@ -66,7 +66,7 @@ export class MenuComponent implements OnInit {
     this.burgerModalService.burgerModalSubject.next({
       burger: newBurger,
       option,
-      editMode: false,
+      editMode: false
     });
   }
 

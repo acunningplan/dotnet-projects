@@ -76,15 +76,15 @@
               class="form-check"
               *ngFor="let patty of ingredients.patties"
             >
-              <div class="row">
+              <div class="row" *ngIf="patty.name === burger.patty">
                 <div class="col-4">
                   <input
-                    formControlName="burgerPatty"
+                    formControlName="burgerPattySize"
                     type="radio"
                     class="form-check-input"
-                    name="burgerPatty"
-                    [id]="patty.name"
-                    [value]="patty.name"
+                    name="burgerPattySize"
+                    [id]="patty.size"
+                    [value]="patty.size"
                   />{{ patty.name }} {{ patty.size }}
                 </div>
                 <div class="col-2">£{{ patty.price }}</div>

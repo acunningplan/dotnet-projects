@@ -35,20 +35,23 @@ export class FoodItem {
 
   constructor(
     food: Food,
-    option: { size: string; price: number; calories: number }
+    option: { size: string; price: number; calories: number },
+    quantity?: number
   ) {
     this.name = food.name;
     this.size = option.size;
     this.price = option.price;
+    this.quantity = quantity ?? 1;
   }
 }
 
 export class BurgerItemJson extends FoodItem {
   constructor(
     burger: BurgerItem,
-    option: { size: string; price: number; calories: number }
+    option: { size: string; price: number; calories: number },
+    quantity?: number
   ) {
-    super(burger, option);
+    super(burger, option, quantity);
     this.burgerBun = burger.bun;
     this.burgerToppings = burger.toppings.join("+");
     this.burgerToppingsArray = burger.toppings;

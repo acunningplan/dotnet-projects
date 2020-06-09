@@ -5,10 +5,12 @@
   <div class="card" style="width: 1500px;">
     <h5 class="card-header">Burgler menu</h5>
     <div class="card-body">
-      <h5 class="card-title">Tasty food served hot and fresh!</h5>
-      <p class="card-text">
-        Choose and customise your burgers, sides, and drinks!
-      </p>
+      <div *ngIf="!foodsToDisplay || !foodsToDisplay[0]">
+        <h5 class="card-title">Tasty food served hot and fresh!</h5>
+        <p class="card-text">
+          Choose and customise your burgers, sides, and drinks!
+        </p>
+      </div>
 
       <ul class="list-group" *ngIf="foodType === 'burgers'">
         <li *ngFor="let burger of foodsToDisplay" class="list-group-item">
