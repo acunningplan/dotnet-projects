@@ -12,12 +12,13 @@ import {
 import { OrderJson } from "./orderJson";
 import { Food } from "../menu/ingredients";
 import { BurgerItem } from "../menu/menu";
+import { MenuService } from "../menu/menu.service";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
   private pendingOrder: Order;
   private pastOrders: Order[];
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private menuService: MenuService) {}
 
   // Fetch and pre-load pending order
   fetchPendingOrder() {
@@ -160,5 +161,44 @@ export class OrderService {
       },
       { observe: "response" }
     );
+  }
+
+  findBurgerItemPrice(bi: BurgerItemJson) {
+    return this.menuService.calculateBurgerPrice(
+      {
+        bun: bi.burgerBun,
+        patty: bi.burgerPatty,
+        toppings: bi.burgerToppings.split("+"),
+      },
+      bi.size
+    );
+  }
+
+  findSideItemPrice(si: SideItemJson) {
+    const menu = this.menuService.getMenu();
+    return menu.sideItems.find((s) => s.name === si.name && s.size === si.size)
+      .price;
+  }
+
+  findDrinkItemPrice(di: DrinkItemJson) {
+    const menu = this.menuService.getMenu();
+    return menu.drinkItems.find((d) => d.name === di.name && d.size === di.size)
+      .price;
+  }
+
+  calculateOrderPrice() {
+    let total = 0;
+
+    total += this.pendingOrder.burgerItems
+      .map((bi) => this.findBurgerItemPrice(bi) * bi.quantity)
+      .reduce((a, b) => a + b, 0);
+    total += this.pendingOrder.sideItems
+      .map((si) => this.findSideItemPrice(si) * si.quantity)
+      .reduce((a, b) => a + b, 0);
+    total += this.pendingOrder.drinkItems
+      .map((di) => this.findDrinkItemPrice(di) * di.quantity)
+      .reduce((a, b) => a + b, 0);
+
+    return total;
   }
 }

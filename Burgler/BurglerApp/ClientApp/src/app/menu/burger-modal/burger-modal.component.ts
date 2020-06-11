@@ -64,6 +64,8 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
           option.size
         );
         this.price = this.menuService.calculateBurgerPrice(burger, option.size);
+        this.customBurgerOrder.calories = this.calories;
+        this.customBurgerOrder.price = this.price;
         this.editMode = editMode;
 
         this.formGroup.valueChanges.subscribe(() => {
@@ -73,6 +75,8 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
             bp.pattySize
           );
           this.price = this.menuService.calculateBurgerPrice(bp, bp.pattySize);
+          this.customBurgerOrder.calories = this.calories;
+          this.customBurgerOrder.price = this.price;
         });
       }
     );
@@ -136,9 +140,16 @@ export class BurgerModalComponent implements OnInit, OnDestroy {
   }
 
   addOrEditCustomBurgerToOrder() {
-    const { bun, patty, toppings, pattyCooked } = this.getBurgerProps();
+    const {
+      bun,
+      patty,
+      pattySize,
+      toppings,
+      pattyCooked,
+    } = this.getBurgerProps();
     this.customBurgerOrder.burgerBun = bun;
     this.customBurgerOrder.burgerPatty = patty;
+    this.customBurgerOrder.size = pattySize;
     this.customBurgerOrder.burgerToppings = toppings.join("+");
     this.customBurgerOrder.burgerPattyCooked = pattyCooked;
 

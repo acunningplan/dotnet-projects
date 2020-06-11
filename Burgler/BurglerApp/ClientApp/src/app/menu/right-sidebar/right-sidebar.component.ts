@@ -53,7 +53,7 @@ export class RightSidebarComponent implements OnInit {
       option: { size, calories, price },
       editMode: true,
       customId: bi.customId,
-      quantity: bi.quantity
+      quantity: bi.quantity,
     });
   }
 
@@ -94,5 +94,20 @@ export class RightSidebarComponent implements OnInit {
     } else {
       this.orderService.deleteFromOrder(name, size).subscribe();
     }
+  }
+
+  calculateTotalPrice() {
+    let totalPrice = this.orderService.calculateOrderPrice();
+    // totalPrice += this.menuService.calculateBurgerCalories({
+    //   bun:
+    // })
+
+    // totalPrice += this.order.sideItems
+    //   .map((bi) => bi.price)
+    //   .reduce((a, b) => a + b, 0);
+    // totalPrice += this.order.drinkItems
+    //   .map((bi) => bi.price)
+    //   .reduce((a, b) => a + b, 0);
+    return totalPrice ?? 0;
   }
 }
