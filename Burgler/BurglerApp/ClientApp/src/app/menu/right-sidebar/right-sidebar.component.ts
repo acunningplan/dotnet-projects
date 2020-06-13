@@ -12,9 +12,11 @@ import { Subscription } from "rxjs";
   templateUrl: "./right-sidebar.component.html",
   styleUrls: ["./right-sidebar.component.css"],
 })
-export class RightSidebarComponent implements OnInit {
+export class RightSidebarComponent implements OnInit, OnDestroy {
   @Input() order: Order;
   menu: Menu;
+  totalPrice: string;
+  orderSub: Subscription;
   constructor(
     private orderService: OrderService,
     private menuService: MenuService,
@@ -23,6 +25,14 @@ export class RightSidebarComponent implements OnInit {
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
+    this.totalPrice = this.orderService.calculateOrderPrice();
+    this.orderSub = this.orderService.orderSubject.subscribe(() => {
+      this.totalPrice = this.orderService.calculateOrderPrice();
+    });
+  }
+
+  ngOnDestroy() {
+    this.orderSub.unsubscribe();
   }
 
   useModalForBurger(foodItem: FoodItem) {
@@ -94,20 +104,5 @@ export class RightSidebarComponent implements OnInit {
     } else {
       this.orderService.deleteFromOrder(name, size).subscribe();
     }
-  }
-
-  calculateTotalPrice() {
-    let totalPrice = this.orderService.calculateOrderPrice();
-    // totalPrice += this.menuService.calculateBurgerCalories({
-    //   bun:
-    // })
-
-    // totalPrice += this.order.sideItems
-    //   .map((bi) => bi.price)
-    //   .reduce((a, b) => a + b, 0);
-    // totalPrice += this.order.drinkItems
-    //   .map((bi) => bi.price)
-    //   .reduce((a, b) => a + b, 0);
-    return totalPrice ?? 0;
   }
 }

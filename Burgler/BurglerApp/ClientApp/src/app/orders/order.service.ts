@@ -13,11 +13,13 @@ import { OrderJson } from "./orderJson";
 import { Food } from "../menu/ingredients";
 import { BurgerItem } from "../menu/menu";
 import { MenuService } from "../menu/menu.service";
+import { Subject } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
   private pendingOrder: Order;
   private pastOrders: Order[];
+  orderSubject = new Subject<Order>();
   constructor(private http: HttpClient, private menuService: MenuService) {}
 
   // Fetch and pre-load pending order
@@ -53,6 +55,7 @@ export class OrderService {
 
   updatePendingOrder(pendingOrder: Order) {
     this.pendingOrder = pendingOrder;
+    this.orderSubject.next(pendingOrder);
     return this.http.patch(`${environment.serverUrl}/order/edit`, pendingOrder);
   }
 
@@ -189,16 +192,19 @@ export class OrderService {
   calculateOrderPrice() {
     let total = 0;
 
-    total += this.pendingOrder.burgerItems
-      .map((bi) => this.findBurgerItemPrice(bi) * bi.quantity)
-      .reduce((a, b) => a + b, 0);
-    total += this.pendingOrder.sideItems
-      .map((si) => this.findSideItemPrice(si) * si.quantity)
-      .reduce((a, b) => a + b, 0);
-    total += this.pendingOrder.drinkItems
-      .map((di) => this.findDrinkItemPrice(di) * di.quantity)
-      .reduce((a, b) => a + b, 0);
+    total += this.pendingOrder.burgerItems.reduce(
+      (a, b) => a + this.findBurgerItemPrice(b) * b.quantity,
+      0
+    );
+    total += this.pendingOrder.sideItems.reduce(
+      (a, b) => a + this.findSideItemPrice(b) * b.quantity,
+      0
+    );
+    total += this.pendingOrder.drinkItems.reduce(
+      (a, b) => a + this.findDrinkItemPrice(b) * b.quantity,
+      0
+    );
 
-    return total;
+    return total.toFixed(2);
   }
 }
