@@ -22,6 +22,7 @@ import { MenuResolverService } from "./menu/menu-resolver.service";
 import { OrderResolverService } from "./orders/order-resolver.service";
 import { PastOrdersResolverService } from "./orders/past-orders-resolver.service";
 import { BurgerModalComponent } from "./menu/burger-modal/burger-modal.component";
+import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { BurgerModalComponent } from "./menu/burger-modal/burger-modal.component
     LeftSidebarComponent,
     RightSidebarComponent,
     BurgerModalComponent,
+    OrderDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -54,7 +56,11 @@ import { BurgerModalComponent } from "./menu/burger-modal/burger-modal.component
       {
         path: "orders",
         component: OrdersComponent,
-        resolve: [OrderResolverService, PastOrdersResolverService],
+        resolve: [
+          MenuResolverService,
+          OrderResolverService,
+          PastOrdersResolverService,
+        ],
       },
     ]),
   ],

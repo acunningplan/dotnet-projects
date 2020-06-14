@@ -23,6 +23,7 @@ export class Order {
   burgerItems: BurgerItemJson[] = [];
   sideItems: SideItemJson[] = [];
   drinkItems: DrinkItemJson[] = [];
+  totalPrice: string;
 }
 
 export class FoodItem {

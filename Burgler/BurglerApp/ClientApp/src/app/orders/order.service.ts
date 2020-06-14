@@ -26,7 +26,8 @@ export class OrderService {
   fetchPendingOrder() {
     return this.http.get<OrderJson[]>(`${environment.serverUrl}/order`).pipe(
       map((orderJson) => {
-        this.pendingOrder = new Order(orderJson[0]);
+        const orderObj = new Order(orderJson[0]);
+        this.pendingOrder = orderObj;
         console.log(`Pending order:`);
         console.log(orderJson);
       })
@@ -38,7 +39,10 @@ export class OrderService {
       .get<OrderJson[]>(`${environment.serverUrl}/order/placed`)
       .pipe(
         map((orderJson) => {
-          this.pastOrders = orderJson.map((o) => new Order(o));
+          this.pastOrders = orderJson.map((o) => {
+            const orderObj = new Order(o);
+            return orderObj;
+          });
           console.log("Logging past orders:");
           console.log(`Past order: ${this.pastOrders}`);
         })
@@ -189,22 +193,23 @@ export class OrderService {
       .price;
   }
 
-  calculateOrderPrice() {
+  calculateOrderPrice(order: Order = this.pendingOrder) {
     let total = 0;
 
-    total += this.pendingOrder.burgerItems.reduce(
+    total += order.burgerItems.reduce(
       (a, b) => a + this.findBurgerItemPrice(b) * b.quantity,
       0
     );
-    total += this.pendingOrder.sideItems.reduce(
+    total += order.sideItems.reduce(
       (a, b) => a + this.findSideItemPrice(b) * b.quantity,
       0
     );
-    total += this.pendingOrder.drinkItems.reduce(
+    total += order.drinkItems.reduce(
       (a, b) => a + this.findDrinkItemPrice(b) * b.quantity,
       0
     );
+    order.totalPrice = total.toFixed(2);
 
-    return total.toFixed(2);
+    return order.totalPrice;
   }
 }

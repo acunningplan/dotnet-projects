@@ -12,12 +12,18 @@ import * as moment from "moment";
 export class OrdersComponent implements OnInit {
   pendingOrder: Order;
   orders: Order[];
-  constructor(private http: HttpClient, private orderService: OrderService) {
-    this.pendingOrder = orderService.getPendingOrder();
-    this.orders = orderService.getPastOrders();
-  }
+  totalPrice = "";
+  constructor(private http: HttpClient, private orderService: OrderService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.pendingOrder = this.orderService.getPendingOrder();
+    this.orders = this.orderService.getPastOrders();
+    this.pendingOrder.totalPrice = this.orderService.calculateOrderPrice();
+    this.orders = this.orders.map((o) => {
+      o.totalPrice = this.orderService.calculateOrderPrice(o);
+      return o;
+    });
+  }
 
   getOrders() {}
 
@@ -38,6 +44,6 @@ export class OrdersComponent implements OnInit {
   }
 
   reformatDateTime(dateTime: Date) {
-    return moment(dateTime).format("MMMM Do YYYY, h:mm");
+    return moment(dateTime).format("MMMM Do YYYY, h:mmA");
   }
 }

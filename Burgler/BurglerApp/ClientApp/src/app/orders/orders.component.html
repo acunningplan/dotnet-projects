@@ -1,34 +1,19 @@
 <h4>Current order:</h4>
-<ul class="list-group">
-  <li *ngFor="let foodItem of pendingOrder.burgerItems">
-    {{ foodItem.name }} x{{ foodItem.quantity }}
+<ul class="list-group" style="margin-bottom: 20px;">
+  <li class="list-group-item">
+    <app-order-detail
+      [order]="this.pendingOrder"
+      status="pending"
+    ></app-order-detail>
   </li>
-  <li *ngFor="let foodItem of pendingOrder.sideItems">
-    {{ foodItem.name }} x{{ foodItem.quantity }}
-  </li>
-  <li *ngFor="let foodItem of pendingOrder.drinkItems">
-    {{ foodItem.name }} x{{ foodItem.quantity }}
-  </li>
-  <p style="margin: 10px 0;">
-    <button class="btn btn-primary btn-default" (click)="placeOrder()">
-      Place Order!
-    </button>
-  </p>
 </ul>
 
 <h4>Past orders:</h4>
-<ul>
+<ul class="list-group">
   <li *ngFor="let order of orders" class="list-group-item">
-    {{ order.status }}, order placed at {{ reformatDateTime(order.orderedAt) }}
-
-    <a
-      *ngIf="order.status != 'cancelled'"
-      href="orders"
-      class="btn btn-danger btn-default"
-      style="margin: 0 10px;"
-      (click)="cancelOrder(order.orderId)"
-    >
-      Cancel
-    </a>
+    <app-order-detail
+      [order]="order"
+      [status]="order.status"
+    ></app-order-detail>
   </li>
 </ul>
