@@ -137,6 +137,13 @@ export class OrderService {
     return this.updatePendingOrder(this.pendingOrder);
   }
 
+  reorder(order: Order) {
+    this.pendingOrder.burgerItems = order.burgerItems;
+    this.pendingOrder.sideItems = order.sideItems;
+    this.pendingOrder.drinkItems = order.drinkItems;
+    return this.updatePendingOrder(this.pendingOrder);
+  }
+
   deleteFromOrder(name: string, size: string) {
     const foodItemTypes = ["burgerItems", "sideItems", "drinkItems"];
     for (const foodItemType of foodItemTypes) {

@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { OrderService } from "../orders/order.service";
-import { Order, BurgerItemJson } from "../orders/order";
 import { MenuService } from "./menu.service";
 import { Menu, BurgerItem } from "./menu";
 import { Food } from "./ingredients";
-import { Burger } from "./menuJson";
 import { BurgerModalService } from "./burger-modal/burger-modal.service";
 
 @Component({
@@ -14,7 +12,6 @@ import { BurgerModalService } from "./burger-modal/burger-modal.service";
 })
 export class MenuComponent implements OnInit {
   menu: Menu;
-  order: Order;
   foodsToDisplay: Food[];
   foodType: string;
   showBurgerModal = false;
@@ -29,10 +26,9 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
-    this.order = this.orderService.getPendingOrder();
   }
 
-  preserveOrder = (a, b) => a;
+  preserveOrder = (a) => a;
 
   addBurgerToOrder(
     burger: BurgerItem,
@@ -66,11 +62,7 @@ export class MenuComponent implements OnInit {
     this.burgerModalService.burgerModalSubject.next({
       burger: newBurger,
       option,
-      editMode: false
+      editMode: false,
     });
-  }
-
-  burgerModal() {
-    this.showBurgerModal = !this.showBurgerModal;
   }
 }

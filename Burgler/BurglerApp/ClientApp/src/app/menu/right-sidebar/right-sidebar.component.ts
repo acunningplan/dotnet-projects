@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { OrderService } from "src/app/orders/order.service";
 import { Order, FoodItem, BurgerItemJson } from "src/app/orders/order";
 import { MenuService } from "../menu.service";
@@ -13,8 +13,9 @@ import { Subscription } from "rxjs";
   styleUrls: ["./right-sidebar.component.css"],
 })
 export class RightSidebarComponent implements OnInit, OnDestroy {
-  @Input() order: Order;
+  pendingOrder: Order;
   menu: Menu;
+  foodItems: FoodItem[];
   totalPrice: string;
   orderSub: Subscription;
   constructor(
@@ -25,8 +26,11 @@ export class RightSidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
+    this.pendingOrder = this.orderService.getPendingOrder();
+    this.loadFoodItems(this.pendingOrder);
     this.totalPrice = this.orderService.calculateOrderPrice();
-    this.orderSub = this.orderService.orderSubject.subscribe(() => {
+    this.orderSub = this.orderService.orderSubject.subscribe((order) => {
+      this.loadFoodItems(order);
       this.totalPrice = this.orderService.calculateOrderPrice();
     });
   }
@@ -35,11 +39,12 @@ export class RightSidebarComponent implements OnInit, OnDestroy {
     this.orderSub.unsubscribe();
   }
 
-  useModalForBurger(foodItem: FoodItem) {
-    if (foodItem.hasOwnProperty("burgerBun")) {
-      return "modal";
-    }
-    return "";
+  loadFoodItems(order: Order) {
+    const { burgerItems, sideItems, drinkItems } = order;
+    this.foodItems = []
+      .concat(burgerItems)
+      .concat(sideItems)
+      .concat(drinkItems);
   }
 
   updateBurgerModal(fi: FoodItem) {
@@ -65,16 +70,6 @@ export class RightSidebarComponent implements OnInit, OnDestroy {
       customId: bi.customId,
       quantity: bi.quantity,
     });
-  }
-
-  getFoodItems() {
-    let foodItems: FoodItem[] = [];
-    const { burgerItems, sideItems, drinkItems } = this.order;
-    foodItems = foodItems
-      .concat(burgerItems)
-      .concat(sideItems)
-      .concat(drinkItems);
-    return foodItems;
   }
 
   checkOneSize(foodItem: FoodItem) {

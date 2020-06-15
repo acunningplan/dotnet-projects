@@ -23,6 +23,10 @@ import { OrderResolverService } from "./orders/order-resolver.service";
 import { PastOrdersResolverService } from "./orders/past-orders-resolver.service";
 import { BurgerModalComponent } from "./menu/burger-modal/burger-modal.component";
 import { OrderDetailComponent } from './orders/order-detail/order-detail.component';
+import { ReformatDateTimePipe } from './orders/order-detail/reformat-date-time.pipe';
+import { CheckOneSizeDirective } from './menu/check-one-size.directive';
+import { OrderItemComponent } from './orders/order-detail/order-item/order-item.component';
+import { OrderConfirmationComponent } from './orders/order-confirmation/order-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import { OrderDetailComponent } from './orders/order-detail/order-detail.compone
     RightSidebarComponent,
     BurgerModalComponent,
     OrderDetailComponent,
+    ReformatDateTimePipe,
+    CheckOneSizeDirective,
+    OrderItemComponent,
+    OrderConfirmationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

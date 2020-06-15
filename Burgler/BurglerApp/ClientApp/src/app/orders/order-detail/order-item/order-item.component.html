@@ -1,0 +1,8 @@
+<span>
+  {{ foodItem.name }}
+  <span *ngIf="!!foodItem.customId">(custom) </span>
+  <span *checkOneSize="foodItem"
+    >({{ foodItem.size }})
+  </span>
+  x{{ foodItem.quantity }}
+</span>

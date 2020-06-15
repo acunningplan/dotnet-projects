@@ -5,6 +5,7 @@ import { MenuJson, Burger, Side, Drink } from "./menuJson";
 import { map } from "rxjs/operators";
 import { Menu, BurgerItem, SideItem, DrinkItem } from "./menu";
 import { Ingredients, Food } from "./ingredients";
+import { FoodItem } from "../orders/order";
 
 @Injectable({ providedIn: "root" })
 export class MenuService {
@@ -156,5 +157,16 @@ export class MenuService {
         .price;
     }
     return totalPrice;
+  }
+
+  checkOneSize(foodItemName: string) {
+    if (
+      this.menu.burgerItems.filter((b) => b.name === foodItemName).length > 1 ||
+      this.menu.sideItems.filter((s) => s.name === foodItemName).length > 1 ||
+      this.menu.drinkItems.filter((d) => d.name === foodItemName).length > 1
+    ) {
+      return false;
+    }
+    return true;
   }
 }

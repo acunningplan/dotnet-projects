@@ -6,20 +6,15 @@
     <li>
       <h5>Edit items in basket:</h5>
       <ul class="list-unstyled" id="order-list">
-        <li *ngFor="let foodItem of getFoodItems()">
+        <li *ngFor="let foodItem of foodItems">
           <div class="food-display">
             <div
-              [attr.data-toggle]="useModalForBurger(foodItem)"
+              data-toggle="modal"
               data-target="#burgerModal"
               (click)="updateBurgerModal(foodItem)"
               style="padding: 0 0 12px 0;"
             >
-              {{ foodItem.name }}
-              <span *ngIf="!!foodItem.customId">(custom) </span>
-              <span *ngIf="!checkOneSize(foodItem) && !foodItem.customId"
-                >({{ foodItem.size }})
-              </span>
-              x{{ foodItem.quantity }}
+              <app-order-item [foodItem]="foodItem"></app-order-item>
             </div>
             <button
               class="btn btn-sm btn-default btn-danger float-right"
@@ -61,6 +56,6 @@
         </li>
       </ul>
     </li>
-    <li>Total price = {{ totalPrice }}</li>
+    <li>Total price = £{{ totalPrice }}</li>
   </ul>
 </nav>
