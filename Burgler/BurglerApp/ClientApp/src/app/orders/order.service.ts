@@ -19,7 +19,7 @@ import { Subject } from "rxjs";
 export class OrderService {
   private pendingOrder: Order;
   private pastOrders: Order[];
-  orderSubject = new Subject<Order>();
+  pendingOrderSubject = new Subject<Order>();
   constructor(private http: HttpClient, private menuService: MenuService) {}
 
   // Fetch and pre-load pending order
@@ -59,7 +59,7 @@ export class OrderService {
 
   updatePendingOrder(pendingOrder: Order) {
     this.pendingOrder = pendingOrder;
-    this.orderSubject.next(pendingOrder);
+    this.pendingOrderSubject.next(pendingOrder);
     return this.http.patch(`${environment.serverUrl}/order/edit`, pendingOrder);
   }
 
@@ -141,6 +141,7 @@ export class OrderService {
     this.pendingOrder.burgerItems = order.burgerItems;
     this.pendingOrder.sideItems = order.sideItems;
     this.pendingOrder.drinkItems = order.drinkItems;
+    this.pendingOrderSubject.next(order);
     return this.updatePendingOrder(this.pendingOrder);
   }
 

@@ -26,20 +26,11 @@
         <div style="font-weight: bolder; margin-bottom: 20px;">
           {{ message[mode] }}
         </div>
-        <div
-          *ngFor="
-            let foodItem of [].concat(
-              order.burgerItems,
-              order.sideItems,
-              order.drinkItems
-            )
-          "
-        >
+        <div *ngFor="let foodItem of foodItems">
           <app-order-item [foodItem]="foodItem"></app-order-item>
         </div>
-        <div style="font-weight: bold;">
-          Total price = £{{ order.totalPrice }}
-        </div>
+        <div style="font-weight: bold;">Total price = £{{ price }}</div>
+        <div>Pickup time = {{ pickupTime | reformatDateTime }}</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Cancel
@@ -48,9 +39,13 @@
             type="button"
             class="btn btn-primary"
             data-dismiss="modal"
+            [ngClass]="{
+              'btn-primary': mode !== 'cancelOrder',
+              'btn-danger': mode === 'cancelOrder'
+            }"
             (click)="onConfirm()"
           >
-            Confirm
+            {{ buttonText[mode] }}
           </button>
         </div>
       </div>

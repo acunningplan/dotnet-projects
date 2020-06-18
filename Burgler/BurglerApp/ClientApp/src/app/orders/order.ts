@@ -19,6 +19,7 @@ export class Order {
   customItemCount = 1;
   orderId: string;
   orderedAt: Date;
+  pickupTime: Date;
   status: string;
   burgerItems: BurgerItemJson[] = [];
   sideItems: SideItemJson[] = [];

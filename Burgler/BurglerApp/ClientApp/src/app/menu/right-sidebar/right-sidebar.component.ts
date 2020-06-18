@@ -29,7 +29,7 @@ export class RightSidebarComponent implements OnInit, OnDestroy {
     this.pendingOrder = this.orderService.getPendingOrder();
     this.loadFoodItems(this.pendingOrder);
     this.totalPrice = this.orderService.calculateOrderPrice();
-    this.orderSub = this.orderService.orderSubject.subscribe((order) => {
+    this.orderSub = this.orderService.pendingOrderSubject.subscribe((order) => {
       this.loadFoodItems(order);
       this.totalPrice = this.orderService.calculateOrderPrice();
     });

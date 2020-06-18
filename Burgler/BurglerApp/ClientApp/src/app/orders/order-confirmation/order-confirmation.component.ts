@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { OrderConfirmationService } from "./order-confirmation.service";
 import { Subscription } from "rxjs";
-import { Order } from "../order";
+import { Order, FoodItem } from "../order";
 import { OrderService } from "../order.service";
 
 @Component({
@@ -12,6 +12,10 @@ import { OrderService } from "../order.service";
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
   orderConfirmationSub: Subscription;
   order: Order;
+
+  foodItems: FoodItem[];
+  price: number;
+  pickupTime: Date;
   mode: string;
 
   titleText: { [key: string]: string } = {
@@ -26,6 +30,12 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     reorder: "This will overwrite your current order. Do you want to continue?",
   };
 
+  buttonText: { [key: string]: string } = {
+    placeOrder: "Confirm",
+    cancelOrder: "Cancel Order",
+    reorder: "Confirm",
+  };
+
   constructor(
     private orderConfirmationService: OrderConfirmationService,
     private orderService: OrderService
@@ -35,7 +45,14 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     this.orderConfirmationSub = this.orderConfirmationService.orderConfirmationSubject.subscribe(
       ({ order, mode }) => {
         this.order = order;
+        this.foodItems = [].concat(
+          order.burgerItems,
+          order.sideItems,
+          order.drinkItems
+        );
+        this.price = +order.totalPrice;
         this.mode = mode;
+        this.pickupTime = order.pickupTime
       }
     );
   }
