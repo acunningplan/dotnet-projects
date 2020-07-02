@@ -8,6 +8,7 @@ import { HttpClient } from "@angular/common/http";
 import { signInResponse } from "../interfaces/interfaces";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { LoginStatusService } from "./login-status-service.service";
 
 @Component({
   selector: "app-account",
@@ -20,6 +21,7 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private loginStatusService: LoginStatusService,
     private http: HttpClient,
     private router: Router
   ) {}
@@ -38,13 +40,15 @@ export class AccountComponent implements OnInit {
         this.router.navigate(["/"]);
         window.localStorage.setItem("burglerToken", res.token);
         window.localStorage.setItem("burglerUsername", res.displayName);
+        this.loginStatusService.loggedInStatus.next();
       });
   }
 
   signInWithFB() {
-    this.authService
-      .signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then((res) => this.sendToken(res.authToken, "facebook"));
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((res) => {
+      console.log(res.authToken);
+      this.sendToken(res.authToken, "facebook");
+    });
   }
 
   signInWithGoogle() {
@@ -58,5 +62,6 @@ export class AccountComponent implements OnInit {
     this.router.navigate(["/"]);
     window.localStorage.removeItem("burglerToken");
     window.localStorage.removeItem("burglerUsername");
+    this.loginStatusService.loggedInStatus.next();
   }
 }

@@ -1,4 +1,5 @@
 export const environment = {
+  serverUrl: "https://burgler.azurewebsites.net/api",
   production: true,
   fbClientId: "233736334505512",
   googleClientId:

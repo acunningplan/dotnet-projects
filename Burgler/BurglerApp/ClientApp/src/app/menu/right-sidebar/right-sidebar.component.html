@@ -9,8 +9,13 @@
         <li *ngFor="let foodItem of foodItems">
           <div class="food-display">
             <div
-              data-toggle="modal"
-              data-target="#burgerModal"
+              [attr.data-toggle]="!!foodItem['burgerBun'] ? 'modal' : null"
+              [attr.data-target]="
+                !!foodItem['burgerBun'] ? '#burgerModal' : null
+              "
+              [ngStyle]="{
+                cursor: !!foodItem['burgerBun'] ? 'pointer' : 'text'
+              }"
               (click)="updateBurgerModal(foodItem)"
               style="padding: 0 0 12px 0;"
             >

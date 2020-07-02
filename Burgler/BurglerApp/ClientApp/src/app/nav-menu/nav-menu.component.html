@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">BurglerApp</a>
+      <a class="navbar-brand" [routerLink]="['/']">Burgler</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -28,20 +28,33 @@
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/menu']">Menu</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/about']">About</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            *ngIf="loggedIn"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/menu']">Menu</a>
+          </li>
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            *ngIf="loggedIn"
+          >
             <a class="nav-link text-dark" [routerLink]="['/orders']"
               >Your orders</a
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/account']"
-              >Account</a
-            >
+            <a class="nav-link text-dark" [routerLink]="['/account']">
+              <span *ngIf="loggedIn">
+                Account
+              </span>
+              <span *ngIf="!loggedIn">
+                Login
+              </span>
+            </a>
           </li>
         </ul>
       </div>

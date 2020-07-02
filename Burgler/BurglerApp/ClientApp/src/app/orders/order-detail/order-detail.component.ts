@@ -3,9 +3,7 @@ import { Order, FoodItem } from "../order";
 import { OrderService } from "../order.service";
 import { OrderConfirmationService } from "../order-confirmation/order-confirmation.service";
 import { Subscription } from "rxjs";
-import { FormControl } from "@angular/forms";
 import * as moment from "moment";
-import { stat } from "fs";
 
 @Component({
   selector: "app-order-detail",

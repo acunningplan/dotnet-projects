@@ -47,6 +47,10 @@ export class RightSidebarComponent implements OnInit, OnDestroy {
       .concat(drinkItems);
   }
 
+  checkIfFoodIsBurger(fi: FoodItem){
+    return fi.hasOwnProperty("burgerBun");
+  }
+
   updateBurgerModal(fi: FoodItem) {
     if (!fi.hasOwnProperty("burgerBun")) return;
 
