@@ -14,6 +14,7 @@ import { Food } from "../menu/ingredients";
 import { BurgerItem } from "../menu/menu";
 import { MenuService } from "../menu/menu.service";
 import { Subject } from "rxjs";
+import * as moment from "moment";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
@@ -44,7 +45,7 @@ export class OrderService {
             return orderObj;
           });
           console.log("Logging past orders:");
-          console.log(`Past order: ${this.pastOrders}`);
+          for (var po of this.pastOrders) console.log(po);
         })
       );
   }
@@ -55,7 +56,9 @@ export class OrderService {
 
   getPastOrders(): Order[] {
     return this.pastOrders?.map((po) => {
-      po.pickupTime = new Date(po.pickupTime?.toString() + " UTC");
+      console.log(po.orderedAt);
+      po.orderedAt = moment(po.orderedAt).local().toDate();
+      console.log(po.orderedAt);
       return po;
     });
   }
