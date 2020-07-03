@@ -54,7 +54,10 @@ export class OrderService {
   }
 
   getPastOrders(): Order[] {
-    return this.pastOrders;
+    return this.pastOrders?.map((po) => {
+      po.pickupTime = new Date(po.pickupTime?.toString() + " UTC");
+      return po;
+    });
   }
 
   updatePendingOrder(pendingOrder: Order) {
