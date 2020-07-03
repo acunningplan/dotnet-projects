@@ -1,0 +1,23 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>Make it a meal:</h3>
+  </div>
+
+  <ul class="list-unstyled components">
+    <li *ngFor="let foodType of foodTypes">
+      <a
+        [href]="'#'+foodType"
+        data-toggle="collapse"
+        aria-expanded="false"
+        class="dropdown-toggle"
+        >{{ foodType.toUpperCase() }}</a
+      >
+      <ul class="collapse list-unstyled" [id]="foodType">
+        <li *ngFor="let type of menu[foodType] | keyvalue: preserveOrder">
+          <a [routerLink]="" (click)="onClickSubcategory(foodType, type.key)">
+            {{ type.key }}
+          </a>
+        </li>
+      </ul>
+  </ul>
+</nav>

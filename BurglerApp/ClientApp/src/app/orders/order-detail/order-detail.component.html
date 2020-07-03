@@ -1,0 +1,59 @@
+<div *ngFor="let foodItem of foodItems">
+  <app-order-item [foodItem]="foodItem"></app-order-item>
+</div>
+<div style="font-weight: 600;">Total = £{{ price }}</div>
+<div style="font-style: italic;" *ngIf="status !== 'pending'">
+  {{ order.status }}, order placed at
+  {{ order.orderedAt | reformatDateTime }}
+</div>
+<div *ngIf="status === 'pending'">
+  <hr />
+  Pickup time:
+  <select
+    class="form-control col-sm-6"
+    [(ngModel)]="pickupTime"
+    style="display: inline; width: 100px;"
+  >
+    <option
+      *ngFor="let time of allowedPickupTimes"
+      class="form-check-input"
+      name="pickupTime"
+      [id]="time"
+      [value]="time"
+      >{{ time }}</option
+    >
+  </select>
+  minutes later
+</div>
+<div style="margin-top: 10px;">
+  <button
+    class="btn btn-primary"
+    *ngIf="order.status === 'pending'"
+    [attr.data-toggle]="!orderEmpty ? 'modal' : ''"
+    data-target="#orderConfirmationModal"
+    [ngClass]="{ disabled: orderEmpty }"
+    (click)="confirmOrder('placeOrder')"
+  >
+    Place order!
+  </button>
+  <button
+    class="btn btn-primary"
+    *ngIf="order.status !== 'pending'"
+    data-toggle="modal"
+    data-target="#orderConfirmationModal"
+    style="margin-right: 10px;"
+    (click)="confirmOrder('reorder')"
+  >
+    Reorder
+  </button>
+  <a
+    *ngIf="order.status === 'placed'"
+    href="orders"
+    class="btn btn-danger btn-default"
+    data-toggle="modal"
+    data-target="#orderConfirmationModal"
+    (click)="confirmOrder('cancelOrder')"
+  >
+    Cancel Order
+  </a>
+</div>

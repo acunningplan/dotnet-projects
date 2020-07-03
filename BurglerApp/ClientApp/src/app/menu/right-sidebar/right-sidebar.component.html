@@ -1,0 +1,66 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>Your order</h3>
+  </div>
+  <ul class="list-unstyled components">
+    <li>
+      <h5>Edit items in basket:</h5>
+      <ul class="list-unstyled" id="order-list">
+        <li *ngFor="let foodItem of foodItems">
+          <div class="food-display">
+            <div
+              [attr.data-toggle]="!!foodItem['burgerBun'] ? 'modal' : null"
+              [attr.data-target]="
+                !!foodItem['burgerBun'] ? '#burgerModal' : null
+              "
+              [ngStyle]="{
+                cursor: !!foodItem['burgerBun'] ? 'pointer' : 'text'
+              }"
+              (click)="updateBurgerModal(foodItem)"
+              style="padding: 0 0 12px 0;"
+            >
+              <app-order-item [foodItem]="foodItem"></app-order-item>
+            </div>
+            <button
+              class="btn btn-sm btn-default btn-danger float-right"
+              (click)="
+                onDeleteItem(foodItem.name, foodItem.size, foodItem.customId)
+              "
+            >
+              X
+            </button>
+            <button
+              class="btn btn-sm btn-default btn-warning float-right"
+              (click)="
+                onChangeQuantity(
+                  foodItem.name,
+                  foodItem.size,
+                  foodItem.customId,
+                  -1
+                )
+              "
+              [disabled]="foodItem.quantity < 2"
+            >
+              -
+            </button>
+            <button
+              class="btn btn-sm btn-default btn-primary float-right"
+              (click)="
+                onChangeQuantity(
+                  foodItem.name,
+                  foodItem.size,
+                  foodItem.customId,
+                  +1
+                )
+              "
+              [disabled]="foodItem.quantity > 9"
+            >
+              +
+            </button>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li>Total price = £{{ totalPrice }}</li>
+  </ul>
+</nav>
