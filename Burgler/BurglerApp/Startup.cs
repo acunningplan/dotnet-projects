@@ -188,6 +188,11 @@ namespace BurglerApp
                     "https://connect.facebook.net/",
                     "http://connect.facebook.net/en_US/sdk.js"))
             );
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+                await next.Invoke();
+            });
 
             app.UseHsts();
             app.UseHttpsRedirection();
