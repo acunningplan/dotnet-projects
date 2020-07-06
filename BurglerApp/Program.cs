@@ -41,7 +41,9 @@ namespace BurglerApp
 
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel(x => x.AddServerHeader = false).UseStartup<Startup>();
+                    webBuilder
+                        //.UseKestrel(x => x.AddServerHeader = false)
+                        .UseStartup<Startup>();
                 });
     }
 }
