@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,24 +10,16 @@ using Microsoft.AspNetCore.Identity;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.BusinessLogic.JwtLogic;
 using FluentValidation.AspNetCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Burgler.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 using BurglerApp.Middleware;
 using AutoMapper;
-using System;
 using BurglerApp.Authorisation;
-using System.IO;
-using BurglerApp.Authentication;
 using Burgler.BusinessLogic.MenuLogic;
 
 namespace BurglerApp
@@ -174,9 +165,31 @@ namespace BurglerApp
             //{
             //    app.UseExceptionHandler("/Error");
             //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
             //}
 
+            app.UseXContentTypeOptions();
+            app.UseReferrerPolicy(opt => opt.NoReferrer());
+            app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+            app.UseXfo(opt => opt.Deny());
+            app.UseCsp(opt => opt
+                .BlockAllMixedContent()
+                .StyleSources(s => s.Self().UnsafeInline()
+                .CustomSources("https://fonts.googleapis.com/"))
+                .FontSources(s => s.Self().CustomSources
+                ("https://fonts.gstatic.com/"))
+                .FormActions(s => s.Self())
+                .FrameAncestors(s => s.Self())
+                .ImageSources(s => s.Self().CustomSources("data:", "https://www.google-analytics.com/", "https://stats.g.doubleclick.net/", "https://www.facebook.com/tr/", "https://www.facebook.com/impression.php/"))
+                .ScriptSources(s => s.Self()
+                    .UnsafeInline()
+                    .CustomSources("https://www.google-analytics.com/",
+                    "https://www.googletagmanager.com/",
+                    "https://apis.google.com/",
+                    "https://connect.facebook.net/",
+                    "http://connect.facebook.net/en_US/sdk.js"))
+            );
+
+            app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())

@@ -1,0 +1,20 @@
+.total-price {
+  font-weight: 600;
+}
+
+.order-placed-at {
+  font-style: italic;
+}
+
+.select-pickup-time {
+  display: inline;
+  width: 100px;
+}
+
+.confirm {
+  margin-top: 10px;
+}
+
+.reorder-button {
+  margin-right: 10px;
+}

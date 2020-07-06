@@ -24,7 +24,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div style="margin-bottom: 15px;">
+          <div class="modal-item-margin">
             <h5>Bun:</h5>
             <div
               class="form-check"
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div style="margin-bottom: 15px;" formArrayName="burgerToppings">
+          <div class="modal-item-margin" formArrayName="burgerToppings">
             <h5>Toppings:</h5>
             <div
               class="form-check"
@@ -69,10 +69,10 @@
               </div>
             </div>
           </div>
-          <div style="margin-bottom: 15px;">
+          <div class="modal-item-margin">
             <h5>Patty:</h5>
             <div
-              style="margin-right: 10pt;"
+              class="patty-check-margin"
               class="form-check"
               *ngFor="let patty of ingredients.patties"
             >
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-          <div style="margin-bottom: 15px;">
+          <div class="modal-item-margin">
             <h5>Doneness:</h5>
             <select
               class="form-control col-sm-6"
@@ -116,9 +116,9 @@
               >
             </select>
           </div>
-          <div style="display: flex; float: right;">
+          <div class="calories-and-price">
             <p>Calories = {{ this.customBurgerOrder.calories }};</p>
-            <p style="margin-left: 15px;">
+            <p class="price-margin">
               Price = {{ this.customBurgerOrder.price }}
             </p>
           </div>

@@ -1,8 +1,8 @@
 <div *ngFor="let foodItem of foodItems">
   <app-order-item [foodItem]="foodItem"></app-order-item>
 </div>
-<div style="font-weight: 600;">Total = £{{ price }}</div>
-<div style="font-style: italic;" *ngIf="status !== 'pending'">
+<div class="total-price">Total = £{{ price }}</div>
+<div class="order-placed-at" *ngIf="status !== 'pending'">
   {{ order.status }}, order placed at
   {{ order.orderedAt | reformatDateTime }}
 </div>
@@ -10,9 +10,8 @@
   <hr />
   Pickup time:
   <select
-    class="form-control col-sm-6"
+    class="form-control col-sm-6 select-pickup-time"
     [(ngModel)]="pickupTime"
-    style="display: inline; width: 100px;"
   >
     <option
       *ngFor="let time of allowedPickupTimes"
@@ -25,7 +24,7 @@
   </select>
   minutes later
 </div>
-<div style="margin-top: 10px;">
+<div class="confirm">
   <button
     class="btn btn-primary"
     *ngIf="order.status === 'pending'"
@@ -37,11 +36,10 @@
     Place order!
   </button>
   <button
-    class="btn btn-primary"
+    class="btn btn-primary reorder-button"
     *ngIf="order.status !== 'pending'"
     data-toggle="modal"
     data-target="#orderConfirmationModal"
-    style="margin-right: 10px;"
     (click)="confirmOrder('reorder')"
   >
     Reorder
