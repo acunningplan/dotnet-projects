@@ -2,7 +2,7 @@
   <app-left-sidebar
     (clickSubcategory)="clickSubcategory($event)"
   ></app-left-sidebar>
-  <div class="card" style="width: 1500px;">
+  <div class="card">
     <h5 class="card-header">Burgler menu</h5>
     <div class="card-body">
       <div *ngIf="!foodsToDisplay || !foodsToDisplay[0]">
@@ -16,24 +16,19 @@
         <li *ngFor="let burger of foodsToDisplay" class="list-group-item">
           <h4>{{ burger.name }}</h4>
           <p>{{ burger.description }}</p>
-          <div
-            *ngFor="let option of burger.options"
-            style="margin-bottom: 10px;"
-          >
+          <div *ngFor="let option of burger.options" class="order-item">
             <p>
               {{ option.size }}: £{{ option.price }} /
               {{ option.calories }} kcal
             </p>
             <button
-              class="btn btn-primary"
-              style="margin-right: 10px;"
+              class="btn btn-primary button-margin"
               (click)="addBurgerToOrder(burger, option, false)"
             >
               Add
             </button>
             <button
-              class="btn btn-warning"
-              style="margin-right: 10px;"
+              class="btn btn-warning button-margin"
               data-toggle="modal"
               data-target="#burgerModal"
               (click)="updateBurgerModal(burger, option)"
@@ -49,7 +44,7 @@
       <ul class="list-group" *ngIf="foodType !== 'burgers'">
         <li class="list-group-item" *ngFor="let food of foodsToDisplay">
           <h4>{{ food.name }}</h4>
-          <div *ngFor="let option of food.options" style="margin-bottom: 10pt;">
+          <div *ngFor="let option of food.options" class="food-option-margin">
             <p *ngIf="food.options.length === 1">
               £{{ food.options[0].price }} / {{ food.options[0].calories }} kcal
             </p>

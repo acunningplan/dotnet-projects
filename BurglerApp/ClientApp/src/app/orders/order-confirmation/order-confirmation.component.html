@@ -23,13 +23,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <div style="font-weight: bolder; margin-bottom: 20px;">
+        <div class="message-title">
           {{ message[mode] }}
         </div>
         <div *ngFor="let foodItem of foodItems">
           <app-order-item [foodItem]="foodItem"></app-order-item>
         </div>
-        <div style="font-weight: bold;">Total price = £{{ price }}</div>
+        <div class="total-price">Total price = £{{ price }}</div>
         <div>Pickup time = {{ pickupTime | reformatDateTime }}</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">

@@ -181,15 +181,22 @@ namespace BurglerApp
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             app.UseXfo(opt => opt.Deny());
-            app.UseCspReportOnly(opt => opt
+            app.UseCsp(opt => opt
                 .BlockAllMixedContent()
-                .StyleSources(s => s.Self())
-                .StyleSources(s => s.Self())
-                .FontSources(s => s.Self())
+                .StyleSources(s => s.Self().UnsafeInline()
+                .CustomSources("https://fonts.googleapis.com/"))
+                .FontSources(s => s.Self().CustomSources
+                ("https://fonts.gstatic.com/"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
-                .ImageSources(s => s.Self())
-                .ScriptSources(s => s.Self())
+                .ImageSources(s => s.Self().CustomSources("data:", "https://www.google-analytics.com/", "https://stats.g.doubleclick.net/", "https://www.facebook.com/tr/", "https://www.facebook.com/impression.php/"))
+                .ScriptSources(s => s.Self()
+                    .UnsafeInline()
+                    .CustomSources("https://www.google-analytics.com/",
+                    "https://www.googletagmanager.com/",
+                    "https://apis.google.com/",
+                    "https://connect.facebook.net/",
+                    "http://connect.facebook.net/en_US/sdk.js"))
             );
 
             app.UseHttpsRedirection();

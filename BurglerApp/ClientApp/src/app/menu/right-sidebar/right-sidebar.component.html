@@ -17,7 +17,7 @@
                 cursor: !!foodItem['burgerBun'] ? 'pointer' : 'text'
               }"
               (click)="updateBurgerModal(foodItem)"
-              style="padding: 0 0 12px 0;"
+              class="patty-item-padding"
             >
               <app-order-item [foodItem]="foodItem"></app-order-item>
             </div>
