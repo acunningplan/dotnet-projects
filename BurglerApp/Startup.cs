@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,24 +10,16 @@ using Microsoft.AspNetCore.Identity;
 using Burgler.BusinessLogic.UserLogic;
 using Burgler.BusinessLogic.JwtLogic;
 using FluentValidation.AspNetCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Burgler.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json;
 using Burgler.BusinessLogic.OrderLogic;
 using Burgler.Entities.User;
 using BurglerApp.Middleware;
 using AutoMapper;
-using System;
 using BurglerApp.Authorisation;
-using System.IO;
-using BurglerApp.Authentication;
 using Burgler.BusinessLogic.MenuLogic;
 
 namespace BurglerApp
@@ -197,6 +188,11 @@ namespace BurglerApp
                     "https://connect.facebook.net/",
                     "http://connect.facebook.net/en_US/sdk.js"))
             );
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+                await next.Invoke();
+            });
 
             app.UseHsts();
             app.UseHttpsRedirection();
