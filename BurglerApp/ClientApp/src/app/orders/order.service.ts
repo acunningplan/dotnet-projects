@@ -15,13 +15,18 @@ import { BurgerItem } from "../menu/menu";
 import { MenuService } from "../menu/menu.service";
 import { Subject } from "rxjs";
 import * as moment from "moment";
+import { RequestQueueingService } from "./request-queueing.service";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
   private pendingOrder: Order;
   private pastOrders: Order[];
   pendingOrderSubject = new Subject<Order>();
-  constructor(private http: HttpClient, private menuService: MenuService) {}
+  constructor(
+    private http: HttpClient,
+    private menuService: MenuService,
+    private requestQueueingService: RequestQueueingService
+  ) {}
 
   // Fetch and pre-load pending order
   fetchPendingOrder() {
@@ -66,7 +71,7 @@ export class OrderService {
   updatePendingOrder(pendingOrder: Order) {
     this.pendingOrder = pendingOrder;
     this.pendingOrderSubject.next(pendingOrder);
-    return this.http.patch(`${environment.serverUrl}/order/edit`, pendingOrder);
+    return this.requestQueueingService.queueUpdate(pendingOrder);
   }
 
   addCustomBurgerToPendingOrder(b: BurgerItemJson) {
@@ -111,10 +116,10 @@ export class OrderService {
     const foodItem = foodItemList.find(
       (fi) => fi.name === food.name && fi.size === option.size && !fi.customId
     );
-    if (!foodItem) {
-      foodItemList.push(newFoodItem);
+    if (foodItem) {
+      if (foodItem.quantity < 10) foodItem.quantity += 1;
     } else {
-      foodItem.quantity += 1;
+      foodItemList.push(newFoodItem);
     }
     return this.updatePendingOrder(this.pendingOrder);
   }
