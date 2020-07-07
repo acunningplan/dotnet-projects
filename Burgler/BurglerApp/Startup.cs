@@ -167,10 +167,15 @@ namespace BurglerApp
             //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //}
 
-            app.UseXContentTypeOptions();
-            app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+            app.UseXContentTypeOptions();
             app.UseXfo(opt => opt.Deny());
+            app.UseReferrerPolicy(opt => opt.NoReferrer());
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
+                await next.Invoke();
+            });
             app.UseCsp(opt => opt
                 .BlockAllMixedContent()
                 .StyleSources(s => s.Self().UnsafeInline()
@@ -188,11 +193,6 @@ namespace BurglerApp
                     "https://connect.facebook.net/",
                     "http://connect.facebook.net/en_US/sdk.js"))
             );
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("Feature-Policy", "geolocation 'none';midi 'none';notifications 'none';push 'none';sync-xhr 'none';microphone 'none';camera 'none';magnetometer 'none';gyroscope 'none';speaker 'self';vibrate 'none';fullscreen 'self';payment 'none';");
-                await next.Invoke();
-            });
 
             app.UseHsts();
             app.UseHttpsRedirection();

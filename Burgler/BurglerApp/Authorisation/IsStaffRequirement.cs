@@ -15,11 +15,10 @@ namespace BurglerApp.Authorisation
         {
             _userServices = userServices;
         }
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsStaffRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsStaffRequirement requirement)
         {
-            UserData user = _userServices.GetCurrentUser().Result;
+            UserData user = await _userServices.GetCurrentUser();
             if (user.Staff != null) context.Succeed(requirement);
-            return Task.CompletedTask;
         }
     }
 }
