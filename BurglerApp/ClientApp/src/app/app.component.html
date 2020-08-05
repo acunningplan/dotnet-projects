@@ -1,6 +1,7 @@
 <body>
   <app-nav-menu></app-nav-menu>
   <div class="container">
+    <app-loading *ngIf="loading" [loadingText]="loadingText"></app-loading>
     <router-outlet></router-outlet>
   </div>
 </body>

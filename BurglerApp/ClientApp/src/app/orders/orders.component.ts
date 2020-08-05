@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { OrderService } from "./order.service";
 import { Order } from "./order";
 import * as moment from "moment";
+import { LoadingService } from "../loading/loading.service";
 
 @Component({
   selector: "app-orders",
@@ -13,7 +14,7 @@ export class OrdersComponent implements OnInit {
   pendingOrder: Order;
   orders: Order[];
   totalPrice = "";
-  constructor(private http: HttpClient, private orderService: OrderService) {}
+  constructor(private http: HttpClient, private orderService: OrderService, private loadingService: LoadingService) {}
 
   ngOnInit() {
     this.pendingOrder = this.orderService.getPendingOrder();
@@ -23,6 +24,7 @@ export class OrdersComponent implements OnInit {
       o.totalPrice = this.orderService.calculateOrderPrice(o);
       return o;
     });
+    this.loadingService.loadingSubject.next({ loading: false });
   }
 
   getOrders() {}

@@ -1,7 +1,6 @@
+<!-- <app-loading *ngIf="loading"></app-loading> -->
 <div class="wrapper">
-  <app-left-sidebar
-    (clickSubcategory)="clickSubcategory($event)"
-  ></app-left-sidebar>
+  <app-left-sidebar (clickSubcategory)="clickSubcategory($event)"></app-left-sidebar>
   <div class="card">
     <h5 class="card-header">Burgler menu</h5>
     <div class="card-body">
@@ -12,27 +11,21 @@
         </p>
       </div>
 
-      <ul class="list-group" *ngIf="foodType === 'burgers'">
+      <ul *ngIf="foodType === 'burgers'" class="list-group">
         <li *ngFor="let burger of foodsToDisplay" class="list-group-item">
           <h4>{{ burger.name }}</h4>
           <p>{{ burger.description }}</p>
           <div *ngFor="let option of burger.options" class="order-item">
             <p>
-              {{ option.size }}: £{{ option.price }} /
-              {{ option.calories }} kcal
+              {{ option.size }}: £{{ option.price }}
+              /
+              {{ option.calories }}
+              kcal
             </p>
-            <button
-              class="btn btn-primary button-margin"
-              (click)="addBurgerToOrder(burger, option, false)"
-            >
+            <button (click)="addBurgerToOrder(burger, option, false)" class="btn btn-primary button-margin">
               Add
             </button>
-            <button
-              class="btn btn-warning button-margin"
-              data-toggle="modal"
-              data-target="#burgerModal"
-              (click)="updateBurgerModal(burger, option)"
-            >
+            <button (click)="updateBurgerModal(burger, option)" class="btn btn-warning button-margin" data-target="#burgerModal" data-toggle="modal">
               Customise
             </button>
           </div>
@@ -41,23 +34,25 @@
 
       <app-burger-modal></app-burger-modal>
 
-      <ul class="list-group" *ngIf="foodType !== 'burgers'">
-        <li class="list-group-item" *ngFor="let food of foodsToDisplay">
+      <ul *ngIf="foodType !== 'burgers'" class="list-group">
+        <li *ngFor="let food of foodsToDisplay" class="list-group-item">
           <h4>{{ food.name }}</h4>
           <div *ngFor="let option of food.options" class="food-option-margin">
             <p *ngIf="food.options.length === 1">
-              £{{ food.options[0].price }} / {{ food.options[0].calories }} kcal
+              £{{ food.options[0].price }}
+              /
+              {{ food.options[0].calories }}
+              kcal
             </p>
             <p *ngIf="food.options.length > 1">
-              {{ option.size }}: £{{ option.price }} /
-              {{ option.calories }} kcal
+              {{ option.size }}: £{{ option.price }}
+              /
+              {{ option.calories }}
+              kcal
             </p>
-            <button
-              class="btn btn-primary"
-              (click)="
-                addFoodToOrder(food.name, option, !(food.options.length > 1))
-              "
-            >
+            <button (click)="
+                                                          addFoodToOrder(food.name, option, !(food.options.length > 1))
+                                                        " class="btn btn-primary">
               Add
             </button>
           </div>

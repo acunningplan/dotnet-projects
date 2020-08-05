@@ -4,6 +4,7 @@ import { MenuService } from "./menu.service";
 import { Menu, BurgerItem } from "./menu";
 import { Food } from "./ingredients";
 import { BurgerModalService } from "./burger-modal/burger-modal.service";
+import { LoadingService } from "../loading/loading.service";
 
 @Component({
   selector: "app-menu",
@@ -21,11 +22,13 @@ export class MenuComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private orderService: OrderService,
-    private burgerModalService: BurgerModalService
+    private burgerModalService: BurgerModalService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
     this.menu = this.menuService.getMenu();
+    this.loadingService.loadingSubject.next({ loading: false });
   }
 
   preserveOrder = (a) => a;
