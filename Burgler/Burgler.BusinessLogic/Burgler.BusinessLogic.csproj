@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <AssemblyName>e</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="FluentValidation" Version="8.6.2" />
+        <PackageReference Include="Google.Apis.Oauth2.v2" Version="1.45.0.1869" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Burgler.Entities\Burgler.Entities.csproj" />
+        <ProjectReference Include="..\BurglerContextLib\BurglerContextLib.csproj" />
+    </ItemGroup>
+
+</Project>
