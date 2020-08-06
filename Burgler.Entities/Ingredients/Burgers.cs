@@ -13,6 +13,7 @@ namespace Burgler.Entities.Ingredients
         // Override burger topping items
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
         public string Size { get; set; }
         public string Type { get; set; }
         public string BurgerBun { get; set; } = "White";

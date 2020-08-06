@@ -1,7 +1,10 @@
-<body>
-  <app-nav-menu></app-nav-menu>
+<body class="home-background">
+  <div *ngIf="url !== '/'" class="opaque-bg"></div>
   <div class="container">
-    <app-loading *ngIf="loading" [loadingText]="loadingText"></app-loading>
-    <router-outlet></router-outlet>
+    <app-nav-menu></app-nav-menu>
+    <div>
+      <app-loading *ngIf="loading" [loadingText]="loadingText"></app-loading>
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </body>

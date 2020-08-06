@@ -17,7 +17,8 @@ code {
 }
 
 .loading-screen {
-  background-color: white;
+  /* background-color: rgb(256, 256, 256, 0.1); */
+  background-color: transparent;
 
   font-size: 20px;
 

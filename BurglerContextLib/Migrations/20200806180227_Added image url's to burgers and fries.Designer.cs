@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BurglerContextLib.Migrations
 {
     [DbContext(typeof(BurglerContext))]
-    [Migration("20200422174813_Store menu in database")]
-    partial class Storemenuindatabase
+    [Migration("20200806180227_Added image url's to burgers and fries")]
+    partial class Addedimageurlstoburgersandfries
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,9 @@ namespace BurglerContextLib.Migrations
 
                     b.Property<string>("BurgerToppings")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -126,8 +129,17 @@ namespace BurglerContextLib.Migrations
                     b.Property<string>("BurgerToppings")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("Size")
                         .HasColumnType("nvarchar(max)");
@@ -182,6 +194,9 @@ namespace BurglerContextLib.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -296,13 +311,22 @@ namespace BurglerContextLib.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<double>("Calories")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("CancelledAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomItemCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FoodTakenAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FurtherDescription")
+                    b.Property<DateTime>("LastEditedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderedAt")
@@ -310,6 +334,9 @@ namespace BurglerContextLib.Migrations
 
                     b.Property<DateTime>("PickupTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("ReadyAt")
                         .HasColumnType("datetime2");

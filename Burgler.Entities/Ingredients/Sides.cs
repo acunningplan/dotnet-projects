@@ -9,5 +9,6 @@ namespace Burgler.Entities.Ingredients
     {
         public string Type { get; set; }
         public string Size { get; set; } = "Small";
+        public string ImageUrl { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BurglerContextLib.Migrations
 {
-    public partial class Storemenuindatabase : Migration
+    public partial class Addedimageurlstoburgersandfries : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,12 +70,15 @@ namespace BurglerContextLib.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
                     Size = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     BurgerBun = table.Column<string>(nullable: true),
                     BurgerPatty = table.Column<string>(nullable: true),
                     BurgerPattyCooked = table.Column<string>(nullable: true),
-                    BurgerToppings = table.Column<string>(nullable: true)
+                    BurgerToppings = table.Column<string>(nullable: true),
+                    Calories = table.Column<double>(nullable: false),
+                    Price = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,7 +142,8 @@ namespace BurglerContextLib.Migrations
                     Price = table.Column<double>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
-                    Size = table.Column<string>(nullable: true)
+                    Size = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,11 +277,15 @@ namespace BurglerContextLib.Migrations
                 {
                     OrderId = table.Column<Guid>(nullable: false),
                     OrderedAt = table.Column<DateTime>(nullable: false),
+                    LastEditedAt = table.Column<DateTime>(nullable: false),
                     ReadyAt = table.Column<DateTime>(nullable: false),
                     FoodTakenAt = table.Column<DateTime>(nullable: false),
                     CancelledAt = table.Column<DateTime>(nullable: false),
                     PickupTime = table.Column<DateTime>(nullable: false),
-                    FurtherDescription = table.Column<string>(nullable: true),
+                    CustomItemCount = table.Column<int>(nullable: false),
+                    OrderDescription = table.Column<string>(nullable: true),
+                    Calories = table.Column<double>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     UserId1 = table.Column<string>(nullable: true)
                 },
@@ -300,6 +308,7 @@ namespace BurglerContextLib.Migrations
                     Quantity = table.Column<double>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Size = table.Column<string>(nullable: true),
+                    CustomId = table.Column<int>(nullable: false),
                     BurgerBun = table.Column<string>(nullable: true),
                     BurgerPatty = table.Column<string>(nullable: true),
                     BurgerPattyCooked = table.Column<string>(nullable: true),

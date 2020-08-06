@@ -12,6 +12,7 @@ class Ingredient {
   calories: number;
   price: number;
   description: string;
+  imageUrl?: string;
 }
 
 export class Burger extends Ingredient {
