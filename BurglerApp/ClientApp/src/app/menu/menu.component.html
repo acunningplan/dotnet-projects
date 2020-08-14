@@ -1,0 +1,63 @@
+<!-- <app-loading *ngIf="loading"></app-loading> -->
+<div class="wrapper">
+  <app-left-sidebar (clickSubcategory)="clickSubcategory($event)"></app-left-sidebar>
+  <div class="card">
+    <h5 class="card-header">Burgler menu</h5>
+    <div class="card-body">
+      <div *ngIf="!foodsToDisplay || !foodsToDisplay[0]">
+        <h5 class="card-title">Tasty food served hot and fresh!</h5>
+        <p class="card-text">
+          Choose and customise your burgers, sides, and drinks!
+        </p>
+      </div>
+
+      <ul *ngIf="foodType === 'burgers'" class="list-group">
+        <li *ngFor="let burger of foodsToDisplay" class="list-group-item">
+          <h4>{{ burger.name }}</h4>
+          <p>{{ burger.description }}</p>
+          <img *ngIf="burger.imageUrl" [src]="burger.imageUrl" class="food-image">
+          <div *ngFor="let option of burger.options" class="order-item">
+            <p>
+              {{ option.size }}: £{{ option.price }}
+              /
+              {{ option.calories }}
+              kcal
+            </p>
+            <button (click)="addBurgerToOrder(burger, option, false)" class="btn btn-primary button-margin">
+              Add
+            </button>
+            <button (click)="updateBurgerModal(burger, option)" class="btn btn-warning button-margin" data-target="#burgerModal" data-toggle="modal">
+              Customise
+            </button>
+          </div>
+        </li>
+      </ul>
+
+      <app-burger-modal></app-burger-modal>
+
+      <ul *ngIf="foodType !== 'burgers'" class="list-group">
+        <li *ngFor="let food of foodsToDisplay" class="list-group-item">
+          <h4>{{ food.name }}</h4>
+          <div *ngFor="let option of food.options" class="food-option-margin">
+            <p *ngIf="food.options.length === 1">
+              £{{ food.options[0].price }}
+              /
+              {{ food.options[0].calories }}
+              kcal
+            </p>
+            <p *ngIf="food.options.length > 1">
+              {{ option.size }}: £{{ option.price }}
+              /
+              {{ option.calories }}
+              kcal
+            </p>
+            <button (click)="addFoodToOrder(food.name, option, !(food.options.length > 1))" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <app-right-sidebar></app-right-sidebar>
+</div>

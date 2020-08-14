@@ -1,0 +1,20 @@
+body {
+  color: black !important;
+}
+
+.modal-item-margin {
+  margin-bottom: 10pt;
+}
+
+.calories-and-price {
+  display: flex;
+  float: right;
+}
+
+.price-margin {
+  margin-left: 15px;
+}
+
+.patty-check-margin {
+  margin-right: 10px;
+}
