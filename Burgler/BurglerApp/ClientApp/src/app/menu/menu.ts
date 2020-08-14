@@ -15,10 +15,13 @@ export class BurgerItem extends Food {
   constructor(burger?: Burger) {
     super();
     if (!!burger) {
-      
       this.name = burger.name;
       this.type = burger.type;
       this.description = burger.description;
+      this.imageUrl =
+        burger.imageUrl && burger.imageUrl.length > 0
+          ? burger.imageUrl + ".jpg?1"
+          : null;
       this.bun = burger.burgerBun;
       this.toppings = burger.burgerToppings.split("+");
       this.patty = burger.burgerPatty;

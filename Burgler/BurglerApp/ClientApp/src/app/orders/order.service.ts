@@ -16,6 +16,7 @@ import { MenuService } from "../menu/menu.service";
 import { Subject } from "rxjs";
 import * as moment from "moment";
 import { RequestQueueingService } from "./request-queueing.service";
+import { LoadingService } from "../loading/loading.service";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
@@ -25,22 +26,32 @@ export class OrderService {
   constructor(
     private http: HttpClient,
     private menuService: MenuService,
-    private requestQueueingService: RequestQueueingService
+    private requestQueueingService: RequestQueueingService,
+    private loadingService: LoadingService
   ) {}
 
   // Fetch and pre-load pending order
   fetchPendingOrder() {
+    this.loadingService.loadingSubject.next({
+      loading: true,
+      loadingText: "Fetching current order",
+    });
     return this.http.get<OrderJson[]>(`${environment.serverUrl}/order`).pipe(
       map((orderJson) => {
         const orderObj = new Order(orderJson[0]);
         this.pendingOrder = orderObj;
         console.log(`Pending order:`);
         console.log(orderJson);
+
       })
     );
   }
 
   fetchPastOrders() {
+    this.loadingService.loadingSubject.next({
+      loading: true,
+      loadingText: "Fetching your orders",
+    });
     return this.http
       .get<OrderJson[]>(`${environment.serverUrl}/order/placed`)
       .pipe(
@@ -51,6 +62,7 @@ export class OrderService {
           });
           console.log("Logging past orders:");
           for (var po of this.pastOrders) console.log(po);
+
         })
       );
   }

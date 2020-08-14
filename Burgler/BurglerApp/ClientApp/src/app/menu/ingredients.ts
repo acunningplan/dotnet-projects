@@ -15,6 +15,7 @@ export class Ingredient {
 export class Food {
   name: string;
   description: string;
+  imageUrl: string;
   options: { size: string; calories: number; price: number }[] = [];
 }
 

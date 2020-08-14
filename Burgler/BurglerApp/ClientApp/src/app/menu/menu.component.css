@@ -19,3 +19,11 @@
 .food-option-margin {
   margin-bottom: 10pt;
 }
+
+.food-image {
+  height: 200px;
+  object-fit: cover;
+  margin: auto;
+  /* position: fixed; */
+  /* z-index: 1; */
+}

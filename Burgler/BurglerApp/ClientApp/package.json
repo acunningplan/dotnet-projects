@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "echo Starting... && ng serve",
     "build": "ng build",
     "build:ssr": "ng run BurglerApp:server:dev",
     "test": "ng test",
@@ -31,6 +31,7 @@
     "oidc-client": "^1.10.1",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.5",
+    "w3-css": "^4.1.0",
     "zone.js": "0.10.3"
   },
   "devDependencies": {

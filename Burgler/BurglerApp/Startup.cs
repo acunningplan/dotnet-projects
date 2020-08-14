@@ -184,14 +184,14 @@ namespace BurglerApp
                 ("https://fonts.gstatic.com/"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
-                .ImageSources(s => s.Self().CustomSources("data:", "https://www.google-analytics.com/", "https://stats.g.doubleclick.net/", "https://www.facebook.com/tr/", "https://www.facebook.com/impression.php/"))
-                .ScriptSources(s => s.Self()
-                    .UnsafeInline()
-                    .CustomSources("https://www.google-analytics.com/",
-                    "https://www.googletagmanager.com/",
-                    "https://apis.google.com/",
-                    "https://connect.facebook.net/",
-                    "http://connect.facebook.net/en_US/sdk.js"))
+                .ImageSources(s => s.Self().CustomSources("data:", "https://www.google-analytics.com/", "https://stats.g.doubleclick.net/", "https://www.facebook.com/tr/", "https://www.facebook.com/impression.php/", "https://imgur.com/", "https://i.imgur.com/"))
+            .ScriptSources(s => s.Self()
+                .UnsafeInline()
+                .CustomSources("https://www.google-analytics.com/",
+                "https://www.googletagmanager.com/",
+                "https://apis.google.com/",
+                "https://connect.facebook.net/",
+                "http://connect.facebook.net/en_US/sdk.js"))
             );
 
             app.UseHsts();

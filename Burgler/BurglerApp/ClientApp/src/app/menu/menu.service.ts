@@ -6,13 +6,14 @@ import { map } from "rxjs/operators";
 import { Menu, BurgerItem, SideItem, DrinkItem } from "./menu";
 import { Ingredients, Food } from "./ingredients";
 import { FoodItem } from "../orders/order";
+import { LoadingService } from "../loading/loading.service";
 
 @Injectable({ providedIn: "root" })
 export class MenuService {
   private menu: Menu;
   private ingredients: Ingredients;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private loadingService: LoadingService) {}
 
   getMenu(): Menu {
     return this.menu;
@@ -23,6 +24,7 @@ export class MenuService {
   }
 
   fetchMenu() {
+    this.loadingService.loadingSubject.next({loading: true, loadingText: "Fetching menu"});
     return this.http.get<MenuJson>(`${environment.serverUrl}/menu`).pipe(
       map((menuJson) => {
         this.loadIngredients(menuJson);

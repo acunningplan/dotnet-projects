@@ -27,6 +27,7 @@ import { ReformatDateTimePipe } from './orders/order-detail/reformat-date-time.p
 import { CheckOneSizeDirective } from './menu/check-one-size.directive';
 import { OrderItemComponent } from './orders/order-detail/order-item/order-item.component';
 import { OrderConfirmationComponent } from './orders/order-confirmation/order-confirmation.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { OrderConfirmationComponent } from './orders/order-confirmation/order-co
     CheckOneSizeDirective,
     OrderItemComponent,
     OrderConfirmationComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

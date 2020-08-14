@@ -22,6 +22,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
+              "node_modules/w3-css/w3.css",
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles.css"
             ],

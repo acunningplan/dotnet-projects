@@ -1,0 +1,7 @@
+<div class="flex loading-screen">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <div class="fixed-left">{{loadingText + dots[counter % dots.length]}}</div>
+    <div *ngIf="timeout">Trouble loading content, there may be an issue with the network?</div>
+  </div>
+</div>

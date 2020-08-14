@@ -1,6 +1,9 @@
-<body>
+<div class="home-background"></div>
+<div *ngIf="url !== '/'" class="opaque-bg"></div>
+<div class="container">
   <app-nav-menu></app-nav-menu>
-  <div class="container">
+  <div>
+    <app-loading *ngIf="loading" [loadingText]="loadingText"></app-loading>
     <router-outlet></router-outlet>
   </div>
-</body>
+</div>

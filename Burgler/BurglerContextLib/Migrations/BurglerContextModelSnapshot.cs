@@ -130,6 +130,9 @@ namespace BurglerContextLib.Migrations
                     b.Property<double>("Calories")
                         .HasColumnType("float");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -189,6 +192,9 @@ namespace BurglerContextLib.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
