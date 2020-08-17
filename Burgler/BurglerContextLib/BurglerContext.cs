@@ -22,7 +22,6 @@ namespace BurglerContextLib
         // Orders
         public DbSet<Order> Orders { get; set; }
         public DbSet<BurgerItem> BurgerItems { get; set; }
-        //public DbSet<BurgerTopping> BurgerToppings { get; set; }
         public DbSet<SideItem> SideItems { get; set; }
         public DbSet<DrinkItem> DrinkItems { get; set; }
 

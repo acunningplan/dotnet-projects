@@ -8,12 +8,8 @@ using TravelBug.Entities;
 
 namespace TravelBug.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class TravelBugController : ControllerBase
+    public class TravelBugController : BaseController
     {
-        private static readonly string[] Summaries = new[]
-        {  "a", "b", "c"   };
 
         private readonly ILogger<TravelBugController> _logger;
 

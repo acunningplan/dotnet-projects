@@ -1,17 +1,22 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using TravelBug.Context;
+using TravelBug.Entities.User;
 
 namespace TravelBug
 {
     public class Startup
     {
+        private readonly string AllowedOrigins = "AllowedOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,14 +29,53 @@ namespace TravelBug
         {
             services.AddDbContext<TravelBugContext>(opt =>
             {
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseLazyLoadingProxies();
+                //opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddCors(options =>
+                options.AddPolicy(name: AllowedOrigins,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                    })
+            );
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            //var builder = services.AddIdentityCore<AppUser>();
+            //var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            //identityBuilder.AddEntityFrameworkStores<TravelBugContext>();
+            //identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+            //services.TryAddSingleton<ISystemClock, SystemClock>();
+            services
+                .AddIdentityCore<AppUser>()
+                .AddEntityFrameworkStores<TravelBugContext>()
+                //.AddRoles<IdentityRole>()
+                .AddUserManager<UserManager<AppUser>>()
+                .AddSignInManager<SignInManager<AppUser>>();
+
+            services.AddAuthentication();
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(opt =>
+            //    {
+            //        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
+            //        opt.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = key,
+            //            ValidateAudience = false,
+            //            ValidateIssuer = false
+            //        };
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
