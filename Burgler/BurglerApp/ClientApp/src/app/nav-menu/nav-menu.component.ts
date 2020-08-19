@@ -20,7 +20,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     this.loginStatusSub = this.loginStatusService.loggedInStatus.subscribe(
       () => {
         this.loggedIn = this.loginStatusService.getLoginData().loggedIn;
-        console.log(`Navbar login status = ${this.loggedIn}`);
+        // console.log(`Navbar login status = ${this.loggedIn}`);
       }
     );
   }

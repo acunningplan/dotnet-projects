@@ -46,7 +46,7 @@ export class AccountComponent implements OnInit {
 
   signInWithFB() {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((res) => {
-      console.log(res.authToken);
+      // console.log(res.authToken);
       this.sendToken(res.authToken, "facebook");
     });
   }

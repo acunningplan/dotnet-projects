@@ -61,7 +61,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       this.order.pickupTime = pickupDateTime;
     }
 
-    console.log(this.order);
+    // console.log(this.order);
 
     this.orderConfirmationService.orderConfirmationSubject.next({
       order: this.order,

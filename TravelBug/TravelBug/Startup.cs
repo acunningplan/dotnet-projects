@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using TravelBug.BusinessLogic;
 using TravelBug.Context;
+using TravelBug.CrudServices;
 using TravelBug.Entities.User;
 
 namespace TravelBug
@@ -44,7 +46,7 @@ namespace TravelBug
                     })
             );
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -55,7 +57,9 @@ namespace TravelBug
             //var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             //identityBuilder.AddEntityFrameworkStores<TravelBugContext>();
             //identityBuilder.AddSignInManager<SignInManager<AppUser>>();
-            //services.TryAddSingleton<ISystemClock, SystemClock>();
+
+            services.TryAddSingleton<ISystemClock, SystemClock>();
+
             services
                 .AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<TravelBugContext>()
@@ -63,7 +67,8 @@ namespace TravelBug
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 
-            services.AddAuthentication();
+            //services.AddAuthentication();
+
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddJwtBearer(opt =>
             //    {
@@ -76,6 +81,10 @@ namespace TravelBug
             //            ValidateIssuer = false
             //        };
             //    });
+
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IBlogService, BlogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

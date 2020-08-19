@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using TravelBug.Context;
 using TravelBug.Entities.User;
 using System;
+using TravelBug.BusinessLogic.Exceptions;
 
 namespace TravelBug.BusinessLogic
 {
@@ -31,8 +32,8 @@ namespace TravelBug.BusinessLogic
         {
             var user = await _userManager.FindByEmailAsync(Email);
 
-            //if (user == null)
-            //    throw new RestException(HttpStatusCode.Unauthorized);
+            if (user == null)
+                throw new RestException(HttpStatusCode.Unauthorized);
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, Password, false);
@@ -48,9 +49,7 @@ namespace TravelBug.BusinessLogic
                     Photo = user.UserPhoto.Url
                 };
             }
-            throw new Exception();
-            //throw new RestException(HttpStatusCode.Unauthorized);
-
+            throw new RestException(HttpStatusCode.Unauthorized);
         }
     }
 }

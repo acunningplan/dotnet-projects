@@ -75,7 +75,7 @@ export class MenuService {
   };
 
   private loadMenu(menuJson: MenuJson, ingredients: Ingredients) {
-    console.log(menuJson);
+    // console.log(menuJson);
     const menu = new Menu();
 
     menu.burgerItems = menuJson.burgersList;

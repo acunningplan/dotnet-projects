@@ -36,8 +36,8 @@ export class MenuComponent implements OnInit {
   onLoad() {
     this.imageCount++;
     if (this.imageCount === this.foodsToDisplay.length) {
-      console.log("Done loading");
-      console.log(this.imageCount);
+      // console.log("Done loading");
+      // console.log(this.imageCount);
       this.displayMenu = true;
     }
   }

@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 //using Application.Errors;
 //using Application.Interfaces;
-using TravelBug.BusinessLogic;
 //using MediatR;
 using Microsoft.AspNetCore.Identity;
 using TravelBug.Entities;
 using TravelBug.Entities.User;
+using TravelBug.BusinessLogic.Exceptions;
 
 namespace TravelBug.BusinessLogic
 {
@@ -32,8 +32,8 @@ namespace TravelBug.BusinessLogic
             var userInfo = new AppUser();
             //var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
 
-            //if (userInfo == null)
-            //    throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
+            if (userInfo == null)
+                throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
 
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
 
@@ -55,8 +55,8 @@ namespace TravelBug.BusinessLogic
 
                 var result = await _userManager.CreateAsync(user);
 
-                //if (!result.Succeeded)
-                //    throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
+                if (!result.Succeeded)
+                    throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
             }
 
             return new User

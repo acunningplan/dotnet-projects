@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loginStatusSub = this.loginStatusService.loggedInStatus.subscribe(
       () => {
         this.loggedIn = this.loginStatusService.getLoginData().loggedIn;
-        console.log(`Home login status = ${this.loggedIn}`);
+        // console.log(`Home login status = ${this.loggedIn}`);
       }
     );
   }

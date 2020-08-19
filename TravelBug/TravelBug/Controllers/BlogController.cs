@@ -2,33 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TravelBug.CrudServices;
 using TravelBug.Entities;
+using TravelBug.Web.Controllers;
 
 namespace TravelBug.Controllers
 {
-    public class TravelBugController : BaseController
+    [Route("api/blog")]
+    public class BlogController : CrudController<Blog>
     {
-
-        private readonly ILogger<TravelBugController> _logger;
-
-        public TravelBugController(ILogger<TravelBugController> logger)
+        public BlogController(IBlogService blogService) : base(blogService)
         {
-            _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<Blog> Get()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new Blog
-            {
-            })
-            .ToArray();
-        }
+        //private readonly ILogger<BlogController> _logger;
 
+        //public BlogController(ILogger<BlogController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
+        //[HttpGet]
+        //public IEnumerable<Blog> Get()
+        //{
+        //    var rng = new Random();
+        //    return Enumerable.Range(1, 5).Select(index => new Blog
+        //    {
+        //    })
+        //    .ToArray();
+        //}
 
         //[HttpPost]
         //public async Task CreateOrder(CreateCommand command)

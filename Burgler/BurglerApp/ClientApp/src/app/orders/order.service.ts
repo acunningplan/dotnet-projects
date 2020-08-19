@@ -40,8 +40,8 @@ export class OrderService {
       map((orderJson) => {
         const orderObj = new Order(orderJson[0]);
         this.pendingOrder = orderObj;
-        console.log(`Pending order:`);
-        console.log(orderJson);
+        // console.log(`Pending order:`);
+        // console.log(orderJson);
 
       })
     );
@@ -60,8 +60,8 @@ export class OrderService {
             const orderObj = new Order(o);
             return orderObj;
           });
-          console.log("Logging past orders:");
-          for (var po of this.pastOrders) console.log(po);
+          // console.log("Logging past orders:");
+          // for (var po of this.pastOrders) console.log(po);
 
         })
       );
@@ -73,9 +73,9 @@ export class OrderService {
 
   getPastOrders(): Order[] {
     return this.pastOrders?.map((po) => {
-      console.log(po.orderedAt);
+      // console.log(po.orderedAt);
       po.orderedAt = moment(po.orderedAt).local().toDate();
-      console.log(po.orderedAt);
+      // console.log(po.orderedAt);
       return po;
     });
   }
