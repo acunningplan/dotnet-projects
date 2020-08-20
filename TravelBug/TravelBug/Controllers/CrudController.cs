@@ -29,8 +29,8 @@ namespace TravelBug.Web.Controllers
             return Ok(entity);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> ReadAsync(int id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> ReadAsync(Guid id)
         {
             var entity = await _service.ReadAsync(id);
 
@@ -39,10 +39,12 @@ namespace TravelBug.Web.Controllers
             return Ok(entity);
         }
 
-        [HttpPatch("{id:int}")]
-        public async Task<IActionResult> UpdatePartialAsync(int id, [FromBody] JsonPatchDocument<TEntity> patchEntity)
+        [HttpPatch("{id:Guid}")]
+        public async Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<TEntity> patchEntity)
         {
             var entity = await _service.ReadAsync(id, false);
+
+            // Add logic here to check whether user from token = user of entity
 
             if (entity == null) return NotFound();
 
@@ -52,8 +54,8 @@ namespace TravelBug.Web.Controllers
             return Ok(entity);
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var entity = await _service.ReadAsync(id);
 

@@ -10,8 +10,8 @@ using TravelBug.Context;
 namespace TravelBug.Context.Migrations
 {
     [DbContext(typeof(TravelBugContext))]
-    [Migration("20200817081847_Added identity")]
-    partial class Addedidentity
+    [Migration("20200819205759_First migrate")]
+    partial class Firstmigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,37 +154,52 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("TravelBug.Entities.Blog", b =>
                 {
-                    b.Property<Guid>("BlogId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("Deleted")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("BlogId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("TravelBug.Entities.Image", b =>
                 {
-                    b.Property<Guid>("ImageId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Alt")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("BlogId")
+                    b.Property<Guid?>("BlogId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("Deleted")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("Main")
                         .HasColumnType("bit");
@@ -192,7 +207,7 @@ namespace TravelBug.Context.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ImageId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BlogId");
 
@@ -343,7 +358,7 @@ namespace TravelBug.Context.Migrations
                 {
                     b.HasOne("TravelBug.Entities.User.AppUser", "User")
                         .WithMany("Blogs")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -352,8 +367,7 @@ namespace TravelBug.Context.Migrations
                     b.HasOne("TravelBug.Entities.Blog", "Blog")
                         .WithMany("Images")
                         .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TravelBug.Entities.User.AppUser", b =>

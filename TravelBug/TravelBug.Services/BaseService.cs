@@ -27,7 +27,7 @@ namespace TravelBug.CrudServices
             return entity;
         }
 
-        public virtual async Task<TEntity> ReadAsync(int id, bool tracking = true)
+        public virtual async Task<TEntity> ReadAsync(Guid id, bool tracking = true)
         {
             var query = _travelBugContext.Set<TEntity>().AsQueryable();
 
@@ -39,15 +39,10 @@ namespace TravelBug.CrudServices
             return await query.FirstOrDefaultAsync(entity => entity.Id == id && !entity.Deleted.HasValue);
         }
 
-        public virtual async Task<TEntity> UpdateAsync(int id, TEntity updateEntity)
+        public virtual async Task<TEntity> UpdateAsync(Guid id, TEntity updateEntity)
         {
             // Check that the record exists.
-            var entity = await ReadAsync(id);
-
-            if (entity == null)
-            {
-                throw new Exception("Unable to find record with id '" + id + "'.");
-            }
+            var entity = await ReadAsync(id) ?? throw new Exception("Unable to find record with id '" + id + "'.");
 
             // Update changes if any of the properties have been modified.
             _travelBugContext.Entry(entity).CurrentValues.SetValues(updateEntity);
@@ -60,7 +55,7 @@ namespace TravelBug.CrudServices
             return entity;
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             // Check that the record exists.
             var entity = await ReadAsync(id);
