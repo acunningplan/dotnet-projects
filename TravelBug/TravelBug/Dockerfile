@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 
 RUN apt-get update -y
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash --debug
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq
 
 WORKDIR /app
@@ -28,7 +28,7 @@ FROM build AS publish
 RUN dotnet publish "TravelBug.Web.csproj" -c Release -o /app/publish
 
 RUN apt-get update -y
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash --debug
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq
 
 FROM base AS final
