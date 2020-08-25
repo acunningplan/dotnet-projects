@@ -9,12 +9,17 @@ using TravelBug.Entities.User;
 
 namespace TravelBug.BusinessLogic
 {
+    public interface IJwtGenerator
+    {
+        string CreateToken(AppUser user);
+    }
+
     public class JwtGenerator : IJwtGenerator
     {
         private readonly SymmetricSecurityKey _key;
         public JwtGenerator(IConfiguration config)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["travel_bug_token_key"]));
         }
 
         public string CreateToken(AppUser user)

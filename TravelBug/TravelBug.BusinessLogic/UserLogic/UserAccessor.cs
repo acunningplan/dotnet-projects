@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 
 namespace TravelBug.BusinessLogic
 {
+    public interface IUserAccessor
+    {
+        string GetCurrentUsername();
+    }
+
     public class UserAccessor : IUserAccessor
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

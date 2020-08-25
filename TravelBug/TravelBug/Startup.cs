@@ -1,18 +1,27 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 using TravelBug.BusinessLogic;
 using TravelBug.Context;
 using TravelBug.CrudServices;
 using TravelBug.Entities.User;
+using TravelBug.FollowingServices;
+using TravelBug.Web.Middleware;
 
 namespace TravelBug
 {
@@ -32,7 +41,6 @@ namespace TravelBug
             services.AddDbContext<TravelBugContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                //opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
@@ -46,7 +54,17 @@ namespace TravelBug
                     })
             );
 
-            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddControllersWithViews(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                //opt.Filters.Add(new AuthorizeFilter(policy));
+            })
+                .AddNewtonsoftJson()
+                .AddFluentValidation(cfg =>
+                {
+                    //cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+                });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -67,23 +85,28 @@ namespace TravelBug
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
 
-            //services.AddAuthentication();
-
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(opt =>
-            //    {
-            //        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("burgler_secret_key"));
-            //        opt.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = key,
-            //            ValidateAudience = false,
-            //            ValidateIssuer = false
-            //        };
-            //    });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["travel_bug_token_key"]));
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IRegisterService, RegisterService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IFollowingService, FollowingService>();
+            services.AddScoped<IFollowerListingService, FollowerListingService>();
+
             services.AddScoped<IBlogService, BlogService>();
         }
 
@@ -100,6 +123,7 @@ namespace TravelBug
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

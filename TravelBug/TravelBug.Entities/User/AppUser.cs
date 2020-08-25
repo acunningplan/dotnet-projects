@@ -9,5 +9,7 @@ namespace TravelBug.Entities.User
         public string Bio { get; set; }
         public virtual UserPhoto UserPhoto { get; set; }
         public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
+        public virtual ICollection<UserFollowing> Followings { get; set; } = new List<UserFollowing>();
+        public virtual ICollection<UserFollowing> Followers { get; set; } = new List<UserFollowing>();
     }
 }

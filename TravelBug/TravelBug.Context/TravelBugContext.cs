@@ -19,6 +19,7 @@ namespace TravelBug.Context
         protected readonly IConfiguration _configuration;
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<UserFollowing> Followings { get; set; }
         public TravelBugContext(DbContextOptions<TravelBugContext> options) : base(options) { }
 
         protected virtual IList<Assembly> Assemblies
@@ -38,6 +39,21 @@ namespace TravelBug.Context
                 .HasMany(b => b.Images)
                 .WithOne(i => i.Blog)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserFollowing>(b =>
+            {
+                b.HasKey(k => new { k.ObserverId, k.TargetId });
+
+                b.HasOne(o => o.Observer)
+                    .WithMany(f => f.Followings)
+                    .HasForeignKey(o => o.ObserverId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                b.HasOne(t => t.Target)
+                    .WithMany(f => f.Followers)
+                    .HasForeignKey(t => t.TargetId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
 
             foreach (var assembly in Assemblies)
             {

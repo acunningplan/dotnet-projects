@@ -12,26 +12,33 @@ using TravelBug.BusinessLogic.Exceptions;
 
 namespace TravelBug.BusinessLogic
 {
-    public class Register
+    public interface IRegisterService
     {
-        public class Command
-        {
-            public string DisplayName { get; set; }
-            public string Username { get; set; }
-            public string Email { get; set; }
-            public string Password { get; set; }
-        }
+        Task<User> Register(RegisterInput input);
+    }
 
+    public class RegisterInput
+    {
+        public string DisplayName { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+    public class RegisterService : IRegisterService
+    {
 
         private readonly TravelBugContext _context;
         private readonly UserManager<AppUser> _userManager;
-        public Register(TravelBugContext context, UserManager<AppUser> userManager)
+        private readonly IJwtGenerator _jwtGenerator;
+
+        public RegisterService(TravelBugContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
         {
             _userManager = userManager;
+            _jwtGenerator = jwtGenerator;
             _context = context;
         }
 
-        public async Task<User> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<User> Register(RegisterInput request)
         {
             if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
@@ -53,13 +60,12 @@ namespace TravelBug.BusinessLogic
                 return new User
                 {
                     DisplayName = user.DisplayName,
+                    Token = _jwtGenerator.CreateToken(user),
                     Username = user.UserName,
-                    Photo = user.UserPhoto.Url
+                    //Photo = user.UserPhoto.Url
                 };
             }
-
             throw new Exception("Problem creating user");
         }
-
     }
 }
