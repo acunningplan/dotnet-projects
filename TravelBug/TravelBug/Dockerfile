@@ -17,6 +17,7 @@ RUN apt-get update -y
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq
 
+
 COPY ["TravelBug/TravelBug.Web.csproj", "TravelBug/"]
 COPY ["TravelBug.BusinessLogic/TravelBug.BusinessLogic.csproj", "TravelBug.BusinessLogic/"]
 COPY ["TravelBug.Context/TravelBug.Context.csproj", "TravelBug.Context/"]
