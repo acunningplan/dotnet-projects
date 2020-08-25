@@ -17,7 +17,6 @@ RUN apt-get update -y
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq
 
-
 COPY ["TravelBug/TravelBug.Web.csproj", "TravelBug/"]
 COPY ["TravelBug.BusinessLogic/TravelBug.BusinessLogic.csproj", "TravelBug.BusinessLogic/"]
 COPY ["TravelBug.Context/TravelBug.Context.csproj", "TravelBug.Context/"]
@@ -31,13 +30,6 @@ RUN dotnet build "TravelBug.Web.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "TravelBug.Web.csproj" -c Release -o /app/publish
 
-<<<<<<< HEAD
-RUN apt-get update -y
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
-RUN apt-get install nodejs -yq
-
-=======
->>>>>>> 0bce884... Configured docker port mapping
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
