@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.Entities.SeedData
 {

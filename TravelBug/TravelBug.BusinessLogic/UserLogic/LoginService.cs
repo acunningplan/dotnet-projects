@@ -4,13 +4,13 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using TravelBug.BusinessLogic.Exceptions;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.BusinessLogic
 {
     public interface ILoginService
     {
-        Task<User> Login(LoginInput input);
+        Task<UserDto> Login(LoginInput input);
     }
     public class LoginInput
     {
@@ -30,7 +30,7 @@ namespace TravelBug.BusinessLogic
             _userManager = userManager;
         }
 
-        public async Task<User> Login(LoginInput input)
+        public async Task<UserDto> Login(LoginInput input)
         {
             var user = await _userManager.FindByEmailAsync(input.Email);
 
@@ -42,7 +42,7 @@ namespace TravelBug.BusinessLogic
 
             if (result.Succeeded)
             {
-                return new User
+                return new UserDto
                 {
                     DisplayName = user.DisplayName,
                     Token = _jwtGenerator.CreateToken(user),

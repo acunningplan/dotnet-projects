@@ -4,11 +4,12 @@ using TravelBug.Entities;
 
 namespace TravelBug.CrudServices
 {
-    public interface IBaseService<TEntity> where TEntity : class, IBase
+    public interface IBaseService<TEntity, TEntityDto> where TEntity : class, IBase
     {
-        Task<TEntity> CreateAsync(TEntity entity);
-        Task<TEntity> ReadAsync(Guid id, bool tracking = true);
-        Task<TEntity> UpdateAsync(Guid id, TEntity updateEntity);
+        Task<TEntity> GetEntity(Guid id, bool tracking = true);
+        Task<TEntityDto> CreateAsync(TEntity entity);
+        Task<TEntityDto> ReadAsync(Guid id, bool tracking = true);
+        Task<TEntityDto> UpdateAsync(Guid id, TEntity updateEntity);
         Task DeleteAsync(Guid id);
     }
 }

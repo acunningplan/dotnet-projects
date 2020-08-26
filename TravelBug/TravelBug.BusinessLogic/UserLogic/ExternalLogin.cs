@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 //using MediatR;
 using Microsoft.AspNetCore.Identity;
 using TravelBug.Entities;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 using TravelBug.BusinessLogic.Exceptions;
 
 namespace TravelBug.BusinessLogic
@@ -27,7 +27,7 @@ namespace TravelBug.BusinessLogic
             _userManager = userManager;
         }
 
-        public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
         {
             var userInfo = new AppUser();
             //var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
@@ -59,7 +59,7 @@ namespace TravelBug.BusinessLogic
                     throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
             }
 
-            return new User
+            return new UserDto
             {
                 DisplayName = user.DisplayName,
                 //Token = _jwtGenerator.CreateToken(user),

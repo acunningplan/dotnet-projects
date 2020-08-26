@@ -1,8 +1,6 @@
-using TravelBug.Entities;
-
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Entities.UserData
 {
-    public class User
+    public class UserDto
     {
         public string DisplayName { get; set; }
         public string Token { get; set; }

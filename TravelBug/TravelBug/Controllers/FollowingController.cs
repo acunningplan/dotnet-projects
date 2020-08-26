@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 using TravelBug.FollowingServices;
 
 namespace TravelBug.Web.Controllers
@@ -31,13 +31,13 @@ namespace TravelBug.Web.Controllers
         }
 
         [HttpGet("{username}/followings")]
-        public async Task<List<AppUser>> GetFollowings(string username)
+        public async Task<List<UserDto>> GetFollowings(string username)
         {
             return await _followerListingService.ShowFollowings(username);
         }
 
         [HttpGet("{username}/followers")]
-        public async Task<List<AppUser>> GetFollowers(string username)
+        public async Task<List<UserDto>> GetFollowers(string username)
         {
             return await _followerListingService.ShowFollowers(username);
         }

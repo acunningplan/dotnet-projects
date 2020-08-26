@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.BusinessLogic
 {
@@ -18,11 +18,11 @@ namespace TravelBug.BusinessLogic
             _userManager = userManager;
         }
 
-        public async Task<User> Handle(CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
 
-            return new User
+            return new UserDto
             {
                 DisplayName = user.DisplayName,
                 Username = user.UserName,

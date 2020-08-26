@@ -7,14 +7,14 @@ using TravelBug.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TravelBug.Context;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 using TravelBug.BusinessLogic.Exceptions;
 
 namespace TravelBug.BusinessLogic
 {
     public interface IRegisterService
     {
-        Task<User> Register(RegisterInput input);
+        Task<UserDto> Register(RegisterInput input);
     }
 
     public class RegisterInput
@@ -38,7 +38,7 @@ namespace TravelBug.BusinessLogic
             _context = context;
         }
 
-        public async Task<User> Register(RegisterInput request)
+        public async Task<UserDto> Register(RegisterInput request)
         {
             if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
@@ -57,7 +57,7 @@ namespace TravelBug.BusinessLogic
 
             if (result.Succeeded)
             {
-                return new User
+                return new UserDto
                 {
                     DisplayName = user.DisplayName,
                     Token = _jwtGenerator.CreateToken(user),

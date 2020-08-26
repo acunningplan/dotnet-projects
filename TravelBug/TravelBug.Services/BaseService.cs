@@ -1,48 +1,52 @@
-﻿using JetBrains.Annotations;
+﻿using AutoMapper;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TravelBug.Context;
 using TravelBug.Entities;
 
 namespace TravelBug.CrudServices
 {
-    public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, IBase
+    public abstract class BaseService<TEntity, TEntityDto> : IBaseService<TEntity, TEntityDto> where TEntity : class, IBase
     {
         protected TravelBugContext _travelBugContext;
+        private readonly IMapper _mapper;
 
-        protected BaseService([NotNull] TravelBugContext crudApiDbContext)
+        protected BaseService([NotNull] TravelBugContext crudApiDbContext, IMapper mapper)
         {
             _travelBugContext = crudApiDbContext;
+            _mapper = mapper;
         }
 
-        public virtual async Task<TEntity> CreateAsync(TEntity entity)
+        public async Task<TEntity> GetEntity(Guid id, bool tracking = true)
+        {
+            var query = _travelBugContext.Set<TEntity>().AsQueryable();
+
+            if (!tracking) query = query.AsNoTracking();
+
+            return await query.FirstOrDefaultAsync(entity => entity.Id == id && !entity.Deleted.HasValue)
+                 ?? throw new Exception("Unable to find record with id '" + id + "'.");
+        }
+
+        public virtual async Task<TEntityDto> CreateAsync(TEntity entity)
         {
             await _travelBugContext.Set<TEntity>().AddAsync(entity);
             await _travelBugContext.SaveChangesAsync();
 
-            return entity;
+            return _mapper.Map<TEntity, TEntityDto>(entity);
         }
 
-        public virtual async Task<TEntity> ReadAsync(Guid id, bool tracking = true)
+        public virtual async Task<TEntityDto> ReadAsync(Guid id, bool tracking = true)
         {
-            var query = _travelBugContext.Set<TEntity>().AsQueryable();
-
-            if (!tracking)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync(entity => entity.Id == id && !entity.Deleted.HasValue);
+            var entity = await GetEntity(id, tracking);
+            return _mapper.Map<TEntity, TEntityDto>(entity);
         }
 
-        public virtual async Task<TEntity> UpdateAsync(Guid id, TEntity updateEntity)
+        public virtual async Task<TEntityDto> UpdateAsync(Guid id, TEntity updateEntity)
         {
-            // Check that the record exists.
-            var entity = await ReadAsync(id) ?? throw new Exception("Unable to find record with id '" + id + "'.");
+            var entity = await GetEntity(id);
 
             // Update changes if any of the properties have been modified.
             _travelBugContext.Entry(entity).CurrentValues.SetValues(updateEntity);
@@ -52,18 +56,12 @@ namespace TravelBug.CrudServices
             {
                 await _travelBugContext.SaveChangesAsync();
             }
-            return entity;
+            return _mapper.Map<TEntity, TEntityDto>(entity);
         }
 
         public virtual async Task DeleteAsync(Guid id)
         {
-            // Check that the record exists.
-            var entity = await ReadAsync(id);
-
-            if (entity == null)
-            {
-                throw new Exception("Unable to find record with id '" + id + "'.");
-            }
+            var entity = await GetEntity(id);
 
             // Set the deleted flag.
             entity.Deleted = DateTimeOffset.Now;

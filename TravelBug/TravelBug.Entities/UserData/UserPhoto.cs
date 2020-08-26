@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TravelBug.Entities
+namespace TravelBug.Entities.UserData
 {
     public class UserPhoto
     {

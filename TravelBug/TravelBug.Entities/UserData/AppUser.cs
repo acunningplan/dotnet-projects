@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace TravelBug.Entities.User
+namespace TravelBug.Entities.UserData
 {
     public class AppUser : IdentityUser
     {

@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using TravelBug.Entities;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.Context
 {

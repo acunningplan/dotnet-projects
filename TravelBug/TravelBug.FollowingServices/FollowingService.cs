@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TravelBug.BusinessLogic;
 using TravelBug.BusinessLogic.Exceptions;
 using TravelBug.Context;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.FollowingServices
 {

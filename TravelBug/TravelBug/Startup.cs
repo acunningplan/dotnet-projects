@@ -19,15 +19,19 @@ using System.Text;
 using TravelBug.BusinessLogic;
 using TravelBug.Context;
 using TravelBug.CrudServices;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 using TravelBug.FollowingServices;
+using TravelBug.Web.Authorization;
 using TravelBug.Web.Middleware;
+using Newtonsoft.Json;
+using AutoMapper;
+using TravelBug.Entities;
 
 namespace TravelBug
 {
     public class Startup
     {
-        private readonly string AllowedOrigins = "AllowedOrigins";
+        //private readonly string AllowedOrigins = "AllowedOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,7 +49,7 @@ namespace TravelBug
             });
 
             services.AddCors(options =>
-                options.AddPolicy(name: AllowedOrigins,
+                options.AddDefaultPolicy(
                     builder =>
                     {
                         builder.AllowAnyOrigin()
@@ -53,17 +57,20 @@ namespace TravelBug
                           .AllowAnyHeader();
                     })
             );
-
+            services.AddAutoMapper(typeof(BlogService), typeof(Blog));
             services.AddControllersWithViews(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                //opt.Filters.Add(new AuthorizeFilter(policy));
+                opt.Filters.Add(new AuthorizeFilter(policy));
             })
-                .AddNewtonsoftJson()
-                .AddFluentValidation(cfg =>
-                {
-                    //cfg.RegisterValidatorsFromAssemblyContaining<Create>();
-                });
+                .AddNewtonsoftJson(options =>
+                 {
+                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                 });
+            //.AddFluentValidation(cfg =>
+            //{
+            //    //cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+            //});
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -84,6 +91,15 @@ namespace TravelBug
                 //.AddRoles<IdentityRole>()
                 .AddUserManager<UserManager<AppUser>>()
                 .AddSignInManager<SignInManager<AppUser>>();
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("IsBlogAuthor", policy =>
+                {
+                    policy.Requirements.Add(new IsAuthorRequirement());
+                });
+            });
+            services.AddTransient<IAuthorizationHandler, IsAuthorRequirementHandler>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -133,6 +149,10 @@ namespace TravelBug
             }
 
             app.UseRouting();
+            app.UseCors();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

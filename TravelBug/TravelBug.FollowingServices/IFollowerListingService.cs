@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.FollowingServices
 {
     public interface IFollowerListingService
     {
-        Task<List<AppUser>> ShowFollowings(string username);
-        Task<List<AppUser>> ShowFollowers(string username);
+        Task<List<UserDto>> ShowFollowings(string username);
+        Task<List<UserDto>> ShowFollowers(string username);
     }
 }

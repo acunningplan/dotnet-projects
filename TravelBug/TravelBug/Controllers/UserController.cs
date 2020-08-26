@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TravelBug.BusinessLogic;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.Web.Controllers
 {
@@ -20,14 +21,14 @@ namespace TravelBug.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<User> Login(LoginInput loginInput)
+        public async Task<UserDto> Login(LoginInput loginInput)
         {
             return await _loginService.Login(loginInput);
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<User> Register(RegisterInput registerInput)
+        public async Task<UserDto> Register(RegisterInput registerInput)
         {
             return await _registerService.Register(registerInput);
         }

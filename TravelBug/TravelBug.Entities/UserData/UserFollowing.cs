@@ -1,4 +1,4 @@
-﻿namespace TravelBug.Entities.User
+﻿namespace TravelBug.Entities.UserData
 {
     public class UserFollowing
     {
