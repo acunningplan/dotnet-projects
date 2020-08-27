@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic;
+using TravelBug.Infrastructure;
 using TravelBug.Entities.UserData;
 
 namespace TravelBug.Web.Controllers

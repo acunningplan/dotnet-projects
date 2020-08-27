@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using TravelBug.Entities;
 using TravelBug.Entities.UserData;
-using TravelBug.BusinessLogic.Exceptions;
+using TravelBug.Infrastructure.Exceptions;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public class ExternalLogin
     {

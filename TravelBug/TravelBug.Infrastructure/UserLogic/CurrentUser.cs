@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using TravelBug.Entities.UserData;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public class CurrentUser
     {

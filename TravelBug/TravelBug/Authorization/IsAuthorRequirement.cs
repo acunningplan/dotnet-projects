@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic;
+using TravelBug.Infrastructure;
 using TravelBug.Context;
 
 namespace TravelBug.Web.Authorization

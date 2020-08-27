@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TravelBug.Context;
 using TravelBug.Entities.UserData;
-using TravelBug.BusinessLogic.Exceptions;
+using TravelBug.Infrastructure.Exceptions;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public interface IRegisterService
     {

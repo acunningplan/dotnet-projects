@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using TravelBug.Entities.UserData;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public interface IJwtGenerator
     {

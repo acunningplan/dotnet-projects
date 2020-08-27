@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
-namespace TravelBug.BusinessLogic.Exceptions
+namespace TravelBug.Infrastructure.Exceptions
 {
     public class RestException : Exception
     {

@@ -1,12 +1,11 @@
 //using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic.Exceptions;
 using TravelBug.Entities.UserData;
+using TravelBug.Infrastructure.Exceptions;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public interface ILoginService
     {

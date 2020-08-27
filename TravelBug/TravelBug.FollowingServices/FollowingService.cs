@@ -3,8 +3,8 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic;
-using TravelBug.BusinessLogic.Exceptions;
+using TravelBug.Infrastructure;
+using TravelBug.Infrastructure.Exceptions;
 using TravelBug.Context;
 using TravelBug.Entities.UserData;
 

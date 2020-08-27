@@ -4,7 +4,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic.Exceptions;
+using TravelBug.Infrastructure.Exceptions;
 
 namespace TravelBug.Web.Middleware
 {

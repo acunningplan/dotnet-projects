@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 
-namespace TravelBug.BusinessLogic
+namespace TravelBug.Infrastructure
 {
     public interface IUserAccessor
     {

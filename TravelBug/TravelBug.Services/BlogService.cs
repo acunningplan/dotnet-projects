@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using TravelBug.BusinessLogic;
+using TravelBug.Infrastructure;
 using TravelBug.Context;
 using TravelBug.Entities;
 

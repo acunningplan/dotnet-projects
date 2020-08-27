@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
-using TravelBug.BusinessLogic;
+using TravelBug.Infrastructure;
 using TravelBug.Context;
 using TravelBug.CrudServices;
 using TravelBug.Entities.UserData;
@@ -26,6 +26,9 @@ using TravelBug.Web.Middleware;
 using Newtonsoft.Json;
 using AutoMapper;
 using TravelBug.Entities;
+using TravelBug.Infrastructure.PhotoLogic;
+using PhotoServices;
+using System.Net.Http;
 
 namespace TravelBug
 {
@@ -122,8 +125,12 @@ namespace TravelBug
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IFollowingService, FollowingService>();
             services.AddScoped<IFollowerListingService, FollowerListingService>();
+            services.AddScoped<IPhotoService, PhotoService>();
 
             services.AddScoped<IBlogService, BlogService>();
+            services.AddHttpClient();
+
+            services.Configure<ImgurSettings>(Configuration.GetSection("Imgur"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
