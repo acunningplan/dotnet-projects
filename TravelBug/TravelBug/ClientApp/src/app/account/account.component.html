@@ -1,0 +1,38 @@
+<h2>{{ username }}</h2>
+<h5 *ngIf="!loggedIn">Sign up or sign in!</h5>
+<div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signInWithFB()"
+    *ngIf="loggedIn === false"
+    mat-flat-button
+    color="primary"
+  >
+    Sign In With Facebook
+  </button>
+</div>
+<div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signInWithGoogle()"
+    *ngIf="loggedIn === false"
+    mat-flat-button
+    color="primary"
+  >
+    Sign In With Google
+  </button>
+</div>
+<div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="signOut()"
+    *ngIf="loggedIn === true"
+    mat-flat-button
+    color="primary"
+  >
+    Sign Out
+  </button>
+</div>
