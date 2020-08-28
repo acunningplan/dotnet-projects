@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Net.Http;
 using TravelBug.Infrastructure.PhotoLogic;
 
 namespace TravelBug.Web.Controllers
 {
     public class GetImgurRefreshToken : Controller
     {
-        private readonly IOptions<ImgurSettings> _config;
         private readonly HttpClient _httpClient;
         private readonly ImgurSettings _settings;
 

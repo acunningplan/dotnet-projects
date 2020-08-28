@@ -29,6 +29,7 @@ using TravelBug.Entities;
 using TravelBug.Infrastructure.PhotoLogic;
 using PhotoServices;
 using System.Net.Http;
+using TravelBug.Infrastructure.UserLogic;
 
 namespace TravelBug
 {
@@ -60,7 +61,7 @@ namespace TravelBug
                           .AllowAnyHeader();
                     })
             );
-            services.AddAutoMapper(typeof(BlogService), typeof(Blog));
+            services.AddAutoMapper(typeof(User), typeof(BlogService));
             services.AddControllersWithViews(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -123,6 +124,7 @@ namespace TravelBug
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IFollowingService, FollowingService>();
             services.AddScoped<IFollowerListingService, FollowerListingService>();
             services.AddScoped<IPhotoService, PhotoService>();
