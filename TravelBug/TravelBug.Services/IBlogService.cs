@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TravelBug.Entities;
+﻿using TravelBug.Entities;
 
 namespace TravelBug.CrudServices
 {
-    public interface IBlogService : IBaseService<Blog>
+    public interface IBlogService : IBaseService<Blog, BlogDto>
     {
     }
 }

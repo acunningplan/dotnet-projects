@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using TravelBug.Entities.SeedData;
-using TravelBug.Entities.User;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.Context
 {

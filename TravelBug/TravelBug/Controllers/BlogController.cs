@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JetBrains.Annotations;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using TravelBug.CrudServices;
 using TravelBug.Entities;
 using TravelBug.Web.Controllers;
@@ -12,11 +10,35 @@ using TravelBug.Web.Controllers;
 namespace TravelBug.Controllers
 {
     [Route("api/blog")]
-    public class BlogController : CrudController<Blog>
+    public class BlogController : CrudController<Blog, BlogDto>
     {
         public BlogController(IBlogService blogService) : base(blogService)
         {
         }
+
+        public override async Task<IActionResult> ReadAsync(Guid id)
+        {
+            var blog = await _service.ReadAsync(id);
+
+            if (blog == null) return NotFound();
+
+            return Ok(blog);
+        }
+
+        [Authorize(Policy = "IsBlogAuthor")]
+        public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
+        {
+            return base.UpdatePartialAsync(id, patchEntity);
+        }
+
+        [Authorize(Policy = "IsBlogAuthor")]
+        public override Task<IActionResult> DeleteAsync(Guid id)
+        {
+            return base.DeleteAsync(id);
+        }
+
+
+
 
         //private readonly ILogger<BlogController> _logger;
 

@@ -196,6 +196,9 @@ namespace TravelBug.Context.Migrations
                     b.Property<DateTimeOffset?>("Deleted")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("ImgurId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset?>("LastUpdated")
                         .HasColumnType("datetimeoffset");
 
@@ -212,7 +215,7 @@ namespace TravelBug.Context.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.User.AppUser", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -260,6 +263,9 @@ namespace TravelBug.Context.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -269,9 +275,6 @@ namespace TravelBug.Context.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
-
-                    b.Property<string>("UserPhotoId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -283,12 +286,53 @@ namespace TravelBug.Context.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserPhotoId");
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.UserPhoto", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Revoked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserFollowing", b =>
+                {
+                    b.Property<string>("ObserverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TargetId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ObserverId", "TargetId");
+
+                    b.HasIndex("TargetId");
+
+                    b.ToTable("Followings");
+                });
+
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserPhoto", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -312,7 +356,7 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TravelBug.Entities.User.AppUser", null)
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -321,7 +365,7 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TravelBug.Entities.User.AppUser", null)
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,7 +380,7 @@ namespace TravelBug.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TravelBug.Entities.User.AppUser", null)
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -345,7 +389,7 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TravelBug.Entities.User.AppUser", null)
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -354,7 +398,7 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("TravelBug.Entities.Blog", b =>
                 {
-                    b.HasOne("TravelBug.Entities.User.AppUser", "User")
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", "User")
                         .WithMany("Blogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -368,11 +412,33 @@ namespace TravelBug.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.User.AppUser", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.AppUser", b =>
                 {
-                    b.HasOne("TravelBug.Entities.UserPhoto", "UserPhoto")
+                    b.HasOne("TravelBug.Entities.UserData.UserPhoto", "Photo")
                         .WithMany()
-                        .HasForeignKey("UserPhotoId");
+                        .HasForeignKey("PhotoId");
+                });
+
+            modelBuilder.Entity("TravelBug.Entities.UserData.RefreshToken", b =>
+                {
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", "AppUser")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserFollowing", b =>
+                {
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", "Observer")
+                        .WithMany("Followings")
+                        .HasForeignKey("ObserverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", "Target")
+                        .WithMany("Followers")
+                        .HasForeignKey("TargetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

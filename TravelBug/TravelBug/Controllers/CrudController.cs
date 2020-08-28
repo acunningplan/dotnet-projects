@@ -11,59 +11,59 @@ using TravelBug.CrudServices;
 namespace TravelBug.Web.Controllers
 {
     [ApiController]
-    public abstract class CrudController<TEntity> : ControllerBase
+    public abstract class CrudController<TEntity, TEntityDto> : ControllerBase
        where TEntity : class, IBase
     {
-        protected readonly IBaseService<TEntity> _service;
+        protected readonly IBaseService<TEntity, TEntityDto> _service;
 
-        protected CrudController([NotNull] IBaseService<TEntity> service)
+        protected CrudController([NotNull] IBaseService<TEntity, TEntityDto> service)
         {
             _service = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(TEntity entity)
+        public virtual async Task<IActionResult> CreateAsync(TEntity entity)
         {
-            entity = await _service.CreateAsync(entity);
+            var entityDto = await _service.CreateAsync(entity);
 
-            return Ok(entity);
+            return Ok(entityDto);
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> ReadAsync(Guid id)
+        public virtual async Task<IActionResult> ReadAsync(Guid id)
         {
-            var entity = await _service.ReadAsync(id);
+            var entityDto = await _service.ReadAsync(id);
 
-            if (entity == null) return NotFound();
+            if (entityDto == null) return NotFound();
 
-            return Ok(entity);
+            return Ok(entityDto);
         }
 
         [HttpPatch("{id:Guid}")]
-        public async Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<TEntity> patchEntity)
+        public virtual async Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<TEntity> patchEntity)
         {
-            var entity = await _service.ReadAsync(id, false);
+            var entity = await _service.GetEntity(id);
 
             // Add logic here to check whether user from token = user of entity
 
             if (entity == null) return NotFound();
 
             patchEntity.ApplyTo(entity, ModelState);
-            entity = await _service.UpdateAsync(id, entity);
+            var entityDto = await _service.UpdateAsync(id, entity);
 
-            return Ok(entity);
+            return Ok(entityDto);
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public virtual async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var entity = await _service.ReadAsync(id);
+            var entityDto = await _service.ReadAsync(id);
 
-            if (entity == null) return NotFound();
+            if (entityDto == null) return NotFound();
 
             await _service.DeleteAsync(id);
 
-            return Ok(entity);
+            return Ok(entityDto);
         }
     }
 }
