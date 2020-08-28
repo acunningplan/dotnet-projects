@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using TravelBug.Entities.UserData;
 
@@ -12,6 +13,7 @@ namespace TravelBug.Infrastructure
     public interface IJwtGenerator
     {
         string CreateToken(AppUser user);
+        RefreshToken GenerateRefreshToken();
     }
 
     public class JwtGenerator : IJwtGenerator
@@ -34,7 +36,7 @@ namespace TravelBug.Infrastructure
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddMinutes(100),
                 SigningCredentials = creds
             };
 
@@ -43,6 +45,17 @@ namespace TravelBug.Infrastructure
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomNumber)
+            };
         }
     }
 }

@@ -1,12 +1,7 @@
-using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-//using Application.Errors;
-//using Application.Interfaces;
-//using MediatR;
-using Microsoft.AspNetCore.Identity;
-using TravelBug.Entities;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
@@ -20,14 +15,17 @@ namespace TravelBug.Infrastructure
         }
 
         private readonly UserManager<AppUser> _userManager;
+        private readonly IJwtGenerator _jwtGenerator;
+
         //private readonly IFacebookAccessor _facebookAccessor;
         //private readonly IJwtGenerator _jwtGenerator;
-        public ExternalLogin(UserManager<AppUser> userManager)
+        public ExternalLogin(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
         {
             _userManager = userManager;
+            _jwtGenerator = jwtGenerator;
         }
 
-        public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<User> Handle(Query request, CancellationToken cancellationToken)
         {
             var userInfo = new AppUser();
             //var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
@@ -37,35 +35,39 @@ namespace TravelBug.Infrastructure
 
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
 
-            if (user == null)
+            var refreshToken = _jwtGenerator.GenerateRefreshToken();
+
+            if (user != null)
             {
-                user = new AppUser
-                {
-                    //DisplayName = userInfo.Name,
-                    Id = userInfo.Id,
-                    Email = userInfo.Email,
-                    UserName = "fb_" + userInfo.Id
-                };
-
-                var photo = new UserPhoto
-                {
-                    Id = "fb_" + userInfo.Id,
-                    Url = userInfo.UserPhoto.Url,
-                };
-
-                var result = await _userManager.CreateAsync(user);
-
-                if (!result.Succeeded)
-                    throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
+                user.RefreshTokens.Add(refreshToken);
+                await _userManager.UpdateAsync(user);
+                return new User(user, _jwtGenerator, refreshToken.Token);
             }
 
-            return new UserDto
+
+            user = new AppUser
             {
-                DisplayName = user.DisplayName,
-                //Token = _jwtGenerator.CreateToken(user),
-                Username = user.UserName,
-                Photo = user.UserPhoto.Url
+                //DisplayName = userInfo.Name,
+                Id = userInfo.Id,
+                Email = userInfo.Email,
+                UserName = "fb_" + userInfo.Id
             };
+
+            var photo = new UserPhoto
+            {
+                Id = "fb_" + userInfo.Id,
+                Url = userInfo.Photo.Url,
+            };
+
+            user.Photo = photo;
+            user.RefreshTokens.Add(refreshToken);
+
+            var result = await _userManager.CreateAsync(user);
+
+            if (!result.Succeeded)
+                throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
+
+            return new User(user, _jwtGenerator, refreshToken.Token);
         }
 
     }

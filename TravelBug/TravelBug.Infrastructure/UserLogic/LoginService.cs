@@ -9,7 +9,7 @@ namespace TravelBug.Infrastructure
 {
     public interface ILoginService
     {
-        Task<UserDto> Login(LoginInput input);
+        Task<User> Login(LoginInput input);
     }
     public class LoginInput
     {
@@ -29,7 +29,7 @@ namespace TravelBug.Infrastructure
             _userManager = userManager;
         }
 
-        public async Task<UserDto> Login(LoginInput input)
+        public async Task<User> Login(LoginInput input)
         {
             var user = await _userManager.FindByEmailAsync(input.Email);
 
@@ -41,13 +41,11 @@ namespace TravelBug.Infrastructure
 
             if (result.Succeeded)
             {
-                return new UserDto
-                {
-                    DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(user),
-                    Username = user.UserName,
-                    //Photo = user.UserPhoto.Url
-                };
+                var refreshToken = _jwtGenerator.GenerateRefreshToken();
+                user.RefreshTokens.Add(refreshToken);
+                await _userManager.UpdateAsync(user);
+
+                return new User(user, _jwtGenerator, refreshToken.Token);
             }
             throw new RestException(HttpStatusCode.Unauthorized);
         }

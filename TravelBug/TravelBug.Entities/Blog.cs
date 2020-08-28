@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TravelBug.Entities;
+﻿using System.Collections.Generic;
 using TravelBug.Entities.UserData;
 
 namespace TravelBug.Entities

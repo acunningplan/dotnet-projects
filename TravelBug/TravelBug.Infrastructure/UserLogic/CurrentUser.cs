@@ -18,17 +18,15 @@ namespace TravelBug.Infrastructure
             _userManager = userManager;
         }
 
-        public async Task<UserDto> Handle(CancellationToken cancellationToken)
+        public async Task<User> GetCurrentUser(CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
 
-            return new UserDto
-            {
-                DisplayName = user.DisplayName,
-                Username = user.UserName,
-                Token = _jwtGenerator.CreateToken(user),
-                Photo = user.UserPhoto.Url
-            };
+            var refreshToken = _jwtGenerator.GenerateRefreshToken();
+            user.RefreshTokens.Add(refreshToken);
+            await _userManager.UpdateAsync(user);
+
+            return new User(user, _jwtGenerator, refreshToken.Token);
         }
     }
 }

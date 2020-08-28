@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TravelBug.Context;
 using TravelBug.Entities.UserData;
+using TravelBug.Infrastructure;
 
 namespace TravelBug.FollowingServices
 {
@@ -18,19 +19,19 @@ namespace TravelBug.FollowingServices
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<UserDto>> ShowFollowings(string username)
+        public async Task<List<User>> ShowFollowings(string username)
         {
             var followings = await _context.Followings
                 .Where(f => f.Observer.UserName == username)
                 .Select(f => f.Target).ToListAsync();
-            return _mapper.Map<List<AppUser>, List<UserDto>>(followings);
+            return _mapper.Map<List<AppUser>, List<User>>(followings);
         }
-        public async Task<List<UserDto>> ShowFollowers(string username)
+        public async Task<List<User>> ShowFollowers(string username)
         {
             var followers = await _context.Followings
                 .Where(f => f.Target.UserName == username)
                 .Select(f => f.Observer).ToListAsync();
-            return _mapper.Map<List<AppUser>, List<UserDto>>(followers);
+            return _mapper.Map<List<AppUser>, List<User>>(followers);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TravelBug.Infrastructure
 {
     public interface IRegisterService
     {
-        Task<UserDto> Register(RegisterInput input);
+        Task<User> Register(RegisterInput input);
     }
 
     public class RegisterInput
@@ -38,7 +38,7 @@ namespace TravelBug.Infrastructure
             _context = context;
         }
 
-        public async Task<UserDto> Register(RegisterInput request)
+        public async Task<User> Register(RegisterInput request)
         {
             if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
@@ -53,17 +53,14 @@ namespace TravelBug.Infrastructure
                 UserName = request.Username
             };
 
+            var refreshToken = _jwtGenerator.GenerateRefreshToken();
+            user.RefreshTokens.Add(refreshToken);
+
             var result = await _userManager.CreateAsync(user, request.Password);
 
             if (result.Succeeded)
             {
-                return new UserDto
-                {
-                    DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(user),
-                    Username = user.UserName,
-                    //Photo = user.UserPhoto.Url
-                };
+                return new User(user, _jwtGenerator, refreshToken.Token);
             }
             throw new Exception("Problem creating user");
         }

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
+using TravelBug.Entities.UserData;
 
-namespace TravelBug.Entities
+namespace TravelBug.Infrastructure
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<Blog, BlogDto>();
+            CreateMap<AppUser, User>();
         }
     }
 }

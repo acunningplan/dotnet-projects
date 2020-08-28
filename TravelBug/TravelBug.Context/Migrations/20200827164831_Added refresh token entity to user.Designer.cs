@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TravelBug.Context;
 
 namespace TravelBug.Context.Migrations
 {
     [DbContext(typeof(TravelBugContext))]
-    partial class TravelBugContextModelSnapshot : ModelSnapshot
+    [Migration("20200827164831_Added refresh token entity to user")]
+    partial class Addedrefreshtokenentitytouser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,9 +265,6 @@ namespace TravelBug.Context.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PhotoId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -275,6 +274,9 @@ namespace TravelBug.Context.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+
+                    b.Property<string>("UserPhotoId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -286,7 +288,7 @@ namespace TravelBug.Context.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("PhotoId");
+                    b.HasIndex("UserPhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -414,9 +416,9 @@ namespace TravelBug.Context.Migrations
 
             modelBuilder.Entity("TravelBug.Entities.UserData.AppUser", b =>
                 {
-                    b.HasOne("TravelBug.Entities.UserData.UserPhoto", "Photo")
+                    b.HasOne("TravelBug.Entities.UserData.UserPhoto", "UserPhoto")
                         .WithMany()
-                        .HasForeignKey("PhotoId");
+                        .HasForeignKey("UserPhotoId");
                 });
 
             modelBuilder.Entity("TravelBug.Entities.UserData.RefreshToken", b =>
