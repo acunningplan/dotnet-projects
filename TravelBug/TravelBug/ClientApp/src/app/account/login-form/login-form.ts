@@ -1,4 +1,4 @@
-class LoginForm {
+export class LoginForm {
   constructor() {}
   email: string;
   password: string;

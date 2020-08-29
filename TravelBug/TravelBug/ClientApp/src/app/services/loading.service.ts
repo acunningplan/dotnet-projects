@@ -5,7 +5,7 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class LoadingService {
-  loading: Subject<boolean>;
+  loading = new Subject<boolean>();
 
   constructor() {}
 }

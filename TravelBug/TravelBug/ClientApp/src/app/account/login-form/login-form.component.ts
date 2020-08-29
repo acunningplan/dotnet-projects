@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoadingService } from "src/app/services/loading.service";
-import { HttpClient } from "@angular/common/http";
 import { AccountService } from "src/app/services/account.service";
-// import LoginForm from "./login-form";
+import { LoginForm } from "./login-form";
 
 @Component({
   selector: "app-login-form",
@@ -20,7 +19,6 @@ export class LoginFormComponent {
   constructor(
     private router: Router,
     private loadingService: LoadingService,
-    private httpClient: HttpClient,
     private accountService: AccountService
   ) {}
 
@@ -35,21 +33,20 @@ export class LoginFormComponent {
     this.loadingService.loading.next(true);
 
     if (this.login) {
-      this.accountService.signIn(this.loginForm).subscribe((loginResponse) => {
-        this.router.navigate(["/"]);
-      });
+      this.accountService.signIn(this.loginForm).subscribe(this.postLogin);
     } else {
-      
+      this.accountService.register(this.loginForm).subscribe(this.postLogin);
     }
+  }
+
+  private postLogin(res: LoginResponse) {
+    window.localStorage.setItem("travelBug:Token", res.token);
+    window.localStorage.setItem("travelBug:RefreshToken", res.refreshToken);
+    window.localStorage.setItem("travelBug:Username", res.username);
+    this.router.navigate(["/"]);
   }
 
   newForm() {
     this.loginForm = new LoginForm();
   }
-}
-
-class LoginForm {
-  email: string;
-  password: string;
-  confirmPassword: string;
 }
