@@ -1,0 +1,40 @@
+/* .hover-white {
+  color: white;
+}
+.hover-white:hover {
+  color: white;
+} */
+
+.social-login-mt {
+  margin-top: 30px;
+}
+
+.social-login-box {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.google {
+  background: rgb(255, 83, 83);
+  color: white;
+}
+
+.fa-google {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.facebook {
+  background: #2551ca;
+  color: white;
+}
+
+.fa-facebook {
+  padding: 5px;
+  margin-right: 5px;
+}

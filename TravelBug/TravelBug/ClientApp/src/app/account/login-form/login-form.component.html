@@ -1,0 +1,80 @@
+<div class="login-container">
+  <div class="row justify-content-center">
+    <h1 *ngIf="!login">Sign up</h1>
+    <h1 *ngIf="login">Login</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-xs-12 col-md-8">
+      <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            email
+            required
+            [(ngModel)]="loginForm.email"
+            name="email"
+            #email="ngModel"
+          />
+          <div
+            [hidden]="email.valid || email.pristine"
+            class="alert alert-danger"
+          >
+            Email is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            required
+            [(ngModel)]="loginForm.password"
+            name="password"
+            #password="ngModel"
+          />
+          <div
+            [hidden]="password.valid || password.pristine"
+            class="alert alert-danger"
+          >
+            Password is required
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="!login">
+          <label for="confirmPassword">Confirm password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            required
+            [(ngModel)]="loginForm.confirmPassword"
+            name="confirmPassword"
+            #confirmPassword="ngModel"
+          />
+          <div [hidden]="!warning" class="alert alert-danger">
+            {{ warningMessage }}
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="!emailForm.form.valid"
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="newForm(); emailForm.reset()"
+        >
+          Reset
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
