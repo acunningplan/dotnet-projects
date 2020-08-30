@@ -11,7 +11,7 @@ using TravelBug.Infrastructure;
 using TravelBug.Infrastructure.Exceptions;
 using TravelBug.Infrastructure.PhotoLogic;
 
-namespace PhotoServices
+namespace TravelBug.PhotoServices
 {
     public class PhotoService : IPhotoService
     {

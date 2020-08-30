@@ -3,6 +3,8 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 
+ENV travel_bug_token_key=travel_bug_secret
+
 RUN apt-get update -y
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq
@@ -19,10 +21,12 @@ RUN apt-get install nodejs -yq
 
 
 COPY ["TravelBug/TravelBug.Web.csproj", "TravelBug/"]
-COPY ["TravelBug.BusinessLogic/TravelBug.BusinessLogic.csproj", "TravelBug.BusinessLogic/"]
+COPY ["TravelBug.Infrastructure/TravelBug.Infrastructure.csproj", "TravelBug.Infrastructure/"]
 COPY ["TravelBug.Context/TravelBug.Context.csproj", "TravelBug.Context/"]
 COPY ["TravelBug.Entities/TravelBug.Entities.csproj", "TravelBug.Entities/"]
 COPY ["TravelBug.Services/TravelBug.CrudServices.csproj", "TravelBug.Services/"]
+COPY ["TravelBug.PhotoServices/TravelBug.PhotoServices.csproj", "TravelBug.PhotoServices/"]
+COPY ["TravelBug.FollowingServices/TravelBug.FollowingServices.csproj", "TravelBug.FollowingServices/"]
 RUN dotnet restore "TravelBug/TravelBug.Web.csproj"
 COPY . .
 WORKDIR "/src/TravelBug"
