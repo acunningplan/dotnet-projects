@@ -36,7 +36,7 @@ namespace TravelBug.Infrastructure
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(100),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds
             };
 

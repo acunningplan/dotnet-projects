@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelBug.CrudServices;
 using TravelBug.Entities;
@@ -12,18 +13,19 @@ namespace TravelBug.Controllers
     [Route("api/blog")]
     public class BlogController : CrudController<Blog, BlogDto>
     {
+        private readonly IBlogService _blogService;
         public BlogController(IBlogService blogService) : base(blogService)
         {
+            _blogService = blogService;
         }
 
-        public override async Task<IActionResult> ReadAsync(Guid id)
+        [HttpGet]
+        public async Task<List<BlogDto>> GetBlogs()
         {
-            var blog = await _service.ReadAsync(id);
-
-            if (blog == null) return NotFound();
-
-            return Ok(blog);
+            var blogsToReturn = await _blogService.ReadManyAsync();
+            return blogsToReturn;
         }
+
 
         [Authorize(Policy = "IsBlogAuthor")]
         public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
