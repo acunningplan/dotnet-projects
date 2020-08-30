@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 using AutoMapper;
 using TravelBug.Entities;
 using TravelBug.Infrastructure.PhotoLogic;
-using PhotoServices;
+using TravelBug.PhotoServices;
 using System.Net.Http;
 using TravelBug.Infrastructure.UserLogic;
 

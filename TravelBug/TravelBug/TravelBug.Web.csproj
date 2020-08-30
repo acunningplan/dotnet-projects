@@ -39,7 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\PhotoServices\TravelBug.PhotoServices.csproj" />
+        <ProjectReference Include="..\TravelBug.PhotoServices\TravelBug.PhotoServices.csproj" />
         <ProjectReference Include="..\TravelBug.Infrastructure\TravelBug.Infrastructure.csproj" />
         <ProjectReference Include="..\TravelBug.FollowingServices\TravelBug.FollowingServices.csproj" />
         <ProjectReference Include="..\TravelBug.Services\TravelBug.CrudServices.csproj" />

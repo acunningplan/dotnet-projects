@@ -3,6 +3,8 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 
+ENV travel_bug_token_key=travel_bug_secret
+
 RUN apt-get update -y
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash --debug
 RUN apt-get install nodejs -yq

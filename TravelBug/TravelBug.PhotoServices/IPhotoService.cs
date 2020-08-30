@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PhotoServices
+namespace TravelBug.PhotoServices
 {
     public interface IPhotoService
     {
