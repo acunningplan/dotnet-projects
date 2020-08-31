@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Router } from "@angular/router";
 import { AccountService } from "../services/account.service";
 
 @Component({
@@ -14,15 +12,10 @@ export class AccountComponent implements OnInit {
   loggedIn: boolean;
   username: string;
 
-  constructor(
-    private accountService: AccountService,
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.loggedIn = window.localStorage.getItem("travelBugToken") != null;
-    this.profile = this.accountService.getProfile();
+    this.loggedIn = this.accountService.hasToken;
     this.username = this.profile ? this.profile.username : "Guest";
   }
 

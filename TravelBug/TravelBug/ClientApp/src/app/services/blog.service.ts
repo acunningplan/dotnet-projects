@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Blog } from '../blogs/blog';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Blog } from "../blogs/blog";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BlogService {
   blogs: Blog[] = [];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   postBlog(blog: Blog) {
-    return this.httpClient.post("/api/blog/", blog)
+    return this.httpClient.post(`${environment.apiUrl}/blog/`, blog);
   }
 
   showBlogs() {
@@ -19,18 +20,20 @@ export class BlogService {
   }
 
   fetchBlogs() {
-    return this.httpClient.get<{blogs: Blog[]}>(`/api/blog/`)
+    return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/`);
   }
 
   getBlog(blogId: string) {
-    return this.httpClient.get<{blog: Blog}>(`/api/blog/${blogId}`);
+    return this.httpClient.get<{ blog: Blog }>(
+      `${environment.apiUrl}/blog/${blogId}`
+    );
   }
 
   patchBlog(blogId: string, blog: Blog) {
-    return this.httpClient.patch(`/api/blog/${blogId}`, blog);
+    return this.httpClient.patch(`${environment.apiUrl}/blog/${blogId}`, blog);
   }
 
   deleteBlog(blogId: string) {
-    return this.httpClient.delete(`/api/blog/${blogId}`)
+    return this.httpClient.delete(`${environment.apiUrl}/blog/${blogId}`);
   }
 }

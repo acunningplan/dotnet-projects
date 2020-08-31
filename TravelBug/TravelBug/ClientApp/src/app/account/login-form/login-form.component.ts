@@ -33,17 +33,27 @@ export class LoginFormComponent {
     this.loadingService.loading.next(true);
 
     if (this.login) {
-      this.accountService.signIn(this.loginForm).subscribe(this.postLogin);
+      this.accountService.signIn(this.loginForm).subscribe((res) => {
+        this.postLogin(res);
+      });
     } else {
-      this.accountService.register(this.loginForm).subscribe(this.postLogin);
+      this.accountService.register(this.loginForm).subscribe((res) => {
+        this.postLogin(res);
+      });
     }
   }
 
   private postLogin(res: LoginResponse) {
-    window.localStorage.setItem("travelBug:Token", res.token);
-    window.localStorage.setItem("travelBug:RefreshToken", res.refreshToken);
-    window.localStorage.setItem("travelBug:Username", res.username);
-    this.router.navigate(["/"]);
+    const { token, refreshToken, username } = res;
+    if (token) {
+      localStorage.setItem("travelBug:Token", token);
+      localStorage.setItem("travelBug:RefreshToken", refreshToken);
+      localStorage.setItem("travelBug:Username", username);
+
+      this.accountService.loginStatus.next(true);
+
+      this.router.navigate(["/"]);
+    }
   }
 
   newForm() {

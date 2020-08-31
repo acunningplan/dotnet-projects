@@ -1,4 +1,5 @@
 <ul class="list-group">
+  <div *ngIf="!blogs">No blogs to show.</div>
   <li *ngFor="let blog of blogs" class="list-group-item">
     <app-blog-detail *ngFor="let blog of blogs" [blog]="blog"></app-blog-detail>
   </li>

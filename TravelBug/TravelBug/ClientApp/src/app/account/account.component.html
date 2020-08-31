@@ -1,25 +1,10 @@
-<h2 *ngIf="loggedIn">{{ username }}</h2>
-
-<h5 *ngIf="loggedIn">Log in</h5>
-
-<app-login-form [login]="login" *ngIf="!loggedIn"></app-login-form>
+<app-login-form [login]="login"></app-login-form>
 
 <div class="row justify-content-center">
-  <a class="login-toggle" (click)="loginToggle()">
+  <a (click)="loginToggle()" class="login-toggle">
     <u *ngIf="!login">Login</u>
     <u *ngIf="login">Sign up</u>
   </a>
 </div>
 
 <app-social-login></app-social-login>
-
-<button
-  type="button"
-  class="btn btn-primary"
-  (click)="signOut()"
-  *ngIf="loggedIn === true"
-  mat-flat-button
-  color="primary"
->
-  Sign Out
-</button>

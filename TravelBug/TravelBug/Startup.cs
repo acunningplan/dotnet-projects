@@ -61,6 +61,17 @@ namespace TravelBug
                           .AllowAnyHeader();
                     })
             );
+
+            //services.AddCors(options =>
+            //    options.AddPolicy(name: "newPolicy",
+            //        builder =>
+            //        {
+            //            builder.WithOrigins("http://localhost:5000", "https://localhost:5001")
+            //              .AllowAnyMethod()
+            //              .AllowAnyHeader();
+            //        })
+            //);
+
             services.AddAutoMapper(typeof(User), typeof(BlogService));
             services.AddControllersWithViews(opt =>
             {
@@ -150,6 +161,8 @@ namespace TravelBug
             }
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
+            app.UseCors();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -158,7 +171,7 @@ namespace TravelBug
             }
 
             app.UseRouting();
-            app.UseCors();
+            //app.UseCors("newPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

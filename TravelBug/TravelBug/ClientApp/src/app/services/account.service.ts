@@ -2,17 +2,20 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { LoginForm } from "../account/login-form/login-form";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class AccountService {
+  loginStatus = new Subject<boolean>();
+
   constructor(private router: Router, private httpClient: HttpClient) {}
 
   private profile: Profile;
 
-  getProfile() {
-    return this.profile;
+  get hasToken() {
+    return !!localStorage.getItem("travelBug:Token");
   }
 
   signIn(loginForm: LoginForm) {
@@ -24,9 +27,10 @@ export class AccountService {
   }
 
   signOut() {
-    this.profile = null;
+    this.loginStatus.next(false);
     this.router.navigate(["/"]);
-    window.localStorage.removeItem("travelBugToken");
-    window.localStorage.removeItem("travelBugUsername");
+    window.localStorage.removeItem("travelBug:Token");
+    window.localStorage.removeItem("travelBug:RefreshToken");
+    window.localStorage.removeItem("travelBug:Username");
   }
 }
