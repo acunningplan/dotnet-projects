@@ -5,7 +5,7 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-xs-12 col-md-8">
-      <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
+      <form (ngSubmit)="onSubmit(email, password, confirmPassword)" #emailForm="ngForm">
         <div class="form-group">
           <label for="email">Email</label>
           <input
@@ -18,12 +18,6 @@
             name="email"
             #email="ngModel"
           />
-          <div
-            [hidden]="email.valid || email.pristine"
-            class="alert alert-danger"
-          >
-            Email is required
-          </div>
         </div>
 
         <div class="form-group">
@@ -37,12 +31,6 @@
             name="password"
             #password="ngModel"
           />
-          <div
-            [hidden]="password.valid || password.pristine"
-            class="alert alert-danger"
-          >
-            Password is required
-          </div>
         </div>
 
         <div class="form-group" *ngIf="!login">
@@ -56,24 +44,27 @@
             name="confirmPassword"
             #confirmPassword="ngModel"
           />
-          <div [hidden]="!warning" class="alert alert-danger">
-            {{ warningMessage }}
-          </div>
         </div>
         <button
           type="submit"
           class="btn btn-success"
-          [disabled]="!emailForm.form.valid"
         >
           Submit
         </button>
         <button
           type="button"
           class="btn btn-default"
-          (click)="newForm(); emailForm.reset()"
+          (click)="newForm(); emailForm.reset(); warning = null"
         >
           Reset
         </button>
+
+        <div
+          [hidden]="!warning"
+          class="alert alert-danger warning-banner"
+        >
+          {{warning}}
+        </div>
       </form>
     </div>
   </div>
