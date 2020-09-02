@@ -2,15 +2,16 @@
   <h1>Social login:</h1>
 </div> -->
 <div class="row justify-content-center social-login-mt">
-  <button class="social-login-box google" (click)="signInWithGoogle()">
+  <button (click)="signInWithGoogle()" class="social-login-box google">
     <i class="fab fa-google fa-lg"></i>
     Login by Google
   </button>
 
-  <button class="social-login-box facebook" (click)="signInWithFB()">
+  <button (click)="signInWithFB()" class="social-login-box facebook">
     <i class="fab fa-facebook fa-lg"></i>
     Login by Facebook
   </button>
   <!-- <i class="fab fa-facebook-f hover-white" target="_blank" href=""></i>
   <i class="fab fa-twitter hover-white" target="_blank" href=""></i> -->
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
 </div>

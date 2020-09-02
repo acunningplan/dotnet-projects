@@ -3,6 +3,8 @@ import { AccountService } from "../services/account.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { FetchDataService } from "../services/fetch-data.service";
+import { HttpClient } from "@angular/common/http";
+import { Blog } from "../blogs/blog";
 
 @Component({
   selector: "app-nav-menu",
@@ -21,6 +23,8 @@ export class NavMenuComponent implements OnInit {
     this.loginSub = this.accountService.loginStatus.subscribe((loginStatus) => {
       this.isLoggedIn = loginStatus;
     });
+
+
   }
 
   loadAndRedirect(route: string) {

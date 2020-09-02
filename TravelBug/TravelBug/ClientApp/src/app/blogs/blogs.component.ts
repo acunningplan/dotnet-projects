@@ -4,6 +4,9 @@ import { BlogService } from "../services/blog.service";
 import { FetchDataService } from "../services/fetch-data.service";
 import { SiteData } from "../models/site-data";
 import { Subscription } from "rxjs";
+import { environment } from "src/environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-blogs",
@@ -14,17 +17,16 @@ export class BlogsComponent implements OnInit, OnDestroy {
   siteDataSub: Subscription;
   blogs: Blog[];
 
-  constructor(private fetchDataService: FetchDataService) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.siteDataSub = this.fetchDataService.data.subscribe((data) => {
+    this.activatedRoute.data.subscribe((data: { blogs: Blog[] }) => {
+      console.log(data);
       this.blogs = data.blogs;
-      console.log("Changing blogs");
     });
-    // this.blogs = this.blogService.showBlogs();
   }
 
   ngOnDestroy() {
-    this.siteDataSub!.unsubscribe();
+    // this.siteDataSub!.unsubscribe();
   }
 }

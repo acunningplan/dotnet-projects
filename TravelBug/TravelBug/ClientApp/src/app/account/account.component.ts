@@ -10,13 +10,11 @@ export class AccountComponent implements OnInit {
   profile: Profile;
   login = true;
   loggedIn: boolean;
-  username: string;
 
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
     this.loggedIn = this.accountService.hasToken;
-    this.username = this.profile ? this.profile.username : "Guest";
   }
 
   loginToggle() {

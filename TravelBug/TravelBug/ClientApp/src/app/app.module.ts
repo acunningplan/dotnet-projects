@@ -18,6 +18,7 @@ import { AuthInterceptorService } from "./interceptors/auth-interceptor.service"
 import { ProfileComponent } from "./profile/profile.component";
 import { UserSectionComponent } from "./profile/user-section/user-section.component";
 import { BlogSectionComponent } from "./profile/blog-section/blog-section.component";
+import { BlogListResolverService } from "./services/blog-list-resolver.service";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,11 @@ import { BlogSectionComponent } from "./profile/blog-section/blog-section.compon
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "account", component: AccountComponent },
       { path: "profile", component: ProfileComponent },
-      { path: "blogs", component: BlogsComponent },
+      {
+        path: "blogs",
+        component: BlogsComponent,
+        resolve: { blogs: BlogListResolverService },
+      },
       { path: "blog", component: BlogPageComponent },
     ]),
   ],
