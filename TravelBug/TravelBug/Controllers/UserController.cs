@@ -36,6 +36,22 @@ namespace TravelBug.Web.Controllers
             return await _registerService.Register(registerInput);
         }
 
+        //[AllowAnonymous]
+        //[HttpPost("google")]
+        //public async Task<ActionResult<User>> GoogleLogin(string accessToken)
+        //{
+
+        //    //return await _loginService.Login(loginInput);
+        //}
+
+        //[AllowAnonymous]
+        //[HttpPost("facebook")]
+        //public async Task<ActionResult<User>> FacebookLogin(string accessToken)
+        //{
+
+        //    //return await _loginService.Login(loginInput);
+        //}
+
         [HttpPost("refreshToken")]
         public async Task<User> RefreshToken(string refreshToken)
         {

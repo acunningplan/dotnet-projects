@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../services/account.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-account",
@@ -7,7 +8,7 @@ import { AccountService } from "../services/account.service";
   styleUrls: ["./account.component.css"],
 })
 export class AccountComponent implements OnInit {
-  profile: Profile;
+  profileSub: Subscription;
   login = true;
   loggedIn: boolean;
 
@@ -15,6 +16,9 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.loggedIn = this.accountService.hasToken;
+    this.profileSub = this.accountService.profileSubject.subscribe((profile) =>
+      console.log(`User ${profile.name} has just logged in.`)
+    );
   }
 
   loginToggle() {

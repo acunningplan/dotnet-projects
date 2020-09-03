@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { LoginForm } from "../account/login-form/login-form";
 import { Subject } from "rxjs";
+import { Profile } from "../models/profiles";
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +13,7 @@ export class AccountService {
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
-  private profile: Profile;
+  profileSubject = new Subject<Profile>();
 
   get hasToken() {
     return !!localStorage.getItem("travelBug:Token");

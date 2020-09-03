@@ -1,41 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { environment } from "src/environments/environment";
+import { AccountService } from "src/app/services/account.service";
+import { GoogleProfile } from "../../models/profiles";
+// import "@types/gapi2";
+// import "@types/gapi2.auth2";
+// declare const gapi: any;
+// const gapi = require("gapi");
 
 @Component({
-  selector: 'app-social-login',
-  templateUrl: './social-login.component.html',
-  styleUrls: ['./social-login.component.css']
+  selector: "app-social-login",
+  templateUrl: "./social-login.component.html",
+  styleUrls: ["./social-login.component.css"],
 })
 export class SocialLoginComponent implements OnInit {
-
-  constructor() { }
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
+    this.googleInit();
   }
 
-  sendToken(authToken, path) {
-    // this.http
-    //   .post<signInResponse>(`${environment.serverUrl}/user/${path}`, {
-    //     AccessToken: authToken,
-    //   })
-    //   .subscribe((res) => {
-    //     this.router.navigate(["/"]);
-    //     window.localStorage.setItem("travelBugToken", res.token);
-    //     window.localStorage.setItem("travelBugUsername", res.displayName);
-    //     this.accountService.loggedInStatus.next();
-    //   });
+  private googleInit() {
+    gapi.load("auth2", () => {
+      let auth2 = gapi.auth2.init({
+        client_id: `${environment.googleClientId}.apps.googleusercontent.com`,
+        cookie_policy: "single_host_origin",
+        scope: "profile email",
+      });
+      let googleBtn = document.getElementById("googleBtn");
+
+      auth2.attachClickHandler(
+        googleBtn,
+        {},
+        (googleUser) => {
+          let basicProfile = googleUser.getBasicProfile();
+
+          let googleProfile = new GoogleProfile(basicProfile);
+          this.accountService.profileSubject.next(googleProfile);
+        },
+        () => console.log("Cannot get profile.")
+      );
+    });
   }
 
-  signInWithFB() {
-    // this.accountService
-    //   .signIn(FacebookLoginProvider.PROVIDER_ID).then((res) => {
-    //   // console.log(res.authToken);
-    //   this.sendToken(res.authToken, "facebook");
+  private fbLogin() {
+    // FB.login(function (response) {
+    //   if (response.authResponse) {
+    //     console.log("Welcome!  Fetching your information.... ");
+    //     FB.api("/me", function (response) {
+    //       console.log("Good to see you, " + response.name + ".");
+    //     });
+    //   } else {
+    //     console.log("User cancelled login or did not fully authorize.");
+    //   }
     // });
-  }
-
-  signInWithGoogle() {
-    // this.accountService
-    //   .signIn(GoogleLoginProvider.PROVIDER_ID)
-    //   .then((res) => this.sendToken(res.authToken, "google"));
   }
 }
