@@ -11,7 +11,6 @@ namespace TravelBug.Entities.UserData
         public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
         public virtual ICollection<UserFollowing> Followings { get; set; } = new List<UserFollowing>();
         public virtual ICollection<UserFollowing> Followers { get; set; } = new List<UserFollowing>();
-
-        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

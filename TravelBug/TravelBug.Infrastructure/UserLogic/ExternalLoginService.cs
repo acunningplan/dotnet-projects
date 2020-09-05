@@ -1,17 +1,20 @@
 using Microsoft.AspNetCore.Identity;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
 namespace TravelBug.Infrastructure
 {
-    public class ExternalLogin
+    public class ExternalLoginService : IExternalLoginService
     {
-        public class Query
+        public class UserData
         {
             public string AccessToken { get; set; }
+            public string Id { get; set; }
+            public string Email { get; set; }
+            public string Username { get; set; }
+            public string PhotoUrl { get; set; }
         }
 
         private readonly UserManager<AppUser> _userManager;
@@ -19,21 +22,16 @@ namespace TravelBug.Infrastructure
 
         //private readonly IFacebookAccessor _facebookAccessor;
         //private readonly IJwtGenerator _jwtGenerator;
-        public ExternalLogin(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
+        public ExternalLoginService(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
         {
             _userManager = userManager;
             _jwtGenerator = jwtGenerator;
         }
 
-        public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<User> SaveUser(UserData userData, string socialMedia)
         {
-            var userInfo = new AppUser();
-            //var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
 
-            if (userInfo == null)
-                throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
-
-            var user = await _userManager.FindByEmailAsync(userInfo.Email);
+            var user = await _userManager.FindByEmailAsync(userData.Email);
 
             var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
@@ -48,19 +46,20 @@ namespace TravelBug.Infrastructure
             user = new AppUser
             {
                 //DisplayName = userInfo.Name,
-                Id = userInfo.Id,
-                Email = userInfo.Email,
-                UserName = "fb_" + userInfo.Id
+                Id = userData.Id,
+                Email = userData.Email,
+                UserName = $"{socialMedia}_" + userData.Id
             };
 
             var photo = new UserPhoto
             {
-                Id = "fb_" + userInfo.Id,
-                Url = userInfo.Photo.Url,
+                Id = $"{socialMedia}_" + userData.Id,
+                Url = userData.PhotoUrl,
             };
 
             user.Photo = photo;
             user.RefreshTokens.Add(refreshToken);
+            user.DisplayName = userData.Username;
 
             var result = await _userManager.CreateAsync(user);
 

@@ -1,13 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
+import { FbLoginResponse, UserData } from "./login-types";
 import { AccountService } from "src/app/services/account.service";
-import { GoogleProfile } from "../../models/profiles";
-import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
-// import "@types/gapi2";
-// import "@types/gapi2.auth2";
-// declare const gapi: any;
-// const gapi = require("gapi");
 
 @Component({
   selector: "app-social-login",
@@ -15,15 +9,10 @@ import { HttpClient } from "@angular/common/http";
   styleUrls: ["./social-login.component.css"],
 })
 export class SocialLoginComponent implements OnInit {
-  constructor(
-    private accountService: AccountService,
-    private router: Router,
-    private httpClient: HttpClient
-  ) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit() {
     this.googleInit();
-    FB.init({ appId: environment.fbAppId });
   }
 
   private googleInit() {
@@ -38,45 +27,47 @@ export class SocialLoginComponent implements OnInit {
       auth2.attachClickHandler(
         googleBtn,
         {},
-        (googleUser) => {
+        (googleUser: gapi.auth2.GoogleUser) => {
           let basicProfile = googleUser.getBasicProfile();
+          let authResponse = googleUser.getAuthResponse();
 
-          let googleProfile = new GoogleProfile(basicProfile);
-          this.accountService.profileSubject.next(googleProfile);
+          let userData = new UserData();
+          userData.accessToken = authResponse.access_token;
+          userData.email = basicProfile.getEmail();
+          userData.id = basicProfile.getId();
+          userData.photoUrl = basicProfile.getImageUrl();
+          userData.username = basicProfile.getName();
+
+          console.log(userData);
+
+          this.accountService.socialLogin(userData, "google");
         },
-        () => console.log("Cannot get profile.")
+        () => console.log("Login failed.")
       );
     });
   }
 
+  // 1. Login to facebook
+  // 2. Use accesstoken to request user data
+  // 3. Save data to service and navigate to home page / blogs
   fbLogin() {
-    FB.login((response) => {
-      console.log(response);
-      // this.router.navigate(["/"]);
+    FB.login((res) => {
+      let { accessToken } = res.authResponse;
+      FB.api(
+        "/me",
+        { fields: "name, email, picture.width(300)" },
+        (res: FbLoginResponse) => {
+          // let userData = new FbUserData(accessToken, res);
+          let userData = new UserData();
+          userData.accessToken = accessToken;
+          userData.email = res.email;
+          userData.id = res.id;
+          userData.photoUrl = res.picture.data.url;
+          userData.username = res.name;
 
-      FB.api("/me", (res) => console.log(res));
-
-      // const url = `https://graph.facebook.com/${response.authResponse.userID}?fields=id,name,birthday,email&access_token=${response.authResponse.accessToken}`;
-
-      // console.log(url);
-
-      // this.httpClient.get(url).subscribe((res) => {
-      //   console.log(res);
-      //   FB.logout((res) => {
-      //     console.log(res);
-      //     // window.location.reload();
-      //   });
-      // });
+          this.accountService.socialLogin(userData, "facebook");
+        }
+      );
     });
-    // FB.login(function (response) {
-    //   if (response.authResponse) {
-    //     console.log("Welcome!  Fetching your information.... ");
-    //     FB.api("/me", function (response) {
-    //       console.log("Good to see you, " + response.name + ".");
-    //     });
-    //   } else {
-    //     console.log("User cancelled login or did not fully authorize.");
-    //   }
-    // });
   }
 }

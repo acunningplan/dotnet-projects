@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Router } from "@angular/router";
 import { LoadingService } from "src/app/services/loading.service";
 import { AccountService } from "src/app/services/account.service";
 import { LoginForm } from "./login-form";
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ServerLoginResponse } from "src/app/models/serverLoginResponse";
 
 @Component({
   selector: "app-login-form",
@@ -18,7 +18,6 @@ export class LoginFormComponent {
   warning = null;
 
   constructor(
-    private router: Router,
     private loadingService: LoadingService,
     private accountService: AccountService
   ) {}
@@ -30,8 +29,8 @@ export class LoginFormComponent {
 
     if (this.login) {
       this.accountService.signIn(this.loginForm).subscribe(
-        (res) => {
-          this.postLogin(res);
+        (res: ServerLoginResponse) => {
+          this.accountService.postLogin(res);
         },
         (err: HttpErrorResponse) => {
           if (err.status == 401) this.warning = "Invalid email or password.";
@@ -39,12 +38,14 @@ export class LoginFormComponent {
         }
       );
     } else {
-      this.accountService.register(this.loginForm).subscribe((res) => {
-        this.postLogin(res);
-      },
-      (err: HttpErrorResponse) => {
-        this.warning = "Failed to sign up, please try again later.";
-      });
+      this.accountService.register(this.loginForm).subscribe(
+        (res: ServerLoginResponse) => {
+          this.accountService.postLogin(res);
+        },
+        (err: HttpErrorResponse) => {
+          this.warning = "Failed to sign up, please try again later.";
+        }
+      );
     }
   }
 
@@ -64,19 +65,6 @@ export class LoginFormComponent {
       return false;
     }
     return true;
-  }
-
-  private postLogin(res: LoginResponse) {
-    const { token, refreshToken, username } = res;
-    if (token) {
-      localStorage.setItem("travelBug:Token", token);
-      localStorage.setItem("travelBug:RefreshToken", refreshToken);
-      localStorage.setItem("travelBug:Username", username);
-
-      this.accountService.loginStatus.next(true);
-
-      this.router.navigate(["/"]);
-    }
   }
 
   newForm() {

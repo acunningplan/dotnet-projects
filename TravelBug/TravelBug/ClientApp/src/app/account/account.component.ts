@@ -9,7 +9,7 @@ import { Subscription } from "rxjs";
 })
 export class AccountComponent implements OnInit {
   profileSub: Subscription;
-  login = true;
+  loginMode = true;
   loggedIn: boolean;
 
   constructor(private accountService: AccountService) {}
@@ -22,7 +22,7 @@ export class AccountComponent implements OnInit {
   }
 
   loginToggle() {
-    this.login = !this.login;
+    this.loginMode = !this.loginMode;
   }
 
   signOut() {

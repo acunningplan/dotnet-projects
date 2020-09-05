@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
 import { AccountService } from "../services/account.service";
-import { UserService } from "../services/user.service";
 import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -12,13 +12,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   loginSub: Subscription;
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private route: ActivatedRoute,
+    private ngZone: NgZone
+  ) {
+    this.loginSub = this.accountService.loginStatus.subscribe((loginStatus) => {
+      this.ngZone.run(() => {
+        this.isLoggedIn = loginStatus;
+      });
+    });
+  }
 
   ngOnInit() {
     this.isLoggedIn = this.accountService.hasToken;
-    this.loginSub = this.accountService.loginStatus.subscribe((loginStatus) => {
-      this.isLoggedIn = loginStatus;
-    });
   }
 
   ngOnDestroy() {

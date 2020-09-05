@@ -141,6 +141,7 @@ namespace TravelBug
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IExternalLoginService, ExternalLoginService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IFollowingService, FollowingService>();
             services.AddScoped<IFollowerListingService, FollowerListingService>();

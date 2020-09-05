@@ -1,10 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { AccountService } from "../services/account.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { FetchDataService } from "../services/fetch-data.service";
-import { HttpClient } from "@angular/common/http";
-import { Blog } from "../blogs/blog";
 
 @Component({
   selector: "app-nav-menu",
@@ -16,15 +14,22 @@ export class NavMenuComponent implements OnInit {
   isLoggedIn: boolean;
   loginSub: Subscription;
 
-  constructor(private accountService: AccountService, private router: Router, private fetchDataService: FetchDataService) {}
+  constructor(
+    private accountService: AccountService,
+    private fetchDataService: FetchDataService,
+    private ngZone: NgZone
+  ) {
+    this.isLoggedIn = this.accountService.hasToken;
+  }
 
   ngOnInit() {
     this.isLoggedIn = this.accountService.hasToken;
     this.loginSub = this.accountService.loginStatus.subscribe((loginStatus) => {
-      this.isLoggedIn = loginStatus;
+      this.ngZone.run(() => {
+        console.log("Logged in");
+        this.isLoggedIn = loginStatus;
+      });
     });
-
-
   }
 
   loadAndRedirect(route: string) {
