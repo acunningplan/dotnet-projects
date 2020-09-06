@@ -31,6 +31,8 @@ using TravelBug.Infrastructure.PhotoLogic;
 using TravelBug.PhotoServices;
 using System.Net.Http;
 using TravelBug.Infrastructure.UserLogic;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace TravelBug
 {
@@ -102,7 +104,14 @@ namespace TravelBug
             services.TryAddSingleton<ISystemClock, SystemClock>();
 
             services
-                .AddIdentityCore<AppUser>()
+                .AddIdentityCore<AppUser>(options =>
+                {
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.SignIn.RequireConfirmedEmail = true;
+                })
                 .AddEntityFrameworkStores<TravelBugContext>()
                 //.AddRoles<IdentityRole>()
                 .AddUserManager<UserManager<AppUser>>()
@@ -146,8 +155,12 @@ namespace TravelBug
             services.AddScoped<IFollowingService, FollowingService>();
             services.AddScoped<IFollowerListingService, FollowerListingService>();
             services.AddScoped<IPhotoService, PhotoService>();
-
             services.AddScoped<IBlogService, BlogService>();
+
+            var mailKitOptions = Configuration.GetSection("MailKitOptions").Get<MailKitOptions>();
+            services.AddMailKit(options => options.UseMailKit(mailKitOptions));
+
+
             services.AddHttpClient();
 
             services.Configure<ImgurSettings>(Configuration.GetSection("Imgur"));

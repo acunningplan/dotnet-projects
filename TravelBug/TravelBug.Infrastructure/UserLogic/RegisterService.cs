@@ -1,21 +1,19 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using NETCore.MailKit.Core;
 using System;
 using System.Linq;
 using System.Net;
-using System.Threading;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using TravelBug.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using TravelBug.Context;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
 namespace TravelBug.Infrastructure
 {
-    public interface IRegisterService
-    {
-        Task<User> Register(RegisterInput input);
-    }
 
     public class RegisterInput
     {
@@ -24,21 +22,32 @@ namespace TravelBug.Infrastructure
         public string Email { get; set; }
         public string Password { get; set; }
     }
+
+    public interface IRegisterService
+    {
+        Task<string> GenerateEmailToken(AppUser user);
+        Task<AppUser> CreateNewUser(RegisterInput request);
+        Task<User> RegisterUser(AppUser user, string password);
+        Task SendEmail(string emailVerificationUrl);
+    }
+
     public class RegisterService : IRegisterService
     {
 
         private readonly TravelBugContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly IEmailService _emailService;
 
-        public RegisterService(TravelBugContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
+        public RegisterService(TravelBugContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator, IEmailService emailService)
         {
             _userManager = userManager;
             _jwtGenerator = jwtGenerator;
+            _emailService = emailService;
             _context = context;
         }
 
-        public async Task<User> Register(RegisterInput request)
+        public async Task<AppUser> CreateNewUser(RegisterInput request)
         {
             if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
@@ -46,17 +55,46 @@ namespace TravelBug.Infrastructure
             if (await _context.Users.Where(x => x.UserName == request.Username).AnyAsync())
                 throw new RestException(HttpStatusCode.BadRequest, new { Username = "Username already exists" });
 
-            var user = new AppUser
+            return new AppUser
             {
                 DisplayName = request.DisplayName,
                 Email = request.Email,
                 UserName = request.Username
             };
+        }
 
+        public async Task<string> GenerateEmailToken(AppUser user)
+        {
+            var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailToken));
+        }
+
+        public async Task SendEmail(string emailVerificationUrl)
+        {
+
+            if (_userManager.Options.SignIn.RequireConfirmedEmail)
+            {
+                var emailVerificationHtml = $"<a href='{HtmlEncoder.Default.Encode(emailVerificationUrl)}'>Verify Email Address!</a>";
+
+                await _emailService.SendAsync("test@email.com", "Email Verification", emailVerificationHtml, true);
+
+            }
+            else
+            {
+                throw new RestException(HttpStatusCode.BadRequest, new { Error = "Confirmation email not required." });
+                //var signInResult = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+                //if (!signInResult.Succeeded) { return BadRequest(); }
+
+                //return RedirectToAction("Profile");
+            }
+        }
+
+        public async Task<User> RegisterUser(AppUser user, string password)
+        {
             var refreshToken = _jwtGenerator.GenerateRefreshToken();
             user.RefreshTokens.Add(refreshToken);
 
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {

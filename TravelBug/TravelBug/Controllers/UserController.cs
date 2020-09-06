@@ -45,7 +45,21 @@ namespace TravelBug.Web.Controllers
         [HttpPost("register")]
         public async Task<User> Register(RegisterInput registerInput)
         {
-            return await _registerService.Register(registerInput);
+            var user = await _registerService.CreateNewUser(registerInput);
+
+            var emailToken = _registerService.GenerateEmailToken(user);
+
+            var emailVerificationUrl = Url
+                .Action(
+                    "VerifyEmail",
+                    "Home",
+                    new { userId = user.Id, emailToken },
+                    Request.Scheme,
+                    Request.Host.ToString());
+
+            await _registerService.SendEmail(emailVerificationUrl);
+
+            return await _registerService.RegisterUser(user, registerInput.Password);
         }
 
         //[AllowAnonymous]
