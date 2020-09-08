@@ -10,9 +10,12 @@ services:
   web:
     build:
       context: .
-      dockerfile: TravelBug/Dockerfile
+      dockerfile: TravelBug/run.Dockerfile
+    volumes:
+      - .:/src
     ports:
-      - "5000:80"
+      - "5000:5000"
+      - "25:25"
     depends_on:
       - db
     environment:

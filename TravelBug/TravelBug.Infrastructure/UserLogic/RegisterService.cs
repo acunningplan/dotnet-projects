@@ -28,7 +28,8 @@ namespace TravelBug.Infrastructure
         Task<string> GenerateEmailToken(AppUser user);
         Task<AppUser> CreateNewUser(RegisterInput request);
         Task<User> RegisterUser(AppUser user, string password);
-        Task SendEmail(string emailVerificationUrl);
+        Task SendEmail(string email, string emailVerificationUrl);
+        Task VerifyEmail(string userId, string emailToken);
     }
 
     public class RegisterService : IRegisterService
@@ -69,24 +70,24 @@ namespace TravelBug.Infrastructure
             return WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(emailToken));
         }
 
-        public async Task SendEmail(string emailVerificationUrl)
+        public async Task SendEmail(string email, string emailVerificationUrl)
         {
 
-            if (_userManager.Options.SignIn.RequireConfirmedEmail)
-            {
-                var emailVerificationHtml = $"<a href='{HtmlEncoder.Default.Encode(emailVerificationUrl)}'>Verify Email Address!</a>";
+            //if (_userManager.Options.SignIn.RequireConfirmedEmail)
+            //{
+            var emailVerificationHtml = $"<a href='{HtmlEncoder.Default.Encode("")}'>Verify Email Address!</a>";
 
-                await _emailService.SendAsync("test@email.com", "Email Verification", emailVerificationHtml, true);
+            await _emailService.SendAsync(email, "Email Verification", emailVerificationHtml, true);
 
-            }
-            else
-            {
-                throw new RestException(HttpStatusCode.BadRequest, new { Error = "Confirmation email not required." });
-                //var signInResult = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
-                //if (!signInResult.Succeeded) { return BadRequest(); }
+            //}
+            //else
+            //{
+            //    throw new RestException(HttpStatusCode.BadRequest, new { Error = "Confirmation email not required." });
+            //    //var signInResult = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+            //    //if (!signInResult.Succeeded) { return BadRequest(); }
 
-                //return RedirectToAction("Profile");
-            }
+            //    //return RedirectToAction("Profile");
+            //}
         }
 
         public async Task<User> RegisterUser(AppUser user, string password)
@@ -101,6 +102,21 @@ namespace TravelBug.Infrastructure
                 return new User(user, _jwtGenerator, refreshToken.Token);
             }
             throw new Exception("Problem creating user");
+
+        }
+
+        public async Task VerifyEmail(string userId, string emailToken)
+        {
+            if (userId == null || emailToken == null) 
+                throw new RestException(HttpStatusCode.BadRequest, new { Errors = "Invalid input" }); 
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) throw new Exception("Cannot find user");
+
+            emailToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(emailToken));
+
+            var result = await _userManager.ConfirmEmailAsync(user, emailToken);
+            if (!result.Succeeded) throw new Exception("Cannot confirm email.");
         }
     }
 }
