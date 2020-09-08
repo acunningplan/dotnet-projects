@@ -33,6 +33,7 @@ using System.Net.Http;
 using TravelBug.Infrastructure.UserLogic;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
+using TravelBug.Infrastructure.Email;
 
 namespace TravelBug
 {
@@ -115,7 +116,8 @@ namespace TravelBug
           .AddEntityFrameworkStores<TravelBugContext>()
           //.AddRoles<IdentityRole>()
           .AddUserManager<UserManager<AppUser>>()
-          .AddSignInManager<SignInManager<AppUser>>();
+          .AddSignInManager<SignInManager<AppUser>>()
+          .AddDefaultTokenProviders();
 
       services.AddAuthorization(opt =>
       {
@@ -156,12 +158,16 @@ namespace TravelBug
       services.AddScoped<IFollowerListingService, FollowerListingService>();
       services.AddScoped<IPhotoService, PhotoService>();
       services.AddScoped<IBlogService, BlogService>();
+      services.AddScoped<IEmailSender, EmailSender>();
+      services.AddScoped<IEmailConfirmation, EmailConfirmation>();
 
       var mailKitOptions = Configuration.GetSection("Email").Get<MailKitOptions>();
       services.AddMailKit(options => options.UseMailKit(mailKitOptions));
 
       services.AddHttpClient();
 
+
+            services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
       services.Configure<ImgurSettings>(Configuration.GetSection("Imgur"));
     }
 

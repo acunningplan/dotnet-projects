@@ -22,15 +22,17 @@ namespace TravelBug.Web.Controllers
         private readonly IRegisterService _registerService;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly IExternalLoginService _externalLogin;
+        private readonly IEmailConfirmation _emailConfirmation;
         private readonly IConfiguration _config;
 
-        public UserController(IHttpClientFactory httpClientFactory, ILoginService loginService, IRegisterService registerService, IRefreshTokenService refreshTokenService, IExternalLoginService externalLogin, IConfiguration config)
+        public UserController(IHttpClientFactory httpClientFactory, ILoginService loginService, IRegisterService registerService, IRefreshTokenService refreshTokenService, IExternalLoginService externalLogin, IEmailConfirmation emailConfirmation, IConfiguration config)
         {
             _httpClientFactory = httpClientFactory;
             _loginService = loginService;
             _registerService = registerService;
             _refreshTokenService = refreshTokenService;
             _externalLogin = externalLogin;
+            _emailConfirmation = emailConfirmation;
             _config = config;
         }
 
@@ -43,34 +45,31 @@ namespace TravelBug.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<string> Register(RegisterInput registerInput)
+        public async Task Register(RegisterInput registerInput)
         {
             var user = await _registerService.CreateNewUser(registerInput);
 
             var emailToken = _registerService.GenerateEmailToken(user);
 
-            var emailVerificationUrl = Url
-                .Action(
-                    "verify-email",
-                    "user",
-                    new { userId = user.Id, emailToken },
-                    Request.Scheme,
-                    Request.Host.ToString());
+            var emailVerificationUrl = $"{registerInput.Origin}/user/verify-email?token={emailToken}&email={registerInput.Email}";
 
             await _registerService.SendEmail(registerInput.Email, emailVerificationUrl);
 
             await _registerService.RegisterUser(user, registerInput.Password);
-
-            return emailVerificationUrl;
         }
 
         [AllowAnonymous]
         [HttpGet("verify-email")]
-        public async Task VerifyEmail(string userId, string emailToken)
+        public async Task VerifyEmail(VerifyEmailInput verifyEmailInput)
         {
-            await _registerService.VerifyEmail(userId, emailToken);
+            await _registerService.VerifyEmail(verifyEmailInput);
+        }
 
-            //return await _loginService.Login(new LoginInput() {});
+        [AllowAnonymous]
+        [HttpGet("resend-email-verification")]
+        public async Task ResendEmailVerification([FromQuery] ResendEmailInput input)
+        {
+            await _emailConfirmation.ResendEmail(input);
         }
 
         [AllowAnonymous]

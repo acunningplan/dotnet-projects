@@ -49,7 +49,8 @@ namespace TravelBug.Infrastructure
                 //DisplayName = userInfo.Name,
                 Id = userData.Id,
                 Email = userData.Email,
-                UserName = $"{socialMedia}_" + userData.Id
+                UserName = $"{socialMedia}_" + userData.Id,
+                EmailConfirmed = true
             };
 
             var photo = new UserPhoto
