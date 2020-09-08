@@ -110,7 +110,7 @@ namespace TravelBug
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
-                    options.SignIn.RequireConfirmedEmail = true;
+                    //options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<TravelBugContext>()
                 //.AddRoles<IdentityRole>()
