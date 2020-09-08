@@ -43,7 +43,7 @@ namespace TravelBug.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<User> Register(RegisterInput registerInput)
+        public async Task<string> Register(RegisterInput registerInput)
         {
             var user = await _registerService.CreateNewUser(registerInput);
 
@@ -51,24 +51,27 @@ namespace TravelBug.Web.Controllers
 
             var emailVerificationUrl = Url
                 .Action(
-                    "VerifyEmail",
-                    "Home",
+                    "verify-email",
+                    "user",
                     new { userId = user.Id, emailToken },
                     Request.Scheme,
                     Request.Host.ToString());
 
-            await _registerService.SendEmail(emailVerificationUrl);
+            await _registerService.SendEmail(registerInput.Email, emailVerificationUrl);
 
-            return await _registerService.RegisterUser(user, registerInput.Password);
+            await _registerService.RegisterUser(user, registerInput.Password);
+
+            return emailVerificationUrl;
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("google")]
-        //public async Task<ActionResult<User>> GoogleLogin(string accessToken)
-        //{
+        [AllowAnonymous]
+        [HttpGet("verify-email")]
+        public async Task VerifyEmail(string userId, string emailToken)
+        {
+            await _registerService.VerifyEmail(userId, emailToken);
 
-        //    //return await _loginService.Login(loginInput);
-        //}
+            //return await _loginService.Login(new LoginInput() {});
+        }
 
         [AllowAnonymous]
         [HttpPost("facebook-login")]

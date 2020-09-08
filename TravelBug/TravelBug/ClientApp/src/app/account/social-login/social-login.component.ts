@@ -38,8 +38,6 @@ export class SocialLoginComponent implements OnInit {
           userData.photoUrl = basicProfile.getImageUrl();
           userData.username = basicProfile.getName();
 
-          console.log(userData);
-
           this.accountService.socialLogin(userData, "google");
         },
         () => console.log("Login failed.")
