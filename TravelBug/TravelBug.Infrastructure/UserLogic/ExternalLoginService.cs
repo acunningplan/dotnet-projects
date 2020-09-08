@@ -35,6 +35,7 @@ namespace TravelBug.Infrastructure
 
             var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
+            // If there is an existing user with the same email, simply update the user with the refresh token
             if (user != null)
             {
                 user.RefreshTokens.Add(refreshToken);
@@ -42,7 +43,7 @@ namespace TravelBug.Infrastructure
                 return new User(user, _jwtGenerator, refreshToken.Token);
             }
 
-
+            // Otherwise, create the new user with info from social media and save to database
             user = new AppUser
             {
                 //DisplayName = userInfo.Name,
