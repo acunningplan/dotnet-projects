@@ -41,7 +41,8 @@ export class AccountService {
   }
 
   postLogin(res: ServerLoginResponse) {
-    if (res.token) {
+    console.log(res);
+    if (res && res.token) {
       localStorage.setItem("travelBug:Token", res.token);
       localStorage.setItem("travelBug:RefreshToken", res.refreshToken);
       localStorage.setItem("travelBug:Username", res.username);
