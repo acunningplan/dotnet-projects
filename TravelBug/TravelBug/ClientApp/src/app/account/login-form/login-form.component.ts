@@ -60,7 +60,7 @@ export class LoginFormComponent {
     } else if (!password.valid) {
       this.warning = "Make sure you enter a password.";
       return false;
-    } else if (!this.login && confirmPassword != password) {
+    } else if (!this.login && confirmPassword.value != password.value) {
       this.warning = "Make sure the passwords match.";
       return false;
     }
