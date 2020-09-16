@@ -111,7 +111,7 @@ namespace TravelBug
             options.Password.RequireDigit = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
-            // options.SignIn.RequireConfirmedEmail = true;
+            options.SignIn.RequireConfirmedEmail = true;
           })
           .AddEntityFrameworkStores<TravelBugContext>()
           //.AddRoles<IdentityRole>()
@@ -167,7 +167,7 @@ namespace TravelBug
       services.AddHttpClient();
 
 
-            services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
+      services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
       services.Configure<ImgurSettings>(Configuration.GetSection("Imgur"));
     }
 
