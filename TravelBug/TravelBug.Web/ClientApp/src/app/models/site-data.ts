@@ -1,4 +1,4 @@
-import { Blog } from "../blogs/blog";
+import { Blog } from "./blog";
 import { Profile } from "./profiles";
 
 export class SiteData {

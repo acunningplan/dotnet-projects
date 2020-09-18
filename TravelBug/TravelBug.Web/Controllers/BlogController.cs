@@ -26,6 +26,12 @@ namespace TravelBug.Controllers
       return blogsToReturn;
     }
 
+    [HttpGet("user")]
+    public async Task<List<BlogDto>> GetOwnBlogs()
+    {
+        var blogsToReturn = await _blogService.ReadOwnAsync();
+        return blogsToReturn;
+    }
 
     [Authorize(Policy = "IsBlogAuthor")]
     public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)

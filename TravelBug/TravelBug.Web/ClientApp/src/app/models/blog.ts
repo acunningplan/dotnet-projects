@@ -1,6 +1,6 @@
 export class Blog {
-  name: string;
-  location: string;
+  title: string;
   description: string;
+  location: string;
   date: Date;
 }

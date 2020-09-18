@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+  <div class="col-xs-12 col-md-8">
+    <form (ngSubmit)="onSubmit()" #blogForm="ngForm">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="description"
+          class="form-control"
+          id="description"
+          required
+          [(ngModel)]="blog.description"
+          name="description"
+          #username="ngModel"
+        />
+      </div>
+    </form>
+  </div>
+</div>

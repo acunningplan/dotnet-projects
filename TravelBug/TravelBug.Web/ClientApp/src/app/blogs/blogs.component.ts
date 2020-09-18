@@ -1,12 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Blog } from "./blog";
-import { BlogService } from "../services/blog.service";
-import { FetchDataService } from "../services/fetch-data.service";
-import { SiteData } from "../models/site-data";
+
 import { Subscription } from "rxjs";
-import { environment } from "src/environments/environment";
-import { HttpClient } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
+import { Blog } from "../models/blog";
 
 @Component({
   selector: "app-blogs",
@@ -15,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class BlogsComponent implements OnInit, OnDestroy {
   siteDataSub: Subscription;
-  blogs: Blog[];
+  blogs: Blog[] = null;
 
   constructor(private activatedRoute: ActivatedRoute) {}
 

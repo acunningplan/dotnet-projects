@@ -1,0 +1,6 @@
+<div *ngIf="!blogs || blogs.length === 0">No blogs to show.</div>
+<ul>
+  <li *ngFor="let blog of blogs">
+    {{ blog.description }}
+  </li>
+</ul>

@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Blog } from "../blogs/blog";
+
 import { Router } from "@angular/router";
 import { SiteData } from "../models/site-data";
 import { environment } from "src/environments/environment";
 import { Subject } from "rxjs";
+import { Blog } from "../models/blog";
 
 @Injectable({
   providedIn: "root",

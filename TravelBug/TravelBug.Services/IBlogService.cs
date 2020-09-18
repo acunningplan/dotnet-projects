@@ -4,8 +4,9 @@ using TravelBug.Entities;
 
 namespace TravelBug.CrudServices
 {
-    public interface IBlogService : IBaseService<Blog, BlogDto>
-    {
-        Task<List<BlogDto>> ReadManyAsync();
-    }
+  public interface IBlogService : IBaseService<Blog, BlogDto>
+  {
+    Task<List<BlogDto>> ReadManyAsync();
+    Task<List<BlogDto>> ReadOwnAsync();
+  }
 }

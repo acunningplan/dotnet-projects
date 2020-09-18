@@ -1,15 +1,34 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Blog } from "../blogs/blog";
+
 import { environment } from "src/environments/environment";
+import { Blog } from "../models/blog";
+import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class BlogService {
   blogs: Blog[] = [];
+  private currentBlog: Blog;
 
   constructor(private httpClient: HttpClient) {}
+
+  saveCurrentBlog(blog: Blog) {
+    this.currentBlog = blog;
+  }
+
+  fetchOwnBlogs() {
+    return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/user`).pipe(
+      tap((res) => {
+        console.log(res);
+      })
+    );
+  }
+
+  loadCurrentBlog() {
+    return this.currentBlog || new Blog();
+  }
 
   postBlog(blog: Blog) {
     return this.httpClient.post(`${environment.apiUrl}/blog/`, blog);
