@@ -47,12 +47,13 @@ namespace TravelBug.Web.Controllers
     [HttpPost("register")]
     public async Task Register(RegisterInput registerInput)
     {
-      var origin = registerInput.Origin;
+      // var origin = registerInput.Origin;
+      var origin = Request.Headers["origin"];
 
       var emailToken = await _registerService.GenerateEmailToken(registerInput);
 
-      //   var emailVerificationUrl = $"{origin}/user/verify-email?token={emailToken}&email={registerInput.Email}";
-      var emailVerificationUrl = $"http://localhost:5000/api/user/verify-email?token={emailToken}&email={registerInput.Email}";
+      var emailVerificationUrl = $"{origin}/verify-email?token={emailToken}&email={registerInput.Email}";
+      // var emailVerificationUrl = $"http://localhost:5000/api/user/verify-email?token={emailToken}&email={registerInput.Email}";
 
       await _registerService.SendEmail(registerInput.Email, emailVerificationUrl);
     }
@@ -65,8 +66,8 @@ namespace TravelBug.Web.Controllers
     }
 
     [AllowAnonymous]
-    [HttpGet("resend-email-verification")]
-    public async Task ResendEmailVerification([FromQuery] ResendEmailInput input)
+    [HttpPost("resend-email-verification")]
+    public async Task ResendEmailVerification(ResendEmailInput input)
     {
       input.Origin = Request.Headers["origin"];
       await _emailConfirmation.ResendEmail(input);

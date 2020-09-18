@@ -55,6 +55,12 @@ export class AccountService {
     }
   }
 
+  postRegister() {
+    this.ngZone.run(() => {
+      this.router.navigate(["/verify-email"])
+    });
+  }
+
   register(loginForm: LoginForm) {
     return this.httpClient.post<LoginResponse>("api/user/register", loginForm);
   }

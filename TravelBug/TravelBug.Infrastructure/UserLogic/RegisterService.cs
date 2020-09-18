@@ -22,7 +22,7 @@ namespace TravelBug.Infrastructure
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public string Origin { get; set; }
+    // public string Origin { get; set; }
   }
 
   public class VerifyEmailInput
@@ -115,7 +115,7 @@ namespace TravelBug.Infrastructure
       emailToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(emailToken));
 
       var result = await _userManager.ConfirmEmailAsync(user, emailToken);
-      if (!result.Succeeded) throw new Exception($"Cannot confirm email {email}---{emailToken}");
+      if (!result.Succeeded) throw new Exception($"Cannot confirm email");
     }
   }
 }

@@ -39,10 +39,9 @@ export class LoginFormComponent {
       );
     } else {
       this.accountService.register(this.loginForm).subscribe(
-        (res: ServerLoginResponse) => {
-          this.accountService.postLogin(res);
-        },
+        () => this.accountService.postRegister(),
         (err: HttpErrorResponse) => {
+          console.log(err);
           this.warning = "Failed to sign up, please try again later.";
         }
       );

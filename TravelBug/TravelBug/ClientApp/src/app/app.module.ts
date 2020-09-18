@@ -19,6 +19,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { UserSectionComponent } from "./profile/user-section/user-section.component";
 import { BlogSectionComponent } from "./profile/blog-section/blog-section.component";
 import { BlogListResolverService } from "./services/blog-list-resolver.service";
+import { VerifyEmailComponent } from "./verify-email/verify-email.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { BlogListResolverService } from "./services/blog-list-resolver.service";
     ProfileComponent,
     UserSectionComponent,
     BlogSectionComponent,
+    VerifyEmailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -49,6 +51,7 @@ import { BlogListResolverService } from "./services/blog-list-resolver.service";
         resolve: { blogs: BlogListResolverService },
       },
       { path: "blog", component: BlogPageComponent },
+      { path: "verify-email", component: VerifyEmailComponent },
     ]),
   ],
   providers: [
