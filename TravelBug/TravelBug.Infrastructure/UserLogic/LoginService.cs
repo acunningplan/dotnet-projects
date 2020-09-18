@@ -1,4 +1,5 @@
 //using FluentValidation;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace TravelBug.Infrastructure
   public interface ILoginService
   {
     Task<User> Login(LoginInput input);
+    Task<User> GetUserProfile();
   }
+
   public class LoginInput
   {
+    public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
   }
@@ -22,13 +26,19 @@ namespace TravelBug.Infrastructure
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly IJwtGenerator _jwtGenerator;
-    public LoginService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator)
+        private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
+
+        public LoginService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator, IMapper mapper, IUserAccessor userAccessor)
     {
       _signInManager = signInManager;
       _jwtGenerator = jwtGenerator;
-      _userManager = userManager;
+            _mapper = mapper;
+            _userManager = userManager;
+            _userAccessor = userAccessor;
     }
 
+    // Login by email and password
     public async Task<User> Login(LoginInput input)
     {
       var user = await _userManager.FindByEmailAsync(input.Email);
@@ -48,6 +58,18 @@ namespace TravelBug.Infrastructure
         return new User(user, _jwtGenerator, refreshToken.Token);
       }
       throw new RestException(HttpStatusCode.Unauthorized, "Cannot sign in user");
+    }
+
+
+    // Auto-login with token
+    public async Task<User> GetUserProfile()
+    {
+        //var user = await _userManager.FindByNameAsync(input.Username);
+
+        var username = _userAccessor.GetCurrentUsername();
+        var user = await _userManager.FindByNameAsync(username);
+
+        return new User(user);
     }
   }
 }

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-3 profile-section">
+      <img class="profile-picture" [src]="profile && profile.photoUrl" />
+      <h2>{{ profile && profile.displayName }}</h2>
+
+      <button
+        (click)="signOut()"
+        class="btn btn-primary"
+        color="primary"
+        mat-flat-button
+        type="button"
+      >
+        Sign Out
+      </button>
+    </div>
+    <div class="col-12 col-lg-7">
+      <app-user-blogs [blogs]="blogs"></app-user-blogs>
+    </div>
+    <div class="col-12 col-lg-2">Followers and followings</div>
+  </div>
+</div>

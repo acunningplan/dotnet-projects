@@ -1,0 +1,12 @@
+<div *ngIf="!blogs || blogs.length === 0">No blogs to show.</div>
+<div class="blogs-component">
+  <h2>Your blogs</h2>
+  <ul class="list-group">
+    <li *ngFor="let blog of blogs" class="list-group-item">
+      <h4>{{ blog.title || "Untitled" }}</h4>
+      <p>
+        {{ blog.description }}
+      </p>
+    </li>
+  </ul>
+</div>
