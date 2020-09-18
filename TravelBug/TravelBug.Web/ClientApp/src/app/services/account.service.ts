@@ -57,7 +57,7 @@ export class AccountService {
 
   postRegister() {
     this.ngZone.run(() => {
-      this.router.navigate(["/verify-email"])
+      this.router.navigate(["/verify-email"]);
     });
   }
 
