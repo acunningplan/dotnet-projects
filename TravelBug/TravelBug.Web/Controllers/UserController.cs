@@ -34,6 +34,13 @@ namespace TravelBug.Web.Controllers
       _externalLogin = externalLogin;
       _emailConfirmation = emailConfirmation;
       _config = config;
+        }
+
+
+    [HttpGet]
+    public async Task<User> GetUserProfile()
+    {
+        return await _loginService.GetUserProfile();
     }
 
     [AllowAnonymous]

@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { LoginForm } from "../account/login-form/login-form";
 import { Subject } from "rxjs";
-import { Profile } from "../models/profiles";
+import { Profile } from "../models/profile";
 import { environment } from "src/environments/environment";
 import { ServerLoginResponse } from "../models/serverLoginResponse";
 import { UserData } from "../account/social-login/login-types";

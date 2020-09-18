@@ -16,12 +16,13 @@ import { BlogPageComponent } from "./blog-page/blog-page.component";
 import { LoggingInterceptorService } from "./interceptors/logging-interceptor.service";
 import { AuthInterceptorService } from "./interceptors/auth-interceptor.service";
 import { ProfileComponent } from "./profile/profile.component";
-import { UserSectionComponent } from "./profile/user-section/user-section.component";
-import { BlogSectionComponent } from "./profile/blog-section/blog-section.component";
-import { BlogListResolverService } from "./services/blog-list-resolver.service";
+import { BlogListResolverService } from "./resolvers/blog-list-resolver.service";
 import { VerifyEmailComponent } from "./verify-email/verify-email.component";
-import { NewBlogComponent } from './new-blog/new-blog.component';
-import { UserBlogsComponent } from './profile/user-blogs/user-blogs.component';
+import { NewBlogComponent } from "./new-blog/new-blog.component";
+import { UserBlogsComponent } from "./profile/user-blogs/user-blogs.component";
+import { UserProfileResolverService } from "./resolvers/user-profile-resolver.service";
+import { UserBlogsResolverService } from "./resolvers/user-blogs-resolver.service";
+import { FeaturedUsersComponent } from './blogs/featured-users/featured-users.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +36,10 @@ import { UserBlogsComponent } from './profile/user-blogs/user-blogs.component';
     BlogDetailComponent,
     BlogPageComponent,
     ProfileComponent,
-    UserSectionComponent,
-    BlogSectionComponent,
     VerifyEmailComponent,
     NewBlogComponent,
     UserBlogsComponent,
+    FeaturedUsersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -48,7 +48,14 @@ import { UserBlogsComponent } from './profile/user-blogs/user-blogs.component';
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "account", component: AccountComponent },
-      { path: "profile", component: ProfileComponent },
+      {
+        path: "profile",
+        component: ProfileComponent,
+        resolve: {
+          profile: UserProfileResolverService,
+          blogs: UserBlogsResolverService,
+        },
+      },
       {
         path: "blogs",
         component: BlogsComponent,

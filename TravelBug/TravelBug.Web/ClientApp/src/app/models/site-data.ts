@@ -1,5 +1,5 @@
 import { Blog } from "./blog";
-import { Profile } from "./profiles";
+import { Profile } from "./profile";
 
 export class SiteData {
   constructor(blogs: Blog[]) {

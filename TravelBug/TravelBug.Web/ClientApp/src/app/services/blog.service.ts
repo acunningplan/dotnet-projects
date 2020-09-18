@@ -21,7 +21,7 @@ export class BlogService {
   fetchOwnBlogs() {
     return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/user`).pipe(
       tap((res) => {
-        console.log(res);
+        // print response
       })
     );
   }

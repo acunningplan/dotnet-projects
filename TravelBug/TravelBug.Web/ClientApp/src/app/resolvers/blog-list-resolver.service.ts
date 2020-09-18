@@ -8,7 +8,6 @@ import {
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",

@@ -1,24 +1,27 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Profile } from "../models/profiles";
-import { ServerLoginResponse } from "../models/serverLoginResponse";
-import { AccountService } from "./account.service";
-import { Router } from "@angular/router";
-import { UserData } from "../account/social-login/login-types";
+import { Profile } from "../models/profile";
+import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  constructor(
-    private httpClient: HttpClient,
-    private accountService: AccountService,
-    private router: Router
-  ) {}
+  userProfile: Profile;
 
-  getUserProfile() {
-    this.httpClient.get<{ userProfile: Profile }>(`${environment.apiUrl}/user`);
+  get getUserProfile(): Profile {
+    return this.userProfile || new Profile();
+  }
+
+  constructor(private httpClient: HttpClient) {}
+
+  fetchUserProfile() {
+    return this.httpClient.get<Profile>(`${environment.apiUrl}/user`).pipe(
+      tap((res) => {
+        if (res) this.userProfile = res;
+      })
+    );
   }
 
   // socialLogin(userData: UserData, socialMedia: "google" | "facebook") {

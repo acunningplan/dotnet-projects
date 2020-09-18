@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../services/account.service";
 import { Subscription } from "rxjs";
 import { Blog } from "../models/blog";
-import { BlogService } from "../services/blog.service";
+import { Profile } from "../models/profile";
+import { ActivatedRoute } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-profile",
@@ -12,13 +14,23 @@ import { BlogService } from "../services/blog.service";
 export class ProfileComponent implements OnInit {
   loginSub: Subscription;
   blogs: Blog[];
+  profile: Profile;
 
-  constructor(private accountService: AccountService, private blogService: BlogService) {}
+  constructor(
+    private accountService: AccountService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.blogService.fetchOwnBlogs().subscribe(blogs => {
-      this.blogs = blogs
-    });
+    this.activatedRoute.data.subscribe(
+      (data: { profile: Profile; blogs: Blog[] }) => {
+        console.log(data);
+        this.profile = data.profile;
+        this.blogs = data.blogs;
+        if (this.profile && !this.profile.photoUrl)
+          this.profile.photoUrl = environment.defaultPhotoUrl;
+      }
+    );
   }
 
   signOut() {

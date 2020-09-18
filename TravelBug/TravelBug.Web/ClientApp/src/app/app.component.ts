@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
+import { UserService } from "./services/user.service";
 
 @Component({
   selector: "app-root",
@@ -8,7 +9,9 @@ import { environment } from "src/environments/environment";
 export class AppComponent implements OnInit {
   title = "app";
 
+  constructor(private userService: UserService) {}
+
   ngOnInit() {
-    // FB.init({ appId: environment.fbAppId, version: "v2.7" });
+    this.userService.fetchUserProfile().subscribe();
   }
 }

@@ -7,7 +7,7 @@ namespace TravelBug.Infrastructure
     {
         public MappingProfile()
         {
-            CreateMap<AppUser, User>();
+            //CreateMap<AppUser, User>();
         }
     }
 }
