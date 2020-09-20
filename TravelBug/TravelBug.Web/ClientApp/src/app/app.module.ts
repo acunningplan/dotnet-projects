@@ -12,7 +12,7 @@ import { BlogsComponent } from "./blogs/blogs.component";
 import { LoginFormComponent } from "./account/login-form/login-form.component";
 import { SocialLoginComponent } from "./account/social-login/social-login.component";
 import { BlogDetailComponent } from "./blogs/blog-detail/blog-detail.component";
-import { BlogPageComponent } from "./blog-page/blog-page.component";
+import { BlogPageComponent } from "./blogs/blog-page/blog-page.component";
 import { LoggingInterceptorService } from "./interceptors/logging-interceptor.service";
 import { AuthInterceptorService } from "./interceptors/auth-interceptor.service";
 import { ProfileComponent } from "./profile/profile.component";
@@ -24,6 +24,7 @@ import { UserProfileResolverService } from "./resolvers/user-profile-resolver.se
 import { UserBlogsResolverService } from "./resolvers/user-blogs-resolver.service";
 import { FeaturedUsersComponent } from "./blogs/featured-users/featured-users.component";
 import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolver.service";
+import { BlogPageResolverService } from "./resolvers/blog-page-resolver.service";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,13 @@ import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolve
         },
       },
       {
+        path: "blogs/:id",
+        component: BlogPageComponent,
+        resolve: {
+          // blog: BlogPageResolverService
+        },
+      },
+      {
         path: "blogs",
         component: BlogsComponent,
         resolve: {
@@ -65,7 +73,6 @@ import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolve
           featuredUsers: FeaturedUsersResolverService,
         },
       },
-      { path: "blog", component: BlogPageComponent },
       { path: "new-blog", component: NewBlogComponent },
       { path: "verify-email", component: VerifyEmailComponent },
     ]),
