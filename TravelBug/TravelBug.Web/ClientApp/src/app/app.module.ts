@@ -22,7 +22,8 @@ import { NewBlogComponent } from "./new-blog/new-blog.component";
 import { UserBlogsComponent } from "./profile/user-blogs/user-blogs.component";
 import { UserProfileResolverService } from "./resolvers/user-profile-resolver.service";
 import { UserBlogsResolverService } from "./resolvers/user-blogs-resolver.service";
-import { FeaturedUsersComponent } from './blogs/featured-users/featured-users.component';
+import { FeaturedUsersComponent } from "./blogs/featured-users/featured-users.component";
+import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolver.service";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,10 @@ import { FeaturedUsersComponent } from './blogs/featured-users/featured-users.co
       {
         path: "blogs",
         component: BlogsComponent,
-        resolve: { blogs: BlogListResolverService },
+        resolve: {
+          blogs: BlogListResolverService,
+          featuredUsers: FeaturedUsersResolverService,
+        },
       },
       { path: "blog", component: BlogPageComponent },
       { path: "new-blog", component: NewBlogComponent },

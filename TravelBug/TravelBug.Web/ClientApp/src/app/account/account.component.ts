@@ -17,7 +17,7 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
     this.loggedIn = this.accountService.hasToken;
     this.profileSub = this.accountService.profileSubject.subscribe((profile) =>
-      console.log(`User ${profile.name} has just logged in.`)
+      console.log(`User ${profile.username} has just logged in.`)
     );
   }
 

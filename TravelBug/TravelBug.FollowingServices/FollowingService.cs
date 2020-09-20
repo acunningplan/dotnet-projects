@@ -34,6 +34,7 @@ namespace TravelBug.FollowingServices
 
             return await _context.Followings.SingleOrDefaultAsync(x => x.ObserverId == _observer.Id && x.TargetId == _target.Id);
         }
+
         public async Task Follow(string username)
         {
             var following = await FindFollowing(username);
@@ -54,6 +55,7 @@ namespace TravelBug.FollowingServices
             if (success) return;
             throw new Exception("Cannot follow user.");
         }
+
         public async Task Unfollow(string username)
         {
             var following = await FindFollowing(username);
