@@ -1,11 +1,8 @@
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -26,10 +23,8 @@ using TravelBug.Web.Authorization;
 using TravelBug.Web.Middleware;
 using Newtonsoft.Json;
 using AutoMapper;
-using TravelBug.Entities;
 using TravelBug.Infrastructure.PhotoLogic;
 using TravelBug.PhotoServices;
-using System.Net.Http;
 using TravelBug.Infrastructure.UserLogic;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
@@ -37,7 +32,7 @@ using TravelBug.Infrastructure.Email;
 
 namespace TravelBug
 {
-  public class Startup
+    public class Startup
   {
     //private readonly string AllowedOrigins = "AllowedOrigins";
     public Startup(IConfiguration configuration)
@@ -155,6 +150,7 @@ namespace TravelBug
       services.AddScoped<IExternalLoginService, ExternalLoginService>();
       services.AddScoped<IRefreshTokenService, RefreshTokenService>();
       services.AddScoped<IFollowingService, FollowingService>();
+      services.AddScoped<IFeaturedUsersService, FeaturedUsersService>();
       services.AddScoped<IFollowerListingService, FollowerListingService>();
       services.AddScoped<IPhotoService, PhotoService>();
       services.AddScoped<IBlogService, BlogService>();

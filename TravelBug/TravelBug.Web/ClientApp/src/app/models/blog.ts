@@ -1,6 +1,11 @@
+import { Profile } from "./profile";
+
+
 export class Blog {
+  user: Profile;
   title = "";
   description = "";
   location = "";
-  date = Date.now();
+  created = "";
+  date = "";
 }

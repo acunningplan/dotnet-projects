@@ -34,17 +34,31 @@ namespace TravelBug.CrudServices
       var blogs = new List<Blog>();
       foreach (var following in followings)
       {
-        var followedUser = await _travelBugContext.Users.SingleOrDefaultAsync(u => u.Id == following.TargetId);
+        var followedUser = await _travelBugContext.Users.SingleOrDefaultAsync(u => u.UserName == following.Target.UserName);
         blogs.AddRange(followedUser.Blogs);
       }
-      blogs.Sort((x, y) => DateTimeOffset.Compare(y.Created, x.Created));
+      //blogs.Sort((x, y) => DateTimeOffset.Compare(y.Created, x.Created));
 
       return _mapper.Map<List<Blog>, List<BlogDto>>(blogs);
-    }
+     }
 
-    public async Task<List<BlogDto>> ReadOwnAsync()
+        //public async Task<List<BlogDto>> ReadManyAsync2()
+        //{
+        //    var followings = (await GetUser()).Followings;
+        //    var blogs = new List<Blog>();
+        //    foreach (var following in followings)
+        //    {
+        //        var followedUser = await _travelBugContext.Users.SingleOrDefaultAsync(u => u.UserName == following.Target.UserName);
+        //        blogs.AddRange(followedUser.Blogs);
+        //    }
+        //    blogs.Sort((x, y) => DateTimeOffset.Compare(y.Created, x.Created));
+
+        //    return _mapper.Map<List<Blog>, List<BlogDto>>(blogs);
+        //}
+
+        public async Task<List<BlogDto>> ReadOwnAsync()
     {
-      var user = await _travelBugContext.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetCurrentUsername());
+      var user = await GetUser();
 
       var blogs = user.Blogs.ToList();
 
