@@ -26,16 +26,16 @@ namespace TravelBug.Infrastructure
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly IJwtGenerator _jwtGenerator;
-        private readonly IMapper _mapper;
-        private readonly IUserAccessor _userAccessor;
+    private readonly IMapper _mapper;
+    private readonly IUserAccessor _userAccessor;
 
         public LoginService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator, IMapper mapper, IUserAccessor userAccessor)
     {
       _signInManager = signInManager;
       _jwtGenerator = jwtGenerator;
-            _mapper = mapper;
-            _userManager = userManager;
-            _userAccessor = userAccessor;
+        _mapper = mapper;
+        _userManager = userManager;
+        _userAccessor = userAccessor;
     }
 
     // Login by email and password

@@ -1,7 +1,9 @@
 export class Profile {
   displayName = "Guest";
   bio = ""
-  name = "";
+  username = "";
   email = "";
   photoUrl = "";
+  following = false;
+  followers: string[];
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { Blog } from "../models/blog";
@@ -17,8 +16,10 @@ export class BlogsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data: { blogs: Blog[] }) => {
-      console.log(data);
-      this.blogs = data.blogs;
+      console.log(data.blogs);
+      this.blogs = data.blogs.sort((x, y) => {
+        return Date.parse(y.created) - Date.parse(x.created);
+      });
     });
   }
 
