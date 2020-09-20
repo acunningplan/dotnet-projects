@@ -16,6 +16,9 @@ export class BlogPageComponent implements OnInit {
     // this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
     //   console.log(data.blog)
     // });
+    this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
+      console.log(data.blog);
+    });
 
     this.activatedRoute.params.subscribe((params) => {
       console.log(params["id"]);

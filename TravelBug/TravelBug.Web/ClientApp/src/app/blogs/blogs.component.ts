@@ -8,8 +8,7 @@ import { Blog } from "../models/blog";
   templateUrl: "./blogs.component.html",
   styleUrls: ["./blogs.component.css"],
 })
-export class BlogsComponent implements OnInit, OnDestroy {
-  siteDataSub: Subscription;
+export class BlogsComponent implements OnInit {
   blogs: Blog[] = null;
 
   constructor(private activatedRoute: ActivatedRoute) {}
@@ -21,9 +20,5 @@ export class BlogsComponent implements OnInit, OnDestroy {
         return Date.parse(y.created) - Date.parse(x.created);
       });
     });
-  }
-
-  ngOnDestroy() {
-    // this.siteDataSub!.unsubscribe();
   }
 }
