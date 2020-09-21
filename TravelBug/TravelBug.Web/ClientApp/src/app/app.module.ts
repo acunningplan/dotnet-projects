@@ -25,7 +25,7 @@ import { UserBlogsResolverService } from "./resolvers/user-blogs-resolver.servic
 import { FeaturedUsersComponent } from "./blogs/featured-users/featured-users.component";
 import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolver.service";
 import { BlogPageResolverService } from "./resolvers/blog-page-resolver.service";
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from "./not-found/not-found.component";
 
 @NgModule({
   declarations: [
@@ -77,8 +77,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
       },
       { path: "new-blog", component: NewBlogComponent },
       { path: "verify-email", component: VerifyEmailComponent },
-      { path: "not-found", component: NotFoundComponent },
-      { path: "**", redirectTo: "/not-found" },
+      // { path: "not-found", component: NotFoundComponent },
+      // { path: "**", redirectTo: "/not-found" },
     ]),
   ],
   providers: [

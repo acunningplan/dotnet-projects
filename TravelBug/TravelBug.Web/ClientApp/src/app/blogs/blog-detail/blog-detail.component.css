@@ -1,0 +1,7 @@
+.link-to-blog {
+  cursor: pointer;
+}
+
+.link-to-blog:hover {
+  text-decoration: underline;
+}

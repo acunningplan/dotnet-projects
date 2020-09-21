@@ -1,11 +1,22 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2>Blog title goes here</h2>
+
+      <span [routerLink]="['/blogs']" class="text-link">
+        <!-- Left arrow -->
+        <img class="icon icon-link" src="../../../assets/left-arrow.svg">
+        <span>Back to blogs</span>
+      </span>
     </div>
   </div>
   <div class="row">
-    <div class="col-8">Description goes here</div>
-    <div class="col-4">Extra Description</div>
+    <div class="col-12">
+      <h2>{{blog.title}}</h2>
+      <p>{{blog.user.displayName}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">Photos go here</div>
+    <div class="col-8">{{blog.description}}</div>
   </div>
 </div>

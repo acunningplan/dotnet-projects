@@ -26,3 +26,23 @@ code {
 .row {
   margin: 10px 0;
 }
+
+.icon {
+  width: 16px;
+  margin: 0 8px;
+}
+
+/* Change colour of svg. See https://codepen.io/sosuke/pen/Pjoqqp */
+.icon-link {
+  /* Bootstrap primary colour = #007bff; */
+  filter: invert(34%) sepia(61%) saturate(5653%) hue-rotate(202deg)
+    brightness(106%) contrast(103%);
+}
+
+.text-link {
+  color: #007bff;
+}
+
+.text-link:hover {
+  cursor: pointer;
+}

@@ -1,6 +1,6 @@
 <ul class="list-group">
   <p *ngIf="users.length === 0">No users to show.</p>
-  <li *ngFor="let user of users" class="list-group-item">
+  <li *ngFor="let user of users" class="list-group-item featured-user-item">
     <img [src]="user.photoUrl" [alt]="user.displayName" />
     <h4>{{ user.displayName }}</h4>
     <p>{{ user.bio }}</p>

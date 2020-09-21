@@ -1,10 +1,12 @@
 <div class="row">
-  <h3>
+  <h3 [routerLink]="[blog.id]" class="link-to-blog">
     {{ blog.title }}
   </h3>
 </div>
 <div class="row">
-  <p><em>{{ blog.user.displayName }}</em></p>
+  <p>
+    <em>{{ blog.user.displayName }}</em>
+  </p>
 </div>
 <div class="row">
   {{ blog.description }}
