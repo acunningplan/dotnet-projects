@@ -32,7 +32,7 @@ using TravelBug.Infrastructure.Email;
 
 namespace TravelBug
 {
-    public class Startup
+  public class Startup
   {
     //private readonly string AllowedOrigins = "AllowedOrigins";
     public Startup(IConfiguration configuration)
@@ -79,6 +79,7 @@ namespace TravelBug
       })
           .AddNewtonsoftJson(options =>
            {
+             options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
            });
       //.AddFluentValidation(cfg =>

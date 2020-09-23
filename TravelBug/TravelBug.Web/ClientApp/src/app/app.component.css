@@ -1,0 +1,18 @@
+.home-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-image: url("/assets/travelbug-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -999;
+}
+
+.opaque-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: white;
+  opacity: 0.5;
+  z-index: -998;
+}
