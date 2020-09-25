@@ -2,10 +2,11 @@
   <div class="row">
     <div class="col-12">
 
-      <span [routerLink]="['/blogs']" class="text-link">
+      <span [routerLink]="[backToUrl]" class="text-link">
         <!-- Left arrow -->
         <img class="icon icon-link" src="../../../assets/left-arrow.svg">
-        <span>Back to blogs</span>
+        <span>Back to
+          {{ backTo}}</span>
       </span>
     </div>
   </div>

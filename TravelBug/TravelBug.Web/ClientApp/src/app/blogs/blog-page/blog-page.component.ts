@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Blog } from "src/app/models/blog";
+import { RouterTrackingService } from "src/app/services/router-tracking.service";
 
 @Component({
   selector: "app-blog-page",
@@ -10,21 +11,33 @@ import { Blog } from "src/app/models/blog";
 export class BlogPageComponent implements OnInit {
   blog: Blog;
   id: string;
+  backTo = "Blogs";
+  backToUrl = "/blogs";
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private routerTrackingService: RouterTrackingService
+  ) {}
 
   ngOnInit() {
-    // this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
-    //   console.log(data.blog)
-    // });
     this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
       console.log(data.blog);
       this.blog = data.blog;
     });
 
-    this.activatedRoute.params.subscribe((params) => {
-      console.log(params["id"]);
-      this.id = params["id"];
-    });
+    // Get previous url and set back to url to previous url
+    let prevUrl = this.routerTrackingService.prevUrl;
+    if (prevUrl) this.backToUrl = prevUrl;
+
+    switch (prevUrl) {
+      case "/blogs":
+        this.backTo = "Blogs";
+        break;
+      case "/profile":
+        this.backTo = "Profile";
+        break;
+      default:
+        this.backTo = "Blogs";
+    }
   }
 }

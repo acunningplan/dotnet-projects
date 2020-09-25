@@ -9,6 +9,7 @@ import {
 import { Subscription } from "rxjs";
 import { filter, pairwise } from "rxjs/operators";
 import { Blog } from "src/app/models/blog";
+import { RouterTrackingService } from "src/app/services/router-tracking.service";
 
 @Component({
   selector: "app-blog-detail",
@@ -21,29 +22,11 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   private prevUrl: string;
   private newUrl: string;
 
-  constructor(private router: Router) {
-    // router.events
-    //   .pipe(
-    //     filter((evt: any) => evt instanceof RoutesRecognized),
-    //     pairwise()
-    //   )
-    //   .subscribe((events: RoutesRecognized[]) => {
-    //     console.log("previous url", events);
-    //     console.log("current url", events);
-    //   });
-    // router.events
-    //   .pipe(filter((event) => event instanceof RoutesRecognized))
-    //   .subscribe((val) => {
-    //     // see also
-    //     console.log("Subscribing to router events:");
-    //     console.log(val);
-    //     // console.log(val instanceof RoutesRecognized);
-    //   });
+  constructor() {
+
   }
 
   ngOnInit() {
-    if (!this.prevUrl) {
-    }
   }
 
   ngOnDestroy() {
