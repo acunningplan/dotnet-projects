@@ -7,7 +7,8 @@ import { filter, pairwise } from "rxjs/operators";
   providedIn: "root",
 })
 export class RouterTrackingService {
-  prevUrl : string;
+  // Subject for previous url and current url;
+  prevUrl = "/";
   urlSubject = new Subject<RoutesRecognized[]>();
 
   constructor(private router: Router) {

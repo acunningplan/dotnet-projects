@@ -37,7 +37,7 @@ export class BlogPageComponent implements OnInit {
         this.backTo = "Profile";
         break;
       default:
-        this.backTo = "Blogs";
+        this.backTo = "Home";
     }
   }
 }

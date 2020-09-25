@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Blog } from "../models/blog";
 import { BlogService } from "../services/blog.service";
+import { RouterTrackingService } from "../services/router-tracking.service";
 
 @Component({
   selector: "app-new-blog",
@@ -12,11 +13,17 @@ import { BlogService } from "../services/blog.service";
 export class NewBlogComponent implements OnInit, OnDestroy {
   blog: Blog;
   warning: string = null;
+  backToLink = "/";
 
-  constructor(private blogService: BlogService, private router: Router) {}
+  constructor(
+    private blogService: BlogService,
+    private router: Router,
+    private routerTrackingService: RouterTrackingService
+  ) {}
 
   ngOnInit() {
     this.blog = this.blogService.loadCurrentBlog();
+    this.backToLink = this.routerTrackingService.prevUrl;
   }
 
   onSubmit(title: NgForm, description: NgForm) {
