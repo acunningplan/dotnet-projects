@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Blog } from "src/app/models/blog";
+import { BlogService } from "src/app/services/blog.service";
 import { RouterTrackingService } from "src/app/services/router-tracking.service";
 
 @Component({
@@ -13,16 +14,22 @@ export class BlogPageComponent implements OnInit {
   id: string;
   backTo = "Blogs";
   backToUrl = "/blogs";
+  userIsAuthor = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private routerTrackingService: RouterTrackingService
+    private router: Router,
+    private routerTrackingService: RouterTrackingService,
+    private blogService: BlogService
   ) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
       console.log(data.blog);
       this.blog = data.blog;
+      this.userIsAuthor =
+        this.blog.user.username ===
+        window.localStorage.getItem("travelBug:Username");
     });
 
     // Get previous url and set back to url to previous url
@@ -39,5 +46,10 @@ export class BlogPageComponent implements OnInit {
       default:
         this.backTo = "Home";
     }
+  }
+
+  onEdit() {
+    this.blogService.setEditedBlog(this.blog);
+    this.router.navigate([`/edit-blog/${this.blog.id}`]);
   }
 }

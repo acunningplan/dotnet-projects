@@ -1,6 +1,8 @@
 <div class="row justify-content-center">
   <div class="col-xs-12 col-md-8">
     <form #blogform="ngForm" (ngSubmit)="onSubmit(title, description)">
+      <h2 *ngIf="newBlog">New blog</h2>
+      <h2 *ngIf="!newBlog">Update blog</h2>
       <div class="form-group">
         <label for="title">Title</label>
         <input #title="ngModel" [(ngModel)]="blog.title" class="form-control" id="title" name="title" required type="title"/>
@@ -16,6 +18,7 @@
 
       <button class="btn btn-success" type="submit">Submit</button>
       <button [routerLink]="[backToLink]" class="btn btn-secondary ml-3" type="button">Cancel</button>
+      <div>Photos with upload button go here.</div>
     </form>
   </div>
 </div>

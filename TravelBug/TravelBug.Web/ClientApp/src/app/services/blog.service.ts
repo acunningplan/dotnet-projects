@@ -11,6 +11,7 @@ import { tap } from "rxjs/operators";
 export class BlogService {
   blogs: Blog[] = [];
   private currentBlog: Blog;
+  private editedBlog: Blog;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -28,6 +29,15 @@ export class BlogService {
 
   loadCurrentBlog() {
     return this.currentBlog || new Blog();
+  }
+
+  // Edit blog
+  setEditedBlog(blog: Blog) {
+    this.editedBlog = blog;
+  }
+
+  loadEditedBlog() {
+    return this.editedBlog || new Blog();
   }
 
   postBlog(blog: Blog) {

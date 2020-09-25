@@ -1,23 +1,27 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-
-      <span [routerLink]="[backToUrl]" class="text-link">
-        <!-- Left arrow -->
+      <!-- Left arrow -->
+                                                      <!-- <span [routerLink]="[backToUrl]" class="text-link">
         <img class="icon icon-link" src="../../../assets/left-arrow.svg">
         <span>Back to
           {{ backTo}}</span>
-      </span>
+      </span> -->
     </div>
   </div>
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 d-flex justify-content-between">
       <h2>{{blog.title}}</h2>
+      <button (click)="onEdit()" *ngIf="userIsAuthor" class="btn btn-primary">Edit</button>
+    </div>
+    <div class="col-12">
       <p>{{blog.user.displayName}}</p>
     </div>
   </div>
   <div class="row">
     <div class="col-4">Photos go here</div>
-    <div class="col-8">{{blog.description}}</div>
+    <div class="col-8">
+      <p>{{blog.description}}</p>
+    </div>
   </div>
 </div>

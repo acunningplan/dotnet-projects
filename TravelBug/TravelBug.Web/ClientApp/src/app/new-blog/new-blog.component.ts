@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Blog } from "../models/blog";
 import { BlogService } from "../services/blog.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
@@ -15,14 +15,33 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   warning: string = null;
   backToLink = "/";
 
+  // Whether this is new blog or edited blog
+  // Only allowed to edit blog if user is author
+  newBlog = true;
+
   constructor(
     private blogService: BlogService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService
   ) {}
 
   ngOnInit() {
-    this.blog = this.blogService.loadCurrentBlog();
+    let segment = this.activatedRoute.snapshot.url[0].path;
+    console.log(segment);
+    this.newBlog = segment === "new-blog";
+
+    if (this.newBlog) {
+      console.log("Loading new blog");
+      console.log(this.blogService.loadCurrentBlog());
+      this.blog = this.blogService.loadCurrentBlog();
+    } else {
+      console.log("Loading edited blog");
+      console.log(this.blogService.loadEditedBlog());
+      this.blog = this.blogService.loadEditedBlog();
+    }
+    // if (!this.update) this.blog = this.blogService.loadCurrentBlog();
+    // else this.blog = new Blog();
     this.backToLink = this.routerTrackingService.prevUrl;
   }
 
@@ -40,6 +59,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.blogService.saveCurrentBlog(this.blog);
+    // Save the current blog
+    if (this.newBlog) this.blogService.saveCurrentBlog(this.blog);
   }
 }
