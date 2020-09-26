@@ -19,6 +19,7 @@ namespace TravelBug.Controllers
       _blogService = blogService;
     }
 
+    // Endpoints in addition to those in CrudController
     [HttpGet]
     public async Task<List<BlogDto>> GetBlogs()
     {
@@ -33,54 +34,19 @@ namespace TravelBug.Controllers
         return blogsToReturn;
     }
 
+    // Override endpoints in CrudController
     [Authorize(Policy = "IsBlogAuthor")]
+    [HttpPatch("{id:Guid}")]
     public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
     {
       return base.UpdatePartialAsync(id, patchEntity);
     }
 
     [Authorize(Policy = "IsBlogAuthor")]
+    [HttpDelete("{id:Guid}")]
     public override Task<IActionResult> DeleteAsync(Guid id)
     {
       return base.DeleteAsync(id);
     }
-
-
-
-
-    //private readonly ILogger<BlogController> _logger;
-
-    //public BlogController(ILogger<BlogController> logger)
-    //{
-    //    _logger = logger;
-    //}
-
-    //[HttpGet]
-    //public IEnumerable<Blog> Get()
-    //{
-    //    var rng = new Random();
-    //    return Enumerable.Range(1, 5).Select(index => new Blog
-    //    {
-    //    })
-    //    .ToArray();
-    //}
-
-    //[HttpPost]
-    //public async Task CreateOrder(CreateCommand command)
-    //{
-    //    await _orderServices.CreateOrder(command);
-    //}
-
-    //[HttpPatch("edit")]
-    //public async Task EditOrder(EditCommand command)
-    //{
-    //    await _orderServices.EditOrder(command);
-    //}
-
-    //[HttpPatch("change/{id}")]
-    //public async Task ChangeOrderStatus(ChangeStatusCommand command, Guid id)
-    //{
-    //    await _orderServices.ChangeOrderStatus(command, id);
-    //}
   }
 }

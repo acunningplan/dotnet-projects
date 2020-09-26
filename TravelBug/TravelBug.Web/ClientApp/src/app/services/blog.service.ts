@@ -58,8 +58,17 @@ export class BlogService {
     );
   }
 
-  patchBlog(blogId: string, blog: Blog) {
-    return this.httpClient.patch(`${environment.apiUrl}/blog/${blogId}`, blog);
+  patchBlog(blog: Blog) {
+    // Send patch request to .net core backend using "patch documents"
+    let keysToChange = ["title", "description"];
+    return this.httpClient.patch(
+      `${environment.apiUrl}/blog/${blog.id}`,
+      keysToChange.map((k) => ({
+        op: "replace",
+        path: k,
+        value: blog[k],
+      }))
+    );
   }
 
   deleteBlog(blogId: string) {

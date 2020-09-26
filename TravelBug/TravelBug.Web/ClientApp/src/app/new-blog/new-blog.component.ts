@@ -32,12 +32,8 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     this.newBlog = segment === "new-blog";
 
     if (this.newBlog) {
-      console.log("Loading new blog");
-      console.log(this.blogService.loadCurrentBlog());
       this.blog = this.blogService.loadCurrentBlog();
     } else {
-      console.log("Loading edited blog");
-      console.log(this.blogService.loadEditedBlog());
       this.blog = this.blogService.loadEditedBlog();
     }
     // if (!this.update) this.blog = this.blogService.loadCurrentBlog();
@@ -50,8 +46,13 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     // console.log(title.value, description.value);
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
-    } else {
+    } else if (this.newBlog) {
       this.blogService.postBlog(this.blog).subscribe(() => {
+        this.blog = new Blog();
+        this.router.navigate(["/profile"]);
+      });
+    } else {
+      this.blogService.patchBlog(this.blog).subscribe(() => {
         this.blog = new Blog();
         this.router.navigate(["/profile"]);
       });
