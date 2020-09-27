@@ -1,18 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <!-- Left arrow -->
-              <!-- <span [routerLink]="[backToUrl]" class="text-link">
-        <img class="icon icon-link" src="../../../assets/left-arrow.svg">
-        <span>Back to
-          {{ backTo}}</span>
-      </span> -->
-    </div>
-  </div>
-  <div class="row">
     <div class="col-12 d-flex justify-content-between">
       <h2>{{blog.title}}</h2>
-      <button (click)="onEdit()" *ngIf="userIsAuthor" class="btn btn-primary">Edit</button>
+      <div>
+        <button (click)="onEdit()" *ngIf="userIsAuthor" class="btn btn-primary">Edit</button>
+        <button *ngIf="userIsAuthor" class="btn btn-danger" class="ml-3" data-target="#deleteModal" data-toggle="modal" type="button">Delete</button>
+      </div>
     </div>
     <div class="col-12">
       <p>{{blog.user.displayName}}</p>
@@ -24,4 +17,5 @@
       <p>{{blog.description}}</p>
     </div>
   </div>
+  <app-delete-modal [blog]="blog"></app-delete-modal>
 </div>

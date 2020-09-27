@@ -22,6 +22,7 @@ export class NavMenuComponent implements OnInit {
   isLoggedIn: boolean;
   loginSub: Subscription;
   routerSub: Subscription;
+  currentUsername: string;
 
   constructor(
     private accountService: AccountService,
@@ -35,6 +36,7 @@ export class NavMenuComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.accountService.hasToken;
+    this.currentUsername = window.localStorage.getItem("travelBug:Username");
 
     this.routerSub = this.router.events
       .pipe(filter((res) => res instanceof NavigationEnd))

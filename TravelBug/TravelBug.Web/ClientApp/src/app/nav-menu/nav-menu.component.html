@@ -17,7 +17,7 @@
             <a [routerLink]="['/account']" class="nav-link text-dark">Sign up / login</a>
           </li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['link-active']" class="nav-item">
-            <a [routerLink]="['/profile']" class="nav-link text-dark">Profile</a>
+            <a [routerLink]="['/profile', currentUsername]" class="nav-link text-dark">Profile</a>
           </li>
           <li *ngIf="isLoggedIn" class="nav-item">
             <a [ngClass]="{disabled: writingBlog}" [routerLink]="['/new-blog']" class="nav-link text-dark btn btn-primary nav-button">

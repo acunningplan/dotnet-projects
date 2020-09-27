@@ -27,6 +27,7 @@ import { FeaturedUsersResolverService } from "./resolvers/featured-users-resolve
 import { BlogPageResolverService } from "./resolvers/blog-page-resolver.service";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { LoadBlogResolverService } from "./resolvers/load-blog-resolver.service";
+import { DeleteModalComponent } from "./blogs/blog-page/delete-modal/delete-modal.component";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { LoadBlogResolverService } from "./resolvers/load-blog-resolver.service"
     UserBlogsComponent,
     FeaturedUsersComponent,
     NotFoundComponent,
+    DeleteModalComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -54,7 +56,7 @@ import { LoadBlogResolverService } from "./resolvers/load-blog-resolver.service"
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: "account", component: AccountComponent },
       {
-        path: "profile",
+        path: "profile/:username",
         component: ProfileComponent,
         resolve: {
           profile: UserProfileResolverService,
