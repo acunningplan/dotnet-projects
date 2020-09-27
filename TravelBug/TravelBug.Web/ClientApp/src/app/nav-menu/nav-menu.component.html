@@ -1,27 +1,62 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+  <nav
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+  >
     <div class="container">
       <a [routerLink]="['/']" class="navbar-brand">TravelBug</a>
-      <button (click)="toggle()" [attr.aria-expanded]="isExpanded" aria-label="Toggle navigation" class="navbar-toggler" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+      <button
+        (click)="toggle()"
+        [attr.aria-expanded]="isExpanded"
+        aria-label="Toggle navigation"
+        class="navbar-toggler"
+        data-target=".navbar-collapse"
+        data-toggle="collapse"
+        type="button"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div [ngClass]="{ show: isExpanded }" class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+      <div
+        [ngClass]="{ show: isExpanded }"
+        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+      >
         <ul class="navbar-nav flex-grow">
-          <li [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['link-active']" class="nav-item">
+          <li
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLinkActive]="['link-active']"
+            class="nav-item"
+          >
             <a [routerLink]="['/']" class="nav-link text-dark">Home</a>
           </li>
           <li [routerLinkActive]="['link-active']" class="nav-item">
             <a [routerLink]="['/blogs']" class="nav-link text-dark">Blogs</a>
           </li>
-          <li *ngIf="!isLoggedIn" [routerLinkActive]="['link-active']" class="nav-item">
-            <a [routerLink]="['/account']" class="nav-link text-dark">Sign up / login</a>
+          <li
+            *ngIf="!isLoggedIn"
+            [routerLinkActive]="['link-active']"
+            class="nav-item"
+          >
+            <a [routerLink]="['/account']" class="nav-link text-dark"
+              >Sign up / login</a
+            >
           </li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['link-active']" class="nav-item">
-            <a [routerLink]="['/profile', currentUsername]" class="nav-link text-dark">Profile</a>
+          <li
+            *ngIf="isLoggedIn"
+            [routerLinkActive]="['link-active']"
+            class="nav-item"
+          >
+            <a
+              [routerLink]="['/profile', currentUsername]"
+              class="nav-link text-dark"
+              >Profile</a
+            >
           </li>
           <li *ngIf="isLoggedIn" class="nav-item">
-            <a [ngClass]="{disabled: writingBlog}" [routerLink]="['/new-blog']" class="nav-link text-dark btn btn-primary nav-button">
-              <i class="far fa-edit"></i>
+            <a
+              [ngClass]="{ disabled: writingBlog }"
+              [routerLink]="['/new-blog']"
+              class="nav-link text-dark btn btn-primary nav-button"
+            >
+              <img src="assets/edit-regular.svg" class="edit-regular" />
             </a>
           </li>
         </ul>
