@@ -1,21 +1,31 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12 d-flex justify-content-between">
-      <h2>{{blog.title}}</h2>
-      <div>
-        <button (click)="onEdit()" *ngIf="userIsAuthor" class="btn btn-primary">Edit</button>
-        <button *ngIf="userIsAuthor" class="btn btn-danger" class="ml-3" data-target="#deleteModal" data-toggle="modal" type="button">Delete</button>
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-9">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">{{ blog.title }}</h3>
+        <h6 class="card-subtitle mb-2 text-muted">
+          <img [src]="blog.user.photoUrl" class="user-thumbnail" />
+          {{ blog.user.displayName }}
+        </h6>
+        <div class="card-text">
+          <div class="row">
+            <div
+              *ngIf="blog.images.length > 0"
+              class="col-12 col-md-4 blog-image"
+            >
+              <img
+                *ngFor="let image of blog.images"
+                [src]="image.url"
+                [alt]="image.description"
+              />
+            </div>
+            <div class="col-12 col-md-8">
+              <p>{{ blog.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-12">
-      <p>{{blog.user.displayName}}</p>
-    </div>
   </div>
-  <div class="row">
-    <div class="col-4">Photos go here</div>
-    <div class="col-8">
-      <p>{{blog.description}}</p>
-    </div>
-  </div>
-  <app-delete-modal [blog]="blog"></app-delete-modal>
 </div>
+<app-delete-modal [blog]="blog"></app-delete-modal>

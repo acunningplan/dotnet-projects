@@ -18,6 +18,11 @@ export class DeleteModalComponent implements OnInit {
   onDelete() {
     this.blogService
       .deleteBlog(this.blog.id)
-      .subscribe((res) => this.router.navigate(["/profile"]));
+      .subscribe((res) =>
+        this.router.navigate([
+          "profile",
+          window.localStorage.getItem("travelBug:Username"),
+        ])
+      );
   }
 }

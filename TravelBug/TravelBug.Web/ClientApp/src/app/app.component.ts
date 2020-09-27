@@ -11,10 +11,7 @@ export class AppComponent implements OnInit {
   title = "app";
   prevUrl: string;
 
-  constructor(
-    private userService: UserService,
-    private routerTrackingService: RouterTrackingService
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.userService.fetchUserProfile().subscribe();
