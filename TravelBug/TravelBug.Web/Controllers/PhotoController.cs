@@ -48,11 +48,12 @@ namespace TravelBug.Web.Controllers
       using (var responseStream = await response.Content.ReadAsStreamAsync())
       {
         var uploadResult = await JsonSerializer.DeserializeAsync<PhotoUploadResponse>(responseStream);
+        if (uploadResult.Data == null) throw new Exception("No data from response");
         var url = uploadResult.Data.Link;
         var id = uploadResult.Data.Id;
 
         // Save image url to database
-        await _photoService.SavePhoto(url, id);
+        await _photoService.SavePhoto(url, id, blogId);
 
         return new PhotoUploadResult { Url = url, Id = id };
       }

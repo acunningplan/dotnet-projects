@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -83,12 +83,23 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     // Post blog without images
     this.http.post(`${environment.apiUrl}/blog`, this.blog).subscribe(
       (res: PostBlogResponse) => {
-        console.log("Uploading image");
+        console.log("Uploading images");
         let blogId = res.id;
         // Upload images to imgur, then save image url's to blog
+
+        // Test imgur
+        // this.http
+        //   .post("https://api.imgur.com/3/upload", fd, {
+        //     headers: new HttpHeaders({
+        //       Authorization:
+        //         "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJlZCIsIm5iZiI6MTYwMTI4NzE3MCwiZXhwIjoxNjAxODkxOTcwLCJpYXQiOjE2MDEyODcxNzB9.3FzAtCvi-V1gNXJw3lERi-yuM6M1UKtUt913sFkvYUpR4wuxrfXBFE4JnqFlDbU3HKjXdtmBRTLe59qmTZfdbQ",
+        //     }),
+        //   })
+        //   .subscribe((res) => console.log(res));
+
         this.http.post(`${environment.apiUrl}/photo/${blogId}`, fd).subscribe(
           (res: ImageUploadResponse) => {
-            this.router.navigate(["/"]);
+            // this.router.navigate(["/"]);
           },
           // Log error if image upload fails
           (err) => console.log(err)

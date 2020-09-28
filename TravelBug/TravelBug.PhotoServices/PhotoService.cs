@@ -55,7 +55,7 @@ namespace TravelBug.PhotoServices
             return multiContent;
         }
 
-        public async Task SavePhoto(string url, string imgurId)
+        public async Task SavePhoto(string url, string imgurId, string blogId)
         {
             _blog.Images.Add(
                 new Image() { Url = url, ImgurId = imgurId });

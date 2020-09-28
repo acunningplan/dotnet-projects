@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace TravelBug.PhotoServices
 {
-    public interface IPhotoService
-    {
-        Task<MultipartFormDataContent> ConvertToFormData(IFormFile file, string blogId);
-        Task DeletePhoto(string imgurId, string blogId);
-        Task SavePhoto(string url, string id);
-    }
+  public interface IPhotoService
+  {
+    Task<MultipartFormDataContent> ConvertToFormData(IFormFile file, string blogId);
+    Task DeletePhoto(string imgurId, string blogId);
+    Task SavePhoto(string url, string id, string blogId);
+  }
 }
