@@ -1,13 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
 import { Image } from "../models/image";
 import { BlogService } from "../services/blog.service";
+import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
 import { ImageUploadResponse } from "./image-upload-response";
+import { PostBlogResponse } from "./post-blog-response";
 
 @Component({
   selector: "app-new-blog",
@@ -16,10 +18,12 @@ import { ImageUploadResponse } from "./image-upload-response";
 })
 export class NewBlogComponent implements OnInit, OnDestroy {
   blog: Blog;
+  photos: (string | ArrayBuffer)[] = [];
+  files: File[] = [];
   warning: string = null;
   backToLink = "/";
-  url: string | ArrayBuffer;
-  selectedFile;
+
+  // uploadForm: FormGroup
 
   // Whether this is new blog or edited blog
   // Only allowed to edit blog if user is author
@@ -27,6 +31,8 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   constructor(
     private blogService: BlogService,
+    private photoService: PhotoService,
+    // private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
@@ -46,33 +52,51 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     // if (!this.update) this.blog = this.blogService.loadCurrentBlog();
     // else this.blog = new Blog();
     this.backToLink = this.routerTrackingService.prevUrl;
+
+    // this.uploadForm = this.formBuilder.group({
+    //   photos: ['']
+    // });
   }
 
   onSelectFile(event) {
-    console.log(event);
     if (event.target.files && event.target.files[0]) {
-      this.selectedFile = event.target.files[0];
+      let file = <File>event.target.files[0];
+      this.files.push(file);
 
       var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event) => {
+      reader.readAsDataURL(file); // read file as data url
+      reader.onload = (pe: ProgressEvent) => {
         // called once readAsDataURL is completed
-        this.url = event.target.result;
+        this.photos.push(reader.result);
       };
     }
   }
 
   onUpload() {
-    const fd = new FormData();
-    if (this.selectedFile) {
-      fd.append("image", this.selectedFile, this.selectedFile.name);
-      this.http.post(`${environment.apiUrl}/blog`, fd).subscribe(
-        (res: ImageUploadResponse) => {
-          this.blog.images.push(new Image(res.url));
-        },
-        (err) => console.log(err)
-      );
+    let fd = new FormData();
+    this.files.forEach((file) => fd.append("file", file, file.name));
+
+    for (var key of fd.entries()) {
+      console.log(key[1]);
     }
+
+    // Post blog without images
+    this.http.post(`${environment.apiUrl}/blog`, this.blog).subscribe(
+      (res: PostBlogResponse) => {
+        console.log("Uploading image");
+        let blogId = res.id;
+        // Upload images to imgur, then save image url's to blog
+        this.http.post(`${environment.apiUrl}/photo/${blogId}`, fd).subscribe(
+          (res: ImageUploadResponse) => {
+            this.router.navigate(["/"]);
+          },
+          // Log error if image upload fails
+          (err) => console.log(err)
+        );
+      },
+      // Log error if blog post fails
+      (err) => console.log(err)
+    );
   }
 
   onSubmit(title: NgForm, description: NgForm) {
@@ -82,15 +106,18 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       this.warning = "Title and description must be non-empty.";
     } else if (this.newBlog) {
       this.blogService.postBlog(this.blog).subscribe(() => {
-        this.blog = new Blog();
-        this.router.navigate(["/profile"]);
+        // this.photoService.uploadImages();
+        this.backToHome();
       });
     } else {
-      this.blogService.patchBlog(this.blog).subscribe(() => {
-        this.blog = new Blog();
-        this.router.navigate(["/profile"]);
-      });
+      this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
     }
+  }
+
+  private backToHome() {
+    // Reset blog and navigate to home
+    this.blog = new Blog();
+    this.router.navigate(["/profile"]);
   }
 
   ngOnDestroy() {
