@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-//using Newtonsoft.Json;
+using Newtonsoft.Json;
 using TravelBug.PhotoServices;
 using System;
 using System.Net.Http;
@@ -9,7 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TravelBug.Infrastructure.Exceptions;
 using TravelBug.Infrastructure.PhotoLogic;
-using System.Text.Json;
+// using System.Text.Json;
 
 namespace TravelBug.Web.Controllers
 {
@@ -44,19 +44,30 @@ namespace TravelBug.Web.Controllers
       var response = await _httpClient.PostAsync("upload", formData);
       if (!response.IsSuccessStatusCode) throw new RestException(response.StatusCode, "Upload failed");
 
-      // Deserialise response to get image id and url
-      using (var responseStream = await response.Content.ReadAsStreamAsync())
-      {
-        var uploadResult = await JsonSerializer.DeserializeAsync<PhotoUploadResponse>(responseStream);
-        if (uploadResult.Data == null) throw new Exception("No data from response");
-        var url = uploadResult.Data.Link;
-        var id = uploadResult.Data.Id;
+      var responseObject = JsonConvert.DeserializeObject<PhotoUploadResponse>(await response.Content.ReadAsStringAsync());
+
+      var url = responseObject.Data.Link;
+        var id = responseObject.Data.Id;
 
         // Save image url to database
         await _photoService.SavePhoto(url, id, blogId);
 
         return new PhotoUploadResult { Url = url, Id = id };
-      }
+
+
+      // Deserialise response to get image id and url
+    //   using (var responseStream = await response.Content.ReadAsStreamAsync())
+    //   {
+    //     var uploadResult = await JsonSerializer.DeserializeAsync<PhotoUploadResponse>(responseStream);
+    //     if (uploadResult.Data == null) throw new Exception("No data from response");
+    //     var url = uploadResult.Data.Link;
+    //     var id = uploadResult.Data.Id;
+
+    //     // Save image url to database
+    //     await _photoService.SavePhoto(url, id, blogId);
+
+    //     return new PhotoUploadResult { Url = url, Id = id };
+    //   }
     }
 
     [HttpDelete("{blogId}/{imgurId}")]

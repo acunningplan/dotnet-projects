@@ -72,58 +72,34 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUpload() {
-    let fd = new FormData();
-    this.files.forEach((file) => fd.append("file", file, file.name));
-
-    for (var key of fd.entries()) {
-      console.log(key[1]);
-    }
-
-    // Post blog without images
-    this.http.post(`${environment.apiUrl}/blog`, this.blog).subscribe(
-      (res: PostBlogResponse) => {
-        console.log("Uploading images");
-        let blogId = res.id;
-        // Upload images to imgur, then save image url's to blog
-
-        // Test imgur
-        // this.http
-        //   .post("https://api.imgur.com/3/upload", fd, {
-        //     headers: new HttpHeaders({
-        //       Authorization:
-        //         "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJlZCIsIm5iZiI6MTYwMTI4NzE3MCwiZXhwIjoxNjAxODkxOTcwLCJpYXQiOjE2MDEyODcxNzB9.3FzAtCvi-V1gNXJw3lERi-yuM6M1UKtUt913sFkvYUpR4wuxrfXBFE4JnqFlDbU3HKjXdtmBRTLe59qmTZfdbQ",
-        //     }),
-        //   })
-        //   .subscribe((res) => console.log(res));
-
-        this.http.post(`${environment.apiUrl}/photo/${blogId}`, fd).subscribe(
-          (res: ImageUploadResponse) => {
-            // this.router.navigate(["/"]);
-          },
-          // Log error if image upload fails
-          (err) => console.log(err)
-        );
-      },
-      // Log error if blog post fails
-      (err) => console.log(err)
-    );
-  }
-
   onSubmit(title: NgForm, description: NgForm) {
-    // console.log(this.blog);
-    // console.log(title.value, description.value);
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
     } else if (this.newBlog) {
-      this.blogService.postBlog(this.blog).subscribe(() => {
-        // this.photoService.uploadImages();
-        this.backToHome();
-      });
+      let fd = new FormData();
+      this.files.forEach((file) => fd.append("file", file, file.name));
+
+      // Post blog, redirect to profile page, then upload images
+      this.blogService.postBlog(this.blog, fd);
     } else {
       this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
     }
   }
+
+  // onSubmit(title: NgForm, description: NgForm) {
+  // console.log(this.blog);
+  // console.log(title.value, description.value);
+  // if (!title.value || !description.value) {
+  //   this.warning = "Title and description must be non-empty.";
+  // } else if (this.newBlog) {
+  //   this.blogService.postBlog(this.blog).subscribe(() => {
+  //     // this.photoService.uploadImages();
+  //     this.backToHome();
+  //   });
+  // } else {
+  //   this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
+  // }
+  // }
 
   private backToHome() {
     // Reset blog and navigate to home
