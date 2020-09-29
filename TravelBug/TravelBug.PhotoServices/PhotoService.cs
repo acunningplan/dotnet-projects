@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PhotoSauce.MagicScaler;
+
 using System;
 using System.IO;
 using System.Linq;
@@ -10,8 +10,10 @@ using TravelBug.Context;
 using TravelBug.Entities;
 using TravelBug.Infrastructure;
 using TravelBug.Infrastructure.Exceptions;
-using TravelBug.Infrastructure.PhotoLogic;
-
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Processors.Transforms;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace TravelBug.PhotoServices
 {
@@ -45,31 +47,42 @@ namespace TravelBug.PhotoServices
       if (file == null || file.Length == 0)
         throw new RestException(HttpStatusCode.BadRequest, "Invalid file input.");
 
-
       // Write FormFile into byte array
       byte[] data;
-      using (var stream = file.OpenReadStream())
-      using (var outStream = new MemoryStream((int)stream.Length))
+      // memory stream
+      using (var memoryStream = new MemoryStream())
+      // filestream
+      using (var image = SixLabors.ImageSharp.Image.Load(file.OpenReadStream()))
       {
-        const int size = 150;
-        const int quality = 75;
 
-        var settings = new ProcessImageSettings()
+        // Resize to height = 200 (proportional)
+        var dims = image.Size();
+        int height = 200;
+        int width = (int)(((double)dims.Width / (double)dims.Height) * height);
+        ResizeMode mode = ResizeMode.Stretch;
+
+        // init resize object
+        var resizeOptions = new ResizeOptions
         {
-          Width = size,
-          Height = size,
-          ResizeMode = CropScaleMode.Max,
-          SaveFormat = FileFormat.Jpeg,
-          JpegQuality = quality,
-          JpegSubsampleMode = ChromaSubsampleMode.Subsample420
+          Size = new Size(width, height),
+          Mode = mode
         };
 
-        MagicImageProcessor.ProcessImage(outStream, stream, settings);
+        // mutate image
+        image.Mutate(x => x.Resize(resizeOptions));
 
-        using (var br = new BinaryReader(outStream))
-        { 
-          data = br.ReadBytes((int)file.OpenReadStream().Length);
-        }
+        //Encode here for quality
+        var encoder = new JpegEncoder()
+        {
+          Quality = 100 //Use variable to set between 5-30 based on your requirements
+        };
+
+        //This saves to the memoryStream with encoder
+        image.Save(memoryStream, encoder);
+        memoryStream.Position = 0; // The position needs to be reset.
+
+        // prepare result to byte[]
+        data = memoryStream.ToArray();
       }
 
       ByteArrayContent bytes = new ByteArrayContent(data);

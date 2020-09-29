@@ -28,6 +28,7 @@ import { BlogPageResolverService } from "./resolvers/blog-page-resolver.service"
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { LoadBlogResolverService } from "./resolvers/load-blog-resolver.service";
 import { DeleteModalComponent } from "./blogs/blog-page/delete-modal/delete-modal.component";
+// import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
   declarations: [

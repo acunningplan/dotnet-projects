@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, NgForm } from "@angular/forms";
+import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
@@ -8,8 +8,9 @@ import { Image } from "../models/image";
 import { BlogService } from "../services/blog.service";
 import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
-import { ImageUploadResponse } from "./image-upload-response";
-import { PostBlogResponse } from "./post-blog-response";
+
+// import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
+
 
 @Component({
   selector: "app-new-blog",
@@ -19,7 +20,7 @@ import { PostBlogResponse } from "./post-blog-response";
 export class NewBlogComponent implements OnInit, OnDestroy {
   blog: Blog;
   photos: (string | ArrayBuffer)[] = [];
-  files: File[] = [];
+  files: File[];
   warning: string = null;
   backToLink = "/";
 
@@ -38,6 +39,19 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     private routerTrackingService: RouterTrackingService,
     private http: HttpClient
   ) {}
+
+  // resizeOptions: ResizeOptions = {
+  //   resizeMaxHeight: 200
+  // };
+
+  // selected(imageResult: ImageResult) {
+  //     let src = imageResult.resized
+  //         && imageResult.resized.dataURL
+  //         || imageResult.dataURL;
+
+  //     this.photos.push(src)
+  // }
+
 
   ngOnInit() {
     let segment = this.activatedRoute.snapshot.url[0].path;
@@ -67,6 +81,9 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file); // read file as data url
       reader.onload = (pe: ProgressEvent) => {
         // called once readAsDataURL is completed
+
+        var arrayBuffer = reader.result;
+
         this.photos.push(reader.result);
       };
     }
