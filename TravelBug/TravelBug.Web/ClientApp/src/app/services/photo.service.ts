@@ -14,8 +14,8 @@ export class PhotoService {
   // uploadImages(images: Image[]) {
   //   this.httpClient.post(`${environment.apiUrl}/photo/`, images)
   // }
-  uploadImages(blogId: string, fd: FormData): Observable<ImageUploadResponse> {
-    return this.httpClient.post<ImageUploadResponse>(
+  uploadImages(blogId: string, fd: FormData): Observable<ImageUploadResponse[]> {
+    return this.httpClient.post<ImageUploadResponse[]>(
       `${environment.apiUrl}/photo/${blogId}`,
       fd
     );

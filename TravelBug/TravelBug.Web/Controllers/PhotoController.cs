@@ -9,6 +9,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TravelBug.Infrastructure.Exceptions;
 using TravelBug.Infrastructure.PhotoLogic;
+using System.Collections.Generic;
+using System.Linq;
 // using System.Text.Json;
 
 namespace TravelBug.Web.Controllers
@@ -34,45 +36,44 @@ namespace TravelBug.Web.Controllers
       _httpClient.DefaultRequestHeaders.Authorization =
               new AuthenticationHeaderValue("Bearer", _settings.AccessToken);
     }
-    [HttpPost("{blogId}")]
-    public async Task<PhotoUploadResult> UploadPhoto([FromForm] DataFromForm dataFromForm, string blogId)
+
+    private async Task<PhotoUploadResult> UploadAndSavePhoto(IFormFile file, string blogId)
     {
-      var file = dataFromForm.File;
-      var formData = await _photoService.ConvertToFormData(file, blogId);
-
-      // Upload form containing images to imgur
-      var response = await _httpClient.PostAsync("upload", formData);
-      if (!response.IsSuccessStatusCode) throw new RestException(response.StatusCode, "Upload failed");
-
-      var responseObject = JsonConvert.DeserializeObject<PhotoUploadResponse>(await response.Content.ReadAsStringAsync());
+      var response = await _httpClient.PostAsync("upload", _photoService.ConvertToFormData(file));
+      if (!response.IsSuccessStatusCode)
+        throw new RestException(response.StatusCode, "Upload failed");
+      var responseString = await response.Content.ReadAsStringAsync();
+      var responseObject = JsonConvert.DeserializeObject<PhotoUploadResponse>(responseString);
 
       var url = responseObject.Data.Link;
-        var id = responseObject.Data.Id;
+      var id = responseObject.Data.Id;
+      await _photoService.SavePhoto(url, id, blogId);
+      return new PhotoUploadResult { Url = url, Id = id };
+    }
 
-        // Save image url to database
-        await _photoService.SavePhoto(url, id, blogId);
+    [HttpPost("{blogId}")]
+    public async Task<IEnumerable<PhotoUploadResult>> UploadPhotos([FromForm] UploadForm uploadForm, string blogId)
+    {
+      // Check that current user is the author of the blog;
+      await _photoService.CheckUser(blogId);
 
-        return new PhotoUploadResult { Url = url, Id = id };
+      var files = uploadForm.Files;
+      var tasks = new List<Task<PhotoUploadResult>>();
 
-
-      // Deserialise response to get image id and url
-    //   using (var responseStream = await response.Content.ReadAsStreamAsync())
-    //   {
-    //     var uploadResult = await JsonSerializer.DeserializeAsync<PhotoUploadResponse>(responseStream);
-    //     if (uploadResult.Data == null) throw new Exception("No data from response");
-    //     var url = uploadResult.Data.Link;
-    //     var id = uploadResult.Data.Id;
-
-    //     // Save image url to database
-    //     await _photoService.SavePhoto(url, id, blogId);
-
-    //     return new PhotoUploadResult { Url = url, Id = id };
-    //   }
+      // Upload multiple images in parallel
+      files.ForEach(file =>
+      {
+        tasks.Add(UploadAndSavePhoto(file, blogId));
+      });
+      return await Task.WhenAll(tasks);
     }
 
     [HttpDelete("{blogId}/{imgurId}")]
     public async Task DeletePhoto(string blogId, string imgurId)
     {
+      // Check that current user is the author of the blog;
+      await _photoService.CheckUser(blogId);
+      
       var response = await _httpClient.DeleteAsync($"image/{imgurId}");
       var responseContent = response.Content.ReadAsStringAsync().Result;
       if (!response.IsSuccessStatusCode) throw new RestException(response.StatusCode, responseContent);
@@ -82,8 +83,8 @@ namespace TravelBug.Web.Controllers
     }
   }
 
-  public class DataFromForm
+  public class UploadForm
   {
-    public IFormFile File { get; set; }
+    public List<IFormFile> Files { get; set; }
   }
 }

@@ -91,7 +91,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   onUpload() {
     let fd = new FormData();
-    this.files.forEach((file) => fd.append("file", file, file.name));
+    this.files.forEach((file) => fd.append("files", file, file.name));
 
     for (var key of fd.entries()) {
       console.log(key[1]);
@@ -122,7 +122,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       this.warning = "Title and description must be non-empty.";
     } else if (this.newBlog) {
       let fd = new FormData();
-      this.files.forEach((file) => fd.append("file", file, file.name));
+      this.files.forEach((file) => fd.append("files", file, file.name));
 
       // Post blog, redirect to profile page, then upload images
       this.blogService
@@ -131,7 +131,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
           this.backToHome();
           this.photoService
             .uploadImages(res.id, fd)
-            .subscribe((res: ImageUploadResponse) => console.log(res.url));
+            .subscribe((res: ImageUploadResponse[]) => console.log(res));
         });
     } else {
       this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
