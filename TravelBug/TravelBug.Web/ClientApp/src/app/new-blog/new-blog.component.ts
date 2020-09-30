@@ -101,19 +101,33 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(title: NgForm, description: NgForm) {
-    // console.log(this.blog);
-    // console.log(title.value, description.value);
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
     } else if (this.newBlog) {
-      this.blogService.postBlog(this.blog).subscribe(() => {
-        // this.photoService.uploadImages();
-        this.backToHome();
-      });
+      let fd = new FormData();
+      this.files.forEach((file) => fd.append("file", file, file.name));
+
+      // Post blog, redirect to profile page, then upload images
+      this.blogService.postBlog(this.blog, fd);
     } else {
       this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
     }
   }
+
+  // onSubmit(title: NgForm, description: NgForm) {
+  // console.log(this.blog);
+  // console.log(title.value, description.value);
+  // if (!title.value || !description.value) {
+  //   this.warning = "Title and description must be non-empty.";
+  // } else if (this.newBlog) {
+  //   this.blogService.postBlog(this.blog).subscribe(() => {
+  //     // this.photoService.uploadImages();
+  //     this.backToHome();
+  //   });
+  // } else {
+  //   this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
+  // }
+  // }
 
   private backToHome() {
     // Reset blog and navigate to home
