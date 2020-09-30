@@ -4,6 +4,11 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
 import { tap } from "rxjs/operators";
+import { PostBlogResponse } from "../new-blog/post-blog-response";
+import { ImageUploadResponse } from "../new-blog/image-upload-response";
+import { Observable } from "rxjs";
+import { PhotoService } from "./photo.service";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +18,11 @@ export class BlogService {
   private currentBlog: Blog;
   private editedBlog: Blog;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private photoService: PhotoService,
+    private router: Router
+  ) {}
 
   saveCurrentBlog(blog: Blog) {
     this.currentBlog = blog;
@@ -40,8 +49,17 @@ export class BlogService {
     return this.editedBlog || new Blog();
   }
 
-  postBlog(blog: Blog) {
-    return this.httpClient.post(`${environment.apiUrl}/blog/`, blog);
+  // Post blog and upload photos
+  postBlog(blog: Blog, fd: FormData) {
+    // Post blog without images
+    this.httpClient
+      .post<PostBlogResponse>(`${environment.apiUrl}/blog`, blog)
+      .subscribe((res: PostBlogResponse) => {
+        this.router.navigate([`/profile/${window.localStorage.getItem("travelBug:Username")}`]);
+        this.photoService
+          .uploadImages(res.id, fd)
+          .subscribe((res: ImageUploadResponse) => console.log(res.url)); 
+      });
   }
 
   showBlogs() {

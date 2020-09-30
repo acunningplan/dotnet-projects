@@ -5,11 +5,27 @@
       <h2 *ngIf="!newBlog">Update blog</h2>
       <div class="form-group">
         <label for="title">Title</label>
-        <input #title="ngModel" [(ngModel)]="blog.title" class="form-control" id="title" name="title" required type="title"/>
+        <input
+          #title="ngModel"
+          [(ngModel)]="blog.title"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+          type="title"
+        />
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea #description="ngModel" [(ngModel)]="blog.description" class="form-control" id="description" name="description" required type="description"></textarea>
+        <textarea
+          #description="ngModel"
+          [(ngModel)]="blog.description"
+          class="form-control"
+          id="description"
+          name="description"
+          required
+          type="description"
+        ></textarea>
       </div>
 
       <div [hidden]="!warning" class="alert alert-danger warning-banner">
@@ -17,19 +33,36 @@
       </div>
 
       <!-- Preview uploaded image -->
-      <img *ngFor="let photo of photos" [src]="photo" class="mb-3 ml-3" height="200" />
-      <br/>
+      <img
+        *ngFor="let photo of photos"
+        [src]="photo"
+        class="mb-3 ml-3"
+        height="200"
+      />
+      <br />
       <!-- <input type="file" (change)="onSelectFile($event)" /> -->
-      <input #hiddenFileInput (change)="onSelectFile($event)" class="hidden-file-input" type="file"/>
+      <input
+        #hiddenFileInput
+        (change)="onSelectFile($event)"
+        class="hidden-file-input"
+        type="file"
+      />
       <button (click)="hiddenFileInput.click()" class="btn btn-primary">
-        Choose image
-      </button>
-      <button (click)="onUpload()" class="btn btn-primary ml-3">
-        Upload
+        Add photo
       </button>
       <div class="row">
-        <button (click)="onSubmit(title, description)" class="btn btn-success" type="submit">Submit</button>
-        <button [routerLink]="[backToLink]" class="btn btn-secondary ml-3" type="button">
+        <button
+          (click)="onSubmit(title, description)"
+          class="btn btn-success"
+          type="submit"
+        >
+          Submit
+        </button>
+        <button
+          [routerLink]="[backToLink]"
+          class="btn btn-secondary ml-3"
+          type="button"
+        >
           Cancel
         </button>
       </div>
