@@ -87,16 +87,6 @@ export class NewBlogComponent implements OnInit, OnDestroy {
         let blogId = res.id;
         // Upload images to imgur, then save image url's to blog
 
-        // Test imgur
-        // this.http
-        //   .post("https://api.imgur.com/3/upload", fd, {
-        //     headers: new HttpHeaders({
-        //       Authorization:
-        //         "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJlZCIsIm5iZiI6MTYwMTI4NzE3MCwiZXhwIjoxNjAxODkxOTcwLCJpYXQiOjE2MDEyODcxNzB9.3FzAtCvi-V1gNXJw3lERi-yuM6M1UKtUt913sFkvYUpR4wuxrfXBFE4JnqFlDbU3HKjXdtmBRTLe59qmTZfdbQ",
-        //     }),
-        //   })
-        //   .subscribe((res) => console.log(res));
-
         this.http.post(`${environment.apiUrl}/photo/${blogId}`, fd).subscribe(
           (res: ImageUploadResponse) => {
             // this.router.navigate(["/"]);
