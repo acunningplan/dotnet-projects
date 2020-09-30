@@ -2,7 +2,18 @@
   <div class="col-12 col-lg-9">
     <div class="card">
       <div class="card-body">
-        <h3 class="card-title">{{ blog.title }}</h3>
+        <div class="card-title d-flex justify-content-between">
+          <h3>
+            {{ blog.title }}
+          </h3>
+          <button
+            (click)="onEdit()"
+            *ngIf="userIsAuthor"
+            class="btn btn-primary"
+          >
+            Edit
+          </button>
+        </div>
         <h6 class="card-subtitle mb-2 text-muted">
           <img [src]="blog.user.photoUrl" class="user-thumbnail" />
           {{ blog.user.displayName }}
