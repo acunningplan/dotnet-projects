@@ -8,9 +8,10 @@ import { Image } from "../models/image";
 import { BlogService } from "../services/blog.service";
 import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
+import { ImageUploadResponse } from "./image-upload-response";
+import { PostBlogResponse } from "./post-blog-response";
 
 // import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
-
 
 @Component({
   selector: "app-new-blog",
@@ -20,7 +21,7 @@ import { RouterTrackingService } from "../services/router-tracking.service";
 export class NewBlogComponent implements OnInit, OnDestroy {
   blog: Blog;
   photos: (string | ArrayBuffer)[] = [];
-  files: File[];
+  files: File[] = [];
   warning: string = null;
   backToLink = "/";
 
@@ -51,7 +52,6 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   //     this.photos.push(src)
   // }
-
 
   ngOnInit() {
     let segment = this.activatedRoute.snapshot.url[0].path;
@@ -125,7 +125,14 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       this.files.forEach((file) => fd.append("file", file, file.name));
 
       // Post blog, redirect to profile page, then upload images
-      this.blogService.postBlog(this.blog, fd);
+      this.blogService
+        .postBlog(this.blog)
+        .subscribe((res: PostBlogResponse) => {
+          this.backToHome();
+          this.photoService
+            .uploadImages(res.id, fd)
+            .subscribe((res: ImageUploadResponse) => console.log(res.url));
+        });
     } else {
       this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
     }
@@ -149,7 +156,10 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   private backToHome() {
     // Reset blog and navigate to home
     this.blog = new Blog();
-    this.router.navigate(["/profile"]);
+    this.router.navigate([
+      "/profile",
+      window.localStorage.getItem("travelBug:Username"),
+    ]);
   }
 
   ngOnDestroy() {

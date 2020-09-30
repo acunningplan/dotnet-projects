@@ -50,16 +50,12 @@ export class BlogService {
   }
 
   // Post blog and upload photos
-  postBlog(blog: Blog, fd: FormData) {
+  postBlog(blog: Blog) {
     // Post blog without images
-    this.httpClient
-      .post<PostBlogResponse>(`${environment.apiUrl}/blog`, blog)
-      .subscribe((res: PostBlogResponse) => {
-        this.router.navigate([`/profile/${window.localStorage.getItem("travelBug:Username")}`]);
-        this.photoService
-          .uploadImages(res.id, fd)
-          .subscribe((res: ImageUploadResponse) => console.log(res.url)); 
-      });
+    return this.httpClient.post<PostBlogResponse>(
+      `${environment.apiUrl}/blog`,
+      blog
+    );
   }
 
   showBlogs() {
