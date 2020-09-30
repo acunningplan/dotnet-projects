@@ -29,7 +29,7 @@ namespace TravelBug.PhotoServices
       _userAccessor = userAccessor;
     }
 
-    private async Task CheckUser(string blogId)
+    public async Task CheckUser(string blogId)
     {
       var username = _userAccessor.GetCurrentUsername();
 
@@ -40,9 +40,9 @@ namespace TravelBug.PhotoServices
         throw new RestException(HttpStatusCode.Forbidden, "This is not your blog!");
     }
 
-    public async Task<MultipartFormDataContent> ConvertToFormData(IFormFile file, string blogId)
+    public MultipartFormDataContent ConvertToFormData(IFormFile file)
     {
-      await CheckUser(blogId);
+    //   await CheckUser(blogId);
 
       if (file == null || file.Length == 0)
         throw new RestException(HttpStatusCode.BadRequest, "Invalid file input.");
