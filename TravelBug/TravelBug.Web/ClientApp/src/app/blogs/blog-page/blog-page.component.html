@@ -6,13 +6,23 @@
           <h3>
             {{ blog.title }}
           </h3>
-          <button
-            (click)="onEdit()"
-            *ngIf="userIsAuthor"
-            class="btn btn-primary"
-          >
-            Edit
-          </button>
+          <div>
+            <button
+              (click)="onEdit()"
+              *ngIf="userIsAuthor"
+              class="btn btn-primary"
+            >
+              Edit
+            </button>
+            <button
+              *ngIf="userIsAuthor"
+              class="btn btn-danger ml-3"
+              data-toggle="modal"
+              data-target="#deleteModal"
+            >
+              Delete
+            </button>
+          </div>
         </div>
         <h6 class="card-subtitle mb-2 text-muted">
           <img [src]="blog.user.photoUrl" class="user-thumbnail" />

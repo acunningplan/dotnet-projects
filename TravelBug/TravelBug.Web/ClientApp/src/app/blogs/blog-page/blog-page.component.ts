@@ -52,4 +52,8 @@ export class BlogPageComponent implements OnInit {
     this.blogService.setEditedBlog(this.blog);
     this.router.navigate([`/edit-blog/${this.blog.id}`]);
   }
+
+  onDelete() {
+    
+  }
 }
