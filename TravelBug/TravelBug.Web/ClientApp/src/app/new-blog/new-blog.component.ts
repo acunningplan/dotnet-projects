@@ -6,6 +6,7 @@ import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
 import { Image } from "../models/image";
 import { BlogService } from "../services/blog.service";
+import { BlogData } from "../services/blogData";
 import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
 import { ImageUploadResponse } from "./image-upload-response";
@@ -34,7 +35,6 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   constructor(
     private blogService: BlogService,
     private photoService: PhotoService,
-    // private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
@@ -53,39 +53,51 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   //     this.photos.push(src)
   // }
 
+  private loadBlog(blogData: BlogData) {
+    let { blog, photos, files } = blogData;
+    this.blog = blog;
+    this.photos = photos;
+    this.files = files;
+  }
+
   ngOnInit() {
+    // Find out whether this is in new or edit mode
     let segment = this.activatedRoute.snapshot.url[0].path;
     console.log(segment);
     this.newBlog = segment === "new-blog";
 
-    if (this.newBlog) {
-      this.blog = this.blogService.loadCurrentBlog();
-    } else {
-      this.blog = this.blogService.loadEditedBlog();
-    }
-    // if (!this.update) this.blog = this.blogService.loadCurrentBlog();
-    // else this.blog = new Blog();
-    this.backToLink = this.routerTrackingService.prevUrl;
+    let blogData = this.newBlog
+      ? this.blogService.loadCurrentBlog()
+      : this.blogService.loadEditedBlog();
 
-    // this.uploadForm = this.formBuilder.group({
-    //   photos: ['']
-    // });
+    this.loadBlog(blogData);
+    this.backToLink = this.routerTrackingService.prevUrl;
   }
 
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
+      // Add file for upload
       let file = <File>event.target.files[0];
       this.files.push(file);
 
+      // Get data url to display selected image
       var reader = new FileReader();
-      reader.readAsDataURL(file); // read file as data url
+      reader.readAsDataURL(file);
       reader.onload = (pe: ProgressEvent) => {
-        // called once readAsDataURL is completed
-
-        var arrayBuffer = reader.result;
+        // var arrayBuffer = reader.result;
 
         this.photos.push(reader.result);
       };
+    }
+  }
+
+  // Cancel photo upload
+  onClickDelete(id: number) {
+    this.photos.splice(id, 1);
+    this.files.splice(id, 1);
+
+    if (!this.newBlog) {
+      this.http.delete(`${environment.apiUrl}`);
     }
   }
 
@@ -93,20 +105,14 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     let fd = new FormData();
     this.files.forEach((file) => fd.append("files", file, file.name));
 
-    for (var key of fd.entries()) {
-      console.log(key[1]);
-    }
-
     // Post blog without images
-    this.http.post(`${environment.apiUrl}/blog`, this.blog).subscribe(
+    this.blogService.postBlog(this.blog).subscribe(
       (res: PostBlogResponse) => {
-        console.log("Uploading images");
         let blogId = res.id;
         // Upload images to imgur, then save image url's to blog
-
-        this.http.post(`${environment.apiUrl}/photo/${blogId}`, fd).subscribe(
-          (res: ImageUploadResponse) => {
-            // this.router.navigate(["/"]);
+        this.photoService.uploadImages(blogId, fd).subscribe(
+          (res: ImageUploadResponse[]) => {
+            console.log(res);
           },
           // Log error if image upload fails
           (err) => console.log(err)
@@ -138,21 +144,6 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     }
   }
 
-  // onSubmit(title: NgForm, description: NgForm) {
-  // console.log(this.blog);
-  // console.log(title.value, description.value);
-  // if (!title.value || !description.value) {
-  //   this.warning = "Title and description must be non-empty.";
-  // } else if (this.newBlog) {
-  //   this.blogService.postBlog(this.blog).subscribe(() => {
-  //     // this.photoService.uploadImages();
-  //     this.backToHome();
-  //   });
-  // } else {
-  //   this.blogService.patchBlog(this.blog).subscribe(() => this.backToHome());
-  // }
-  // }
-
   private backToHome() {
     // Reset blog and navigate to home
     this.blog = new Blog();
@@ -164,6 +155,11 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // Save the current blog
-    if (this.newBlog) this.blogService.saveCurrentBlog(this.blog);
+    if (this.newBlog)
+      this.blogService.saveCurrentBlog({
+        blog: this.blog,
+        photos: this.photos,
+        files: this.files,
+      });
   }
 }
