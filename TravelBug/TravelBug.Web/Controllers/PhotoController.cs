@@ -11,6 +11,7 @@ using TravelBug.Infrastructure.Exceptions;
 using TravelBug.Infrastructure.PhotoLogic;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 // using System.Text.Json;
 
 namespace TravelBug.Web.Controllers
@@ -39,16 +40,16 @@ namespace TravelBug.Web.Controllers
 
     private async Task<PhotoUploadResult> UploadAndSavePhoto(IFormFile file, string blogId)
     {
+      // Upload photo to Imgur
       var response = await _httpClient.PostAsync("upload", _photoService.ConvertToFormData(file));
       if (!response.IsSuccessStatusCode)
         throw new RestException(response.StatusCode, "Upload failed");
       var responseString = await response.Content.ReadAsStringAsync();
       var responseObject = JsonConvert.DeserializeObject<PhotoUploadResponse>(responseString);
 
-      var url = responseObject.Data.Link;
-      var id = responseObject.Data.Id;
-      await _photoService.SavePhoto(url, id, blogId);
-      return new PhotoUploadResult { Url = url, Id = id };
+      // Save photo data in database
+      await _photoService.SavePhoto(responseObject, blogId);
+      return new PhotoUploadResult(responseObject);
     }
 
     [HttpPost("{blogId}")]
@@ -61,30 +62,59 @@ namespace TravelBug.Web.Controllers
       var tasks = new List<Task<PhotoUploadResult>>();
 
       // Upload multiple images in parallel
-      files.ForEach(file =>
+      if (files != null)
       {
-        tasks.Add(UploadAndSavePhoto(file, blogId));
-      });
+        files.ForEach(file =>
+        {
+          tasks.Add(UploadAndSavePhoto(file, blogId));
+        });
+      }
       return await Task.WhenAll(tasks);
     }
 
-    [HttpDelete("{blogId}/{imgurId}")]
-    public async Task DeletePhoto(string blogId, string imgurId)
+
+    private async Task DeletePhoto(string url, string blogId)
+    {
+      // Get delete hash of the photo in order to delete it on Imgur
+      var photo = await _photoService.GetPhotoByUrl(url);
+      var deleteHash = photo.DeleteHash;
+
+      // Delete it in the database (and check that the photo belongs to the blog)
+      await _photoService.DeletePhoto(url, blogId);
+
+      // Delete the photo on Imgur
+      var response = await _httpClient.DeleteAsync($"image/{deleteHash}");
+      if (!response.IsSuccessStatusCode)
+        throw new RestException(response.StatusCode, "Cannot delete image on Imgur");
+    }
+
+    [HttpDelete("{blogId}")]
+    public async Task DeletePhotos([FromBody] DeleteForm deleteForm, string blogId)
     {
       // Check that current user is the author of the blog;
       await _photoService.CheckUser(blogId);
-      
-      var response = await _httpClient.DeleteAsync($"image/{imgurId}");
-      var responseContent = response.Content.ReadAsStringAsync().Result;
-      if (!response.IsSuccessStatusCode) throw new RestException(response.StatusCode, responseContent);
+      var urls = deleteForm.Urls;
+      // var tasks = new List<Task>();
 
-      // Delete image url from database
-      await _photoService.DeletePhoto(blogId, imgurId);
+      // Delete multiple photos in parallel
+      if (urls != null)
+      {
+        foreach (var url in urls)
+        {
+          await DeletePhoto(url, blogId);
+        }
+      }
+      // await Task.WhenAll(tasks);
     }
   }
 
   public class UploadForm
   {
     public List<IFormFile> Files { get; set; }
+  }
+
+  public class DeleteForm
+  {
+    public List<string> Urls { get; set; }
   }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TravelBug.Entities;
+using TravelBug.Infrastructure.PhotoLogic;
 
 namespace TravelBug.PhotoServices
 {
@@ -8,7 +10,8 @@ namespace TravelBug.PhotoServices
   {
     Task CheckUser(string blogId);
     MultipartFormDataContent ConvertToFormData(IFormFile file);
-    Task DeletePhoto(string imgurId, string blogId);
-    Task SavePhoto(string url, string id, string blogId);
+    Task<Image> GetPhotoByUrl(string url);
+    Task DeletePhoto(string url, string blogId);
+    Task SavePhoto(PhotoUploadResponse responseObject, string blogId);
   }
 }

@@ -32,19 +32,19 @@
         {{ warning }}
       </div>
 
+      <!-- Existing images for edited blog (edit mode only) -->
+      <app-image-container
+        [photo]="photo.url"
+        [id]="i"
+        *ngFor="let photo of photos; let i = index"
+        (clickDelete)="onClickDeleteExisting($event)"
+      ></app-image-container>
+
       <!-- Preview uploaded images for new blog -->
       <app-image-container
         [photo]="photoUrl"
         [id]="i"
         *ngFor="let photoUrl of photosToUpload; let i = index"
-        (clickDelete)="onClickDelete($event)"
-      ></app-image-container>
-
-      <!-- Existing images for edited blog -->
-      <app-image-container
-        [photo]="photo.url"
-        [id]="i"
-        *ngFor="let photo of photos; let i = index"
         (clickDelete)="onClickDelete($event)"
       ></app-image-container>
 

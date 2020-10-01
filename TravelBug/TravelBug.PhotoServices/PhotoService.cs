@@ -14,6 +14,8 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using Microsoft.EntityFrameworkCore;
+using TravelBug.Infrastructure.PhotoLogic;
 
 namespace TravelBug.PhotoServices
 {
@@ -42,7 +44,7 @@ namespace TravelBug.PhotoServices
 
     public MultipartFormDataContent ConvertToFormData(IFormFile file)
     {
-    //   await CheckUser(blogId);
+      //   await CheckUser(blogId);
 
       if (file == null || file.Length == 0)
         throw new RestException(HttpStatusCode.BadRequest, "Invalid file input.");
@@ -92,23 +94,32 @@ namespace TravelBug.PhotoServices
       return multiContent;
     }
 
-    public async Task SavePhoto(string url, string imgurId, string blogId)
+    public async Task SavePhoto(PhotoUploadResponse responseObject, string blogId)
     {
+      var url = responseObject.Data.Link;
+      var id = responseObject.Data.Id;
+      var deleteHash = responseObject.Data.DeleteHash;
 
       var blog = await _context.Blogs.FindAsync(Guid.Parse(blogId));
       blog.Images.Add(
-          new TravelBug.Entities.Image() { Url = url, ImgurId = imgurId });
+          new TravelBug.Entities.Image() { Url = url, ImgurId = id, DeleteHash = deleteHash });
 
       var success = await _context.SaveChangesAsync() > 0;
       if (!success)
         throw new Exception("Problem saving changes");
     }
 
-    public async Task DeletePhoto(string blogId, string imgurId)
+    public async Task<TravelBug.Entities.Image> GetPhotoByUrl(string url)
     {
-      await CheckUser(blogId);
+      return await _context.Images.FirstOrDefaultAsync(i => i.Url == url);
+    }
 
-      var image = _blog.Images.SingleOrDefault(b => b.ImgurId == imgurId)
+    public async Task DeletePhoto(string url, string blogId)
+    {
+      var blog = await _context.Blogs.FindAsync(Guid.Parse(blogId));
+
+      // Check that the image belongs to the blog
+      var image = _blog.Images.SingleOrDefault(b => b.Url == url)
           ?? throw new RestException(HttpStatusCode.NotFound, "Image not found.");
 
       _blog.Images.Remove(image);

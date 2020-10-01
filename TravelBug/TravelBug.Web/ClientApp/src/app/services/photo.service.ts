@@ -30,7 +30,7 @@ export class PhotoService {
         "Content-Type": "application/json",
       }),
       body: {
-        urls: imageUrls
+        urls: imageUrls,
       },
     };
 

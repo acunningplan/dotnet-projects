@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { PhotoService } from "./photo.service";
 import { Router } from "@angular/router";
 import { Image } from "../models/image";
-import { BlogData } from "./blogData";
+import { BlogData } from "../models/blogData";
 
 @Injectable({
   providedIn: "root",

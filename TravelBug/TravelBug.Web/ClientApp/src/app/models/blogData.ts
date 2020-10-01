@@ -1,5 +1,5 @@
-import { Blog } from "../models/blog";
-import { Image } from "../models/image";
+import { Blog } from "./blog";
+import { Image } from "./image";
 
 export class BlogData {
   // The blog (with title and description)

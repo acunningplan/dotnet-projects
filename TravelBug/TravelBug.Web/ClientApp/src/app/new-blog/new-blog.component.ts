@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Blog } from "../models/blog";
 import { Image } from "../models/image";
 import { BlogService } from "../services/blog.service";
-import { BlogData } from "../services/blogData";
+import { BlogData } from "../models/blogData";
 import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
 import { ImageUploadResponse } from "./image-upload-response";
@@ -26,7 +26,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   backToLink = "/";
 
   // Edit blog
-  photosToDelete = [];
+  photosToDelete: string[] = [];
   photos: Image[] = [];
 
   // uploadForm: FormGroup
@@ -103,18 +103,19 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   // Cancel photo upload
   onClickDelete(id: number) {
-    if (this.newBlog) {
-      // Delete photo from memory
-      this.photosToUpload.splice(id, 1);
-      this.files.splice(id, 1);
-    } else {
-      // Flag photo for delete
-      this.photosToDelete.push(this.photos[id].url);
-      this.photos.splice(id, 1);
-    }
+    this.photosToUpload.splice(id, 1);
+    this.files.splice(id, 1);
+  }
+
+  // Delete existing photos in blog
+  onClickDeleteExisting(id: number) {
+    // Flag photo for delete
+    this.photosToDelete.push(this.photos[id].url);
+    this.photos.splice(id, 1);
   }
 
   onSubmit(title: NgForm, description: NgForm) {
+    // First, check the blog has a title and description
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
     } else {
@@ -127,19 +128,22 @@ export class NewBlogComponent implements OnInit, OnDestroy {
         this.blogService
           .postBlog(this.blog)
           .subscribe((res: PostBlogResponse) => {
-            this.backToHome();
+            // Go back to home (deletes component!)
             this.photoService
               .uploadImages(res.id, fd)
               .subscribe((res: ImageUploadResponse[]) => console.log(res));
+            this.backToHome();
           });
       } else {
+        // Edit blog, redirect to profile page, then upload and delete images
         this.blogService.patchBlog(this.blog).subscribe(() => {
-          this.backToHome();
-          this.photoService.uploadImages(this.blog.id, fd).subscribe(() => {
+          let blogId = this.blog.id;
+          this.photoService.uploadImages(blogId, fd).subscribe(() => {
             this.photoService
-              .deleteImages(this.blog.id, this.photosToDelete)
+              .deleteImages(blogId, this.photosToDelete)
               .subscribe();
           });
+          this.backToHome();
         });
       }
     }
