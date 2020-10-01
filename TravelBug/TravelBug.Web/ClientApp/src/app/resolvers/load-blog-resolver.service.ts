@@ -30,15 +30,15 @@ export class LoadBlogResolverService {
     return this.httpClient
       .get<Blog>(`${environment.apiUrl}/blog/${route.params["id"]}`)
       .pipe(
-        tap((res) => {
+        tap((blog) => {
           // Check if current user is actually the author of the blog
           if (
-            res.user.username !==
+            blog.user.username !==
             window.localStorage.getItem("travelBug:Username")
           )
             throw new Error();
           else {
-            this.blogService.setEditedBlog(res);
+            this.blogService.setEditedBlog(blog);
           }
         }),
         catchError((err) => {

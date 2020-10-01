@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -14,10 +14,29 @@ export class PhotoService {
   // uploadImages(images: Image[]) {
   //   this.httpClient.post(`${environment.apiUrl}/photo/`, images)
   // }
-  uploadImages(blogId: string, fd: FormData): Observable<ImageUploadResponse[]> {
+  uploadImages(
+    blogId: string,
+    fd: FormData
+  ): Observable<ImageUploadResponse[]> {
     return this.httpClient.post<ImageUploadResponse[]>(
       `${environment.apiUrl}/photo/${blogId}`,
       fd
+    );
+  }
+
+  deleteImages(blogId: string, imageUrls: string[]) {
+    const options = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      }),
+      body: {
+        urls: imageUrls
+      },
+    };
+
+    return this.httpClient.delete<ImageUploadResponse[]>(
+      `${environment.apiUrl}/photo/${blogId}`,
+      options
     );
   }
 }

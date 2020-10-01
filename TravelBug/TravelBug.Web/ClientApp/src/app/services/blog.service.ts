@@ -9,14 +9,18 @@ import { ImageUploadResponse } from "../new-blog/image-upload-response";
 import { Observable } from "rxjs";
 import { PhotoService } from "./photo.service";
 import { Router } from "@angular/router";
+import { Image } from "../models/image";
+import { BlogData } from "./blogData";
 
 @Injectable({
   providedIn: "root",
 })
 export class BlogService {
   blogs: Blog[] = [];
-  private currentBlog: Blog;
-  private editedBlog: Blog;
+  photos: (string | ArrayBuffer)[];
+  photoFiles: File[];
+  currentBlogData: BlogData;
+  editedBlogData: BlogData;
 
   constructor(
     private httpClient: HttpClient,
@@ -24,8 +28,8 @@ export class BlogService {
     private router: Router
   ) {}
 
-  saveCurrentBlog(blog: Blog) {
-    this.currentBlog = blog;
+  saveCurrentBlog(blogData: BlogData) {
+    this.currentBlogData = blogData;
   }
 
   fetchOwnBlogs() {
@@ -37,16 +41,20 @@ export class BlogService {
   }
 
   loadCurrentBlog() {
-    return this.currentBlog || new Blog();
+    return this.currentBlogData || new BlogData();
   }
 
-  // Edit blog
+  // Set edited blog using resolver
   setEditedBlog(blog: Blog) {
-    this.editedBlog = blog;
+    let blogData = new BlogData();
+    blogData.blog = blog;
+    blogData.photos = blog.images;
+    this.editedBlogData = blogData;
   }
 
   loadEditedBlog() {
-    return this.editedBlog || new Blog();
+    console.log(this.editedBlogData);
+    return this.editedBlogData;
   }
 
   // Post blog and upload photos
