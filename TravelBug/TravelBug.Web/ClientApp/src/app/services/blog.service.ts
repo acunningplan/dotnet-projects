@@ -41,15 +41,19 @@ export class BlogService {
   }
 
   loadCurrentBlog() {
-    return this.currentBlogData;
+    return this.currentBlogData || new BlogData();
   }
 
-  // Edit blog
-  setEditedBlog(blogData: BlogData) {
-    this.currentBlogData = blogData;
+  // Set edited blog using resolver
+  setEditedBlog(blog: Blog) {
+    let blogData = new BlogData();
+    blogData.blog = blog;
+    blogData.photos = blog.images;
+    this.editedBlogData = blogData;
   }
 
   loadEditedBlog() {
+    console.log(this.editedBlogData);
     return this.editedBlogData;
   }
 
