@@ -1,5 +1,5 @@
 import { Blog } from "./blog";
-import { Image } from "./image";
+import { Photo } from "./image";
 
 export class BlogData {
   // The blog (with title and description)
@@ -11,7 +11,7 @@ export class BlogData {
   files: File[] = [];
 
   // Existing photos in a blog (imgur url's, edit mode only)
-  photos?: Image[] = [];
+  photos?: Photo[] = [];
   // Photos to delete (imgur url's, edit mode only)
   photosToDelete?: string[] = [];
 }

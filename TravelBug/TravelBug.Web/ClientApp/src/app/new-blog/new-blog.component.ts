@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Blog } from "../models/blog";
-import { Image } from "../models/image";
+import { Photo } from "../models/image";
 import { BlogService } from "../services/blog.service";
 import { BlogData } from "../models/blogData";
 import { PhotoService } from "../services/photo.service";
@@ -27,7 +27,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   // Edit blog
   photosToDelete: string[] = [];
-  photos: Image[] = [];
+  photos: Photo[] = [];
 
   // uploadForm: FormGroup
 
@@ -152,6 +152,8 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   private backToHome() {
     // Reset blog and navigate to home
     this.blog = new Blog();
+    this.photos = [];
+    this.files = [];
     this.router.navigate([
       "/profile",
       window.localStorage.getItem("travelBug:Username"),

@@ -12,15 +12,12 @@
         src="assets/travels.svg"
       />
       <h2>{{ profile && profile.displayName }}</h2>
-      <button
-        (click)="signOut()"
-        class="btn btn-primary"
-        color="primary"
-        mat-flat-button
-        type="button"
-      >
-        Sign Out
-      </button>
+      <div *ngIf="allowEdit">
+        <button (click)="onEdit()" class="btn btn-primary m-2">Edit</button>
+        <button (click)="signOut()" class="btn btn-primary m-2">
+          Sign Out
+        </button>
+      </div>
     </div>
     <div class="col-12 col-lg-7">
       <app-user-blogs [blogs]="blogs"></app-user-blogs>

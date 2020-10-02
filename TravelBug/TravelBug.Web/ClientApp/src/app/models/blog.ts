@@ -1,10 +1,10 @@
 import { Profile } from "./profile";
-import {Image} from "./image"
+import {Photo} from "./image"
 
 export class Blog {
   id: string;
   user: Profile;
-  images: Image[];
+  images: Photo[];
   title = "";
   description = "";
   location = "";

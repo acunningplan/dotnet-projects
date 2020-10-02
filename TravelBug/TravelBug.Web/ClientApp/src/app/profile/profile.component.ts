@@ -15,13 +15,19 @@ export class ProfileComponent implements OnInit {
   loginSub: Subscription;
   blogs: Blog[];
   profile: Profile;
+  allowEdit = false;
 
   constructor(
     private accountService: AccountService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    let username = this.route.snapshot.url[1].path;
+    if (username === window.localStorage.getItem("travelBug:Username")) {
+      this.allowEdit = true;
+    }
     this.activatedRoute.data.subscribe(
       (data: { profile: Profile; blogs: Blog[] }) => {
         console.log(data);
@@ -35,5 +41,9 @@ export class ProfileComponent implements OnInit {
 
   signOut() {
     this.accountService.signOut();
+  }
+
+  onEdit() {
+    
   }
 }

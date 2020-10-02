@@ -9,7 +9,7 @@ import { ImageUploadResponse } from "../new-blog/image-upload-response";
 import { Observable } from "rxjs";
 import { PhotoService } from "./photo.service";
 import { Router } from "@angular/router";
-import { Image } from "../models/image";
+import { Photo } from "../models/image";
 import { BlogData } from "../models/blogData";
 
 @Injectable({
