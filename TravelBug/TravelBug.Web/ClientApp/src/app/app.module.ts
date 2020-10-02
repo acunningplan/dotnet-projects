@@ -28,7 +28,9 @@ import { BlogPageResolverService } from "./resolvers/blog-page-resolver.service"
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { LoadBlogResolverService } from "./resolvers/load-blog-resolver.service";
 import { DeleteModalComponent } from "./blogs/blog-page/delete-modal/delete-modal.component";
-import { ImageContainerComponent } from './new-blog/image-container/image-container.component';
+import { ImageContainerComponent } from "./new-blog/image-container/image-container.component";
+import { AppResolverService } from "./resolvers/app-resolver.service";
+import { BaseComponent } from "./base/base.component";
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -50,48 +52,58 @@ import { ImageContainerComponent } from './new-blog/image-container/image-contai
     NotFoundComponent,
     DeleteModalComponent,
     ImageContainerComponent,
+    BaseComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "account", component: AccountComponent },
       {
-        path: "profile/:username",
-        component: ProfileComponent,
+        path: "",
+        component: BaseComponent,
         resolve: {
-          profile: UserProfileResolverService,
-          blogs: UserBlogsResolverService,
+          appContent: AppResolverService,
         },
+        children: [
+          { path: "", component: HomeComponent, pathMatch: "full" },
+          { path: "account", component: AccountComponent },
+          {
+            path: "profile/:username",
+            component: ProfileComponent,
+            resolve: {
+              profile: UserProfileResolverService,
+              blogs: UserBlogsResolverService,
+            },
+          },
+          {
+            path: "blogs/:id",
+            component: BlogPageComponent,
+            resolve: {
+              blog: BlogPageResolverService,
+            },
+          },
+          {
+            path: "blogs",
+            component: BlogsComponent,
+            resolve: {
+              blogs: BlogListResolverService,
+              featuredUsers: FeaturedUsersResolverService,
+            },
+          },
+          { path: "new-blog", component: NewBlogComponent },
+          {
+            path: "edit-blog/:id",
+            component: NewBlogComponent,
+            resolve: {
+              blog: LoadBlogResolverService,
+            },
+          },
+          { path: "verify-email", component: VerifyEmailComponent },
+          { path: "not-found", component: NotFoundComponent },
+          { path: "**", redirectTo: "/not-found" },
+        ],
       },
-      {
-        path: "blogs/:id",
-        component: BlogPageComponent,
-        resolve: {
-          blog: BlogPageResolverService,
-        },
-      },
-      {
-        path: "blogs",
-        component: BlogsComponent,
-        resolve: {
-          blogs: BlogListResolverService,
-          featuredUsers: FeaturedUsersResolverService,
-        },
-      },
-      { path: "new-blog", component: NewBlogComponent },
-      {
-        path: "edit-blog/:id",
-        component: NewBlogComponent,
-        resolve: {
-          blog: LoadBlogResolverService,
-        },
-      },
-      { path: "verify-email", component: VerifyEmailComponent },
-      { path: "not-found", component: NotFoundComponent },
-      { path: "**", redirectTo: "/not-found" },
     ]),
   ],
   providers: [

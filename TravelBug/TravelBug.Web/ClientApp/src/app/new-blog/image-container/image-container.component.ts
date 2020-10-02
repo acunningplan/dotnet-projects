@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-import { Image } from 'src/app/models/image';
+import { Photo } from 'src/app/models/image';
 
 @Component({
   selector: 'app-image-container',
@@ -7,7 +7,7 @@ import { Image } from 'src/app/models/image';
   styleUrls: ['./image-container.component.css']
 })
 export class ImageContainerComponent implements OnInit {
-  @Input() photo: Image;
+  @Input() photo: Photo;
   @Input() id: number;
   @Output() clickDelete = new EventEmitter<number>();
 
