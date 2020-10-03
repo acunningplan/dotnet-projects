@@ -11,6 +11,7 @@ using TravelBug.Infrastructure.Exceptions;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using TravelBug.Dtos;
 
 namespace TravelBug.Web.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace TravelBug.CrudServices
+﻿namespace TravelBug.Dtos
 {
     public class ImageDto
     {

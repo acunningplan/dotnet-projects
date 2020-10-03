@@ -1,12 +1,9 @@
-using AutoMapper;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using TravelBug.CrudServices;
-using TravelBug.Entities;
+using Newtonsoft.Json;
 using TravelBug.Entities.UserData;
 
-namespace TravelBug.Infrastructure
+namespace TravelBug.Dtos
 {
     public class User
     {

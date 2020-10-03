@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TravelBug.CrudServices;
+using TravelBug.Dtos;
 using TravelBug.Entities;
 using TravelBug.Infrastructure;
 using TravelBug.Web.Controllers;

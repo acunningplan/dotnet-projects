@@ -1,51 +1,60 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using TravelBug.Dtos;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
 namespace TravelBug.Infrastructure.UserLogic
 {
-    public interface IRefreshTokenService
+  public interface IRefreshTokenService
+  {
+    Task<User> GetRefreshToken(string refreshToken);
+  }
+
+  public class RefreshTokenService : IRefreshTokenService
+  {
+    private readonly UserManager<AppUser> _userManager;
+    private readonly IJwtGenerator _jwtGenerator;
+    private readonly IUserAccessor _userAccessor;
+    private readonly IMapper _mapper;
+
+    public RefreshTokenService(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator, IUserAccessor userAccessor, IMapper mapper)
     {
-        Task<User> GetRefreshToken(string refreshToken);
+      _userManager = userManager;
+      _jwtGenerator = jwtGenerator;
+      _userAccessor = userAccessor;
+      _mapper = mapper;
     }
 
-    public class RefreshTokenService : IRefreshTokenService
+    public async Task<User> GetRefreshToken(string refreshToken
+        )
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IJwtGenerator _jwtGenerator;
-        private readonly IUserAccessor _userAccessor;
+      var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
 
-        public RefreshTokenService(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator, IUserAccessor userAccessor)
-        {
-            _userManager = userManager;
-            _jwtGenerator = jwtGenerator;
-            _userAccessor = userAccessor;
-        }
+      var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
 
-        public async Task<User> GetRefreshToken(string refreshToken
-            )
-        {
-            var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+      // If token is invalid, return 401
+      if (oldToken != null && !oldToken.IsActive) throw new RestException(HttpStatusCode.Unauthorized);
 
-            var oldToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken);
+      // Revoke the old token if it exists
+      if (oldToken != null)
+        oldToken.Revoked = DateTime.UtcNow;
 
-            // If token is invalid, return 401
-            if (oldToken != null && !oldToken.IsActive) throw new RestException(HttpStatusCode.Unauthorized);
+      // Add new token to user and save to database
+      var newRefreshToken = _jwtGenerator.GenerateRefreshToken();
+      user.RefreshTokens.Add(newRefreshToken);
+      await _userManager.UpdateAsync(user);
 
-            // Revoke the old token if it exists
-            if (oldToken != null)
-                oldToken.Revoked = DateTime.UtcNow;
+      // Return user data
+      var returnedUser = _mapper.Map<AppUser, User>(user);
+      returnedUser.Token = _jwtGenerator.CreateToken(user);
+      returnedUser.RefreshToken = newRefreshToken.Token;
 
-            // Add new token to user and save to database
-            var newRefreshToken = _jwtGenerator.GenerateRefreshToken();
-            user.RefreshTokens.Add(newRefreshToken);
-            await _userManager.UpdateAsync(user);
-
-            return new User(user, _jwtGenerator, newRefreshToken.Token);
-        }
+      return returnedUser;
     }
+  }
 }

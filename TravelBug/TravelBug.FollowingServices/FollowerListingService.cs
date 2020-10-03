@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TravelBug.Context;
+using TravelBug.Dtos;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure;
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TravelBug.Entities.UserData;
 using System;
 using System.Linq;
+using TravelBug.Dtos;
 
 namespace TravelBug.CrudServices
 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using TravelBug.Dtos;
 using TravelBug.Entities;
 using TravelBug.Entities.UserData;
 
