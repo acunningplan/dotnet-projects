@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using TravelBug.Entities;
 using TravelBug.Entities.UserData;
-using TravelBug.Infrastructure;
 
 namespace TravelBug.CrudServices
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using TravelBug.Entities;
-using TravelBug.Infrastructure;
 
 namespace TravelBug.CrudServices
 {

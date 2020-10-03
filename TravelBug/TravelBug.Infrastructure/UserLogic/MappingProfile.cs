@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using TravelBug.CrudServices;
+using TravelBug.Entities;
 using TravelBug.Entities.UserData;
 
 namespace TravelBug.Infrastructure
@@ -7,7 +9,8 @@ namespace TravelBug.Infrastructure
     {
         public MappingProfile()
         {
-            //CreateMap<AppUser, User>();
+            CreateMap<AppUser, User>();
+            CreateMap<Blog, BlogDto>();
         }
     }
 }

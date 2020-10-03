@@ -9,7 +9,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TravelBug.Infrastructure\TravelBug.Infrastructure.csproj" />
         <ProjectReference Include="..\TravelBug.Context\TravelBug.Context.csproj" />
         <ProjectReference Include="..\TravelBug.Entities\TravelBug.Entities.csproj" />
     </ItemGroup>

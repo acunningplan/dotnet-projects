@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,13 +20,15 @@ namespace TravelBug.Infrastructure
 
         private readonly UserManager<AppUser> _userManager;
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly IMapper _mapper;
 
         //private readonly IFacebookAccessor _facebookAccessor;
         //private readonly IJwtGenerator _jwtGenerator;
-        public ExternalLoginService(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
+        public ExternalLoginService(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator, IMapper mapper)
         {
             _userManager = userManager;
             _jwtGenerator = jwtGenerator;
+            _mapper = mapper;
         }
 
         public async Task<User> SaveUser(UserData userData, string socialMedia)
@@ -40,7 +43,7 @@ namespace TravelBug.Infrastructure
             {
                 user.RefreshTokens.Add(refreshToken);
                 await _userManager.UpdateAsync(user);
-                return new User(user, _jwtGenerator, refreshToken.Token);
+                return new User(user, _jwtGenerator, refreshToken.Token, _mapper);
             }
 
             // Otherwise, create the new user with info from social media and save to database
@@ -68,7 +71,7 @@ namespace TravelBug.Infrastructure
             if (!result.Succeeded)
                 throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
 
-            return new User(user, _jwtGenerator, refreshToken.Token);
+            return new User(user, _jwtGenerator, refreshToken.Token, _mapper);
         }
 
     }
