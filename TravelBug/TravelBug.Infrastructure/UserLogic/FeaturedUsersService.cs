@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TravelBug.Context;
+using TravelBug.Dtos;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.Infrastructure.UserLogic
 {
@@ -14,11 +17,13 @@ namespace TravelBug.Infrastructure.UserLogic
   public class FeaturedUsersService : IFeaturedUsersService
   {
     private readonly TravelBugContext _context;
+    private readonly IMapper _mapper;
     private readonly IList<string> _featuredUsers = new List<string> { "ed", "sam", "sarah" };
 
-    public FeaturedUsersService(TravelBugContext context)
+    public FeaturedUsersService(TravelBugContext context, IMapper mapper)
     {
       _context = context;
+      _mapper = mapper;
     }
 
     public async Task<List<User>> GetFeaturedUsers()
@@ -27,10 +32,9 @@ namespace TravelBug.Infrastructure.UserLogic
           .Where(u => _featuredUsers.Contains(u.UserName))
           .ToListAsync();
 
-      var users = new List<User>();
-      appUsers.ForEach(u => users.Add(new User(u)));
+      var returnedUsers = _mapper.Map<List<AppUser>, List<User>>(appUsers);
 
-      return users;
+      return returnedUsers;
     }
   }
 }

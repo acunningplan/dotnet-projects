@@ -31,6 +31,16 @@ code {
   margin: 0 8px;
 }
 
+
+.router-link {
+  cursor: pointer;
+}
+
+.router-link:hover {
+  text-decoration: underline;
+}
+
+
 /* Change colour of svg. See https://codepen.io/sosuke/pen/Pjoqqp */
 .icon-link {
   /* Bootstrap primary colour = #007bff; */

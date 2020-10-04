@@ -17,6 +17,8 @@
     <ItemGroup>
         <ProjectReference Include="..\TravelBug.Context\TravelBug.Context.csproj" />
         <ProjectReference Include="..\TravelBug.Services\TravelBug.CrudServices.csproj" />
+        <ProjectReference Include="..\TravelBug.Entities\TravelBug.Entities.csproj" />
+        <ProjectReference Include="..\TravelBug.Dtos\TravelBug.Dtos.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Email\" />

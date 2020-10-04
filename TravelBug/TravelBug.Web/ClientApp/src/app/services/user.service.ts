@@ -24,6 +24,27 @@ export class UserService {
     );
   }
 
+  followUser(user: Profile) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/profiles/${user.username}/follow`,
+      {}
+    );
+  }
+
+  unfollowUser(user: Profile) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/profiles/${user.username}/unfollow`,
+      {}
+    );
+  }
+
+  editProfile(profile: Profile) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/user/edit-profile/`,
+      profile
+    );
+  }
+
   // socialLogin(userData: UserData, socialMedia: "google" | "facebook") {
   //   this.httpClient
   //     .post(`${environment.apiUrl}/user/${socialMedia}-login`, userData)

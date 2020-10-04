@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
+using TravelBug.Dtos;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
@@ -29,13 +30,13 @@ namespace TravelBug.Infrastructure
     private readonly IMapper _mapper;
     private readonly IUserAccessor _userAccessor;
 
-        public LoginService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator, IMapper mapper, IUserAccessor userAccessor)
+    public LoginService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IJwtGenerator jwtGenerator, IMapper mapper, IUserAccessor userAccessor)
     {
       _signInManager = signInManager;
       _jwtGenerator = jwtGenerator;
-        _mapper = mapper;
-        _userManager = userManager;
-        _userAccessor = userAccessor;
+      _mapper = mapper;
+      _userManager = userManager;
+      _userAccessor = userAccessor;
     }
 
     // Login by email and password
@@ -55,7 +56,11 @@ namespace TravelBug.Infrastructure
         user.RefreshTokens.Add(refreshToken);
         await _userManager.UpdateAsync(user);
 
-        return new User(user, _jwtGenerator, refreshToken.Token);
+        var returnedUser = _mapper.Map<AppUser, User>(user);
+        returnedUser.Token = _jwtGenerator.CreateToken(user);
+        returnedUser.RefreshToken = refreshToken.Token;
+
+        return returnedUser;
       }
       throw new RestException(HttpStatusCode.Unauthorized, "Cannot sign in user");
     }
@@ -64,12 +69,12 @@ namespace TravelBug.Infrastructure
     // Auto-login with token
     public async Task<User> GetUserProfile()
     {
-        //var user = await _userManager.FindByNameAsync(input.Username);
+      //var user = await _userManager.FindByNameAsync(input.Username);
 
-        var username = _userAccessor.GetCurrentUsername();
-        var user = await _userManager.FindByNameAsync(username);
+      var username = _userAccessor.GetCurrentUsername();
+      var user = await _userManager.FindByNameAsync(username);
 
-        return new User(user);
+      return _mapper.Map<AppUser, User>(user);
     }
   }
 }

@@ -80,6 +80,9 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       ? this.blogService.loadCurrentBlog()
       : this.blogService.loadEditedBlog();
 
+    console.log("Blog data:");
+    console.log(blogData);
+
     this.loadBlog(blogData);
     this.backToLink = this.routerTrackingService.prevUrl;
   }

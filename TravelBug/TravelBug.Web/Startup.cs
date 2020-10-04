@@ -29,6 +29,7 @@ using TravelBug.Infrastructure.UserLogic;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
 using TravelBug.Infrastructure.Email;
+using TravelBug.Dtos;
 
 namespace TravelBug
 {
@@ -71,7 +72,7 @@ namespace TravelBug
       //        })
       //);
 
-      services.AddAutoMapper(typeof(User), typeof(BlogService));
+      services.AddAutoMapper(typeof(User), typeof(BlogService), typeof(LoginService));
       services.AddControllersWithViews(opt =>
       {
         var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();

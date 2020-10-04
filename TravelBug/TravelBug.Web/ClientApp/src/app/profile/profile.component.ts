@@ -5,6 +5,7 @@ import { Blog } from "../models/blog";
 import { Profile } from "../models/profile";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: "app-profile",
@@ -14,20 +15,21 @@ import { environment } from "src/environments/environment";
 export class ProfileComponent implements OnInit {
   loginSub: Subscription;
   blogs: Blog[];
+  currentUsername: string;
+  ownProfile = false;
   profile: Profile;
-  allowEdit = false;
 
   constructor(
     private accountService: AccountService,
+    private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.currentUsername = window.localStorage.getItem("travelBug:Username");
     let username = this.route.snapshot.url[1].path;
-    if (username === window.localStorage.getItem("travelBug:Username")) {
-      this.allowEdit = true;
-    }
+
     this.activatedRoute.data.subscribe(
       (data: { profile: Profile; blogs: Blog[] }) => {
         console.log(data);
@@ -37,13 +39,33 @@ export class ProfileComponent implements OnInit {
           this.profile.photoUrl = environment.defaultPhotoUrl;
       }
     );
+
+    // Check whether this is the current user's profile
+    if (username === this.currentUsername) {
+      this.ownProfile = true;
+    } else {
+      // If not, find out whether current user is following him or her
+      this.profile.following = !!this.profile.followers.find(
+        (f) => f.followingUser === this.currentUsername
+      );
+    }
   }
 
   signOut() {
     this.accountService.signOut();
   }
 
-  onEdit() {
-    
+  onEdit() {}
+
+  onFollow() {
+    this.userService
+      .followUser(this.profile)
+      .subscribe(() => (this.profile.following = true));
+  }
+
+  onUnfollow() {
+    this.userService
+      .unfollowUser(this.profile)
+      .subscribe(() => (this.profile.following = false));
   }
 }

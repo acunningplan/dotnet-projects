@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using System.Threading.Tasks;
+using TravelBug.Dtos;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 
@@ -38,12 +39,20 @@ namespace TravelBug.Infrastructure
 
             var refreshToken = _jwtGenerator.GenerateRefreshToken();
 
+            // Declare returned user
+            User returnedUser;
+
             // If there is an existing user with the same email, simply update the user with the refresh token
             if (user != null)
             {
                 user.RefreshTokens.Add(refreshToken);
                 await _userManager.UpdateAsync(user);
-                return new User(user, _jwtGenerator, refreshToken.Token, _mapper);
+
+                returnedUser = _mapper.Map<AppUser, User>(user);
+                returnedUser.Token = _jwtGenerator.CreateToken(user);
+                returnedUser.RefreshToken = refreshToken.Token;
+
+                return returnedUser;
             }
 
             // Otherwise, create the new user with info from social media and save to database
@@ -71,7 +80,11 @@ namespace TravelBug.Infrastructure
             if (!result.Succeeded)
                 throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem creating user" });
 
-            return new User(user, _jwtGenerator, refreshToken.Token, _mapper);
+            returnedUser = _mapper.Map<AppUser, User>(user);
+            returnedUser.Token = _jwtGenerator.CreateToken(user);
+            returnedUser.RefreshToken = refreshToken.Token;
+
+            return returnedUser;
         }
 
     }

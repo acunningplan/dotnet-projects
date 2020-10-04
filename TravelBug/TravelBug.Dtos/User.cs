@@ -1,12 +1,9 @@
-using AutoMapper;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using TravelBug.CrudServices;
-using TravelBug.Entities;
+using Newtonsoft.Json;
 using TravelBug.Entities.UserData;
 
-namespace TravelBug.Infrastructure
+namespace TravelBug.Dtos
 {
     public class User
     {
@@ -38,8 +35,8 @@ namespace TravelBug.Infrastructure
         public virtual UserPhoto Photo { get; set; }
         public string Username { get; set; }
         public ICollection<BlogDto> Blogs { get; set; }
-        public List<string> Followings { get; set; } = new List<string>();
-        public List<string> Followers { get; set; } = new List<string>();
+        public ICollection<FollowingDto> Followings { get; set; }
+        public ICollection<FollowingDto> Followers { get; set; }
 
         public string Token { get; set; }
         [JsonIgnore]

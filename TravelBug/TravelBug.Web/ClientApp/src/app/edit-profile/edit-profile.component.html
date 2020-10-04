@@ -1,0 +1,75 @@
+<div class="row justify-content-center">
+  <div class="col-xs-12 col-md-8">
+    <form #blogform="ngForm">
+      <h2>Update profile</h2>
+      <div class="form-group">
+        <label for="title">Display Name</label>
+        <input
+          #displayName="ngModel"
+          [(ngModel)]="profile.displayName"
+          class="form-control"
+          id="displayName"
+          name="displayName"
+          required
+          type="displayName"
+        />
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea
+          #bio="ngModel"
+          [(ngModel)]="profile.bio"
+          class="form-control"
+          id="bio"
+          rows="5"
+          name="bio"
+          required
+          type="bio"
+        ></textarea>
+      </div>
+
+      <!-- <div [hidden]="!warning" class="alert alert-danger warning-banner">
+        {{ warning }}
+      </div> -->
+
+      <!-- Existing images for edited blog (edit mode only) -->
+      <!-- <app-image-container
+        [photo]="photo.url"
+        [id]="i"
+        *ngFor="let photo of photos; let i = index"
+        (clickDelete)="onClickDeleteExisting($event)"
+      ></app-image-container> -->
+
+      <!-- Preview uploaded images for new blog -->
+      <!-- <app-image-container
+        [photo]="photoUrl"
+        [id]="i"
+        *ngFor="let photoUrl of photosToUpload; let i = index"
+        (clickDelete)="onClickDelete($event)"
+      ></app-image-container> -->
+
+      <br />
+      <!-- <input
+        #hiddenFileInput
+        (change)="onSelectFile($event)"
+        class="hidden-file-input"
+        type="file"
+      /> -->
+      <!-- <button (click)="hiddenFileInput.click()" class="btn btn-primary">
+        Add photo
+      </button> -->
+      <div class="row">
+        <button (click)="onSubmit()" class="btn btn-success" type="submit">
+          Submit
+        </button>
+        <button
+          [routerLink]="backToLink"
+          class="btn btn-secondary ml-3"
+          type="button"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

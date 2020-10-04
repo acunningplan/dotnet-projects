@@ -11,6 +11,7 @@ using TravelBug.Infrastructure.Exceptions;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using TravelBug.Dtos;
 
 namespace TravelBug.Web.Controllers
 {
@@ -143,6 +144,12 @@ namespace TravelBug.Web.Controllers
     public async Task<User> RefreshToken(string refreshToken)
     {
       return await _refreshTokenService.GetRefreshToken(refreshToken);
+    }
+
+    [HttpPost("edit-profile")]
+    public async Task<ActionResult> EditProfile()
+    {
+      return Ok();
     }
 
 
