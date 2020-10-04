@@ -35,8 +35,8 @@ namespace TravelBug.Dtos
         public virtual UserPhoto Photo { get; set; }
         public string Username { get; set; }
         public ICollection<BlogDto> Blogs { get; set; }
-        public List<string> Followings { get; set; } = new List<string>();
-        public List<string> Followers { get; set; } = new List<string>();
+        public ICollection<FollowingDto> Followings { get; set; }
+        public ICollection<FollowingDto> Followers { get; set; }
 
         public string Token { get; set; }
         [JsonIgnore]

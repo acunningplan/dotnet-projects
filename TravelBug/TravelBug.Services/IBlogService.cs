@@ -6,9 +6,10 @@ using TravelBug.Entities.UserData;
 
 namespace TravelBug.CrudServices
 {
-    public interface IBlogService : IBaseService<Blog, BlogDto>
-    {
-        Task<List<BlogDto>> ReadManyAsync(AppUser user);
-        List<BlogDto> ReadOwnAsync(AppUser user);
-    }
+  public interface IBlogService : IBaseService<Blog, BlogDto>
+  {
+    Task<List<BlogDto>> ReadManyAsync(AppUser user);
+    List<BlogDto> ReadOwnAsync(AppUser user);
+    Task<BlogDto> CreateAsync(AppUser user, Blog blog);
+  }
 }

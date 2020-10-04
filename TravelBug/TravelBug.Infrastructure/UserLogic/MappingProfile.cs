@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using TravelBug.CrudServices;
 using TravelBug.Dtos;
 using TravelBug.Entities;
 using TravelBug.Entities.UserData;
@@ -13,7 +12,8 @@ namespace TravelBug.Infrastructure
     {
       CreateMap<AppUser, User>();
       CreateMap<Blog, BlogDto>();
-      CreateMap<List<AppUser>, List<User>>();
+      CreateMap<UserFollowing, FollowingDto>();
+      // CreateMap<List<AppUser>, List<User>>();
     }
   }
 }

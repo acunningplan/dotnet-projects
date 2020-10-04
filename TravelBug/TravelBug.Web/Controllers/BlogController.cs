@@ -12,58 +12,67 @@ using TravelBug.Web.Controllers;
 
 namespace TravelBug.Controllers
 {
-    [Route("api/blog")]
-    public class BlogController : CrudController<Blog, BlogDto>
+  [Route("api/blog")]
+  public class BlogController : CrudController<Blog, BlogDto>
+  {
+    private readonly IBlogService _blogService;
+    private readonly IUserAccessor _userAccessor;
+
+    public BlogController(IBlogService blogService, IUserAccessor userAccessor) : base(blogService)
     {
-        private readonly IBlogService _blogService;
-        private readonly IUserAccessor _userAccessor;
-
-        public BlogController(IBlogService blogService, IUserAccessor userAccessor) : base(blogService)
-        {
-            _blogService = blogService;
-            _userAccessor = userAccessor;
-        }
-
-        // Get the blogs of people that the user are following
-        [HttpGet]
-        public async Task<List<BlogDto>> GetBlogs()
-        {
-            var user = await _userAccessor.GetCurrentAppUser();
-            var blogsToReturn = await _blogService.ReadManyAsync(user);
-            return blogsToReturn;
-        }
-
-        // Get the user's own blogs
-        [HttpGet("user")]
-        public async Task<List<BlogDto>> GetOwnBlogs()
-        {
-            var user = await _userAccessor.GetCurrentAppUser();
-            var blogsToReturn = _blogService.ReadOwnAsync(user);
-            return blogsToReturn;
-        }
-
-        // Get the another user's blogs
-        [HttpGet("user/{username}")]
-        public async Task<List<BlogDto>> GetUserBlogs(string username)
-        {
-            var user = await _userAccessor.GetAppUser(username);
-            var blogsToReturn = _blogService.ReadOwnAsync(user);
-            return blogsToReturn;
-        }
-
-        // Override endpoints in CrudController
-        [Authorize(Policy = "IsBlogAuthor")]
-        [HttpPatch("{id:Guid}")]
-        public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
-        {
-            return base.UpdatePartialAsync(id, patchEntity);
-        }
-
-        [Authorize(Policy = "IsBlogAuthor")]
-        [HttpDelete("{id:Guid}")]
-        public override Task<IActionResult> DeleteAsync(Guid id)
-        {
-            return base.DeleteAsync(id);
-        }
+      _blogService = blogService;
+      _userAccessor = userAccessor;
     }
+
+    // Get the blogs of people that the user are following
+    [HttpGet]
+    public async Task<List<BlogDto>> GetBlogs()
+    {
+      var user = await _userAccessor.GetCurrentAppUser();
+      var blogsToReturn = await _blogService.ReadManyAsync(user);
+      return blogsToReturn;
+    }
+
+    // Get the user's own blogs
+    [HttpGet("user")]
+    public async Task<List<BlogDto>> GetOwnBlogs()
+    {
+      var user = await _userAccessor.GetCurrentAppUser();
+      var blogsToReturn = _blogService.ReadOwnAsync(user);
+      return blogsToReturn;
+    }
+
+    // Get the another user's blogs
+    [HttpGet("user/{username}")]
+    public async Task<List<BlogDto>> GetUserBlogs(string username)
+    {
+      var user = await _userAccessor.GetAppUser(username);
+      var blogsToReturn = _blogService.ReadOwnAsync(user);
+      return blogsToReturn;
+    }
+
+    // Override endpoints in CrudController
+    [HttpPost]
+    public override async Task<IActionResult> CreateAsync(Blog blog)
+    {
+      var user = await _userAccessor.GetCurrentAppUser();
+      var returnedBlog = await _blogService.CreateAsync(user, blog);
+      return Ok(returnedBlog);
+    }
+
+    // Override endpoints in CrudController
+    [Authorize(Policy = "IsBlogAuthor")]
+    [HttpPatch("{id:Guid}")]
+    public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
+    {
+      return base.UpdatePartialAsync(id, patchEntity);
+    }
+
+    [Authorize(Policy = "IsBlogAuthor")]
+    [HttpDelete("{id:Guid}")]
+    public override Task<IActionResult> DeleteAsync(Guid id)
+    {
+      return base.DeleteAsync(id);
+    }
+  }
 }
