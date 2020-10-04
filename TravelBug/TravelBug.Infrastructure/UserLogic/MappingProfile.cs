@@ -12,7 +12,9 @@ namespace TravelBug.Infrastructure
     {
       CreateMap<AppUser, User>();
       CreateMap<Blog, BlogDto>();
-      CreateMap<UserFollowing, FollowingDto>();
+      CreateMap<UserFollowing, FollowingDto>()
+        .ForMember(u => u.FollowedUser, c => c.MapFrom(f => f.Target.UserName))
+        .ForMember(u => u.FollowingUser, c => c.MapFrom(f => f.Observer.UserName));
       // CreateMap<List<AppUser>, List<User>>();
     }
   }

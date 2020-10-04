@@ -146,6 +146,12 @@ namespace TravelBug.Web.Controllers
       return await _refreshTokenService.GetRefreshToken(refreshToken);
     }
 
+    [HttpPost("edit-profile")]
+    public async Task<ActionResult> EditProfile()
+    {
+      return Ok();
+    }
+
 
     [HttpGet("featured")]
     public async Task<List<User>> FeaturedUsers()

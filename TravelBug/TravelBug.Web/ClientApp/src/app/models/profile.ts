@@ -5,5 +5,9 @@ export class Profile {
   email = "";
   photoUrl = "";
   following = false;
-  followers: string[];
+  followers: Follower[];
+}
+
+class Follower {
+  followingUser: string;
 }

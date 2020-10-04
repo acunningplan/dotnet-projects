@@ -31,6 +31,9 @@ import { DeleteModalComponent } from "./blogs/blog-page/delete-modal/delete-moda
 import { ImageContainerComponent } from "./new-blog/image-container/image-container.component";
 import { AppResolverService } from "./resolvers/app-resolver.service";
 import { BaseComponent } from "./base/base.component";
+import { FeaturedUserComponent } from "./blogs/featured-users/featured-user/featured-user.component";
+import { EditProfileComponent } from "./edit-profile/edit-profile.component";
+import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.service";
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -53,6 +56,8 @@ import { BaseComponent } from "./base/base.component";
     DeleteModalComponent,
     ImageContainerComponent,
     BaseComponent,
+    FeaturedUserComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -74,6 +79,13 @@ import { BaseComponent } from "./base/base.component";
             resolve: {
               profile: UserProfileResolverService,
               blogs: UserBlogsResolverService,
+            },
+          },
+          {
+            path: "edit-profile",
+            component: EditProfileComponent,
+            resolve: {
+              profile: EditProfileResolverService,
             },
           },
           {

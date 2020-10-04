@@ -1,23 +1,5 @@
 <ul class="list-group">
   <h3>Featured users</h3>
   <p *ngIf="users.length === 0">No users to show.</p>
-  <li *ngFor="let user of users" class="list-group-item featured-user-item">
-    <img [src]="user.photoUrl" [alt]="user.displayName" />
-    <h4>{{ user.displayName }}</h4>
-    <p>{{ user.bio }}</p>
-    <button
-      *ngIf="!user.following"
-      class="btn btn-primary"
-      (click)="followUser(user)"
-    >
-      Follow
-    </button>
-    <button
-      *ngIf="user.following"
-      class="btn btn-primary"
-      (click)="unfollowUser(user)"
-    >
-      Unfollow
-    </button>
-  </li>
+  <app-featured-user *ngFor="let user of users" [user]="user" ></app-featured-user>
 </ul>

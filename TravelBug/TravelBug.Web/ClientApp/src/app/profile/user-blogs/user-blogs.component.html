@@ -1,5 +1,6 @@
 <div class="blogs-component">
-  <h2>Your blogs</h2>
+  <h2 *ngIf="ownProfile">Your blogs</h2>
+  <h2 *ngIf="!ownProfile">{{ profile.displayName }}'s blogs</h2>
   <div *ngIf="!blogs || blogs.length === 0">No blogs to show.</div>
   <ul class="list-group">
     <li *ngFor="let blog of blogs" class="list-group-item">

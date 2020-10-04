@@ -21,12 +21,12 @@ export class FeaturedUsersComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: { featuredUsers: Profile[] }) => {
       console.log(data.featuredUsers);
       this.users = data.featuredUsers;
-      this.users.forEach((u) => {
-        // Check whether current user follows this featured user
-        u.following = u.followers.includes(
-          window.localStorage.getItem("travelBug:Username")
-        );
-      });
+      // this.users.forEach((u) => {
+      //   // Check whether current user follows this featured user
+      //   u.following = u.followers.includes(
+      //     window.localStorage.getItem("travelBug:Username")
+      //   );
+      // });
     });
   }
 

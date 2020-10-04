@@ -23,9 +23,7 @@ export class BlogService {
   editedBlogData: BlogData;
 
   constructor(
-    private httpClient: HttpClient,
-    private photoService: PhotoService,
-    private router: Router
+    private httpClient: HttpClient
   ) {}
 
   saveCurrentBlog(blogData: BlogData) {
@@ -33,10 +31,16 @@ export class BlogService {
   }
 
   fetchOwnBlogs() {
-    return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/user`).pipe(
+    return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/user/`).pipe(
       tap((res) => {
         // print response
       })
+    );
+  }
+
+  fetchBlogs(username: string) {
+    return this.httpClient.get<Blog[]>(
+      `${environment.apiUrl}/blog/user/${username}`
     );
   }
 
@@ -68,10 +72,6 @@ export class BlogService {
 
   showBlogs() {
     return this.blogs;
-  }
-
-  fetchBlogs() {
-    return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/`);
   }
 
   getBlog(blogId: string) {
