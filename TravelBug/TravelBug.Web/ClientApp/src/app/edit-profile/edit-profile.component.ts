@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Profile } from "../models/profile";
-import { UserService } from "../services/user.service";
+import { ProfileService } from "../services/profile.service";
 
 @Component({
   selector: "app-edit-profile",
@@ -15,7 +15,7 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: ProfileService
   ) {}
 
   ngOnInit() {

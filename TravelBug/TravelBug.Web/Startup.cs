@@ -147,7 +147,7 @@ namespace TravelBug
 
       services.AddScoped<IJwtGenerator, JwtGenerator>();
       services.AddScoped<IUserAccessor, UserAccessor>();
-      services.AddScoped<IRequestUsersService, RequestUsersService>();
+      services.AddScoped<IProfileService, ProfileService>();
       services.AddScoped<IRegisterService, RegisterService>();
       services.AddScoped<ILoginService, LoginService>();
       services.AddScoped<IExternalLoginService, ExternalLoginService>();

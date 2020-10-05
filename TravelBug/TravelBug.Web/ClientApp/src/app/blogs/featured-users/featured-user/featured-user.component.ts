@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit } from "@angular/core";
 import { Profile } from "src/app/models/profile";
-import { UserService } from "src/app/services/user.service";
+import { ProfileService } from "src/app/services/profile.service";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -14,7 +14,7 @@ export class FeaturedUserComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private userService: UserService
+    private userService: ProfileService
   ) {}
 
   ngOnInit() {

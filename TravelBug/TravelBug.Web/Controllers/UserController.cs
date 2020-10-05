@@ -12,6 +12,7 @@ using System.Net;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using TravelBug.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace TravelBug.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace TravelBug.Web.Controllers
   public class UserController : ControllerBase
   {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IRequestUsersService _requestUsersService;
+    private readonly IProfileService _requestUsersService;
     private readonly ILoginService _loginService;
     private readonly IRegisterService _registerService;
     private readonly IRefreshTokenService _refreshTokenService;
@@ -31,7 +32,7 @@ namespace TravelBug.Web.Controllers
 
     public UserController(
         IHttpClientFactory httpClientFactory,
-        IRequestUsersService requestUsersService,
+        IProfileService requestUsersService,
         ILoginService loginService,
         IRegisterService registerService,
         IRefreshTokenService refreshTokenService,
@@ -52,17 +53,6 @@ namespace TravelBug.Web.Controllers
     }
 
 
-    [HttpGet]
-    public async Task<User> GetCurrentUserProfile()
-    {
-      return await _loginService.GetUserProfile();
-    }
-
-    [HttpGet("{username}")]
-    public async Task<User> GetUserProfile(string username)
-    {
-      return await _requestUsersService.GetUser(username);
-    }
 
 
     [AllowAnonymous]
@@ -146,18 +136,15 @@ namespace TravelBug.Web.Controllers
       return await _refreshTokenService.GetRefreshToken(refreshToken);
     }
 
-    [HttpPost("edit-profile")]
-    public async Task<ActionResult> EditProfile()
-    {
-      return Ok();
-    }
 
 
-    [HttpGet("featured")]
-    public async Task<List<User>> FeaturedUsers()
-    {
+    // // Override endpoints in CrudController
+    // [Authorize(Policy = "IsBlogAuthor")]
+    // [HttpPatch("{id:Guid}")]
+    // public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
+    // {
+    //   return base.UpdatePartialAsync(id, patchEntity);
+    // }
 
-      return await _featuredUsersService.GetFeaturedUsers();
-    }
   }
 }

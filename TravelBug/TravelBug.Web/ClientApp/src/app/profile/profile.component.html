@@ -12,6 +12,7 @@
         src="assets/travels.svg"
       />
       <h2>{{ profile && profile.displayName }}</h2>
+      <p>{{ profile.bio }}</p>
       <div *ngIf="ownProfile">
         <button [routerLink]="['/edit-profile']" class="btn btn-primary m-2">
           Edit

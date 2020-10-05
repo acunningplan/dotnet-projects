@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using TravelBug.Entities;
 using TravelBug.Entities.UserData;
 
 namespace TravelBug.Dtos

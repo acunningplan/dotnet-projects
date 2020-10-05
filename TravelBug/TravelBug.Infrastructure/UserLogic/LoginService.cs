@@ -12,7 +12,6 @@ namespace TravelBug.Infrastructure
   public interface ILoginService
   {
     Task<User> Login(LoginInput input);
-    Task<User> GetUserProfile();
   }
 
   public class LoginInput
@@ -63,18 +62,6 @@ namespace TravelBug.Infrastructure
         return returnedUser;
       }
       throw new RestException(HttpStatusCode.Unauthorized, "Cannot sign in user");
-    }
-
-
-    // Auto-login with token
-    public async Task<User> GetUserProfile()
-    {
-      //var user = await _userManager.FindByNameAsync(input.Username);
-
-      var username = _userAccessor.GetCurrentUsername();
-      var user = await _userManager.FindByNameAsync(username);
-
-      return _mapper.Map<AppUser, User>(user);
     }
   }
 }

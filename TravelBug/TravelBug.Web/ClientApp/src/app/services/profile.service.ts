@@ -7,7 +7,7 @@ import { tap } from "rxjs/operators";
 @Injectable({
   providedIn: "root",
 })
-export class UserService {
+export class ProfileService {
   userProfile: Profile;
 
   get getUserProfile(): Profile {
@@ -17,7 +17,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) {}
 
   fetchUserProfile() {
-    return this.httpClient.get<Profile>(`${environment.apiUrl}/user`).pipe(
+    return this.httpClient.get<Profile>(`${environment.apiUrl}/profile`).pipe(
       tap((res) => {
         if (res) this.userProfile = res;
       })
@@ -26,22 +26,28 @@ export class UserService {
 
   followUser(user: Profile) {
     return this.httpClient.post(
-      `${environment.apiUrl}/profiles/${user.username}/follow`,
+      `${environment.apiUrl}/following-feature/${user.username}/follow`,
       {}
     );
   }
 
   unfollowUser(user: Profile) {
     return this.httpClient.post(
-      `${environment.apiUrl}/profiles/${user.username}/unfollow`,
+      `${environment.apiUrl}/following-feature/${user.username}/unfollow`,
       {}
     );
   }
 
   editProfile(profile: Profile) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/user/edit-profile/`,
-      profile
+    // Send patch request to .net core backend using "patch documents"
+    let keysToChange = ["displayName", "bio"];
+    return this.httpClient.patch(
+      `${environment.apiUrl}/profile`,
+      keysToChange.map((k) => ({
+        op: "replace",
+        path: k,
+        value: profile[k],
+      }))
     );
   }
 
