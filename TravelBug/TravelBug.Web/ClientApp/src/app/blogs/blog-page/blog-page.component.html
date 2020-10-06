@@ -37,7 +37,7 @@
         </h6>
         <div class="card-text">
           <div class="row">
-            <div *ngIf="blog.images.length > 0" class="col-12 col-md-4">
+            <div *ngIf="blog.images.length > 0" class="col-12 col-md-12">
               <img
                 *ngFor="let image of blog.images"
                 class="blog-image"
@@ -45,7 +45,7 @@
                 [alt]="image.description"
               />
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-12">
               <p>{{ blog.description }}</p>
             </div>
           </div>

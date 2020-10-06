@@ -1,11 +1,13 @@
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using TravelBug.Context;
 using TravelBug.Dtos;
+using TravelBug.Entities;
 using TravelBug.Entities.UserData;
 using TravelBug.Infrastructure.Exceptions;
 

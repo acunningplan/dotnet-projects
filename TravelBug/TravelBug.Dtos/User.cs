@@ -33,7 +33,7 @@ namespace TravelBug.Dtos
 
         public string DisplayName { get; set; }
         public string Bio { get; set; }
-        public virtual UserPhoto Photo { get; set; }
+        public virtual UserPicture Photo { get; set; }
         public string Username { get; set; }
         public ICollection<BlogDto> Blogs { get; set; }
         public ICollection<FollowingDto> Followings { get; set; }

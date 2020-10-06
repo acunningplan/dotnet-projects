@@ -19,6 +19,7 @@ namespace TravelBug.Context
     protected readonly IConfiguration _configuration;
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<Image> Images { get; set; }
+    public DbSet<UserPicture> UserPictures { get; set; }
     public DbSet<UserFollowing> Followings { get; set; }
     public TravelBugContext(DbContextOptions<TravelBugContext> options) : base(options) { }
 
@@ -34,6 +35,11 @@ namespace TravelBug.Context
           .HasMany(u => u.Blogs)
           .WithOne(b => b.User)
           .OnDelete(DeleteBehavior.Cascade);
+
+      builder.Entity<AppUser>()
+        .HasOne(u => u.UserPicture)
+        .WithOne(p => p.User)
+        .HasForeignKey<UserPicture>(p => p.AppUserId);
 
       builder.Entity<Blog>()
           .HasMany(b => b.Images)

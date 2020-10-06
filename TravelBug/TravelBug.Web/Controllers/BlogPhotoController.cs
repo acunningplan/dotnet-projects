@@ -14,15 +14,15 @@ using System.Collections.Generic;
 
 namespace TravelBug.Web.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/photo")]
   [ApiController]
-  public class PhotoController : ControllerBase
+  public class BlogPhotoController : ControllerBase
   {
     private readonly IPhotoService _photoService;
     private readonly ImgurSettings _settings;
     private readonly HttpClient _httpClient;
 
-    public PhotoController(IPhotoService photoService, IHttpClientFactory clientFactory, IOptions<ImgurSettings> config)
+    public BlogPhotoController(IPhotoService photoService, IHttpClientFactory clientFactory, IOptions<ImgurSettings> config)
     {
       _photoService = photoService;
       _settings = config.Value;
@@ -46,7 +46,7 @@ namespace TravelBug.Web.Controllers
       var responseObject = JsonConvert.DeserializeObject<PhotoUploadResponse>(responseString);
 
       // Save photo data in database
-      await _photoService.SavePhoto(responseObject, blogId);
+      await _photoService.SaveBlogPhoto(responseObject, blogId);
       return new PhotoUploadResult(responseObject);
     }
 

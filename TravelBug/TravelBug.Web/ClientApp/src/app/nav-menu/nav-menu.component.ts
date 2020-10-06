@@ -55,6 +55,7 @@ export class NavMenuComponent implements OnInit {
       this.ngZone.run(() => {
         console.log("Logged in");
         this.isLoggedIn = loginStatus;
+        this.currentUsername = window.localStorage.getItem("travelBug:Username");
       });
     });
   }

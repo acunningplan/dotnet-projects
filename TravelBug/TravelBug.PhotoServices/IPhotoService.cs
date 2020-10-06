@@ -12,6 +12,7 @@ namespace TravelBug.PhotoServices
     MultipartFormDataContent ConvertToFormData(IFormFile file);
     Task<Image> GetPhotoByUrl(string url);
     Task DeletePhoto(string url, string blogId);
-    Task SavePhoto(PhotoUploadResponse responseObject, string blogId);
+    Task SaveBlogPhoto(PhotoUploadResponse responseObject, string blogId);
+    Task SaveProfilePicture(PhotoUploadResponse responseObject);
   }
 }
