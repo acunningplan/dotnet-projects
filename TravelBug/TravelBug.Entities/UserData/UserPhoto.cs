@@ -1,6 +1,6 @@
 ﻿namespace TravelBug.Entities.UserData
 {
-  public class UserPicture : Base
+  public class UserPhoto : Base
   {
     public string ImgurId { get; set; }
     public string DeleteHash { get; set; }

@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using TravelBug.Infrastructure.Exceptions;
 using TravelBug.PhotoServices;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace TravelBug.Web.Controllers
 {
@@ -57,6 +58,7 @@ namespace TravelBug.Web.Controllers
     private async Task UploadAndSavePhoto(IFormFile file)
     {
       // Upload photo to Imgur
+      if (file == null) throw new RestException(HttpStatusCode.BadRequest, "Photo not attached properly");
       var response = await _httpClient.PostAsync("upload", _photoService.ConvertToFormData(file));
       if (!response.IsSuccessStatusCode)
         throw new RestException(response.StatusCode, "Upload failed");

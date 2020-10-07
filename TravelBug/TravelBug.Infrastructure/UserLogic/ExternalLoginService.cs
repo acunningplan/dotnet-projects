@@ -65,13 +65,13 @@ namespace TravelBug.Infrastructure
         EmailConfirmed = true
       };
 
-      var photo = new UserPicture
+      var photo = new UserPhoto
       {
         // ImgurId = $"{socialMedia}_" + userData.Id,
         Url = userData.PhotoUrl,
       };
 
-      user.UserPicture = photo;
+      user.ProfilePicture = photo;
       user.RefreshTokens.Add(refreshToken);
       user.DisplayName = userData.Username;
 

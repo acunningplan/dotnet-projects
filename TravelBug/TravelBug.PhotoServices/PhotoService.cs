@@ -102,7 +102,7 @@ namespace TravelBug.PhotoServices
       var deleteHash = responseObject.Data.DeleteHash;
 
       var user = await _userAccessor.GetCurrentAppUser();
-      user.UserPicture = new UserPicture() { ImgurId = id, Url = url, DeleteHash = deleteHash };
+      user.ProfilePicture = new UserPhoto() { ImgurId = id, Url = url, DeleteHash = deleteHash };
 
       var success = await _context.SaveChangesAsync() > 0;
       if (!success)

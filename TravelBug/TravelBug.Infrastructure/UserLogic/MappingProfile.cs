@@ -15,7 +15,7 @@ namespace TravelBug.Infrastructure
       CreateMap<UserFollowing, FollowingDto>()
         .ForMember(u => u.FollowedUser, c => c.MapFrom(f => f.Target.UserName))
         .ForMember(u => u.FollowingUser, c => c.MapFrom(f => f.Observer.UserName));
-      CreateMap<UserPicture, UserPhotoDto>()
+      CreateMap<UserPhoto, UserPhotoDto>()
         .ForMember(p => p.Username, c => c.MapFrom(u => u.User.UserName));
       // CreateMap<List<AppUser>, List<User>>();
     }

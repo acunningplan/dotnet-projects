@@ -1,13 +1,18 @@
 export class Profile {
   displayName = "Guest";
-  bio = ""
+  bio = "";
   username = "";
   email = "";
-  photoUrl = "";
+  profilePicture = new UserPhoto();
   following = false;
   followers: Follower[];
 }
 
 class Follower {
   followingUser: string;
+}
+
+class UserPhoto {
+  url: string;
+  id: string;
 }

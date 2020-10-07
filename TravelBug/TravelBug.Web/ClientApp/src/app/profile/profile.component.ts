@@ -35,8 +35,8 @@ export class ProfileComponent implements OnInit {
         console.log(data);
         this.profile = data.profile;
         this.blogs = data.blogs;
-        if (this.profile && !this.profile.photoUrl)
-          this.profile.photoUrl = environment.defaultPhotoUrl;
+        if (this.profile && !this.profile.profilePicture.url)
+          this.profile.profilePicture.url = environment.defaultPhotoUrl;
       }
     );
 

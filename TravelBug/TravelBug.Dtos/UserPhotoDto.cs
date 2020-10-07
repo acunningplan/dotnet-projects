@@ -1,9 +1,10 @@
-﻿namespace TravelBug.Dtos
+﻿using TravelBug.Entities;
+
+namespace TravelBug.Dtos
 {
-  public class UserPhotoDto
+  public class UserPhotoDto : Base
   {
     public string ImgurId { get; set; }
-    public string DeleteHash { get; set; }
     public string Url { get; set; }
     public string Username { get; set; }
   }
