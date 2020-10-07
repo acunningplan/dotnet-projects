@@ -28,36 +28,28 @@
         ></textarea>
       </div>
 
-      <!-- <div [hidden]="!warning" class="alert alert-danger warning-banner">
+      <div [hidden]="!warning" class="alert alert-danger warning-banner">
         {{ warning }}
-      </div> -->
-
-      <!-- Existing images for edited blog (edit mode only) -->
-      <!-- <app-image-container
-        [photo]="photo.url"
-        [id]="i"
-        *ngFor="let photo of photos; let i = index"
-        (clickDelete)="onClickDeleteExisting($event)"
-      ></app-image-container> -->
+      </div>
 
       <!-- Preview uploaded images for new blog -->
-      <!-- <app-image-container
-        [photo]="photoUrl"
-        [id]="i"
-        *ngFor="let photoUrl of photosToUpload; let i = index"
-        (clickDelete)="onClickDelete($event)"
-      ></app-image-container> -->
+      <img
+        *ngIf="photoDataUrl"
+        [src]="photoDataUrl"
+        class="image-preview mb-3"
+      />
 
       <br />
-      <!-- <input
+
+      <input
         #hiddenFileInput
         (change)="onSelectFile($event)"
         class="hidden-file-input"
         type="file"
-      /> -->
-      <!-- <button (click)="hiddenFileInput.click()" class="btn btn-primary">
-        Add photo
-      </button> -->
+      />
+      <button (click)="hiddenFileInput.click()" class="btn btn-primary">
+        Choose photo
+      </button>
       <div class="row">
         <button (click)="onSubmit()" class="btn btn-success" type="submit">
           Submit

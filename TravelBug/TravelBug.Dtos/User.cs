@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using TravelBug.Entities.UserData;
 
 namespace TravelBug.Dtos
 {
-    public class User
+  public class User
     {
         //public User(AppUser user, IMapper mapper)
         //{
@@ -32,7 +30,7 @@ namespace TravelBug.Dtos
 
         public string DisplayName { get; set; }
         public string Bio { get; set; }
-        public virtual UserPhoto Photo { get; set; }
+        public virtual UserPhotoDto ProfilePicture { get; set; }
         public string Username { get; set; }
         public ICollection<BlogDto> Blogs { get; set; }
         public ICollection<FollowingDto> Followings { get; set; }

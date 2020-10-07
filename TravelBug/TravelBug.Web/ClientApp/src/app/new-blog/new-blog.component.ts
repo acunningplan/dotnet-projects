@@ -24,6 +24,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   files: File[] = [];
   warning: string = null;
   backToLink = "/";
+  submitting = false;
 
   // Edit blog
   photosToDelete: string[] = [];
@@ -125,6 +126,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
       // Prepare photos for upload
       let fd = new FormData();
       this.files.forEach((file) => fd.append("files", file, file.name));
+      this.submitting = true;
 
       if (this.newBlog) {
         // Post blog, redirect to profile page, then upload images
@@ -132,20 +134,15 @@ export class NewBlogComponent implements OnInit, OnDestroy {
           .postBlog(this.blog)
           .subscribe((res: PostBlogResponse) => {
             // Go back to home (deletes component!)
-            this.photoService
-              .uploadImages(res.id, fd)
-              .subscribe((res: ImageUploadResponse[]) => console.log(res));
+            this.photoService.uploadImages(res.id, fd);
             this.backToHome();
           });
       } else {
         // Edit blog, redirect to profile page, then upload and delete images
         this.blogService.patchBlog(this.blog).subscribe(() => {
           let blogId = this.blog.id;
-          this.photoService.uploadImages(blogId, fd).subscribe(() => {
-            this.photoService
-              .deleteImages(blogId, this.photosToDelete)
-              .subscribe();
-          });
+          this.photoService.uploadImages(blogId, fd);
+          this.photoService.deleteImages(blogId, this.photosToDelete);
           this.backToHome();
         });
       }
@@ -153,10 +150,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   }
 
   private backToHome() {
-    // Reset blog and navigate to home
-    this.blog = new Blog();
-    this.photos = [];
-    this.files = [];
+    // Navigate to home
     this.router.navigate([
       "/profile",
       window.localStorage.getItem("travelBug:Username"),
@@ -164,12 +158,14 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Save the current blog
-    if (this.newBlog)
+    // Save the current blog if user is writing a new blog
+    // and not submitting it yet
+    if (this.newBlog && !this.submitting)
       this.blogService.saveCurrentBlog({
         blog: this.blog,
         photosToUpload: this.photosToUpload,
         files: this.files,
       });
+    else this.blogService.saveCurrentBlog(new BlogData());
   }
 }

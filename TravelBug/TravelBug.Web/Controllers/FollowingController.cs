@@ -7,7 +7,7 @@ using TravelBug.FollowingServices;
 namespace TravelBug.Web.Controllers
 {
   [ApiController]
-  [Route("api/profiles")]
+  [Route("api/following-feature")]
   public class FollowingController : ControllerBase
   {
     private readonly IFollowingService _followingService;

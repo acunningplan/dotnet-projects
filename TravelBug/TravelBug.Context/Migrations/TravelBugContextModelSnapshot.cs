@@ -269,9 +269,6 @@ namespace TravelBug.Context.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PhotoId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -291,8 +288,6 @@ namespace TravelBug.Context.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("PhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -338,17 +333,40 @@ namespace TravelBug.Context.Migrations
                     b.ToTable("Followings");
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.UserData.UserPhoto", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserPicture", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DeleteHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("Deleted")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ImgurId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("LastUpdated")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserPhoto");
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("UserPictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -418,13 +436,6 @@ namespace TravelBug.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.UserData.AppUser", b =>
-                {
-                    b.HasOne("TravelBug.Entities.UserData.UserPhoto", "Photo")
-                        .WithMany()
-                        .HasForeignKey("PhotoId");
-                });
-
             modelBuilder.Entity("TravelBug.Entities.UserData.RefreshToken", b =>
                 {
                     b.HasOne("TravelBug.Entities.UserData.AppUser", "AppUser")
@@ -445,6 +456,13 @@ namespace TravelBug.Context.Migrations
                         .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserPicture", b =>
+                {
+                    b.HasOne("TravelBug.Entities.UserData.AppUser", "User")
+                        .WithOne("UserPicture")
+                        .HasForeignKey("TravelBug.Entities.UserData.UserPicture", "AppUserId");
                 });
 #pragma warning restore 612, 618
         }

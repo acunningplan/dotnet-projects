@@ -32,7 +32,10 @@ export class FeaturedUsersComponent implements OnInit {
 
   followUser(user: Profile) {
     this.httpClient
-      .post(`${environment.apiUrl}/profiles/${user.username}/follow`, {})
+      .post(
+        `${environment.apiUrl}/following-feature/${user.username}/follow`,
+        {}
+      )
       .subscribe((res) => {
         user.following = true;
       });
@@ -40,7 +43,10 @@ export class FeaturedUsersComponent implements OnInit {
 
   unfollowUser(user: Profile) {
     this.httpClient
-      .post(`${environment.apiUrl}/profiles/${user.username}/unfollow`, {})
+      .post(
+        `${environment.apiUrl}/following-feature/${user.username}/unfollow`,
+        {}
+      )
       .subscribe((res) => {
         user.following = false;
       });

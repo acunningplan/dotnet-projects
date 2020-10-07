@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TravelBug.Dtos;
 using TravelBug.Entities.UserData;
+using TravelBug.Infrastructure.Exceptions;
 
 namespace TravelBug.Infrastructure
 {
@@ -39,7 +41,8 @@ namespace TravelBug.Infrastructure
 
     public async Task<AppUser> GetAppUser(string username)
     {
-      return await _userManager.FindByNameAsync(username);
+      return await _userManager.FindByNameAsync(username)
+        ?? throw new RestException(HttpStatusCode.NotFound, $"User {username} not found.");
     }
 
     public async Task<User> GetUser(string username)

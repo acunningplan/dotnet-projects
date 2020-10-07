@@ -5,7 +5,7 @@ import { Blog } from "../models/blog";
 import { Profile } from "../models/profile";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
-import { UserService } from "../services/user.service";
+import { ProfileService } from "../services/profile.service";
 
 @Component({
   selector: "app-profile",
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private userService: UserService,
+    private userService: ProfileService,
     private activatedRoute: ActivatedRoute,
     private route: ActivatedRoute
   ) {}
@@ -35,8 +35,8 @@ export class ProfileComponent implements OnInit {
         console.log(data);
         this.profile = data.profile;
         this.blogs = data.blogs;
-        if (this.profile && !this.profile.photoUrl)
-          this.profile.photoUrl = environment.defaultPhotoUrl;
+        if (this.profile && !this.profile.profilePicture.url)
+          this.profile.profilePicture.url = environment.defaultPhotoUrl;
       }
     );
 

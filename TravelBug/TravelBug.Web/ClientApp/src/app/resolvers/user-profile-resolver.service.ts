@@ -9,14 +9,14 @@ import { Profile } from "../models/profile";
   providedIn: "root",
 })
 export class UserProfileResolverService {
-  constructor(
-    private httpClient: HttpClient,
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Profile | Observable<Profile> | Promise<Profile> {
-    return this.httpClient.get<Profile>(`${environment.apiUrl}/user/${route.params["username"]}`);
+    return this.httpClient.get<Profile>(
+      `${environment.apiUrl}/profile/${route.params["username"]}`
+    );
   }
 }

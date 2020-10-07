@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
 import { BlogService } from "../services/blog.service";
-import { UserService } from "../services/user.service";
+import { ProfileService } from "../services/profile.service";
 
 @Injectable({
   providedIn: "root",

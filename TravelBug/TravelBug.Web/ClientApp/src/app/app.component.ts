@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterTrackingService } from "./services/router-tracking.service";
-import { UserService } from "./services/user.service";
+import { ProfileService } from "./services/profile.service";
 
 @Component({
   selector: "app-root",
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   prevUrl: string;
 
   constructor(
-    private userService: UserService,
+    private userService: ProfileService,
     private activatedRoute: ActivatedRoute
   ) {}
 

@@ -11,17 +11,16 @@ import { ImageUploadResponse } from "../new-blog/image-upload-response";
 export class PhotoService {
   constructor(private httpClient: HttpClient) {}
 
-  // uploadImages(images: Image[]) {
-  //   this.httpClient.post(`${environment.apiUrl}/photo/`, images)
-  // }
-  uploadImages(
-    blogId: string,
-    fd: FormData
-  ): Observable<ImageUploadResponse[]> {
-    return this.httpClient.post<ImageUploadResponse[]>(
-      `${environment.apiUrl}/photo/${blogId}`,
-      fd
-    );
+  uploadProfilePicture(fd: FormData) {
+    this.httpClient
+      .patch(`${environment.apiUrl}/profile/photo`, fd)
+      .subscribe((res) => console.log(res));
+  }
+
+  uploadImages(blogId: string, fd: FormData) {
+    this.httpClient
+      .post<ImageUploadResponse[]>(`${environment.apiUrl}/photo/${blogId}`, fd)
+      .subscribe((res) => console.log(res));
   }
 
   deleteImages(blogId: string, imageUrls: string[]) {
@@ -34,9 +33,11 @@ export class PhotoService {
       },
     };
 
-    return this.httpClient.delete<ImageUploadResponse[]>(
-      `${environment.apiUrl}/photo/${blogId}`,
-      options
-    );
+    this.httpClient
+      .delete<ImageUploadResponse[]>(
+        `${environment.apiUrl}/photo/${blogId}`,
+        options
+      )
+      .subscribe((res) => console.log(res));
   }
 }

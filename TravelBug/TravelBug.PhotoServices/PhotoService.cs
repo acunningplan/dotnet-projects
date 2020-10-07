@@ -16,6 +16,7 @@ using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using Microsoft.EntityFrameworkCore;
 using TravelBug.Infrastructure.PhotoLogic;
+using TravelBug.Entities.UserData;
 
 namespace TravelBug.PhotoServices
 {
@@ -94,7 +95,21 @@ namespace TravelBug.PhotoServices
       return multiContent;
     }
 
-    public async Task SavePhoto(PhotoUploadResponse responseObject, string blogId)
+    public async Task SaveProfilePicture(PhotoUploadResponse responseObject)
+    {
+      var url = responseObject.Data.Link;
+      var id = responseObject.Data.Id;
+      var deleteHash = responseObject.Data.DeleteHash;
+
+      var user = await _userAccessor.GetCurrentAppUser();
+      user.ProfilePicture = new UserPhoto() { ImgurId = id, Url = url, DeleteHash = deleteHash };
+
+      var success = await _context.SaveChangesAsync() > 0;
+      if (!success)
+        throw new Exception("Problem saving changes");
+    }
+
+    public async Task SaveBlogPhoto(PhotoUploadResponse responseObject, string blogId)
     {
       var url = responseObject.Data.Link;
       var id = responseObject.Data.Id;

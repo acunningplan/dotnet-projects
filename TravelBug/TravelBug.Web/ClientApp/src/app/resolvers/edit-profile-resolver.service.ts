@@ -16,7 +16,7 @@ export class EditProfileResolverService {
     state: RouterStateSnapshot
   ): Profile | Observable<Profile> | Promise<Profile> {
     return this.httpClient.get<Profile>(
-      `${environment.apiUrl}/user/${window.localStorage.getItem(
+      `${environment.apiUrl}/profile/${window.localStorage.getItem(
         "travelBug:Username"
       )}`
     );
