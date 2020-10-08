@@ -34,6 +34,8 @@ import { BaseComponent } from "./base/base.component";
 import { FeaturedUserComponent } from "./blogs/featured-users/featured-user/featured-user.component";
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.service";
+import { ShowUsersComponent } from './show-users/show-users.component';
+import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.service";
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -58,6 +60,7 @@ import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.se
     BaseComponent,
     FeaturedUserComponent,
     EditProfileComponent,
+    ShowUsersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -102,6 +105,13 @@ import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.se
               blogs: BlogListResolverService,
               featuredUsers: FeaturedUsersResolverService,
             },
+          },
+          {
+            path: "users",
+            component: ShowUsersComponent,
+            resolve: {
+              users: AllProfilesResolverService
+            }
           },
           { path: "new-blog", component: NewBlogComponent },
           {

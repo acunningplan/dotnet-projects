@@ -12,10 +12,7 @@ import { environment } from "src/environments/environment";
 export class FeaturedUserComponent implements OnInit {
   @Input() user: Profile;
 
-  constructor(
-    private httpClient: HttpClient,
-    private userService: ProfileService
-  ) {}
+  constructor(private userService: ProfileService) {}
 
   ngOnInit() {
     this.user.following = !!this.user.followers.find(

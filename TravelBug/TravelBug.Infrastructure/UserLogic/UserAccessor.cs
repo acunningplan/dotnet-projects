@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -37,6 +39,11 @@ namespace TravelBug.Infrastructure
     {
       var username = GetCurrentUsername();
       return await _userManager.FindByNameAsync(username);
+    }
+
+    public Task<List<AppUser>> GetAllAppUsers()
+    {
+      return _userManager.Users.ToListAsync();
     }
 
     public async Task<AppUser> GetAppUser(string username)

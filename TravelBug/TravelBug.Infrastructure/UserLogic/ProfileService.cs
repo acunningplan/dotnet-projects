@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,6 +19,7 @@ namespace TravelBug.Infrastructure.UserLogic
     Task<User> GetProfile(string username);
     Task<User> GetUserProfile();
     Task<User> EditProfile(JsonPatchDocument<AppUser> patchEntity);
+     Task<List<User>> GetAllUserProfiles();
   }
 
   public class ProfileService : IProfileService
@@ -42,6 +44,12 @@ namespace TravelBug.Infrastructure.UserLogic
 
       var user = await _userAccessor.GetCurrentAppUser();
       return _mapper.Map<AppUser, User>(user);
+    }
+
+    public async Task<List<User>> GetAllUserProfiles()
+    {
+      var users = await _userAccessor.GetAllAppUsers();
+      return _mapper.Map<List<AppUser>, List<User>>(users);
     }
 
     public async Task<User> GetProfile(string username)

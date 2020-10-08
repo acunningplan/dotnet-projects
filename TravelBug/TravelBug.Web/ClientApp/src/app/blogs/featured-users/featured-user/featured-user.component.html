@@ -1,5 +1,16 @@
 <li class="list-group-item featured-user-item">
-  <img [src]="user.photoUrl" [alt]="user.displayName" />
+  <img
+    *ngIf="user.profilePicture.url === ''"
+    src="assets/flights.svg"
+    [routerLink]="['/profile', user.username]"
+    [alt]="user.displayName"
+  />
+  <img
+    *ngIf="user.profilePicture.url !== ''"
+    [src]="user.profilePicture.url"
+    [routerLink]="['/profile', user.username]"
+    [alt]="user.displayName"
+  />
   <div class="row justify-content-center">
     <h4 [routerLink]="['/profile', user.username]" class="router-link">
       {{ user.displayName }}
