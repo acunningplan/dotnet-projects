@@ -49,6 +49,12 @@ namespace TravelBug.Web.Controllers
       return await _profileService.GetUserProfile();
     }
 
+    [HttpGet("all")]
+    public async Task<List<User>> GetAllUserProfiles()
+    {
+      return await _profileService.GetAllUserProfiles();
+    }
+
     [HttpGet("{username}")]
     public async Task<User> GetUserProfile(string username)
     {

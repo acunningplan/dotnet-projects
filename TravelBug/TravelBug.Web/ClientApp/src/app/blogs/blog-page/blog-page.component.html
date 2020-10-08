@@ -26,8 +26,13 @@
             </button>
           </div>
         </div>
-        <h6 class="card-subtitle mb-2 text-muted">
-          <img [src]="blog.user.photoUrl" class="user-thumbnail" />
+        <h6 class="card-subtitle mb-2 text-muted ml-3">
+          <img
+            *ngIf="blog.user.profilePicture.url !== ''"
+            [src]="blog.user.profilePicture.url"
+            [routerLink]="['/profile', blog.user.username]"
+            class="user-thumbnail"
+          />
           <span
             class="router-link"
             [routerLink]="['/profile', blog.user.username]"

@@ -34,7 +34,14 @@
 
       <!-- Preview uploaded images for new blog -->
       <img
-        *ngIf="photoDataUrl"
+        *ngIf="photoDataUrl == ''"
+        src="assets/flights.svg"
+        class="image-preview mb-3"
+      />
+      <p *ngIf="photoDataUrl == ''">No profile picture chosen.</p>
+
+      <img
+        *ngIf="photoDataUrl != ''"
         [src]="photoDataUrl"
         class="image-preview mb-3"
       />

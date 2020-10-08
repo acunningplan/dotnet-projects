@@ -12,7 +12,7 @@ import { ProfileService } from "../services/profile.service";
 export class EditProfileComponent implements OnInit {
   warning = false;
   profile: Profile;
-  photoDataUrl: string | ArrayBuffer;
+  photoDataUrl: string | ArrayBuffer = "";
   photoFile: File;
   backToLink = ["/profile", window.localStorage.getItem("travelBug:Username")];
 
@@ -26,6 +26,7 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe((data: { profile: Profile }) => {
       this.profile = data.profile;
+      this.photoDataUrl = this.profile.profilePicture.url || "";
     });
   }
 
