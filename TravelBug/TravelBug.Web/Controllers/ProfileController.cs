@@ -50,6 +50,7 @@ namespace TravelBug.Web.Controllers
     }
 
     [HttpGet("all")]
+    [AllowAnonymous]
     public async Task<List<User>> GetAllUserProfiles()
     {
       return await _profileService.GetAllUserProfiles();

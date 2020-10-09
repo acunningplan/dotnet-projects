@@ -1,6 +1,7 @@
 .user-thumbnail {
   border-radius: 100%;
   width: 30px;
+  cursor: pointer;
 }
 
 .blog-image {

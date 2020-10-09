@@ -5,5 +5,16 @@ img {
 
   max-height: 120px;
   cursor: pointer;
-  /* max-width: 80%; */
+}
+
+@media (max-width: 768px) {
+  .row {
+    justify-content: center;
+  }
+}
+
+.row {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  /* padding: 0 !important; */
 }

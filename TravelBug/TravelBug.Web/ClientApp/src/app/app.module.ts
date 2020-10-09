@@ -37,6 +37,8 @@ import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.se
 import { ShowUsersComponent } from './show-users/show-users.component';
 import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.service";
 import { UserDetailComponent } from './show-users/user-detail/user-detail.component';
+import { ResponseInterceptorService } from "./interceptors/response-interceptor.service";
+import { AdditionalInfoComponent } from './profile/additional-info/additional-info.component';
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -63,6 +65,7 @@ import { UserDetailComponent } from './show-users/user-detail/user-detail.compon
     EditProfileComponent,
     ShowUsersComponent,
     UserDetailComponent,
+    AdditionalInfoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -139,6 +142,11 @@ import { UserDetailComponent } from './show-users/user-detail/user-detail.compon
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptorService,
       multi: true,
     },
   ],
