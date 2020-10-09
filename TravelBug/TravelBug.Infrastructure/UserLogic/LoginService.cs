@@ -1,6 +1,7 @@
 //using FluentValidation;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using TravelBug.Dtos;
@@ -45,6 +46,8 @@ namespace TravelBug.Infrastructure
 
       if (user == null)
         throw new RestException(HttpStatusCode.Unauthorized, "Cannot find user");
+
+      user.LastLogin = DateTime.Now;
 
       var result = await _signInManager
           .CheckPasswordSignInAsync(user, input.Password, false);

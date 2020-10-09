@@ -29,13 +29,15 @@
         <button class="btn btn-primary" (click)="onUnfollow()">Unfollow</button>
       </div>
     </div>
-    <div class="col-12 col-lg-7">
+    <div class="col-12 col-lg-6">
       <app-user-blogs
         [profile]="profile"
         [ownProfile]="ownProfile"
         [blogs]="blogs"
       ></app-user-blogs>
     </div>
-    <div class="col-12 col-lg-2">Followers and followings</div>
+    <div class="col-12 col-lg-3">
+      <app-additional-info [profile]="profile"></app-additional-info>
+    </div>
   </div>
 </div>
