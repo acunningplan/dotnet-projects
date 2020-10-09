@@ -333,7 +333,7 @@ namespace TravelBug.Context.Migrations
                     b.ToTable("Followings");
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.UserData.UserPicture", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserPhoto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -366,7 +366,7 @@ namespace TravelBug.Context.Migrations
                         .IsUnique()
                         .HasFilter("[AppUserId] IS NOT NULL");
 
-                    b.ToTable("UserPictures");
+                    b.ToTable("ProfilePictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -458,11 +458,11 @@ namespace TravelBug.Context.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TravelBug.Entities.UserData.UserPicture", b =>
+            modelBuilder.Entity("TravelBug.Entities.UserData.UserPhoto", b =>
                 {
                     b.HasOne("TravelBug.Entities.UserData.AppUser", "User")
-                        .WithOne("UserPicture")
-                        .HasForeignKey("TravelBug.Entities.UserData.UserPicture", "AppUserId");
+                        .WithOne("ProfilePicture")
+                        .HasForeignKey("TravelBug.Entities.UserData.UserPhoto", "AppUserId");
                 });
 #pragma warning restore 612, 618
         }

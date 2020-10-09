@@ -6,10 +6,10 @@ import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-featured-user",
-  templateUrl: "./featured-user.component.html",
-  styleUrls: ["./featured-user.component.css"],
+  templateUrl: "./user-detail.component.html",
+  styleUrls: ["./user-detail.component.css"],
 })
-export class FeaturedUserComponent implements OnInit {
+export class FeaturedUserDetailComponent implements OnInit {
   @Input() user: Profile;
 
   constructor(private userService: ProfileService) {}

@@ -1,1 +1,7 @@
-<p>show-users works!</p>
+<div class="container">
+  <ul class="list-group">
+    <h3>Follow travellers worldwide</h3>
+    <p *ngIf="users.length === 0">No users to show.</p>
+    <app-user-detail *ngFor="let user of users" [user]="user"></app-user-detail>
+  </ul>
+</div>

@@ -31,11 +31,12 @@ import { DeleteModalComponent } from "./blogs/blog-page/delete-modal/delete-moda
 import { ImageContainerComponent } from "./new-blog/image-container/image-container.component";
 import { AppResolverService } from "./resolvers/app-resolver.service";
 import { BaseComponent } from "./base/base.component";
-import { FeaturedUserComponent } from "./blogs/featured-users/featured-user/featured-user.component";
+import { FeaturedUserDetailComponent } from "./blogs/featured-users/user-detail/user-detail.component";
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.service";
 import { ShowUsersComponent } from './show-users/show-users.component';
 import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.service";
+import { UserDetailComponent } from './show-users/user-detail/user-detail.component';
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -58,9 +59,10 @@ import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.se
     DeleteModalComponent,
     ImageContainerComponent,
     BaseComponent,
-    FeaturedUserComponent,
+    FeaturedUserDetailComponent,
     EditProfileComponent,
     ShowUsersComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

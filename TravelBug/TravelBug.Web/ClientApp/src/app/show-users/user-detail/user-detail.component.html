@@ -1,0 +1,21 @@
+<li class="list-group-item featured-user-item">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <img *ngIf="user.profilePicture.url === ''" [alt]="user.displayName" [routerLink]="['/profile', user.username]" src="assets/flights.svg"/>
+      <img *ngIf="user.profilePicture.url !== ''" [alt]="user.displayName" [routerLink]="['/profile', user.username]" [src]="user.profilePicture.url"/>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row justify-content-center">
+        <h4 [routerLink]="['/profile', user.username]" class="router-link">
+          {{ user.displayName }}
+        </h4>
+        <button (click)="followUser(user)" *ngIf="!user.following" class="btn btn-primary">
+          Follow
+        </button>
+        <button (click)="unfollowUser(user)" *ngIf="user.following" class="btn btn-primary">
+          Unfollow
+        </button>
+      </div>
+    </div>
+  </div>
+</li>
