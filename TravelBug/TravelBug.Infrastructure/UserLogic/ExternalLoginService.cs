@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using TravelBug.Dtos;
@@ -46,6 +47,7 @@ namespace TravelBug.Infrastructure
       if (user != null)
       {
         user.RefreshTokens.Add(refreshToken);
+        user.LastLogin = DateTime.Now;
         await _userManager.UpdateAsync(user);
 
         returnedUser = _mapper.Map<AppUser, User>(user);

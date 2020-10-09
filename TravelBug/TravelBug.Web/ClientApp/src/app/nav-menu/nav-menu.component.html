@@ -47,7 +47,7 @@
             >
           </li>
           <li
-            *ngIf="isLoggedIn"
+            *ngIf="isLoggedIn && currentUsername"
             [routerLinkActive]="['link-active']"
             class="nav-item"
           >

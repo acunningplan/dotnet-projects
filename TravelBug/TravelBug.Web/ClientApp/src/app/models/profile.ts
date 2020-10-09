@@ -6,6 +6,7 @@ export class Profile {
   blogs: Blog[] = [];
   username = "";
   email = "";
+  lastLogin: Date;
   profilePicture = new UserPhoto();
   following = false;
   followers: Follower[];

@@ -13,7 +13,6 @@ import { catchError, map } from "rxjs/operators";
 
 @Injectable()
 export class ResponseInterceptorService implements HttpInterceptor {
-
   constructor(private router: Router) {}
 
   intercept(
@@ -30,13 +29,20 @@ export class ResponseInterceptorService implements HttpInterceptor {
       }),
 
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          // redirect to the login route
-          // or show a modal
-          // console.log("Redirected.");
-          this.router.navigate(["/account"]);
+        switch (err.status) {
+          case 401:
+            this.router.navigate(["/account"]);
+            break;
+          default:
+            return throwError(err);
         }
-        return throwError(err);
+        // if (err.status === 401) {
+        //   // redirect to the login route
+        //   // or show a modal
+        //   // console.log("Redirected.");
+        //   this.router.navigate(["/account"]);
+        // }
+        // return throwError(err);
       })
     );
   }
