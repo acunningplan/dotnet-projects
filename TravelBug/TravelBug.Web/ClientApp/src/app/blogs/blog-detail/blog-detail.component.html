@@ -4,9 +4,10 @@
   </h3>
 </div>
 <div class="row">
-  <p [routerLink]="['/profile', blog.user.username]" class="router-link">
+  <p [routerLink]="['/profile', blog.user.username]" class="router-link mr-2">
     <em>{{ blog.user.displayName }}</em>
   </p>
+  <p>{{ dateCreated }}</p>
 </div>
 <div class="row">
   {{ blog.description }}

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import * as moment from "moment";
 import { Blog } from "src/app/models/blog";
 import { BlogService } from "src/app/services/blog.service";
 import { RouterTrackingService } from "src/app/services/router-tracking.service";
@@ -15,6 +16,7 @@ export class BlogPageComponent implements OnInit {
   backTo = "Blogs";
   backToUrl = "/blogs";
   userIsAuthor = false;
+  dateCreated: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,6 +32,7 @@ export class BlogPageComponent implements OnInit {
       this.userIsAuthor =
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");
+      this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
     });
 
     // Get previous url and set back to url to previous url
@@ -53,7 +56,5 @@ export class BlogPageComponent implements OnInit {
     this.router.navigate([`/edit-blog/${this.blog.id}`]);
   }
 
-  onDelete() {
-    
-  }
+  onDelete() {}
 }

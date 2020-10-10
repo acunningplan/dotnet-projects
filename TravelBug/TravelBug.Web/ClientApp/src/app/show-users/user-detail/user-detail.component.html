@@ -24,7 +24,10 @@
           </div>
         </div>
         <div class="col-12 col-md-3">
-          <div class="row float-md-right">
+          <div
+            class="row float-md-right"
+            *ngIf="ownUsername !== this.user.username"
+          >
             <button
               (click)="followUser(user)"
               *ngIf="!user.following"

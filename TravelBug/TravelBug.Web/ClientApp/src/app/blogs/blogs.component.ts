@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { Blog } from "../models/blog";
+import * as moment from "moment";
 
 @Component({
   selector: "app-blogs",
@@ -17,7 +18,7 @@ export class BlogsComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: { blogs: Blog[] }) => {
       console.log(data.blogs);
       this.blogs = data.blogs.sort((x, y) => {
-        return Date.parse(y.created) - Date.parse(x.created);
+        return +y.created - +x.created;
       });
     });
   }

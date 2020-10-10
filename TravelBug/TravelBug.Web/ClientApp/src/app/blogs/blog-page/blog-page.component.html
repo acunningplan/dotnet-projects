@@ -31,14 +31,15 @@
             *ngIf="blog.user.profilePicture.url !== ''"
             [src]="blog.user.profilePicture.url"
             [routerLink]="['/profile', blog.user.username]"
-            class="user-thumbnail"
+            class="user-thumbnail mr-2"
           />
           <span
-            class="router-link"
+            class="router-link mr-3"
             [routerLink]="['/profile', blog.user.username]"
           >
             {{ blog.user.displayName }}
           </span>
+          <span>{{ dateCreated }}</span>
         </h6>
         <div class="card-text">
           <div class="row">
