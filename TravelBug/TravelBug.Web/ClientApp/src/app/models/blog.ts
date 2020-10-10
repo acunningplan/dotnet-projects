@@ -1,5 +1,5 @@
 import { Profile } from "./profile";
-import {Photo} from "./image"
+import { Photo } from "./image";
 
 export class Blog {
   id: string;
@@ -8,6 +8,6 @@ export class Blog {
   title = "";
   description = "";
   location = "";
-  created = "";
+  created: Date;
   date = "";
 }

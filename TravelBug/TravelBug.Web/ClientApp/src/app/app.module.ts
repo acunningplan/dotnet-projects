@@ -34,11 +34,15 @@ import { BaseComponent } from "./base/base.component";
 import { FeaturedUserDetailComponent } from "./blogs/featured-users/user-detail/user-detail.component";
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { EditProfileResolverService } from "./resolvers/edit-profile-resolver.service";
-import { ShowUsersComponent } from './show-users/show-users.component';
+import { ShowUsersComponent } from "./show-users/show-users.component";
 import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.service";
-import { UserDetailComponent } from './show-users/user-detail/user-detail.component';
+import { UserDetailComponent } from "./show-users/user-detail/user-detail.component";
 import { ResponseInterceptorService } from "./interceptors/response-interceptor.service";
-import { AdditionalInfoComponent } from './profile/additional-info/additional-info.component';
+import { AdditionalInfoComponent } from "./profile/additional-info/additional-info.component";
+import { ToastComponent } from "./toast/toast.component";
+
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -66,11 +70,14 @@ import { AdditionalInfoComponent } from './profile/additional-info/additional-in
     ShowUsersComponent,
     UserDetailComponent,
     AdditionalInfoComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     RouterModule.forRoot([
       {
         path: "",
@@ -115,8 +122,8 @@ import { AdditionalInfoComponent } from './profile/additional-info/additional-in
             path: "users",
             component: ShowUsersComponent,
             resolve: {
-              users: AllProfilesResolverService
-            }
+              users: AllProfilesResolverService,
+            },
           },
           { path: "new-blog", component: NewBlogComponent },
           {

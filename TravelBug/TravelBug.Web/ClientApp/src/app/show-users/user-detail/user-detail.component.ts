@@ -9,13 +9,15 @@ import { ProfileService } from 'src/app/services/profile.service';
 })
 export class UserDetailComponent implements OnInit {
   @Input() user: Profile;
+  ownUsername: string;
 
   constructor(private userService: ProfileService) {}
 
   ngOnInit() {
+    this.ownUsername = window.localStorage.getItem("travelBug:Username")
     this.user.following = !!this.user.followers.find(
       (f) =>
-        f.followingUser === window.localStorage.getItem("travelBug:Username")
+        f.followingUser === this.ownUsername
     );
   }
 

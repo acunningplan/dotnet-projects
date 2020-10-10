@@ -11,6 +11,8 @@ import { RouterTrackingService } from "../services/router-tracking.service";
 import { ImageUploadResponse } from "./image-upload-response";
 import { PostBlogResponse } from "./post-blog-response";
 
+import { ToastrService } from "ngx-toastr";
+
 // import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
 
 @Component({
@@ -42,8 +44,12 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
-    private http: HttpClient
+    private toastr: ToastrService
   ) {}
+
+  showSuccess() {
+    // this.toastr.success("Hello world!", "Toastr fun!");
+  }
 
   // resizeOptions: ResizeOptions = {
   //   resizeMaxHeight: 200
