@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -8,10 +7,9 @@ import { BlogService } from "../services/blog.service";
 import { BlogData } from "../models/blogData";
 import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
-import { ImageUploadResponse } from "./image-upload-response";
 import { PostBlogResponse } from "./post-blog-response";
-
-import { ToastrService } from "ngx-toastr";
+import { NotificationService } from "../services/notification.service";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 
 // import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
 
@@ -44,12 +42,9 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
-    private toastr: ToastrService
+    private notificationService: NotificationService,
+    private loadingBar: LoadingBarService
   ) {}
-
-  showSuccess() {
-    // this.toastr.success("Hello world!", "Toastr fun!");
-  }
 
   // resizeOptions: ResizeOptions = {
   //   resizeMaxHeight: 200
@@ -129,6 +124,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
     } else {
+      this.loadingBar.start();
       // Prepare photos for upload
       let fd = new FormData();
       this.files.forEach((file) => fd.append("files", file, file.name));
@@ -141,6 +137,9 @@ export class NewBlogComponent implements OnInit, OnDestroy {
           .subscribe((res: PostBlogResponse) => {
             // Go back to home (deletes component!)
             this.photoService.uploadImages(res.id, fd);
+            this.notificationService.showSuccess(
+              "Blog posted! Images may take a while to upload."
+            );
             this.backToHome();
           });
       } else {
@@ -149,6 +148,9 @@ export class NewBlogComponent implements OnInit, OnDestroy {
           let blogId = this.blog.id;
           this.photoService.uploadImages(blogId, fd);
           this.photoService.deleteImages(blogId, this.photosToDelete);
+          this.notificationService.showSuccess(
+            "Blog edited! New images may take a while to upload."
+          );
           this.backToHome();
         });
       }
@@ -157,6 +159,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   private backToHome() {
     // Navigate to home
+    this.loadingBar.complete();
     this.router.navigate([
       "/profile",
       window.localStorage.getItem("travelBug:Username"),

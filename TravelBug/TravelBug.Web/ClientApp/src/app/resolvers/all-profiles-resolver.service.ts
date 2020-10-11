@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Profile } from "../models/profile";
@@ -9,14 +10,16 @@ import { Profile } from "../models/profile";
   providedIn: "root",
 })
 export class AllProfilesResolverService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private loadingBarService: LoadingBarService
+  ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Profile | Observable<Profile> | Promise<Profile> {
-    return this.httpClient.get<Profile>(
-      `${environment.apiUrl}/profile/all`
-    );
+    this.loadingBarService.start();
+    return this.httpClient.get<Profile>(`${environment.apiUrl}/profile/all`);
   }
 }

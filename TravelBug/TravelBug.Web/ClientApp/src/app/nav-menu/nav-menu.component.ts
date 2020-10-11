@@ -10,6 +10,7 @@ import {
 } from "@angular/router";
 import { FetchDataService } from "../services/fetch-data.service";
 import { filter } from "rxjs/operators";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 
 @Component({
   selector: "app-nav-menu",
@@ -29,6 +30,7 @@ export class NavMenuComponent implements OnInit {
     private fetchDataService: FetchDataService,
     private router: Router,
     private activedRoute: ActivatedRoute,
+    private loadingBar: LoadingBarService,
     private ngZone: NgZone
   ) {
     this.isLoggedIn = this.accountService.hasToken;
@@ -58,6 +60,10 @@ export class NavMenuComponent implements OnInit {
         this.currentUsername = window.localStorage.getItem("travelBug:Username");
       });
     });
+  }
+
+  triggerLoadingBar() {
+    // this.loadingBar.start();
   }
 
   loadAndRedirect(route: string) {
