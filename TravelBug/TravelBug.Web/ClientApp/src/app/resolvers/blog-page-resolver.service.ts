@@ -6,6 +6,7 @@ import {
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -16,12 +17,17 @@ import { Blog } from "../models/blog";
 })
 export class BlogPageResolverService {
   id: string;
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private loadingBarService: LoadingBarService
+  ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Blog | Observable<Blog> | Promise<Blog> {
+    this.loadingBarService.start();
     return this.httpClient
       .get<Blog>(`${environment.apiUrl}/blog/${route.params["id"]}`)
       .pipe(

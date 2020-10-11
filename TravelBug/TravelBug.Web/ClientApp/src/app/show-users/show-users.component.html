@@ -1,5 +1,5 @@
 <div class="container">
-  <ul class="list-group">
+  <ul class="list-group mb-3">
     <h3>Follow travellers worldwide</h3>
     <p *ngIf="users.length === 0">No users to show.</p>
     <app-user-detail *ngFor="let user of users" [user]="user"></app-user-detail>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Profile } from "../models/profile";
 
 @Component({
@@ -10,15 +11,18 @@ import { Profile } from "../models/profile";
 export class ShowUsersComponent implements OnInit {
   users: Profile[];
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private loadingBarService: LoadingBarService
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data: { users: Profile[] }) => {
       console.log(data.users);
-      this.users = data.users;
-      // this.users = data.users.sort((x, y) => {
-      //   // return y.username - x.username;
-      // });
+      this.users = data.users.sort((x, y) => {
+        return +new Date(y.lastLogin) - +new Date(x.lastLogin);
+      });
+      this.loadingBarService.complete();
     });
   }
 }

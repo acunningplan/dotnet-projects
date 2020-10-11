@@ -29,12 +29,17 @@
           </li>
           <li
             *ngIf="isLoggedIn"
+            (click)="triggerLoadingBar()"
             [routerLinkActive]="['link-active']"
             class="nav-item"
           >
             <a [routerLink]="['/blogs']" class="nav-link text-dark">Blogs</a>
           </li>
-          <li [routerLinkActive]="['link-active']" class="nav-item">
+          <li
+            [routerLinkActive]="['link-active']"
+            (click)="triggerLoadingBar()"
+            class="nav-item"
+          >
             <a [routerLink]="['/users']" class="nav-link text-dark">Users</a>
           </li>
           <li
@@ -48,6 +53,7 @@
           </li>
           <li
             *ngIf="isLoggedIn && currentUsername"
+            (click)="triggerLoadingBar()"
             [routerLinkActive]="['link-active']"
             class="nav-item"
           >

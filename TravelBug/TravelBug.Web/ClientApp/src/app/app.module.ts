@@ -43,6 +43,8 @@ import { ToastComponent } from "./toast/toast.component";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -76,6 +78,7 @@ import { ToastrModule } from "ngx-toastr";
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
+    LoadingBarModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     RouterModule.forRoot([
@@ -83,7 +86,7 @@ import { ToastrModule } from "ngx-toastr";
         path: "",
         component: BaseComponent,
         resolve: {
-          appContent: AppResolverService,
+          // appContent: AppResolverService,
         },
         children: [
           { path: "", component: HomeComponent, pathMatch: "full" },

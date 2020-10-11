@@ -46,9 +46,12 @@
         </div>
       </div>
 
-      <div *ngIf="user.bio && user.bio !== ''" class="row">
+      <div class="row">
         <div class="col-12">
           <div class="row">
+            <p>Last login: {{ lastLogin }}</p>
+          </div>
+          <div class="row" *ngIf="user.bio && user.bio !== ''">
             <p>{{ user.bio }}</p>
           </div>
         </div>

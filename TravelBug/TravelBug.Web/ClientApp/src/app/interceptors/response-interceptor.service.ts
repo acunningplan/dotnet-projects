@@ -8,12 +8,16 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 @Injectable()
 export class ResponseInterceptorService implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private loadingBarService: LoadingBarService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -29,6 +33,7 @@ export class ResponseInterceptorService implements HttpInterceptor {
       }),
 
       catchError((err: HttpErrorResponse) => {
+        this.loadingBarService.complete();
         switch (err.status) {
           case 401:
             this.router.navigate(["/account"]);

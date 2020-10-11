@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userService.fetchUserProfile().subscribe();
+    if (window.localStorage.getItem("travelBug:Token"))
+      this.userService.fetchUserProfile().subscribe();
   }
 
   ngOnDestroy() {}

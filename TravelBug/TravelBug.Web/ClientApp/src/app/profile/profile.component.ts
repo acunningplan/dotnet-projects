@@ -6,6 +6,7 @@ import { Profile } from "../models/profile";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { ProfileService } from "../services/profile.service";
+import { LoadingBarService } from "@ngx-loading-bar/core";
 
 @Component({
   selector: "app-profile",
@@ -23,6 +24,7 @@ export class ProfileComponent implements OnInit {
     private accountService: AccountService,
     private userService: ProfileService,
     private activatedRoute: ActivatedRoute,
+    private loadingService: LoadingBarService,
     private route: ActivatedRoute
   ) {}
 
@@ -37,6 +39,7 @@ export class ProfileComponent implements OnInit {
         this.blogs = data.blogs;
         if (this.profile && !this.profile.profilePicture.url)
           this.profile.profilePicture.url = environment.defaultPhotoUrl;
+        this.loadingService.complete();
       }
     );
 
