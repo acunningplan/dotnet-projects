@@ -9,7 +9,7 @@ import { PhotoService } from "../services/photo.service";
 import { RouterTrackingService } from "../services/router-tracking.service";
 import { PostBlogResponse } from "./post-blog-response";
 import { NotificationService } from "../services/notification.service";
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { LoadingService } from "../services/loading.service";
 
 // import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
 
@@ -43,7 +43,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     private router: Router,
     private routerTrackingService: RouterTrackingService,
     private notificationService: NotificationService,
-    private loadingBar: LoadingBarService
+    private loadingService: LoadingService
   ) {}
 
   // resizeOptions: ResizeOptions = {
@@ -124,7 +124,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
     if (!title.value || !description.value) {
       this.warning = "Title and description must be non-empty.";
     } else {
-      this.loadingBar.start();
+      this.loadingService.loading.next(true);
       // Prepare photos for upload
       let fd = new FormData();
       this.files.forEach((file) => fd.append("files", file, file.name));
@@ -159,7 +159,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
   private backToHome() {
     // Navigate to home
-    this.loadingBar.complete();
+    this.loadingService.loading.next(false);
     this.router.navigate([
       "/profile",
       window.localStorage.getItem("travelBug:Username"),

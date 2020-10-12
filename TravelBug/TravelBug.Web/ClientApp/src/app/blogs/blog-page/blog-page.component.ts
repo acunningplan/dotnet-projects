@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import * as moment from "moment";
 import { Blog } from "src/app/models/blog";
 import { BlogService } from "src/app/services/blog.service";
+import { LoadingService } from "src/app/services/loading.service";
 import { RouterTrackingService } from "src/app/services/router-tracking.service";
 
 @Component({
@@ -24,7 +24,7 @@ export class BlogPageComponent implements OnInit {
     private router: Router,
     private routerTrackingService: RouterTrackingService,
     private blogService: BlogService,
-    private loadingBarService: LoadingBarService
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class BlogPageComponent implements OnInit {
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");
       this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
-      this.loadingBarService.complete();
+      this.loadingService.loading.next(false);
     });
 
     // Get previous url and set back to url to previous url

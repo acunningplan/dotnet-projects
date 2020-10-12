@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { Blog } from "../models/blog";
-import * as moment from "moment";
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { LoadingService } from "../services/loading.service";
 
 @Component({
   selector: "app-blogs",
@@ -13,7 +11,7 @@ import { LoadingBarService } from "@ngx-loading-bar/core";
 export class BlogsComponent implements OnInit {
   blogs: Blog[] = null;
 
-  constructor(private activatedRoute: ActivatedRoute, private loadingBar: LoadingBarService) {}
+  constructor(private activatedRoute: ActivatedRoute, private loadingService: LoadingService) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data: { blogs: Blog[] }) => {
@@ -22,7 +20,7 @@ export class BlogsComponent implements OnInit {
         return +new Date(y.created) - +new Date(x.created);
       });
 
-    this.loadingBar.complete();
+      this.loadingService.loading.next(false);
     });
   }
 }

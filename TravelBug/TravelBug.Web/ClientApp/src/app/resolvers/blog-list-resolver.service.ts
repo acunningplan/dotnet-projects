@@ -8,7 +8,7 @@ import {
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { LoadingService } from "../services/loading.service";
 
 @Injectable({
   providedIn: "root",
@@ -16,14 +16,14 @@ import { LoadingBarService } from "@ngx-loading-bar/core";
 export class BlogListResolverService implements Resolve<Blog[]> {
   constructor(
     private httpClient: HttpClient,
-    private loadingBarService: LoadingBarService
+    private loadingService: LoadingService
   ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Blog[] | Observable<Blog[]> | Promise<Blog[]> {
-    this.loadingBarService.start();
+    this.loadingService.loading.next(true);
     return this.httpClient.get<Blog[]>(`${environment.apiUrl}/blog/`);
     // .pipe(tap((b) => console.log(b)));
   }

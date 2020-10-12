@@ -39,10 +39,12 @@ import { AllProfilesResolverService } from "./resolvers/all-profiles-resolver.se
 import { UserDetailComponent } from "./show-users/user-detail/user-detail.component";
 import { ResponseInterceptorService } from "./interceptors/response-interceptor.service";
 import { AdditionalInfoComponent } from "./profile/additional-info/additional-info.component";
-import { ToastComponent } from "./toast/toast.component";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
+
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 // import { ImageUploadModule } from "ng2-imageupload";
@@ -72,7 +74,6 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     ShowUsersComponent,
     UserDetailComponent,
     AdditionalInfoComponent,
-    ToastComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -81,6 +82,8 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     LoadingBarModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+
+    MatProgressBarModule,
     RouterModule.forRoot([
       {
         path: "",

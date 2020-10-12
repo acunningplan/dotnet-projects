@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { RouterTrackingService } from "./services/router-tracking.service";
+import { Subscription } from "rxjs";
+import { LoadingService } from "./services/loading.service";
 import { ProfileService } from "./services/profile.service";
 
 @Component({
@@ -11,16 +12,22 @@ import { ProfileService } from "./services/profile.service";
 export class AppComponent implements OnInit {
   title = "app";
   prevUrl: string;
+  loading = false;
+  loadingServiceSub: Subscription;
 
   constructor(
     private userService: ProfileService,
-    private activatedRoute: ActivatedRoute
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
     if (window.localStorage.getItem("travelBug:Token"))
       this.userService.fetchUserProfile().subscribe();
+
+    this.loadingServiceSub = this.loadingService.loading.subscribe(l => this.loading = l)
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.loadingServiceSub.unsubscribe();
+  }
 }

@@ -1,16 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
-  ActivatedRoute,
   ActivatedRouteSnapshot,
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { Blog } from "../models/blog";
+import { LoadingService } from "../services/loading.service";
 
 @Injectable({
   providedIn: "root",
@@ -20,14 +19,14 @@ export class BlogPageResolverService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private loadingBarService: LoadingBarService
+    private loadingService: LoadingService
   ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Blog | Observable<Blog> | Promise<Blog> {
-    this.loadingBarService.start();
+    this.loadingService.loading.next(true);
     return this.httpClient
       .get<Blog>(`${environment.apiUrl}/blog/${route.params["id"]}`)
       .pipe(

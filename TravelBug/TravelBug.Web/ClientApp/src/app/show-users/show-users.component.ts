@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import { Profile } from "../models/profile";
+import { LoadingService } from "../services/loading.service";
 
 @Component({
   selector: "app-show-users",
@@ -13,7 +13,7 @@ export class ShowUsersComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private loadingBarService: LoadingBarService
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class ShowUsersComponent implements OnInit {
       this.users = data.users.sort((x, y) => {
         return +new Date(y.lastLogin) - +new Date(x.lastLogin);
       });
-      this.loadingBarService.complete();
+      this.loadingService.loading.next(false);
     });
   }
 }
