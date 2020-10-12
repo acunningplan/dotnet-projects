@@ -18,13 +18,16 @@ export class AppComponent implements OnInit {
   constructor(
     private userService: ProfileService,
     private loadingService: LoadingService
-  ) {}
+  ) {
+    // this.loadingServiceSub = this.loadingService.loading.subscribe(l => this.loading = l)
+  }
 
   ngOnInit() {
+    this.loading = false;
     if (window.localStorage.getItem("travelBug:Token"))
       this.userService.fetchUserProfile().subscribe();
 
-    this.loadingServiceSub = this.loadingService.loading.subscribe(l => this.loading = l)
+    // this.loadingServiceSub = this.loadingService.loading.subscribe(l => this.loading = l)
   }
 
   ngOnDestroy() {

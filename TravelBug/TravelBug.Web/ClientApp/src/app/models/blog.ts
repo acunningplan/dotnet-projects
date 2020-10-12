@@ -7,7 +7,7 @@ export class Blog {
   images: Photo[];
   title = "";
   description = "";
-  location = "";
+  coordinates = "51.45395348950013,-0.9786673543780711";
   created: Date;
   date = "";
 }
