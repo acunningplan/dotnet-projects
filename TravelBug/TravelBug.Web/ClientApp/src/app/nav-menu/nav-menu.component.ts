@@ -21,8 +21,10 @@ export class NavMenuComponent implements OnInit {
   isExpanded = false;
   writingBlog = false;
   isLoggedIn: boolean;
+  isLoading = false;
   loginSub: Subscription;
   routerSub: Subscription;
+  loadingSub: Subscription;
   currentUsername: string;
 
   constructor(
@@ -30,13 +32,17 @@ export class NavMenuComponent implements OnInit {
     private fetchDataService: FetchDataService,
     private router: Router,
     private activedRoute: ActivatedRoute,
-    private loadingBar: LoadingService,
+    private loadingService: LoadingService,
     private ngZone: NgZone
   ) {
     this.isLoggedIn = this.accountService.hasToken;
   }
 
   ngOnInit() {
+    this.loadingSub = this.loadingService.loading.subscribe(
+      (l) => (this.isLoading = l)
+    );
+
     this.isLoggedIn = this.accountService.hasToken;
     this.currentUsername = window.localStorage.getItem("travelBug:Username");
 
@@ -57,7 +63,9 @@ export class NavMenuComponent implements OnInit {
       this.ngZone.run(() => {
         console.log("Logged in");
         this.isLoggedIn = loginStatus;
-        this.currentUsername = window.localStorage.getItem("travelBug:Username");
+        this.currentUsername = window.localStorage.getItem(
+          "travelBug:Username"
+        );
       });
     });
   }
@@ -80,5 +88,6 @@ export class NavMenuComponent implements OnInit {
 
   ngOnDestroy() {
     this.loginSub.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
 }

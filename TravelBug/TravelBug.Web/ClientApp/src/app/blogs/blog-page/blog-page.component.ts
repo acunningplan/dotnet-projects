@@ -19,6 +19,9 @@ export class BlogPageComponent implements OnInit {
   userIsAuthor = false;
   dateCreated: string;
 
+  latitude = 51.45395348950013;
+  longitude = -0.9786673543780711;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -35,6 +38,11 @@ export class BlogPageComponent implements OnInit {
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");
       this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
+      if (this.blog.coordinates) {
+        let location = this.blog.coordinates.split(",")
+        this.latitude = parseFloat(location[0]) ;
+        this.longitude = parseFloat(location[1]);
+      }
       this.loadingService.loading.next(false);
     });
 
@@ -57,6 +65,11 @@ export class BlogPageComponent implements OnInit {
   onEdit() {
     this.blogService.setEditedBlog(this.blog);
     this.router.navigate([`/edit-blog/${this.blog.id}`]);
+  }
+
+  onChooseLocation(event) {
+    console.log(event)
+    // console.log(event.coords);
   }
 
   onDelete() {}

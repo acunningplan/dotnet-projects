@@ -42,10 +42,10 @@ import { AdditionalInfoComponent } from "./profile/additional-info/additional-in
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-
-
-import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { AgmCoreModule } from "@agm/core";
+import { environment } from "src/environments/environment";
+import { SearchLocationComponent } from './new-blog/search-location/search-location.component';
 
 // import { ImageUploadModule } from "ng2-imageupload";
 
@@ -74,16 +74,19 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     ShowUsersComponent,
     UserDetailComponent,
     AdditionalInfoComponent,
+    SearchLocationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
-    LoadingBarModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
 
     MatProgressBarModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.agmApiKey,
+    }),
     RouterModule.forRoot([
       {
         path: "",

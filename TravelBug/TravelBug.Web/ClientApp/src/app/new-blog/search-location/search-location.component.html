@@ -1,0 +1,23 @@
+
+<div class="form-group">
+  <label for="location">Location</label>
+  <input
+    #location="ngModel"
+    [(ngModel)]="locationText"
+    class="form-control"
+    id="location"
+    name="location"
+    required
+    type="location"
+  />
+</div>
+
+<button (click)="searchLocation()" class="btn btn-primary mb-2" *ngIf="!isSearching">
+  Search
+</button>
+<button (click)="searchLocation()" class="btn btn-primary mb-2" *ngIf="isSearching" disabled>
+  Searching...
+</button>
+<agm-map [latitude]="coords.lat" [longitude]="coords.lng" *ngIf="coords">
+  <agm-marker [latitude]="coords.lat" [longitude]="coords.lng"></agm-marker>
+</agm-map>
