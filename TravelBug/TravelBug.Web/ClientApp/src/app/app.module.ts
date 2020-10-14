@@ -47,6 +47,12 @@ import { AgmCoreModule } from "@agm/core";
 import { environment } from "src/environments/environment";
 import { SearchLocationComponent } from './new-blog/search-location/search-location.component';
 
+import {NgcCookieConsentModule} from 'ngx-cookieconsent';
+import { cookieConfig } from "./cookie-config";
+import { CookieConsentComponent } from './cookie-consent/cookie-consent.component';
+import { DisqusModule } from "ngx-disqus";
+
+
 // import { ImageUploadModule } from "ng2-imageupload";
 
 @NgModule({
@@ -75,6 +81,7 @@ import { SearchLocationComponent } from './new-blog/search-location/search-locat
     UserDetailComponent,
     AdditionalInfoComponent,
     SearchLocationComponent,
+    CookieConsentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -83,7 +90,9 @@ import { SearchLocationComponent } from './new-blog/search-location/search-locat
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
 
+    NgcCookieConsentModule.forRoot(cookieConfig),
     MatProgressBarModule,
+    DisqusModule.forRoot('disqus_cfX62PI5X3'),
     AgmCoreModule.forRoot({
       apiKey: environment.agmApiKey,
     }),
