@@ -55,10 +55,19 @@
               <p>{{ blog.description }}</p>
             </div>
           </div>
-          <div class="row">
-            <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="onChooseLocation($event)">
-              <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
-            </agm-map>
+        </div>
+        <div class="row">
+          <div class="col-12 col-xl-9">
+
+            <app-new-comment></app-new-comment>
+
+            <p *ngIf="comments.length === 0">
+              <em>No comments to show.</em>
+            </p>
+
+            <div class="blog-comment" *ngFor="let comment of comments">
+              <app-blog-comment [comment]="comment"></app-blog-comment>
+            </div>
           </div>
         </div>
       </div>

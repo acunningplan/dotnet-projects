@@ -1,0 +1,28 @@
+<form #blogform="ngForm">
+  <h3>Leave a comment</h3>
+  <div class="form-group">
+    <!-- <label for="description">Description</label> -->
+    <textarea
+      #description="ngModel"
+      [(ngModel)]="newComment.description"
+      placeholder="Nice blog!"
+      class="form-control"
+      id="description"
+      rows="3"
+      name="description"
+      required
+      type="description"
+    ></textarea>
+  </div>
+  <div class="row justify-content-right">
+    <div class="col-12 no-padding">
+      <button
+        (click)="onSubmit(description)"
+        class="btn btn-success float-right"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</form>
