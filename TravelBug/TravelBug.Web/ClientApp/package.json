@@ -36,7 +36,6 @@
     "moment": "^2.29.1",
     "ng2-imageupload": "^1.4.2",
     "ngx-cookieconsent": "^2.2.3",
-    "ngx-disqus": "^2.4.3",
     "ngx-toastr": "11.3.3",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",

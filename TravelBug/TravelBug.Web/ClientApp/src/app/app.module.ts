@@ -50,7 +50,8 @@ import { SearchLocationComponent } from './new-blog/search-location/search-locat
 import {NgcCookieConsentModule} from 'ngx-cookieconsent';
 import { cookieConfig } from "./cookie-config";
 import { CookieConsentComponent } from './cookie-consent/cookie-consent.component';
-import { DisqusModule } from "ngx-disqus";
+import { BlogCommentComponent } from './blogs/blog-page/blog-comment/blog-comment.component';
+import { NewCommentComponent } from './blogs/blog-page/new-comment/new-comment.component';
 
 
 // import { ImageUploadModule } from "ng2-imageupload";
@@ -82,6 +83,8 @@ import { DisqusModule } from "ngx-disqus";
     AdditionalInfoComponent,
     SearchLocationComponent,
     CookieConsentComponent,
+    BlogCommentComponent,
+    NewCommentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -92,7 +95,6 @@ import { DisqusModule } from "ngx-disqus";
 
     NgcCookieConsentModule.forRoot(cookieConfig),
     MatProgressBarModule,
-    DisqusModule.forRoot('disqus_cfX62PI5X3'),
     AgmCoreModule.forRoot({
       apiKey: environment.agmApiKey,
     }),

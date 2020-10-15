@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
 import { Blog } from "src/app/models/blog";
+import { BlogComment } from "src/app/models/comment";
 import { BlogService } from "src/app/services/blog.service";
 import { LoadingService } from "src/app/services/loading.service";
 import { RouterTrackingService } from "src/app/services/router-tracking.service";
@@ -19,8 +20,12 @@ export class BlogPageComponent implements OnInit {
   userIsAuthor = false;
   dateCreated: string;
 
-  latitude = 51.45395348950013;
-  longitude = -0.9786673543780711;
+  // Coordinates for google map
+  // latitude = 51.45395348950013;
+  // longitude = -0.9786673543780711;
+
+  newComment = new BlogComment()
+  comments: BlogComment[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,8 +45,8 @@ export class BlogPageComponent implements OnInit {
       this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
       if (this.blog.coordinates) {
         let location = this.blog.coordinates.split(",")
-        this.latitude = parseFloat(location[0]) ;
-        this.longitude = parseFloat(location[1]);
+        // this.latitude = parseFloat(location[0]) ;
+        // this.longitude = parseFloat(location[1]);
       }
       this.loadingService.loading.next(false);
     });
