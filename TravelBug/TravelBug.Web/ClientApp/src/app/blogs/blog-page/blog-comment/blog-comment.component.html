@@ -1,5 +1,11 @@
 <p class="blog-comment-header">
-  <span> </span>
-  <span></span>
+  <strong
+    class="mr-3 router-link"
+    [routerLink]="['/profile', comment.author.username]"
+    >{{ comment.author.displayName }}</strong
+  >
+  <em>{{ dateCreated }}</em>
 </p>
-<p class="blog-comment-description"></p>
+<p class="blog-comment-description">
+  {{ comment.description }}
+</p>

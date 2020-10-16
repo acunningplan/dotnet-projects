@@ -11,5 +11,6 @@ namespace TravelBug.Entities
         public string Location { get; set; }
         public virtual AppUser User { get; set; }
         public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

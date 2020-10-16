@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { BlogComment } from 'src/app/models/comment';
 
 @Component({
@@ -8,10 +9,12 @@ import { BlogComment } from 'src/app/models/comment';
 })
 export class BlogCommentComponent implements OnInit {
   @Input() comment: BlogComment;
+  dateCreated: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.dateCreated = moment(this.comment.created).format('hh:mm, Do MMM');
   }
 
 }
