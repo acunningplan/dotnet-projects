@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using TravelBug.Dtos;
 
-namespace TravelBug.CrudServices
+namespace TravelBug.CrudServices.Blogs
 {
   public class BlogService : BaseService<Blog, BlogDto>, IBlogService
   {

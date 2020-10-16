@@ -19,6 +19,7 @@ namespace TravelBug.Context
     protected readonly IConfiguration _configuration;
     public DbSet<Blog> Blogs { get; set; }
     public DbSet<Image> Images { get; set; }
+    public DbSet<Comment> Comments { get; set; }
     public DbSet<UserPhoto> ProfilePictures { get; set; }
     public DbSet<UserFollowing> Followings { get; set; }
     public TravelBugContext(DbContextOptions<TravelBugContext> options) : base(options) { }

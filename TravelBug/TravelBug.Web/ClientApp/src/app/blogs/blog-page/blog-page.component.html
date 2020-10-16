@@ -58,10 +58,9 @@
         </div>
         <div class="row">
           <div class="col-12 col-xl-9">
+            <app-new-comment  [blogId]="blog.id"></app-new-comment>
 
-            <app-new-comment></app-new-comment>
-
-            <p *ngIf="comments.length === 0">
+            <p *ngIf="blog.comments.length === 0">
               <em>No comments to show.</em>
             </p>
 

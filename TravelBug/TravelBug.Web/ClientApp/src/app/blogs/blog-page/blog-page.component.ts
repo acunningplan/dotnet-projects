@@ -39,6 +39,7 @@ export class BlogPageComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
       console.log(data.blog);
       this.blog = data.blog;
+      this.comments = data.blog.comments.sort((x, y) => +new Date(y.created) - +new Date(x.created))
       this.userIsAuthor =
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");

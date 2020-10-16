@@ -30,6 +30,8 @@ using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
 using TravelBug.Infrastructure.Email;
 using TravelBug.Dtos;
+using TravelBug.CrudServices.Blogs;
+using TravelBug.Services.Comments;
 
 namespace TravelBug
 {
@@ -122,6 +124,11 @@ namespace TravelBug
               {
                 policy.Requirements.Add(new IsAuthorRequirement());
               });
+
+        opt.AddPolicy("IsCommentAuthor", policy =>
+              {
+                policy.Requirements.Add(new IsCommentAuthorRequirement());
+              });
       });
       services.AddTransient<IAuthorizationHandler, IsAuthorRequirementHandler>();
 
@@ -157,6 +164,7 @@ namespace TravelBug
       services.AddScoped<IFollowerListingService, FollowerListingService>();
       services.AddScoped<IPhotoService, PhotoService>();
       services.AddScoped<IBlogService, BlogService>();
+      services.AddScoped<ICommentService, CommentService>();
       services.AddScoped<IEmailSender, EmailSender>();
       services.AddScoped<IEmailConfirmation, EmailConfirmation>();
 
