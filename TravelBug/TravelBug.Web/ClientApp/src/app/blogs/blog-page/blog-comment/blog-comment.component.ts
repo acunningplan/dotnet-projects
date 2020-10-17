@@ -13,24 +13,31 @@ export class BlogCommentComponent implements OnInit {
   dateCreated: string;
   ownComment: boolean;
 
+  editMode = false;
+  editedComment: string;
+
   constructor(private commentService: CommentService) { }
 
   ngOnInit() {
     this.dateCreated = moment(this.comment.created).format('hh:mm, Do MMM');
     this.ownComment = window.localStorage.getItem("travelBug:Username") === this.comment.author.username;
+    this.editedComment = this.comment.description;
   }
 
   editComment() {
-    this.commentService
+    // this.commentService.patchComment(this.comment.commentId, this.comment)
+    //   .subscribe(res => {
+    //     this.commentService.commentChange.next(this.comment);
+    //   }, err => {
+    //     console.log(`Error, ${err}`)
+    //   });
   }
 
   deleteComment() {
     this.commentService.deleteComment(this.comment.blogId, this.comment.id)
       .subscribe(res => {
-      // trigger onDestroy hook?
-        console.log("Deleted")
-      }, err => {
-        console.log(`Error, ${err}`)
+        this.comment.description = null;
+        this.commentService.commentChange.next(this.comment);
       });
   }
 

@@ -7,7 +7,8 @@
     >
     <em>{{ dateCreated }}</em>
   </p>
-  <div class="row">
+
+  <div class="row" *ngIf="!editMode">
     <div class="col-11 blog-comment-description">
       {{ comment.description }}
     </div>
@@ -21,9 +22,47 @@
         ><i class="fas fa-ellipsis-v"></i
       ></span>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" (click)="editComment()">Edit</a>
+        <a class="dropdown-item" (click)="editMode = true">Edit</a>
         <a class="dropdown-item" (click)="deleteComment()">Delete</a>
       </div>
+    </div>
+  </div>
+
+  <!-- Edit mode -->
+  <div class="row" *ngIf="editMode">
+    <div class="col-12">
+      <form #blogform="ngForm">
+        <div class="form-group">
+          <!-- <label for="description">Description</label> -->
+          <textarea
+            #description="ngModel"
+            [(ngModel)]="comment.description"
+            class="form-control"
+            id="description"
+            rows="2"
+            name="description"
+            required
+            type="description"
+          ></textarea>
+        </div>
+
+        <div class="row">
+          <button
+            (click)="editComment()"
+            class="btn btn-success float-right"
+            type="submit"
+          >
+            Submit
+          </button>
+          <button
+            (click)="editMode = false"
+            class="btn btn-secondary ml-3 float-right"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

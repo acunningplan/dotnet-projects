@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BlogComment } from '../models/comment';
 
@@ -7,6 +8,8 @@ import { BlogComment } from '../models/comment';
   providedIn: 'root'
 })
 export class CommentService {
+
+  commentChange = new Subject<BlogComment>();
 
   constructor(private http: HttpClient) { 
   }
@@ -17,8 +20,15 @@ export class CommentService {
     return this.http.post(`${environment.apiUrl}/comment/${blogId}`, comment);
   }
 
-  editComment(blogId: string, commentId: string) {
-
+  patchComment(commentId: string, comment: BlogComment) {
+    let keysToChange = ["description"]
+    return this.http.patch(`${environment.apiUrl}/comment/${commentId}`,
+      keysToChange.map((k) => ({
+        op: "replace",
+        path: k,
+        value: comment[k]
+      }))
+    )
   }
 
   deleteComment(blogId: string, commentId: string) {

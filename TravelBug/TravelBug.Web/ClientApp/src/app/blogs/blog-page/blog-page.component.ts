@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
+import { Subscription } from "rxjs";
 import { Blog } from "src/app/models/blog";
 import { BlogComment } from "src/app/models/comment";
 import { BlogService } from "src/app/services/blog.service";
+import { CommentService } from "src/app/services/comment.service";
 import { LoadingService } from "src/app/services/loading.service";
 import { RouterTrackingService } from "src/app/services/router-tracking.service";
 
@@ -26,13 +28,15 @@ export class BlogPageComponent implements OnInit {
 
   newComment = new BlogComment()
   comments: BlogComment[] = [];
+  postedCommentSubscription: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
     private blogService: BlogService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private commentService: CommentService
   ) {}
 
   ngOnInit() {
@@ -45,11 +49,29 @@ export class BlogPageComponent implements OnInit {
         window.localStorage.getItem("travelBug:Username");
       this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
       if (this.blog.coordinates) {
-        let location = this.blog.coordinates.split(",")
+        // let location = this.blog.coordinates.split(",")
         // this.latitude = parseFloat(location[0]) ;
         // this.longitude = parseFloat(location[1]);
       }
       this.loadingService.loading.next(false);
+    });
+
+    // Introduce comment changes to comment section
+    this.postedCommentSubscription = this.commentService.commentChange.subscribe(comment => {
+      if (!comment.id) {
+        // New comment: add to top of comment section
+        this.comments.unshift(comment);
+      }
+      else {
+        let index = this.comments.findIndex(c => c.id == comment.id)
+        if (comment.description == null) {
+          // Delete comment if description is null
+          this.comments.splice(index, 1);
+        } else {
+          // Edit comment otherwise
+          this.comments.splice(index, 1, comment)
+        }
+      }
     });
 
     // Get previous url and set back to url to previous url
