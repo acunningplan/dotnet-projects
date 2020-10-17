@@ -55,8 +55,6 @@ namespace TravelBug.Controllers
     }
 
 
-
-
     // // Override endpoints in CrudController
     // [HttpPost]
     // public override async Task<IActionResult> CreateAsync(Blog blog)
