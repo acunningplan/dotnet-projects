@@ -130,6 +130,7 @@ namespace TravelBug
                 policy.Requirements.Add(new IsCommentAuthorRequirement());
               });
       });
+      services.AddTransient<IAuthorizationHandler, IsCommentAuthorRequirementHandler>();
       services.AddTransient<IAuthorizationHandler, IsAuthorRequirementHandler>();
 
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

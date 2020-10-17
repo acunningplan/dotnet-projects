@@ -1,0 +1,14 @@
+.blog-comment-description {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ellipsis-dropdown {
+  color: grey;
+  cursor: pointer;
+  display: none;
+}
+
+.blog-comment:hover .ellipsis-dropdown {
+  display: inline;
+}

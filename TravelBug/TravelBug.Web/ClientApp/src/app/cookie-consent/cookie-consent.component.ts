@@ -45,10 +45,10 @@ export class CookieConsentComponent implements  OnInit, OnDestroy{
       (event: NgcStatusChangeEvent) => {
         // you can use this.ccService.getConfig() to do stuff...
         console.log(`statusChange: ${JSON.stringify(event)}`);
-        if (event.status === "allow")  
-          window[`ga-disable-${environment.gaPropertyId}`] = false;
-        else if (event.status === 'deny') 
-          window[`ga-disable-${environment.gaPropertyId}`] = true;
+        // if (event.status === "allow")  
+        //   window[`ga-disable-${environment.gaPropertyId}`] = false;
+        // else if (event.status === 'deny') 
+        //   window[`ga-disable-${environment.gaPropertyId}`] = true;
       });
 
     this.revokeChoiceSubscription = this.ccService.revokeChoice$.subscribe(

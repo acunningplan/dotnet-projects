@@ -64,7 +64,7 @@
               >Profile</a
             >
           </li>
-          <li *ngIf="isLoggedIn" class="nav-item">
+          <li *ngIf="isLoggedIn" class="nav-item new-blog-button">
             <a
               [ngClass]="{ disabled: writingBlog }"
               [routerLink]="['/new-blog']"

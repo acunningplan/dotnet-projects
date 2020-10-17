@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using TravelBug.Infrastructure;
 using TravelBug.Context;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TravelBug.Web.Authorization
 {
@@ -27,16 +26,11 @@ namespace TravelBug.Web.Authorization
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsCommentAuthorRequirement requirement)
     {
       var httpContext = _httpContextAccessor.HttpContext;
-
-      // if (httpContext.Request.RouteValues.ContainsKey("commentId"))
-      if (context.Resource is AuthorizationFilterContext authContext)
+      if (httpContext.Request.RouteValues.ContainsKey("commentId"))
       {
         var currentUserName = _userAccessor.GetCurrentUsername();
 
-        // var commentId = Guid.Parse(httpContext.Request.RouteValues["commentId"].ToString());
-        var commentId = Guid.Parse(authContext.RouteData.Values["commentId"].ToString());
-
-
+        var commentId = Guid.Parse(httpContext.Request.RouteValues["commentId"].ToString());
         if (commentId == null) throw new Exception("Can't find comment Id");
 
         var comment = _context.Comments.FindAsync(commentId).Result;

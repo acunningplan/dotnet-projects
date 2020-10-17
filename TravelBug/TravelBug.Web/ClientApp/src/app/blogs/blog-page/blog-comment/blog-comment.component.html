@@ -1,11 +1,29 @@
-<p class="blog-comment-header">
-  <strong
-    class="mr-3 router-link"
-    [routerLink]="['/profile', comment.author.username]"
-    >{{ comment.author.displayName }}</strong
-  >
-  <em>{{ dateCreated }}</em>
-</p>
-<p class="blog-comment-description">
-  {{ comment.description }}
-</p>
+<div class="blog-comment">
+  <p class="blog-comment-header mb-1">
+    <strong
+      class="mr-3 router-link"
+      [routerLink]="['/profile', comment.author.username]"
+      >{{ comment.author.displayName }}</strong
+    >
+    <em>{{ dateCreated }}</em>
+  </p>
+  <div class="row">
+    <div class="col-11 blog-comment-description">
+      {{ comment.description }}
+    </div>
+    <div class="col-1" *ngIf="ownComment">
+      <span
+        class="ellipsis-dropdown float-right"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        ><i class="fas fa-ellipsis-v"></i
+      ></span>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" (click)="editComment()">Edit</a>
+        <a class="dropdown-item" (click)="deleteComment()">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>

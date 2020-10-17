@@ -7,6 +7,7 @@ import { Profile } from "../models/profile";
 import { environment } from "src/environments/environment";
 import { ServerLoginResponse } from "../models/serverLoginResponse";
 import { UserData } from "../account/social-login/login-types";
+import { LoadingService } from "./loading.service";
 
 @Injectable({
   providedIn: "root",
@@ -18,6 +19,7 @@ export class AccountService {
   constructor(
     private router: Router,
     private httpClient: HttpClient,
+    private loadingService: LoadingService,
     private ngZone: NgZone
   ) {}
 
@@ -50,6 +52,7 @@ export class AccountService {
       this.ngZone.run(() => {
         this.router.navigate(["/"]).then(() => {
           this.loginStatus.next(true);
+          this.loadingService.loading.next(false);
         });
       });
     }
@@ -58,6 +61,7 @@ export class AccountService {
   postRegister() {
     this.ngZone.run(() => {
       this.router.navigate(["/verify-email"]);
+      this.loadingService.loading.next(false);
     });
   }
 

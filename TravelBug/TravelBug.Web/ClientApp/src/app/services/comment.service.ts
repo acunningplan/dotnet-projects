@@ -16,4 +16,12 @@ export class CommentService {
     comment.description = description;
     return this.http.post(`${environment.apiUrl}/comment/${blogId}`, comment);
   }
+
+  editComment(blogId: string, commentId: string) {
+
+  }
+
+  deleteComment(blogId: string, commentId: string) {
+    return this.http.delete(`${environment.apiUrl}/comment/${blogId}/${commentId}`);
+  }
 }
