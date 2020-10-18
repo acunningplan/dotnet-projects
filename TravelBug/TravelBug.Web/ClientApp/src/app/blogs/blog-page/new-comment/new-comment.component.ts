@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { BlogComment } from "src/app/models/comment";
 import { CommentService } from "src/app/services/comment.service";
+import { LoadingService } from "src/app/services/loading.service";
 import { ProfileService } from "src/app/services/profile.service";
 
 @Component({
@@ -15,7 +16,8 @@ export class NewCommentComponent implements OnInit {
 
   constructor(
     private commentService: CommentService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -24,12 +26,14 @@ export class NewCommentComponent implements OnInit {
   }
 
   onSubmit(description: NgForm) {
-    // console.log(description.value);
+    console.log("You should see the loading bar for a split second");
+    this.loadingService.loading.next(true);
     this.commentService
       .postComment(description.value, this.blogId)
       .subscribe((res) => {
-        console.log(res);
-        this.commentService.commentChange.next(this.newComment);
+        this.loadingService.loading.next(false);
+        this.newComment = new BlogComment();
+        this.commentService.commentChange.next(res);
       });
   }
 }

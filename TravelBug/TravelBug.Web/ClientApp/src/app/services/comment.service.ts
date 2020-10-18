@@ -17,7 +17,7 @@ export class CommentService {
   postComment(description: string, blogId: string) {
     let comment = new BlogComment();
     comment.description = description;
-    return this.http.post(`${environment.apiUrl}/comment/${blogId}`, comment);
+    return this.http.post<BlogComment>(`${environment.apiUrl}/comment/${blogId}`, comment);
   }
 
   patchComment(commentId: string, comment: BlogComment) {

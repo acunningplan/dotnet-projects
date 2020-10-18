@@ -26,7 +26,7 @@ export class BlogPageComponent implements OnInit {
   // latitude = 51.45395348950013;
   // longitude = -0.9786673543780711;
 
-  newComment = new BlogComment()
+  newComment = new BlogComment();
   comments: BlogComment[] = [];
   postedCommentSubscription: Subscription;
 
@@ -43,7 +43,9 @@ export class BlogPageComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: { blog: Blog }) => {
       console.log(data.blog);
       this.blog = data.blog;
-      this.comments = data.blog.comments.sort((x, y) => +new Date(y.created) - +new Date(x.created))
+      this.comments = data.blog.comments.sort(
+        (x, y) => +new Date(y.created) - +new Date(x.created)
+      );
       this.userIsAuthor =
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");
@@ -57,22 +59,22 @@ export class BlogPageComponent implements OnInit {
     });
 
     // Introduce comment changes to comment section
-    this.postedCommentSubscription = this.commentService.commentChange.subscribe(comment => {
-      if (!comment.id) {
-        // New comment: add to top of comment section
-        this.comments.unshift(comment);
-      }
-      else {
-        let index = this.comments.findIndex(c => c.id == comment.id)
+    this.postedCommentSubscription = this.commentService.commentChange.subscribe(
+      (comment) => {
+        // if (!comment.id) {
+        // }
+        // else {
         if (comment.description == null) {
           // Delete comment if description is null
+          let index = this.comments.findIndex((c) => c.id == comment.id);
           this.comments.splice(index, 1);
         } else {
-          // Edit comment otherwise
-          this.comments.splice(index, 1, comment)
+          // New comment: add to top of comment section
+          this.comments.unshift(comment);
         }
+        // }
       }
-    });
+    );
 
     // Get previous url and set back to url to previous url
     let prevUrl = this.routerTrackingService.prevUrl;
@@ -96,7 +98,7 @@ export class BlogPageComponent implements OnInit {
   }
 
   onChooseLocation(event) {
-    console.log(event)
+    console.log(event);
     // console.log(event.coords);
   }
 

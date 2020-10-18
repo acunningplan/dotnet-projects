@@ -3,26 +3,24 @@
     <div class="card">
       <div class="card-body">
         <div class="card-title d-flex row justify-content-between">
-          <div class="col-12 col-md-8">
+          <div
+            class="col-12"
+            [ngClass]="{ 'col-md-8': userIsAuthor, 'col-xl-9': userIsAuthor }"
+          >
             <h3>
               {{ blog.title }}
             </h3>
           </div>
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-4 col-xl-3" *ngIf="userIsAuthor">
             <button
-              (click)="onEdit()"
-              *ngIf="userIsAuthor"
-              class="btn btn-primary"
-            >
-              Edit
-            </button>
-            <button
-              *ngIf="userIsAuthor"
-              class="btn btn-danger ml-3"
+              class="btn btn-danger ml-3 float-right"
               data-toggle="modal"
               data-target="#deleteModal"
             >
               Delete
+            </button>
+            <button (click)="onEdit()" class="btn btn-primary float-right">
+              Edit
             </button>
           </div>
         </div>
@@ -58,7 +56,7 @@
         </div>
         <div class="row">
           <div class="col-12 col-xl-9">
-            <app-new-comment  [blogId]="blog.id"></app-new-comment>
+            <app-new-comment [blogId]="blog.id"></app-new-comment>
 
             <p *ngIf="blog.comments.length === 0">
               <em>No comments to show.</em>

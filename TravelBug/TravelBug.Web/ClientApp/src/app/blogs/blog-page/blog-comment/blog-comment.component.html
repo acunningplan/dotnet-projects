@@ -30,13 +30,13 @@
 
   <!-- Edit mode -->
   <div class="row" *ngIf="editMode">
-    <div class="col-12">
+    <div class="col-12 pl-0 pr-0">
       <form #blogform="ngForm">
         <div class="form-group">
           <!-- <label for="description">Description</label> -->
           <textarea
             #description="ngModel"
-            [(ngModel)]="comment.description"
+            [(ngModel)]="editedComment"
             class="form-control"
             id="description"
             rows="2"
@@ -47,20 +47,22 @@
         </div>
 
         <div class="row">
-          <button
-            (click)="editComment()"
-            class="btn btn-success float-right"
-            type="submit"
-          >
-            Submit
-          </button>
-          <button
-            (click)="editMode = false"
-            class="btn btn-secondary ml-3 float-right"
-            type="button"
-          >
-            Cancel
-          </button>
+          <div class="col-12 pl-0 pr-0">
+            <button
+              (click)="editComment()"
+              class="btn btn-success float-right"
+              type="submit"
+            >
+              Submit
+            </button>
+            <button
+              (click)="cancelEdit()"
+              class="btn btn-secondary mr-3 float-right"
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
     </div>
