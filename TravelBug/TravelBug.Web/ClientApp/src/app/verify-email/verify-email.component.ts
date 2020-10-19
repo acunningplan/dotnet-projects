@@ -38,9 +38,7 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  title = "angular-gmap";
   @ViewChild("mapContainer", { static: false }) gmap: ElementRef;
-  map: google.maps.Map;
 
   ngAfterViewInit() {
     this.mapInitializer();
@@ -51,16 +49,18 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit {
     let lng = -73.935242;
     let coordinates = new google.maps.LatLng(lat, lng);
 
+    // Set map location
     let mapOptions: google.maps.MapOptions = {
       center: coordinates,
-      zoom: 8,
+      zoom: 13,
     };
 
+    // Set marker location
     let marker = new google.maps.Marker({
       position: coordinates,
-      map: this.map,
     });
 
+    // Assign map to HTML element
     let map = new google.maps.Map(this.gmap.nativeElement, mapOptions);
     marker.setMap(map);
   }

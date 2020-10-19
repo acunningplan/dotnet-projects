@@ -52,6 +52,7 @@ import { cookieConfig } from "./cookie-config";
 import { CookieConsentComponent } from './cookie-consent/cookie-consent.component';
 import { BlogCommentComponent } from './blogs/blog-page/blog-comment/blog-comment.component';
 import { NewCommentComponent } from './blogs/blog-page/new-comment/new-comment.component';
+import { GoogleMapComponent } from './google-map/google-map.component';
 
 
 // import { ImageUploadModule } from "ng2-imageupload";
@@ -85,6 +86,7 @@ import { NewCommentComponent } from './blogs/blog-page/new-comment/new-comment.c
     CookieConsentComponent,
     BlogCommentComponent,
     NewCommentComponent,
+    GoogleMapComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
