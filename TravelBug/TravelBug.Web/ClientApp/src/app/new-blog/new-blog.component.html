@@ -30,18 +30,24 @@
         ></textarea>
       </div>
       <app-search-location></app-search-location>
+      <app-google-map
+        [height]="'300px'"
+        [lat]="lat"
+        [lng]="lng"
+      ></app-google-map>
+
       <!-- <div class="form-group">
-  <label for="location">Search location:</label>
-  <input
-    #location="ngModel"
-    [(ngModel)]="location"
-    class="form-control"
-    id="location"
-    name="location"
-    required
-    type="location"
-  />
-</div> -->
+        <label for="location">Search location:</label>
+        <input
+          #location="ngModel"
+          [(ngModel)]="location"
+          class="form-control"
+          id="location"
+          name="location"
+          required
+          type="location"
+        />
+      </div> -->
 
       <!-- Existing images for edited blog (edit mode only) -->
       <app-image-container

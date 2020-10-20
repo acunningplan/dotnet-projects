@@ -22,9 +22,7 @@ export class BlogService {
   currentBlogData: BlogData;
   editedBlogData: BlogData;
 
-  constructor(
-    private httpClient: HttpClient
-  ) {}
+  constructor(private httpClient: HttpClient) {}
 
   saveCurrentBlog(blogData: BlogData) {
     this.currentBlogData = blogData;
@@ -82,7 +80,7 @@ export class BlogService {
 
   patchBlog(blog: Blog) {
     // Send patch request to .net core backend using "patch documents"
-    let keysToChange = ["title", "description"];
+    let keysToChange = ["title", "description", "coordinates"];
     return this.httpClient.patch(
       `${environment.apiUrl}/blog/${blog.id}`,
       keysToChange.map((k) => ({

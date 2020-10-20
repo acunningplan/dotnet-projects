@@ -54,6 +54,15 @@
             </div>
           </div>
         </div>
+        <!-- Location -->
+        <app-google-map
+          *ngIf="blog.coordinates"
+          [height]="'400px'"
+          [lat]="lat"
+          [lng]="lng"
+        ></app-google-map>
+
+        <!-- Comment section -->
         <div class="row">
           <div class="col-12 col-xl-9">
             <app-new-comment [blogId]="blog.id"></app-new-comment>

@@ -1,11 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
 
@@ -14,7 +8,7 @@ import { environment } from "src/environments/environment";
   templateUrl: "./verify-email.component.html",
   styleUrls: ["./verify-email.component.css"],
 })
-export class VerifyEmailComponent implements OnInit, AfterViewInit {
+export class VerifyEmailComponent implements OnInit {
   confirmingEmail = false;
 
   constructor(private httpClient: HttpClient, private route: ActivatedRoute) {}
@@ -38,30 +32,30 @@ export class VerifyEmailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  @ViewChild("mapContainer", { static: false }) gmap: ElementRef;
+  // @ViewChild("mapContainer", { static: false }) gmap: ElementRef;
 
-  ngAfterViewInit() {
-    this.mapInitializer();
-  }
+  // ngAfterViewInit() {
+  //   this.mapInitializer();
+  // }
 
-  mapInitializer() {
-    let lat = 40.73061;
-    let lng = -73.935242;
-    let coordinates = new google.maps.LatLng(lat, lng);
+  // mapInitializer() {
+  //   let lat = 40.73061;
+  //   let lng = -73.935242;
+  //   let coordinates = new google.maps.LatLng(lat, lng);
 
-    // Set map location
-    let mapOptions: google.maps.MapOptions = {
-      center: coordinates,
-      zoom: 13,
-    };
+  //   // Set map location
+  //   let mapOptions: google.maps.MapOptions = {
+  //     center: coordinates,
+  //     zoom: 13,
+  //   };
 
-    // Set marker location
-    let marker = new google.maps.Marker({
-      position: coordinates,
-    });
+  //   // Set marker location
+  //   let marker = new google.maps.Marker({
+  //     position: coordinates,
+  //   });
 
-    // Assign map to HTML element
-    let map = new google.maps.Map(this.gmap.nativeElement, mapOptions);
-    marker.setMap(map);
-  }
+  //   // Assign map to HTML element
+  //   let map = new google.maps.Map(this.gmap.nativeElement, mapOptions);
+  //   marker.setMap(map);
+  // }
 }
