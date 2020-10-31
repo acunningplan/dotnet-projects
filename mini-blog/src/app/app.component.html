@@ -1,0 +1,7 @@
+<div class="container">
+  <h1 id="title">{{ title }}</h1>
+  <router-outlet></router-outlet>
+  <h3>Write a mini-blog:</h3>
+  <app-mini-blog-form (blogSubmitted)="onAddBlog($event)"></app-mini-blog-form>
+  <app-mini-blog [blog]="blog" *ngFor="let blog of blogs"></app-mini-blog>
+</div>

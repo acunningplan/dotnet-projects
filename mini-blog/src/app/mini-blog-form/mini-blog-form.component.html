@@ -1,0 +1,49 @@
+<form (ngSubmit)="submitBlog()" #blogform="ngForm">
+  <div>
+    <label for="title">Title</label><br />
+    <input
+      #title="ngModel"
+      [(ngModel)]="blog.title"
+      id="title"
+      name="title"
+      required
+      type="title"
+    />
+  </div>
+  <div>
+    <label for="description">Description</label><br />
+    <textarea
+      #description="ngModel"
+      [(ngModel)]="blog.description"
+      id="description"
+      rows="5"
+      name="description"
+      required
+      type="description"
+    ></textarea>
+  </div>
+  <!-- <div>
+    <label for="title">Title</label><br />
+    <input
+      #title="ngModel"
+      [(ngModel)]="blog.title"
+      id="title"
+      name="title"
+      required
+      type="title"
+    />
+  </div>
+  <div>
+    <label for="description">Description</label><br />
+    <textarea
+      #description="ngModel"
+      [(ngModel)]="blog.description"
+      id="description"
+      rows="5"
+      name="description"
+      required
+      type="description"
+    ></textarea>
+  </div> -->
+  <button type="submit">Submit</button>
+</form>
