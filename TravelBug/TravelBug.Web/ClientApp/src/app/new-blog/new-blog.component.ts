@@ -10,6 +10,8 @@ import { RouterTrackingService } from "../services/router-tracking.service";
 import { PostBlogResponse } from "./post-blog-response";
 import { NotificationService } from "../services/notification.service";
 import { LoadingService } from "../services/loading.service";
+import { Subscription } from "rxjs";
+import { GmapService } from "../services/gmap.service";
 
 // import { ImageResult, ResizeOptions, } from 'ng2-imageupload';
 
@@ -26,6 +28,10 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   backToLink = "/";
   submitting = false;
 
+  lat: number;
+  lng: number;
+  coordsSub: Subscription;
+
   // Edit blog
   photosToDelete: string[] = [];
   photos: Photo[] = [];
@@ -39,6 +45,7 @@ export class NewBlogComponent implements OnInit, OnDestroy {
   constructor(
     private blogService: BlogService,
     private photoService: PhotoService,
+    private gmap: GmapService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private routerTrackingService: RouterTrackingService,
@@ -87,6 +94,18 @@ export class NewBlogComponent implements OnInit, OnDestroy {
 
     this.loadBlog(blogData);
     this.backToLink = this.routerTrackingService.prevUrl;
+
+    if (this.blog && this.blog.coordinates) {
+      let coords = this.blog.coordinates.split(",");
+      this.lat = parseFloat(coords[0]);
+      this.lng = parseFloat(coords[1]);
+    }
+
+    // Set blog coordinates (see search location component)
+    this.coordsSub = this.gmap.coordsSubject.subscribe((coords) => {
+      console.log(coords);
+      this.blog.coordinates = `${coords.lat},${coords.lng}`;
+    });
   }
 
   onSelectFile(event) {

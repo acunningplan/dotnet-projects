@@ -23,8 +23,8 @@ export class BlogPageComponent implements OnInit {
   dateCreated: string;
 
   // Coordinates for google map
-  // latitude = 51.45395348950013;
-  // longitude = -0.9786673543780711;
+  lat: number;
+  lng: number;
 
   newComment = new BlogComment();
   comments: BlogComment[] = [];
@@ -50,10 +50,12 @@ export class BlogPageComponent implements OnInit {
         this.blog.user.username ===
         window.localStorage.getItem("travelBug:Username");
       this.dateCreated = moment(this.blog.created).format("h:mma, D MMM");
+
+      console.log(this.blog.coordinates);
       if (this.blog.coordinates) {
-        // let location = this.blog.coordinates.split(",")
-        // this.latitude = parseFloat(location[0]) ;
-        // this.longitude = parseFloat(location[1]);
+        let location = this.blog.coordinates.split(",");
+        this.lat = parseFloat(location[0]);
+        this.lng = parseFloat(location[1]);
       }
       this.loadingService.loading.next(false);
     });
