@@ -7,17 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.Entities", "Trave
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.Context", "TravelBug.Context\TravelBug.Context.csproj", "{B5ADE98D-986A-41DD-83D0-A6B5F06D7481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBug.CrudServices", "TravelBug.Services\TravelBug.CrudServices.csproj", "{315D87F9-787C-4F47-A576-5138160BFDA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.CrudServices", "TravelBug.Services\TravelBug.CrudServices.csproj", "{315D87F9-787C-4F47-A576-5138160BFDA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.FollowingServices", "TravelBug.FollowingServices\TravelBug.FollowingServices.csproj", "{CDE793A4-9870-4BF3-A123-3CBF7F67B75E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBug.Infrastructure", "TravelBug.Infrastructure\TravelBug.Infrastructure.csproj", "{BE85CBD2-9B1B-4DBE-9C57-7141889AA716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.Infrastructure", "TravelBug.Infrastructure\TravelBug.Infrastructure.csproj", "{BE85CBD2-9B1B-4DBE-9C57-7141889AA716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBug.PhotoServices", "TravelBug.PhotoServices\TravelBug.PhotoServices.csproj", "{FE9F5408-55D1-45F7-86D8-095C691C5BEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.PhotoServices", "TravelBug.PhotoServices\TravelBug.PhotoServices.csproj", "{FE9F5408-55D1-45F7-86D8-095C691C5BEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBug.Web", "TravelBug.Web\TravelBug.Web.csproj", "{C65DF68C-FB28-41A9-A896-120D9BA969C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.Web", "TravelBug.Web\TravelBug.Web.csproj", "{C65DF68C-FB28-41A9-A896-120D9BA969C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBug.Dtos", "TravelBug.Dtos\TravelBug.Dtos.csproj", "{F5B7C131-6A41-49DC-A4CA-00C35523C496}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelBug.Dtos", "TravelBug.Dtos\TravelBug.Dtos.csproj", "{F5B7C131-6A41-49DC-A4CA-00C35523C496}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelBugTests", "TravelBugTests\TravelBugTests.csproj", "{A6F4AC45-E004-4A72-A5E9-228073DE84A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{F5B7C131-6A41-49DC-A4CA-00C35523C496}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5B7C131-6A41-49DC-A4CA-00C35523C496}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5B7C131-6A41-49DC-A4CA-00C35523C496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F4AC45-E004-4A72-A5E9-228073DE84A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F4AC45-E004-4A72-A5E9-228073DE84A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F4AC45-E004-4A72-A5E9-228073DE84A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F4AC45-E004-4A72-A5E9-228073DE84A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

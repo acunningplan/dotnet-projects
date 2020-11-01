@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace CalculatorExample
 {
-    public class UnitTest1
+    public class CalculatorTests
     {
         private readonly Calculator _sut;
 
-        public UnitTest1()
+        public CalculatorTests()
         {
             _sut = new Calculator();
         }
