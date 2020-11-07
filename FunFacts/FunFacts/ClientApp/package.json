@@ -43,6 +43,8 @@
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "e2e": "cypress open",
+    "cypress:record": "cypress run --record --key 20eb68c2-5971-4a35-8509-a42f2a3dbe29",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/"
   },

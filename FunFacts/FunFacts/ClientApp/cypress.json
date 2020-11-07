@@ -1,1 +1,7 @@
-{}
+{
+  "projectId": "gw2tkx",
+  "env": {
+    "login_url": "/login",
+    "products_url": "/products"
+  }
+}
