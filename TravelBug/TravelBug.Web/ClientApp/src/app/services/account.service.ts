@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 import { ServerLoginResponse } from "../models/serverLoginResponse";
 import { UserData } from "../account/social-login/login-types";
 import { LoadingService } from "./loading.service";
+import { LoginResponse } from "../account/login-form/login-response";
 
 @Injectable({
   providedIn: "root",
