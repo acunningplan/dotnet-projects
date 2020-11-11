@@ -24,7 +24,7 @@
     ]
   },
   "include": [
-    "*/*.ts",
+    "**/*.ts",
     "integration/sample_spec.ts", "test"
   ]
 }

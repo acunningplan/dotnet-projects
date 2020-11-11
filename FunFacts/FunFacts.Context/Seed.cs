@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FunFacts.Entities.SeedData;
+using FunFacts.Entities.UserEntities;
+using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
-using TravelBug.Entities.SeedData;
-using TravelBug.Entities.UserData;
 
-namespace TravelBug.Context
+namespace FunFacts.Context
 {
     public class Seed
     {
-        public static async Task SeedData(TravelBugContext context, UserManager<AppUser> userManager)
+        public static async Task SeedData(FunFactsContext context, UserManager<AppUser> userManager)
         {
             if (!userManager.Users.Any())
             {
