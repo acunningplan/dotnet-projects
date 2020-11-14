@@ -24,12 +24,12 @@ namespace FunFacts.Controllers
         }
 
         // Create, edit, delete
-        [HttpPost("{blogId}")]
-        public async Task<IActionResult> CreateAsync(FunFact funFact, string blogId)
+        [HttpPost("{funFactId}")]
+        public async Task<IActionResult> CreateAsync(FunFact funFact, string funFactId)
         {
             var user = await _userAccessor.GetCurrentAppUser();
             funFact.Author = user;
-            //var funFactDto = await _funFactService.AddFact(funFact, blogId);
+            //var funFactDto = await _funFactService.AddFact(funFact, funFactId);
             //if (funFactDto == null) return NotFound();
             //return Ok(funFactDto);
             return Ok();
@@ -44,10 +44,10 @@ namespace FunFacts.Controllers
         //}
 
         //[Authorize(Policy = "IsFunFactAuthor")]
-        //[HttpDelete("{blogId}/{funFactId}")]
-        //public async Task<IActionResult> DeleteAsync(string funFactId, string blogId)
+        //[HttpDelete("{funFactId}/{funFactId}")]
+        //public async Task<IActionResult> DeleteAsync(string funFactId, string funFactId)
         //{
-        //    await _funFactService.DeleteAsync(funFactId, blogId);
+        //    await _funFactService.DeleteAsync(funFactId, funFactId);
         //    return Ok();
         //}
     }

@@ -7,5 +7,6 @@ namespace FunFacts.Entities
     {
         public string Description { get; set; }
         public virtual AppUser Author { get; set; }
+        public virtual Topic Topic { get; set; }
     }
 }

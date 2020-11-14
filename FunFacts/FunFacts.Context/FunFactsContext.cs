@@ -12,12 +12,43 @@ namespace FunFacts.Context
         protected readonly IConfiguration _configuration;
         public DbSet<FunFact> FunFacts { get; set; }
         public DbSet<Topic> Topics { get; set; }
+        public DbSet<Label> Labels { get; set; }
         public FunFactsContext(DbContextOptions<FunFactsContext> options) : base(options) { }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<AppUser>()
+                .HasMany(u => u.FunFacts)
+                .WithOne(f => f.Author)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<AppUser>()
+                .HasMany(u => u.Topics)
+                .WithOne(t => t.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Topic>()
+                 .HasMany(t => t.FunFacts)
+                 .WithOne(f => f.Topic)
+                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TopicLabel>(b =>
+            {
+                b.HasKey(tl => new { tl.TopicId, tl.LabelId });
+
+                b.HasOne(tl => tl.Topic)
+                    .WithMany(t => t.Labels)
+                    .HasForeignKey(tl => tl.TopicId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                b.HasOne(tl => tl.Label)
+                    .WithMany(l => l.Topics)
+                    .HasForeignKey(tl => tl.LabelId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }

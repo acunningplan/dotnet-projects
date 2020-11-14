@@ -10,6 +10,8 @@ namespace FunFacts.Dtos
         public string Bio { get; set; }
         public DateTimeOffset LastLogin { get; set; }
         public string Username { get; set; }
+        public virtual ICollection<TopicDto> Topics { get; set; }
+        public virtual ICollection<FunFactDto> FunFacts { get; set; }
 
         public string Token { get; set; }
         [JsonIgnore]

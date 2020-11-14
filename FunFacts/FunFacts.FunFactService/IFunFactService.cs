@@ -1,7 +1,10 @@
-﻿namespace FunFacts.FunFactServices
+﻿using FunFacts.Entities;
+using System.Threading.Tasks;
+
+namespace FunFacts.FunFactServices
 {
     public interface IFunFactService
     {
-        void AddFact();
+        Task AddFunFact(FunFact funFact);
     }
 }

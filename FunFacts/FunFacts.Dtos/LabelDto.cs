@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FunFacts.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FunFacts.Entities
+namespace FunFacts.Dtos
 {
-    public class Label : Base
+    public class LabelDto
     {
         public string Name { get; set; }
         public virtual ICollection<TopicLabel> Topics { get; set; }

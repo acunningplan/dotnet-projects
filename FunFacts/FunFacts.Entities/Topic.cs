@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace FunFacts.Entities
 {
-    public class Topic
+    public class Topic : Base
     {
         public string Introduction { get; set; }
         public virtual AppUser CreatedBy { get; set; }
         public virtual ICollection<FunFact> FunFacts { get; set; } = new List<FunFact>();
-        public virtual ICollection<Label> Labels { get; set; } = new List<Label>();
+        public virtual ICollection<TopicLabel> Labels { get; set; } = new List<TopicLabel>();
     }
 }

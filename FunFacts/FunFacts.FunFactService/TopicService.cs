@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 namespace FunFacts.FunFactServices
 {
-    public class FunFactService : IFunFactService
+    public class TopicService : ITopicService
     {
         private readonly FunFactsContext _context;
 
-        public FunFactService(FunFactsContext context)
+        public TopicService(FunFactsContext context)
         {
             _context = context;
         }
-        public async Task AddFunFact(FunFact funFact)
+        public async Task AddTopic()
         {
-            _context.FunFacts.Add(new FunFact());
+            _context.Topics.Add(new Topic());
             await _context.SaveChangesAsync();
         }
     }

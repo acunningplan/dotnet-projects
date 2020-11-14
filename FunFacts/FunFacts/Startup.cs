@@ -1,8 +1,12 @@
+using AutoMapper;
 using FunFacts.Context;
+using FunFacts.Dtos;
+using FunFacts.Entities.UserEntities;
 using FunFacts.FunFactServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,8 +33,34 @@ namespace FunFacts
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddControllersWithViews();
+
+            services
+                .AddIdentityCore<AppUser>(options =>
+                {
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                })
+                .AddEntityFrameworkStores<FunFactsContext>()
+                //.AddRoles<IdentityRole>()
+                .AddUserManager<UserManager<AppUser>>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddDefaultTokenProviders();
+
+            services.AddAutoMapper(typeof(FunFactDto), typeof(FunFactService));
+
+            services.AddControllersWithViews(opt =>
+            {
+                //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                //opt.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddAuthentication();
+
             services.AddScoped<IFunFactService, FunFactService>();
+            services.AddScoped<ITopicService, TopicService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
