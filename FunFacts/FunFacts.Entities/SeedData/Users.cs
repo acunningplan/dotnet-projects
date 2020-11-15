@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 
 namespace FunFacts.Entities.SeedData
 {

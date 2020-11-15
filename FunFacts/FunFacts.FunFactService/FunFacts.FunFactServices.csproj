@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FunFacts.Context\FunFacts.Context.csproj" />
+      <ProjectReference Include="..\FunFacts.Infrastructure\FunFacts.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

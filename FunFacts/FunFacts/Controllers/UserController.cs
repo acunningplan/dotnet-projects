@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TravelBug.Infrastructure;
-using TravelBug.Entities.UserData;
-using TravelBug.Infrastructure.UserLogic;
-using static TravelBug.Infrastructure.ExternalLoginService;
+using FunFacts.Infrastructure;
+using FunFacts.Entities.User;
+using static FunFacts.Infrastructure.ExternalLoginService;
 using System.Net.Http;
 using System;
-using TravelBug.Infrastructure.Exceptions;
+using FunFacts.Context;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using TravelBug.Dtos;
+using FunFacts.Dtos;
 using Microsoft.AspNetCore.JsonPatch;
+using FunFacts.Infrastructure.UserLogic;
 
-namespace TravelBug.Web.Controllers
+namespace FunFacts.Web.Controllers
 {
     [ApiController]
     [Route("api/user")]
@@ -24,34 +24,28 @@ namespace TravelBug.Web.Controllers
         private readonly IProfileService _requestUsersService;
         private readonly ILoginService _loginService;
         private readonly IRegisterService _registerService;
-        private readonly IRefreshTokenService _refreshTokenService;
+        //private readonly IRefreshTokenService _refreshTokenService;
         private readonly IExternalLoginService _externalLogin;
         private readonly IEmailConfirmation _emailConfirmation;
-        private readonly IFeaturedUsersService _featuredUsersService;
-        private readonly IConfiguration _config;
 
         public UserController(
             IHttpClientFactory httpClientFactory,
             IProfileService requestUsersService,
             ILoginService loginService,
             IRegisterService registerService,
-            IRefreshTokenService refreshTokenService,
+            //IRefreshTokenService refreshTokenService,
             IExternalLoginService externalLogin,
             IEmailConfirmation emailConfirmation,
-            IFeaturedUsersService featuredUsersService,
             IConfiguration config)
         {
             _httpClientFactory = httpClientFactory;
             _requestUsersService = requestUsersService;
             _loginService = loginService;
             _registerService = registerService;
-            _refreshTokenService = refreshTokenService;
+            //_refreshTokenService = refreshTokenService;
             _externalLogin = externalLogin;
             _emailConfirmation = emailConfirmation;
-            _featuredUsersService = featuredUsersService;
-            _config = config;
         }
-
 
 
 
@@ -92,26 +86,6 @@ namespace TravelBug.Web.Controllers
             await _emailConfirmation.ResendEmail(input);
         }
 
-        [AllowAnonymous]
-        [HttpPost("facebook-login")]
-        public async Task<ActionResult<User>> FacebookLogin(UserData request)
-        {
-            // Verify facebook token
-            var httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri("https://graph.facebook.com/");
-
-            var appId = _config["Facebook:AppId"];
-            var appSecret = _config["Facebook:AppSecret"];
-
-            var response = await httpClient.GetAsync($"debug_token?input_token={request.AccessToken}&access_token={appId}|{appSecret}");
-
-            if (!response.IsSuccessStatusCode)
-                throw new RestException(HttpStatusCode.BadRequest, new { User = "Problem validating token" });
-
-            // Save user data
-            return await _externalLogin.SaveUser(request, "facebook");
-        }
-
 
         [AllowAnonymous]
         [HttpPost("google-login")]
@@ -130,21 +104,11 @@ namespace TravelBug.Web.Controllers
             return await _externalLogin.SaveUser(request, "google");
         }
 
-        [HttpPost("refreshToken")]
-        public async Task<User> RefreshToken(string refreshToken)
-        {
-            return await _refreshTokenService.GetRefreshToken(refreshToken);
-        }
-
-
-
-        // // Override endpoints in CrudController
-        // [Authorize(Policy = "IsBlogAuthor")]
-        // [HttpPatch("{id:Guid}")]
-        // public override Task<IActionResult> UpdatePartialAsync(Guid id, [FromBody] JsonPatchDocument<Blog> patchEntity)
-        // {
-        //   return base.UpdatePartialAsync(id, patchEntity);
-        // }
+        //[HttpPost("refreshToken")]
+        //public async Task<User> RefreshToken(string refreshToken)
+        //{
+        //    return await _refreshTokenService.GetRefreshToken(refreshToken);
+        //}
 
     }
 }

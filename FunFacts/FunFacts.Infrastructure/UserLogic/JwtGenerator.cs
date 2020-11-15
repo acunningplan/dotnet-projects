@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 
 namespace FunFacts.Infrastructure
 {

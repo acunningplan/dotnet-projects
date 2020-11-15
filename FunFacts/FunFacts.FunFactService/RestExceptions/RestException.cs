@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace FunFacts.Context
+namespace FunFacts.FunFactServices
 {
     public class RestException : Exception
     {

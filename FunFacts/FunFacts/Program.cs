@@ -1,6 +1,6 @@
 using System;
 using FunFacts.Context;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

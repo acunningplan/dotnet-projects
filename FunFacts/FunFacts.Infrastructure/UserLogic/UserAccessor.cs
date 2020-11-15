@@ -8,7 +8,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FunFacts.Dtos;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 using FunFacts.Context;
 
 namespace FunFacts.Infrastructure

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FunFacts.Dtos;
 using FunFacts.Entities;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 
 namespace FunFacts.Dtos
 {

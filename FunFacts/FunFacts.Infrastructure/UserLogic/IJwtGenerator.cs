@@ -1,4 +1,4 @@
-﻿using FunFacts.Entities.UserEntities;
+﻿using FunFacts.Entities.User;
 
 namespace FunFacts.Infrastructure
 {

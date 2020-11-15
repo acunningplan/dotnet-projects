@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FunFacts.Entities.UserEntities
+namespace FunFacts.Entities.User
 {
     public class RefreshToken
     {

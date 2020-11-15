@@ -1,5 +1,5 @@
 ﻿using FunFacts.Entities.SeedData;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;

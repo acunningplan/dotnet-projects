@@ -1,8 +1,11 @@
 using AutoMapper;
 using FunFacts.Context;
 using FunFacts.Dtos;
-using FunFacts.Entities.UserEntities;
+using FunFacts.Entities.User;
 using FunFacts.FunFactServices;
+using FunFacts.Infrastructure;
+using FunFacts.Infrastructure.Email;
+using FunFacts.Infrastructure.UserLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -59,8 +62,17 @@ namespace FunFacts
 
             services.AddAuthentication();
 
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailConfirmation, EmailConfirmation>();
+            //services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IRegisterService, RegisterService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IExternalLoginService, ExternalLoginService>();
             services.AddScoped<IFunFactService, FunFactService>();
             services.AddScoped<ITopicService, TopicService>();
+            services.AddScoped<IProfileService, ProfileService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

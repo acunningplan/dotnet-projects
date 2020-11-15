@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
-using TravelBug.Context;
-using TravelBug.Dtos;
-using TravelBug.Entities.UserData;
+using FunFacts.Context;
+using FunFacts.Dtos;
+using FunFacts.Entities.User;
 
-namespace TravelBug.Infrastructure.UserLogic
+namespace FunFacts.Infrastructure.UserLogic
 {
     public interface IProfileService
     {
@@ -19,12 +19,12 @@ namespace TravelBug.Infrastructure.UserLogic
 
     public class ProfileService : IProfileService
     {
-        private readonly TravelBugContext _context;
+        private readonly FunFactsContext _context;
         private readonly IUserAccessor _userAccessor;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
 
-        public ProfileService(TravelBugContext context, IUserAccessor userAccessor, UserManager<AppUser> userManager, IMapper mapper)
+        public ProfileService(FunFactsContext context, IUserAccessor userAccessor, UserManager<AppUser> userManager, IMapper mapper)
         {
             _context = context;
             _userAccessor = userAccessor;
