@@ -1,4 +1,4 @@
-﻿namespace FunFacts.Entities
+﻿namespace FunFacts.Entities.Images
 {
     // An Imgur image object
     public class Image : Base

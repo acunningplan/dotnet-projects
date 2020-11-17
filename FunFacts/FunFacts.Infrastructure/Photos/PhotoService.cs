@@ -16,7 +16,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using Microsoft.EntityFrameworkCore;
 using FunFacts.Entities.User;
 
-namespace FunFacts.Infrastructure
+namespace FunFacts.Infrastructure.Photos
 {
     public class PhotoService
     {

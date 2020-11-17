@@ -16,7 +16,7 @@ namespace FunFacts.Infrastructure
         private readonly SymmetricSecurityKey _key;
         public JwtGenerator(IConfiguration config)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["travel_bug_token_key"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["FunFacts:AppKey"]));
         }
 
         public string CreateToken(AppUser user)

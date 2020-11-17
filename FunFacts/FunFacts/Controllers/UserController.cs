@@ -47,8 +47,6 @@ namespace FunFacts.Web.Controllers
             _emailConfirmation = emailConfirmation;
         }
 
-
-
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<User> Login(LoginInput loginInput)
