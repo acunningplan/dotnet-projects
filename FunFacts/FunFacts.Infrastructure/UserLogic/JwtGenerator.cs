@@ -10,7 +10,6 @@ using FunFacts.Entities.User;
 
 namespace FunFacts.Infrastructure
 {
-
     public class JwtGenerator : IJwtGenerator
     {
         private readonly SymmetricSecurityKey _key;
