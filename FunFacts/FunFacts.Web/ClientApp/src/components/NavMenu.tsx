@@ -43,13 +43,13 @@ export const NavMenu = () => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">
-                  Counter
+                <NavLink tag={Link} className="text-dark" to="/about">
+                  About
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                  Fetch data
+                <NavLink tag={Link} className="text-dark" to="/account">
+                  Account
                 </NavLink>
               </NavItem>
             </ul>
