@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardText, CardTitle } from "reactstrap";
-import { CustomCard } from "../FunFacts";
+import { CustomCard } from "../FunFactList";
 
 export const FunFactCard = (props: { card: CustomCard }) => {
   const { card } = props;

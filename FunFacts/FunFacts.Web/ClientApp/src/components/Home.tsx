@@ -1,5 +1,5 @@
 import React from "react";
-import { FunFactList } from "./FunFacts/FunFacts";
+import { FunFactList } from "./FunFacts/FunFactList";
 
 export const Home = () => {
   // static displayName = Home.name;

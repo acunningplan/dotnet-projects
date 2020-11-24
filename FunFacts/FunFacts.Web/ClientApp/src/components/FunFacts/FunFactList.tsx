@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
-import { FunFactCard } from "./FunFact/FunFact";
+import { FunFactCard } from "./FunFact/FunFactCard";
 import { environment } from "../../environment";
 import { FunFact } from "./FunFact";
 

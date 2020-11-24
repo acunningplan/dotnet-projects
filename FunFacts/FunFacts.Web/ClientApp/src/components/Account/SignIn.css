@@ -1,0 +1,15 @@
+.google-login {
+  background-color: red;
+  margin: 0 0 10px 0;
+}
+
+.sign-up-toggle {
+  cursor: pointer;
+  color: rgb(0, 0, 182);
+  text-decoration: underline;
+  text-align: right;
+}
+
+/* .login-list {
+  margin: auto;
+} */
