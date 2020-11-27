@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FunFacts.Entities.User;
 
-namespace FunFacts.Entities.SeedData
+namespace FunFacts.Context.SeedData
 {
     public class Users
     {

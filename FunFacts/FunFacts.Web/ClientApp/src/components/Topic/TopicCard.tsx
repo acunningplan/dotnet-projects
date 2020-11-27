@@ -1,6 +1,6 @@
  import React from 'react'
  
- export const Topic = () => {
+ export const TopicCard = () => {
    return (
      <div>
        

@@ -15,7 +15,7 @@ describe("Simple tests", () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
   });
 
-  it("Should add correctlyl", () => {
+  it("Should add correctly", () => {
     // Confused between jest and chai
     expect(1 + 2).toEqual(3);
   });

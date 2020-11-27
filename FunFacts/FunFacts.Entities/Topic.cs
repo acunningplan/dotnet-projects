@@ -5,6 +5,7 @@ namespace FunFacts.Entities
 {
     public class Topic : Base
     {
+        public string Name { get; set; }
         public string Introduction { get; set; }
         public virtual AppUser CreatedBy { get; set; }
         public virtual ICollection<FunFact> FunFacts { get; set; } = new List<FunFact>();

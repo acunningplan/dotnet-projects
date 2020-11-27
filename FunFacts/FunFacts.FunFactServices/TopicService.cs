@@ -1,5 +1,7 @@
 ﻿using FunFacts.Context;
 using FunFacts.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FunFacts.FunFactServices
@@ -11,6 +13,10 @@ namespace FunFacts.FunFactServices
         public TopicService(FunFactsContext context)
         {
             _context = context;
+        }
+        public async Task<List<Topic>> GetTopics()
+        {
+            return await _context.Topics.ToListAsync();
         }
         public async Task AddTopic()
         {

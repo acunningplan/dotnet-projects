@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardText, CardTitle } from "reactstrap";
-import { CustomCard } from "../FunFactList";
+import { Topic } from "../FunFactList";
 
-export const FunFactCard = (props: { card: CustomCard }) => {
+export const FunFactCard = (props: { card: Topic }) => {
   const { card } = props;
   return (
     <Card color="red">

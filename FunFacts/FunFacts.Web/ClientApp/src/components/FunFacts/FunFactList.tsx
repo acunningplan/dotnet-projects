@@ -4,11 +4,7 @@ import { Col, Row } from "reactstrap";
 import { FunFactCard } from "./FunFact/FunFactCard";
 import { environment } from "../../environment";
 import { FunFact } from "./FunFact";
-
-export class CustomCard {
-  title: string = "";
-  content: string = "";
-}
+import Topic from "../Topic/Topic";
 
 export class LoginResponse {
   bio = "";
@@ -20,11 +16,14 @@ export class LoginResponse {
   refreshToken = "";
 }
 
-export const FunFactList = () => {
-  useEffect(() => {
-  }, []);
+interface FunFactListProps {
+  funFacts: FunFact[];
+}
 
-  const cards: CustomCard[] = [
+export const FunFactList: React.FC<FunFactListProps> = ({ funFacts }) => {
+  useEffect(() => {}, []);
+
+  const cards: Topic[] = [
     {
       title: "This is a title",
       content: "Some card content.",
@@ -45,11 +44,11 @@ export const FunFactList = () => {
 
   const rowLength = 3;
   const numOfRows = (cards.length + 2) / rowLength;
-  let groupsOfCards: CustomCard[][] = [];
+  let groupsOfCards: Topic[][] = [];
 
   // Divide the cards into groups of 3 (or whatever rowLength is)
   for (let i = 0; i < numOfRows; i++) {
-    let groupOfCards: CustomCard[] = [];
+    let groupOfCards: Topic[] = [];
     for (let j = 0; j < rowLength; j++) {
       if (3 * i + j < cards.length) {
         groupOfCards.push(cards[3 * i + j]);
