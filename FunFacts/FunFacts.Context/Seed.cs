@@ -12,6 +12,7 @@ namespace FunFacts.Context
     {
         public static async Task SeedData(FunFactsContext context, UserManager<AppUser> userManager)
         {
+            // Mock users
             if (!userManager.Users.Any())
             {
                 var users = Users.SampleUsers;
@@ -19,7 +20,7 @@ namespace FunFacts.Context
                     await userManager.CreateAsync(user, "Pa$$w0rd");
             }
 
-
+            // Example topics
             if (!context.Topics.Any())
             {
                 var topics = Topics.SampleTopics;

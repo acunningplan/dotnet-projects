@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import { environment } from "../../environment";
-import { LoginResponse } from "../FunFacts/FunFactList";
 import axios from "axios";
 import { Button, Form, FormGroup, Input, Label, ListGroup } from "reactstrap";
 import "./SignIn.css";
+import FunFact from "../FunFact/FunFact";
+
+class LoginResponse {
+  bio = "";
+  username = "";
+  displayName = "Guest";
+  lastLogin = "";
+  funFacts: FunFact[] = [];
+  token = "";
+  refreshToken = "";
+}
 
 export const SignIn = () => {
   let [isFormHidden, setIsFormHidden] = useState(true);
@@ -21,7 +31,7 @@ export const SignIn = () => {
   async function emailLogin() {
     console.log(loginInput);
     const res = await axios.post<{ data: LoginResponse }>(
-      `${environment.apiUrl}/api/user/login`,
+      `${environment.apiUrl}/user/login`,
       { email: "sarah@test.com", password: "Pa$$w0rd" }
     );
     console.log(res.data);
@@ -76,11 +86,11 @@ export const SignIn = () => {
           ></Input>
         </FormGroup>
         <FormGroup hidden={!isSignUp}>
-          <Label for="password">Confirm password</Label>
+          <Label for="confirm-password">Confirm password</Label>
           <Input
             type="password"
-            name="password"
-            id="password"
+            name="confirm-password"
+            id="confirm-password"
             onChange={handlePassword}
           ></Input>
         </FormGroup>

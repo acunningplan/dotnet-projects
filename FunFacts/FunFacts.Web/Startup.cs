@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace FunFacts
 {
@@ -59,7 +60,8 @@ namespace FunFacts
             {
                 //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 //opt.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddNewtonsoftJson(options =>
+               options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddAuthentication();
             services.AddHttpClient();
