@@ -33,7 +33,7 @@
     "bootstrap": "^4.5.2",
     "cookieconsent": "^3.1.1",
     "core-js": "^3.3.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.29.1",
     "ng2-imageupload": "^1.4.2",
     "ngx-cookieconsent": "^2.2.3",
