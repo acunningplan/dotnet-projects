@@ -5,11 +5,12 @@ import { TopicPane } from "./TopicPane/TopicPane";
 import Topic from "./Topics/Topic";
 import axios from "axios";
 import { Col, Row } from "reactstrap";
-import FunFact from "./FunFact/FunFact";
 
 export const Home = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [cards, setCards] = useState<Topic[]>([]);
+  const components = [TopicPane, TopicList];
+
   useEffect(() => {
     const fetchTopics = async () => {
       const res = await axios.get<Topic[]>(`${environment.apiUrl}/topic`);
@@ -20,24 +21,16 @@ export const Home = () => {
   }, []);
 
   return (
-    <Row>
-      <Col xs={selectedTopic ? "6" : "12"}>
-        <h2>Fun Facts</h2>
-        <p>Here are some topics you may be interested in.</p>
-        <TopicList
-          selectedTopic={selectedTopic}
-          setSelectedTopic={setSelectedTopic}
-          topics={cards}
-        ></TopicList>
-      </Col>
-      {selectedTopic && (
-        <Col xs="6">
-          <TopicPane
+    <Row className="flex-md-row-reverse">
+      {components.map((Component) => (
+        <Col xs="12" md={selectedTopic ? "6" : "12"} className="mb-3">
+          <Component
             selectedTopic={selectedTopic}
             setSelectedTopic={setSelectedTopic}
-          ></TopicPane>
+            topics={cards}
+          ></Component>
         </Col>
-      )}
+      ))}
     </Row>
   );
 };
