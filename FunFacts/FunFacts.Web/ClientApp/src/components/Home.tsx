@@ -22,8 +22,8 @@ export const Home = () => {
 
   return (
     <Row className="flex-md-row-reverse">
-      {components.map((Component) => (
-        <Col xs="12" md={selectedTopic ? "6" : "12"} className="mb-3">
+      {components.map((Component, key) => (
+        <Col xs="12" md={selectedTopic ? "6" : "12"} className="mb-3" key={key}>
           <Component
             selectedTopic={selectedTopic}
             setSelectedTopic={setSelectedTopic}
