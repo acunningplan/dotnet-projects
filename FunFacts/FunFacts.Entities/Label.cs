@@ -7,6 +7,6 @@ namespace FunFacts.Entities
     public class Label : Base
     {
         public string Name { get; set; }
-        public virtual ICollection<TopicLabel> Topics { get; set; }
+        public virtual ICollection<TopicLabel> Topics { get; set; } = new List<TopicLabel>();
     }
 }

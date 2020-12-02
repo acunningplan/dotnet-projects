@@ -46,6 +46,12 @@ namespace FunFacts.Context
                  .WithOne(f => f.Topic)
                  .OnDelete(DeleteBehavior.Cascade);
 
+            // A topic can have many pictures (one-to-many)
+            builder.Entity<Topic>()
+                 .HasMany(t => t.Pictures)
+                 .WithOne(f => f.Topic)
+                 .OnDelete(DeleteBehavior.Cascade);
+
             // Topics and labels have many-to-many relationship
             builder.Entity<TopicLabel>(b =>
             {
