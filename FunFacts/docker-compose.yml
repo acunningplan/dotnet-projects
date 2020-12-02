@@ -1,0 +1,22 @@
+version: "3"
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "wQTLc17n"
+      ACCEPT_EULA: "Y"
+  web:
+    build:
+      context: .
+      dockerfile: FunFacts.Web/run.Dockerfile
+    volumes:
+      - .:/src
+    ports:
+      - "5000:5000"
+      - "25:25"
+    depends_on:
+      - db
+    environment:
+      travel_bug_token_key: "fun_fact_secret"
