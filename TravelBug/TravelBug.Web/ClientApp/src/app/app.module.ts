@@ -45,49 +45,50 @@ import { ToastrModule } from "ngx-toastr";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { AgmCoreModule } from "@agm/core";
 import { environment } from "src/environments/environment";
-import { SearchLocationComponent } from './new-blog/search-location/search-location.component';
+import { SearchLocationComponent } from "./new-blog/search-location/search-location.component";
 
-import {NgcCookieConsentModule} from 'ngx-cookieconsent';
+import { NgcCookieConsentModule } from "ngx-cookieconsent";
 import { cookieConfig } from "./cookie-config";
-import { CookieConsentComponent } from './cookie-consent/cookie-consent.component';
-import { BlogCommentComponent } from './blogs/blog-page/blog-comment/blog-comment.component';
-import { NewCommentComponent } from './blogs/blog-page/new-comment/new-comment.component';
-import { GoogleMapComponent } from './google-map/google-map.component';
-
+import { CookieConsentComponent } from "./cookie-consent/cookie-consent.component";
+import { BlogCommentComponent } from "./blogs/blog-page/blog-comment/blog-comment.component";
+import { NewCommentComponent } from "./blogs/blog-page/new-comment/new-comment.component";
+import { GoogleMapComponent } from "./google-map/google-map.component";
 
 // import { ImageUploadModule } from "ng2-imageupload";
 
+export const components = [
+  AppComponent,
+  NavMenuComponent,
+  HomeComponent,
+  AccountComponent,
+  BlogsComponent,
+  LoginFormComponent,
+  SocialLoginComponent,
+  BlogDetailComponent,
+  BlogPageComponent,
+  ProfileComponent,
+  VerifyEmailComponent,
+  NewBlogComponent,
+  UserBlogsComponent,
+  FeaturedUsersComponent,
+  NotFoundComponent,
+  DeleteModalComponent,
+  ImageContainerComponent,
+  BaseComponent,
+  FeaturedUserDetailComponent,
+  EditProfileComponent,
+  ShowUsersComponent,
+  UserDetailComponent,
+  AdditionalInfoComponent,
+  SearchLocationComponent,
+  CookieConsentComponent,
+  BlogCommentComponent,
+  NewCommentComponent,
+  GoogleMapComponent,
+];
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    AccountComponent,
-    BlogsComponent,
-    LoginFormComponent,
-    SocialLoginComponent,
-    BlogDetailComponent,
-    BlogPageComponent,
-    ProfileComponent,
-    VerifyEmailComponent,
-    NewBlogComponent,
-    UserBlogsComponent,
-    FeaturedUsersComponent,
-    NotFoundComponent,
-    DeleteModalComponent,
-    ImageContainerComponent,
-    BaseComponent,
-    FeaturedUserDetailComponent,
-    EditProfileComponent,
-    ShowUsersComponent,
-    UserDetailComponent,
-    AdditionalInfoComponent,
-    SearchLocationComponent,
-    CookieConsentComponent,
-    BlogCommentComponent,
-    NewCommentComponent,
-    GoogleMapComponent,
-  ],
+  declarations: components,
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,

@@ -8,7 +8,8 @@
     "build:ssr": "ng run TravelBug:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "cypress open",
+    "cypress:record": "cypress run --record --key 24bb2b8a-ad6d-46cc-bda9-e0e80504f8be"
   },
   "private": true,
   "dependencies": {
@@ -52,6 +53,7 @@
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "~12.11.6",
     "codelyzer": "^5.2.0",
+    "cypress": "^5.5.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^5.0.2",

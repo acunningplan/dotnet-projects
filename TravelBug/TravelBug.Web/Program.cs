@@ -10,43 +10,41 @@ using TravelBug.Entities.UserData;
 
 namespace TravelBug
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      var host = CreateHostBuilder(args).Build();
-
-      using (var scope = host.Services.CreateScope())
-      {
-        var services = scope.ServiceProvider;
-        try
+        public static void Main(string[] args)
         {
-          var context = services.GetRequiredService<TravelBugContext>();
-          var userManager = services.GetRequiredService<UserManager<AppUser>>();
-          context.Database.Migrate();
-          Seed.SeedData(context, userManager).Wait();
-        }
-        catch (Exception ex)
-        {
-          var logger = services.GetRequiredService<ILogger<Program>>();
-          logger.LogError(ex, "An error occurred during migration.");
-        }
+            var host = CreateHostBuilder(args).Build();
 
-
-        host.Run();
-      }
-    }
-    //public static void Main(string[] args)
-    //{
-    //    CreateHostBuilder(args).Build().Run();
-    //}
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
+            using (var scope = host.Services.CreateScope())
             {
-              webBuilder.UseStartup<Startup>();
-              // .UseUrls("http://0.0.0.0:5000");
-            });
-  }
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<TravelBugContext>();
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    context.Database.Migrate();
+                    Seed.SeedData(context, userManager).Wait();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred during migration.");
+                }
+                host.Run();
+            }
+        }
+        //public static void Main(string[] args)
+        //{
+        //    CreateHostBuilder(args).Build().Run();
+        //}
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    // .UseUrls("http://0.0.0.0:5000");
+                });
+    }
 }

@@ -16,7 +16,6 @@ namespace TravelBug.Context
                 foreach (var user in users)
                     await userManager.CreateAsync(user, "Pa$$w0rd");
             }
-
             await context.SaveChangesAsync();
         }
     }

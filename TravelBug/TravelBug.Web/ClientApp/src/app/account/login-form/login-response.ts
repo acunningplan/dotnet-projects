@@ -1,4 +1,4 @@
-class LoginResponse {
+export class LoginResponse {
   username: string;
   displayName: string;
   token: string;

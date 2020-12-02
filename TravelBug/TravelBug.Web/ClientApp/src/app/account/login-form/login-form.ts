@@ -1,5 +1,4 @@
 export class LoginForm {
-  constructor() {}
   username: string;
   displayName: string;
   email: string;

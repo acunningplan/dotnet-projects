@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using TravelBug.Context;
-using TravelBug.Entities;
-using TravelBug.Entities.UserData;
 
 namespace TravelBugTests
 {
@@ -13,34 +9,11 @@ namespace TravelBugTests
       context.Database.EnsureDeleted();
       context.Database.EnsureCreated();
 
-      var users = new List<AppUser>
-      {
-          new AppUser() {UserName = "ed"},
-          new AppUser() {UserName = "sarah"},
-          new AppUser() {UserName = "sam"},
-      };
-      context.Users.AddRange(users);
+      context.Users.AddRange(MockData.Users);
 
-      var blogs = new List<Blog>
-        {
-            new Blog {Title = "Ed's blog"},
-            new Blog {Title = "Sarah's first blog", Images = new List<Image> {
+      context.Blogs.AddRange(MockData.Blogs);
 
-            }},
-            new Blog {Title = "Sarah's second blog"},
-            new Blog {Title = "Sam's blog"},
-        };
-      context.Blogs.AddRange(blogs);
-
-
-      var images = new List<Image>
-        {
-            new Image {Url = "url1"},
-            new Image {Url = "url2"},
-            new Image {Url = "url3"},
-            new Image {Url = "url4"},
-        };
-      context.Images.AddRange(images);
+      context.Images.AddRange(MockData.Images);
 
       context.SaveChanges();
     }
